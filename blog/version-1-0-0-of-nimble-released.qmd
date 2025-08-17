@@ -2,7 +2,7 @@
 title: "Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling"
 description: ""
 author: "NIMBLE Development Team"
-date: "2025-08-17"
+date: "2024-02-04"
 categories: ['release', 'announcement']
 ---
 
