@@ -1,0 +1,28 @@
+---
+title: "NIMBLE virtual short course, January 4-6, 2023"
+description: ""
+author: "NIMBLE Development Team"
+date: "2022-09-08"
+categories: ['education', 'announcement']
+---
+
+We’ll be holding a virtual training workshop on [NIMBLE](https://web.archive.org/web/20250518104503/http://r-nimble.org/), January 4-6, 2023 from 8 am to 1 pm US Pacific (California) time each day. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+
+Recently we added support for automatic differentiation (AD) to NIMBLE in a [beta release](https://web.archive.org/web/20250518104503/https://r-nimble.org/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation), and the workshop will cover NIMBLE’s AD capabilities in detail.
+
+The workshop will cover the following material:
+
+  * the basic concepts and workflows for using NIMBLE and converting BUGS or JAGS models to work in NIMBLE.
+  * overview of different MCMC sampling strategies and how to use them in NIMBLE, including Hamiltonian Monte Carlo (HMC).
+  * writing new distributions and functions for more flexible modeling and more efficient computation.
+  * tips and tricks for improving computational efficiency.
+  * using advanced model components, including Bayesian non-parametric distributions (based on Dirichlet process priors), conditional auto-regressive (CAR) models for spatially correlated random fields, Laplace approximation, and reversible jump samplers for variable selection.
+  * an introduction to programming new algorithms in NIMBLE.
+  * use of automatic differentiation (AD) in algorithms.
+  * calling R and compiled C++ code from compiled NIMBLE models or functions.
+
+If you are interested in attending, please [pre-register](https://web.archive.org/web/20250518104503/https://forms.gle/8NuUcDJtMUGxCHv78). Registration fees will be $125 (regular) or $50 (student). We are also offering a process (see the pre-registration form) for students to request a fee waiver.
+
+The workshop will assume attendees have a basic understanding of hierarchical/Bayesian models and MCMC, the BUGS (or JAGS) model language, and some familiarity with R.
+
+Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://web.archive.org/web/20250518104503/https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.

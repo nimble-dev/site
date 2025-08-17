@@ -1,0 +1,9 @@
+---
+title: "We’re looking for a programmer"
+description: ""
+author: "NIMBLE Development Team"
+date: "2022-10-07"
+categories: ['announcement']
+---
+
+The NIMBLE project anticipates having some funding for a part-time programmer to implement statistical algorithms and make improvements in nimble’s core code. Examples may include building adaptive Gaussian quadrature in nimble’s programming system and expanding nimble’s hierarchical model system. Remote work is possible. This is not a formal job solicitation, but please send a CV/resume to nimble.stats@gmail.com if you are interested so we can have you on our list. Important skills will be experience with hierarchical statistical modeling algorithms, R programming, and nimble itself. Experience with C++ will be helpful but not required.

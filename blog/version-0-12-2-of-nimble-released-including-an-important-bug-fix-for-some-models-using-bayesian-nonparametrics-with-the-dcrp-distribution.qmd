@@ -1,0 +1,38 @@
+---
+title: "Version 0.12.2 of NIMBLE released, including an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution"
+description: ""
+author: "NIMBLE Development Team"
+date: "2022-03-04"
+categories: ['release', 'announcement']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+
+Version 0.12.2 is a bug fix release. In particular, this release fixes a bug in our Bayesian nonparametric distribution (BNP) functionality that gives incorrect MCMC results for some models, specifically when using the dCRP distribution when the parameters of the mixture components (i.e., the clusters) have hyperparameters (i.e., the base measure parameters) that are unknown and sampled during the MCMC. Here is an example basic model structure that is affected by the bug:
+    
+    
+    k[1:n] ~ dCRP(alpha, n)
+    for(i in 1:n) {
+      y[i] ~ dnorm(mu[k[i]], 1)
+      mu[i] ~ dnorm(mu0, 1) ## mixture component parameters with hyperparameter
+    }
+    mu0 ~ dnorm(0, 1) ## unknown cluster hyperparameter
+
+(There is no problem without the hyperparameter layer – i.e., if mu0 is a fixed value – which is the situation in many models.)
+
+We strongly encourage users using models with this type of structure to rerun their analyses, and we apologize for this issue.
+
+Other changes in this release include:
+
+  * Fixing an issue with reversible jump variable selection under a similar situation to the BNP issue discussed above (in particular where there are unknown hyperparameters of the regression coefficients being considered, which would likely be an unusual use case).
+  * Fixing a bug preventing setup of conjugate samplers for dwishart or dinvwishart nodes when using dynamic indexing.
+  * Fixing a bug preventing use of truncation bounds specified via `data` or `constants`.
+  * Fixing a bug preventing MCMC sampling with the LKJ prior for 2×2 matrices.
+  * Fixing a bug in `runCrossValidate` affecting extraction of multivariate nodes.
+  * Fixing a bug producing incorrect subset assignment into logical vectors in nimbleFunction code.
+  * Fixing a bug preventing use of `nimbleExternalCall` with a constant expression.
+  * Fixing a bug preventing use of recursion in nimbleFunctions without setup code.
+
+Please see the [release notes](https://web.archive.org/web/20250427222659/https://r-nimble.org/more/news) on our website for more details.
+
+Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://web.archive.org/web/20250427222659/https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.

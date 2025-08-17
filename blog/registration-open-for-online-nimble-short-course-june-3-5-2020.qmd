@@ -1,0 +1,25 @@
+---
+title: "registration open for online NIMBLE short course, June 3-5, 2020"
+description: ""
+author: "NIMBLE Development Team"
+date: "2020-04-06"
+categories: ['education', 'announcement']
+---
+
+Registration is now open for a three-day **online** training workshop on [NIMBLE](https://web.archive.org/web/20250321194753/https://r-nimble.org/), June 3-5, 2020, 9 am – 2 pm California time (noon – 5 pm US EDT). This online workshop will be held in place of our previously planned in-person workshop.
+
+NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+
+The workshop will cover:
+
+  * the basic concepts and workflows for using NIMBLE and converting BUGS or JAGS models to work in NIMBLE.
+  * overview of different MCMC sampling strategies and how to use them in NIMBLE.
+  * writing new distributions and functions for more flexible modeling and more efficient computation.
+  * tips and tricks for improving computational efficiency.
+  * using advanced model components, including Bayesian non-parametric distributions (based on Dirichlet process priors), conditional auto-regressive (CAR) models for spatially correlated random fields, and reversible jump samplers for variable selection.
+  * an introduction to programming new algorithms in NIMBLE.
+  * calling R and compiled C++ code from compiled NIMBLE models or functions.
+
+If participant interests vary sufficiently, part of the third day will be split into two tracks. One of these will likely focus on ecological models. The other will be chosen based on attendee interest from topics such as (a) advanced NIMBLE programming including writing new MCMC samplers, (b) advanced spatial or Bayesian non-parametric modeling, or (c) non-MCMC algorithms in NIMBLE such as sequential Monte Carlo. Prior to the workshop, we will survey attendee interests and adjust content to meet attendee interests.
+
+To register, please go here: [https://na.eventscloud.com/540175.](https://web.archive.org/web/20250321194753/https://na.eventscloud.com/540175) Registration is $120 (regular) or $60 (grad student).

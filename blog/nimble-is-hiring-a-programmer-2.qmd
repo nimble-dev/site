@@ -1,0 +1,9 @@
+---
+title: "NIMBLE is hiring a programmer"
+description: ""
+author: "NIMBLE Development Team"
+date: "2021-02-02"
+categories: ['announcement']
+---
+
+The NIMBLE development team is hiring for a one-year programmer position. We are looking for someone with R and C++ experience. There is also a possibility of a part-time position. The deadline for full consideration is February 12. Application information is here: [https://aprecruit.berkeley.edu/JPF02822](https://web.archive.org/web/20250427224158/https://aprecruit.berkeley.edu/JPF02822).
