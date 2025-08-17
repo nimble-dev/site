@@ -4,6 +4,7 @@ project:
   resources:
     - "manual/**"
     - "examples/**"
+    - "blog/**"
 
 website:
   title: "NIMBLE"
