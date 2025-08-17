@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>NIMBLE</title>
+<link>https://nimble-dev.github.io/site/blog/</link>
+<atom:link href="https://nimble-dev.github.io/site/blog/index.xml" rel="self" type="application/rss+xml"/>
+<description>An R package for programming with BUGS models and compiling parts of R</description>
+<generator>quarto-1.7.31</generator>
+<lastBuildDate>Sun, 17 Aug 2025 07:00:00 GMT</lastBuildDate>
+<item>
+  <title>Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-1-0-0-of-nimble-released.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Version 1.0.0 provides substantial new functionality. This includes:</p>
+<ul>
+<li>A Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.</li>
+<li>A Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the newly-released <a href="https://web.archive.org/web/20250321192726/https://cran.r-project.org/web/packages/nimbleHMC/index.html">nimbleHMC</a> package).</li>
+<li>Support in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.</li>
+<li>A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.</li>
+</ul>
+<p>These are documented via the R help system and <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/html_manual/cha-AD.html">a new section at the end of our User Manual</a>. We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/more/issues-and-groups">nimble-users list</a>.</p>
+<p>In addition to the new functionality above, other enhancements and bug fixes include:</p>
+<ul>
+<li>Fixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (<code>runCrossValidate</code>) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.</li>
+<li>Fixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.</li>
+<li>Improving control of the <code>addSampler</code> method for MCMC.</li>
+<li>Improving the WAIC system in a few small ways.</li>
+<li>Enhancing error trapping and warning messages.</li>
+</ul>
+<p>Please see the <a href="https://web.archive.org/web/20250321192726/https://github.com/nimble-dev/nimble/blob/devel/packages/nimble/inst/NEWS.md">NEWS file</a> in the package source for more details.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-1-0-0-of-nimble-released.html</guid>
+  <pubDate>Sun, 17 Aug 2025 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>announcing the nimbleMacros package and the use of macros in NIMBLE models</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Recent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>A NIMBLE macro is a succinct syntax that expands to create the NIMBLE model code for part or all of a model.</p>
+<p>We recently released the first version of the <a href="https://web.archive.org/web/20250427235758/https://cran.r-project.org/web/packages/nimbleMacros/index.html"><code>nimbleMacros</code> package on CRAN</a>, which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the <code>LM</code> (“linear model”) macro like this:</p>
+<pre><code>library(nimbleMacros)
+
+code &lt;- nimbleCode({
+&nbsp; LM(weight[1:N] ~ Time + (1|Chick))
+})</code></pre>
+<p>with the formula syntax mimicking that of the lme4 package. After building the model based on the <code>code</code> object, you can see the model code produced after the macro is expanded with <code>model$getCode()</code>. The nimbleMacros package also includes macros for creating linear predictors and for loops, and we plan to add additional macros in the future.</p>
+<p>Developers can use the tools in <code>nimble</code> itself to create their own macros. See <a href="https://web.archive.org/web/20250427235758/https://r-nimble.org/html_manual/cha-user-defined.html#sec:user-macros">Section 12.4 of the NIMBLE user manual</a>, <a href="https://web.archive.org/web/20250427235758/https://cran.r-project.org/web/packages/nimbleMacros/vignettes/nimbleMacros.html">the <code>nimbleMacros</code> vignette</a>, or <code>help(buildMacro)</code> for more information.</p>
+
+
+
+ ]]></description>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html</guid>
+  <pubDate>Wed, 19 Mar 2025 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 1.3.0 of NIMBLE released</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-1-3-0-of-nimble-released.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250427232859/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>Version 1.3.0 provides some new and improved functionality, plus some bug fixes and improved error trapping.</p>
+<p>The new and improved functionality includes:</p>
+<ul>
+<li>A new multivariate sampler, the Barker proposal sampler (<code>sampler_barker</code>). We encourage users to try this sampler in place of the block Metropolis <code>RW_block</code> sampler and let us know how well it works. The Barker sampler uses gradient information and may improve adaptation behavior, including<br>
+better mixing when parameters are on different scales or the initialproposal scale is too large.</li>
+<li>An improved Laplace/AGHQ implementation that includes use of the <code>nlminb</code> optimizer for both inner and outer optimization (for better optimization performance), improved messaging and output naming, returning the log-likelihood and degrees of freedom for model selection calculations, and unified control of optimization method and other controls at either the build stage or through the <code>updateSettings</code> method.</li>
+<li>The addition of the BOBYQA optimization method through <code>nimOptim</code>, registered via <code>nimOptimMethod</code>.</li>
+</ul>
+<p>In addition to the new and improved functionality above, other bug fixes, improved error trapping, and enhancements include:</p>
+<ul>
+<li>Preventing the use of nimbleFunction method names and nimbleFunction names that conflict with names in the nimble language (DSL).</li>
+<li>More carefully checking for and warning of cases of NaN and non-finite log probability values in various samplers that in some cases may indicate invalid MCMC sampling.</li>
+<li>More carefully handling of NaN and non-finite log probability values in the CRP sampler.</li>
+<li>Error trapping cases of dynamic indices producing a non-scalar result in AD-enabled models and provide a suggested work-around.</li>
+<li>Error trapping use of a non-existent nimbleList.</li>
+<li>Preventing use of a single seed when running multiple chains via <code>runMCMC</code>.</li>
+<li>Improving messaging related to lack of derivative support for functions.</li>
+<li>Adding information about model macros to the manual.</li>
+<li>Fixing bug in caching values in the CRP sampler when maximum number of clusters is exceeded, which would have caused incorrect sampling (albeit with the user having been warned that they should increase the maximum number of clusters).</li>
+<li>Fixing an issue preventing use of nimbleList elements in <code>nimCat</code>.</li>
+<li>Preventing an adaptation interval of one for various block samplers for which an interval of one leads to an error.</li>
+<li>Allowing <code>runLaplace</code> to use an uncompiled Laplace object.</li>
+</ul>
+<p>Please see the <a href="https://web.archive.org/web/20250427232859/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-1-3-0-of-nimble-released.html</guid>
+  <pubDate>Sat, 21 Dec 2024 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 1.2.1 of NIMBLE released</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-1-2-1-of-nimble-released.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250518101613/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>This is a micro release that primarily addresses some packaging changes requested by CRAN. In addition, this release includes:</p>
+<ul>
+<li>A multinomial MCMC sampler, <code>sampler_RW_multinomial</code>, for random variables following a multinomial distribution.</li>
+<li>Some enhancements to error trapping and warning messages.</li>
+<li>A variety of minor bug fixes.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-1-2-1-of-nimble-released.html</guid>
+  <pubDate>Wed, 31 Jul 2024 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 1.2.0 of NIMBLE released</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-1-2-0-of-nimble-released.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250427222134/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>This release provides provides extensive new functionality, including:</p>
+<ul>
+<li>A Pólya-gamma sampler, <code>sampler_polyagamma</code>, for conjugate sampling of linear predictor parameters in logistic regression model specifications, including handling zero inflation and stochastic design matrices. This sampler must be added to an MCMC configuration manually.</li>
+<li>A new sampler, <code>sampler_noncentered</code>, which samples the mean or standard deviation of a set of random effect values in a transformed space such that the random effects are deterministically shifted or scaled given new values of their hyperparameters. For random effects written in a centered parameterization, sampling is performed as if they had been written in a noncentered parameterization, thereby enabling a variant on the <a href="https://web.archive.org/web/20250427222134/https://doi.org/10.1198/jcgs.2011.203main">Yu and Meng (2011)</a> interweaving sampling strategy of sampling in both parameterizations.This sampler must be added to an MCMC configuration manually.</li>
+<li>Adaptive Gauss-Hermite quadrature (AGHQ) for integrating over continuous latent effects, as an extension of NIMBLE’s Laplace approximation functionality. We also add user-friendly R functions, <code>runLaplace</code> and <code>runAGHQ</code>, for using Laplace and AGHQ approximation for maximum likelihood estimation.</li>
+<li>A more flexible optimization system via <code>nimOptim</code>, with support for <code>nlminb</code> built in as well as the capability for users to provide potentially arbitrary optimization functions in R.</li>
+<li>Allowing the use of nimbleFunctions with setup code in models, either for user-defined functions via <code>&lt;-</code> or for user-defined distributions via <code>~</code>. This supports holding large objects outside of model nodes for use in models.</li>
+<li>A completely revamped MCEM algorithm, using automatic derivatives in the maximization when possible, fixing a bug so that any parts of the model not connected to the latent states are included in MLE calculations, giving greater control and adding minor extensions to the ascent-based MCEM approach, and converting <code>buildMCEM</code> to be a nimbleFunction rather than an R function.</li>
+</ul>
+<p>In addition to the new functionality above, other enhancements and bug fixes include:</p>
+<ul>
+<li>Improving the speed of MCMC and MCMC building in certain cases.</li>
+<li>Adding an argument to buildMCMC controlling whether to initialize values in the model.</li>
+<li>Providing the ability to control the number of digits printed in C++ output.</li>
+<li>Allowing use of a categorical MCMC sampler with user-specified dcat-like distributions.</li>
+<li>Warning of use of backward indexing in models.</li>
+<li>Improve documentation of the LKJ distribution and of advanced aspects of writing code for derivative tracking using the AD system.</li>
+<li>Fixing an insufficient check for conjugacy in stick-breaking specifications of Bayesian nonparametric distributions.</li>
+<li>Fixing compilation failures occurring on Red Hat Linux.</li>
+<li>Reenabling functionality for user-provided Eigen library and related updates to the autoconf configuration used in package building.</li>
+<li>Enhancing functionality to support model macros, which will be fully released and documented in the future.</li>
+<li>Removing deprecated <code>is.na.vec</code> and <code>is.nan.vec</code> functions.</li>
+<li>Improving some warnings and error messages.</li>
+</ul>
+<p>Please see the <a href="https://web.archive.org/web/20250427222134/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-1-2-0-of-nimble-released.html</guid>
+  <pubDate>Fri, 14 Jun 2024 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 1.1.0 of NIMBLE released</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-1-1-0-of-nimble-released.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250321205159/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC,Laplace approximation, and SMC).</p>
+<p>This release provides new functionality as well as various bug fixes and improved error trapping, including:</p>
+<ul>
+<li>Improving our automatic differentiation (AD) system so it can be used in a wider range of models, including models with stochastic indexing, discrete latent states, and CAR distributions. Support for AD for these models means that HMC sampling and Laplace approximation can be used.</li>
+<li>Allowing distributions and functions (whether user-defined or built-in) that lack AD support (such as <code>dinterval</code>, <code>dconstraint</code>, and truncated distributions) to be used and compiled in AD-enabled models. The added flexibility increases the range of models in which one can use AD methods (HMC or Laplace) on some parts of a model and other samplers or methods on other parts.</li>
+<li>Adding <code>nimIntegrate</code> to the NIMBLE language, providing one-dimensional numerical integration via adaptive quadrature, equivalent to R’s <code>integrate</code>. This can, for example, be used in a user-defined function or distribution for use in model code, such as to implement certain point process or survival models that involve a one-dimensional integral.</li>
+<li>Adding a “prior samples” MCMC sampler, which uses an existing set of numerical samples to define the prior distribution of model node(s).</li>
+<li>Better support of the dCRP distribution in non-standard model structures.</li>
+<li>Adding error trapping to prevent accidental use of C++ keywords as model variable names.</li>
+<li>Removing the <code>RW_multinomial</code> MCMC sampler, which was found to generate incorrect posterior results (in cases when a latent state followed a multinomial distribution)</li>
+<li>Fixing a bug in conjugacy checking in a case of subsets of multivariate nodes.</li>
+<li>Fixing <code>is.na</code> and <code>is.nan</code> to operate in the expected vectorized fashion.</li>
+<li>Improving documentation of AD, nimbleHMC, and nimbleSMC in the manual.</li>
+<li>Updating Eigen (the C++ linear algebra library used by nimble) to version 3.4.0.</li>
+</ul>
+<p>Please see the <a href="https://web.archive.org/web/20250321205159/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-1-1-0-of-nimble-released.html</guid>
+  <pubDate>Sun, 04 Feb 2024 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>nimbleHMC version 0.2.0 released, providing improved HMC performance</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>nimbleHMC provides Hamiltonian Monte Carlo samplers for use with NIMBLE, in particular NUTS samplers. NIMBLE’s HMC samplers can be flexibly assigned to a subset of model parameters, allowing users to consider various sampling configurations.</p>
+<p>We’ve released version 0.2.0 of nimbleHMC, which includes a new default NUTS sampler inspired by Stan’s implementation of NUTS. It also provides an updated version of our previous NUTS sampler (which is based on the original Hoffman and Gelman paper, and is now called the ‘NUTS_classic’ sampler in NIMBLE) that fixes performance issues in version 0.1.1.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</guid>
+  <pubDate>Wed, 20 Sep 2023 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 1.0.1 of NIMBLE released, fixing a bug in version 1.0.0 affecting certain models</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Version 1.0.1 follows shortly after 1.0.0 and fixes an issue and a bug introduced in version 1.0.0 causing data to be set incorrectly in certain models.</p>
+<p>Both cases occur only when a variable (e.g., “x”) contains both stochastic nodes (e.g.&nbsp;“x[2] ~ <some distribution="">”) and <em>either</em> deterministic nodes (e.g.&nbsp;“x[3] &lt;- <some calculation="">”) or right-hand-side-only nodes (e.g.&nbsp;“x[4]” appears only on the right-hand-side, like an explanatory value).</some></some></p>
+<p>The issue involves a change of behavior (relative to previous nimble versions) when both setting data values for some nodes and initial values for other nodes within the same variable (that satisfies the previous condition). Data values for right-hand-side-only nodes were replaced by initial values (inits) if both were provided. Version 1.0.1 reverts to previous behavior that data values are not replaced by initial values in that situation.</p>
+<p>The bug involves models where (for a variable satisfying the previous condition) not every scalar element within the variable is used as a node and some of the nodes in the variable are data. In that situation, data values may be set incorrectly. This could typically occur in models with autoregressive structure directly on some data nodes (such as may be the case for capture-recapture models involving many individual capture histories within the same variable, indexed by individual and time, with some individuals not present for the entire time series, resulting in unused scalar elements of the variable).</p>
+<p>Please see the <a href="https://web.archive.org/web/20250427225827/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html</guid>
+  <pubDate>Wed, 21 Jun 2023 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Version 1.0.0 provides substantial new functionality. This includes:</p>
+<ul>
+<li>A Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.</li>
+<li>A Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the newly-released <a href="https://web.archive.org/web/20250321192726/https://cran.r-project.org/web/packages/nimbleHMC/index.html">nimbleHMC</a> package).</li>
+<li>Support in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.</li>
+<li>A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.</li>
+</ul>
+<p>These are documented via the R help system and <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/html_manual/cha-AD.html">a new section at the end of our User Manual</a>. We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/more/issues-and-groups">nimble-users list</a>.</p>
+<p>In addition to the new functionality above, other enhancements and bug fixes include:</p>
+<ul>
+<li>Fixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (<code>runCrossValidate</code>) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.</li>
+<li>Fixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.</li>
+<li>Improving control of the <code>addSampler</code> method for MCMC.</li>
+<li>Improving the WAIC system in a few small ways.</li>
+<li>Enhancing error trapping and warning messages.</li>
+</ul>
+<p>Please see the <a href="https://web.archive.org/web/20250321192726/https://github.com/nimble-dev/nimble/blob/devel/packages/nimble/inst/NEWS.md">NEWS file</a> in the package source for more details.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html</guid>
+  <pubDate>Wed, 31 May 2023 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 0.13.1 of NIMBLE released</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-0-13-1-of-nimble-released.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our website. This version is purely a bug fix release that fixes <a href="https://web.archive.org/web/20250518103443/https://r-nimble.org/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes">a bug introduced in our new handling of predictive nodes in version 0.13.0</a> (released in November). If you installed version 0.13.0, please upgrade to 0.13.1.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-0-13-1-of-nimble-released.html</guid>
+  <pubDate>Mon, 19 Dec 2022 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Bug in newly-released version 0.13.0 affecting MCMC for models with predictive nodes</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We recently released version 0.13.0, which has some improvements in how we handle predictive nodes in NIMBLE’s MCMC engine.</p>
+<p>Unfortunately, we realized (thanks to a user post from a couple days ago) that there is a bug in this new approach to predictive nodes.</p>
+<p>If you haven’t upgraded to version 0.13.0, simply wait to upgrade until we release a bug fix in 0.13.1 in the next couple weeks.</p>
+<p>If you have upgraded to version 0.13.0 and if you have run an MCMC on a model that both (1) has predictive nodes and (2) has multivariate nodes, then the bug might affect your results. Please set:</p>
+<pre><code>&nbsp; nimbleOptions(MCMCusePredictiveDependenciesInCalculations = TRUE)</code></pre>
+<p>and then reconfigure/rebuild and rerun your MCMC. The option above will ensure that the MCMC behaves as it would in previous versions of NIMBLE.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250427235403/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html</guid>
+  <pubDate>Thu, 08 Dec 2022 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 0.13.0 of NIMBLE released</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-0-13-0-of-nimble-released.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250518094037/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Version 0.13.0 provides new functionality (in particular improved handling of predictive nodes in MCMC) and minor bug fixes, including:</p>
+<ul>
+<li>Thoroughly revamping handling of posterior predictive nodes in the MCMC system, in particular that MCMC samplers, by default, will now exclude predictive dependencies from internal sampler calculations. This should improve MCMC mixing for models with predictive nodes. Posterior predictive nodes are now sampled conditional on all other model nodes at the end of each MCMC iteration.</li>
+<li>Adding functionality to the MCMC configuration system, including a new replaceSamplers method and updates to the arguments for the addSamplers method.</li>
+<li>Adding an option to the WAIC system to allow additional burnin (in addition to standard MCMC burnin) before calculating online WAIC, thereby allowing inspection of initial samples without forcing them to be used for WAIC.</li>
+<li>Warning users of unused constants during model building.</li>
+<li>Fixing bugs that prevented use of variables starting with ‘logProb’ or named ‘i’ in model code.</li>
+<li>Fixing a bug to prevent infinite recursion in particular cases in conjugacy checking.</li>
+<li>Fixing a bug in simulating from dcar_normal nodes when multiple nodes passed to simulate.</li>
+</ul>
+<p>Please see the <a href="https://web.archive.org/web/20250518094037/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250518094037/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-0-13-0-of-nimble-released.html</guid>
+  <pubDate>Tue, 29 Nov 2022 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>We’re looking for a programmer</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/were-looking-for-a-programmer.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>The NIMBLE project anticipates having some funding for a part-time programmer to implement statistical algorithms and make improvements in nimble’s core code. Examples may include building adaptive Gaussian quadrature in nimble’s programming system and expanding nimble’s hierarchical model system. Remote work is possible. This is not a formal job solicitation, but please send a CV/resume to nimble.stats@gmail.com if you are interested so we can have you on our list. Important skills will be experience with hierarchical statistical modeling algorithms, R programming, and nimble itself. Experience with C++ will be helpful but not required.</p>
+
+
+
+ ]]></description>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/were-looking-for-a-programmer.html</guid>
+  <pubDate>Fri, 07 Oct 2022 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>NIMBLE virtual short course, January 4-6, 2023</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/nimble-virtual-short-course-january-4-6-2023.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ll be holding a virtual training workshop on <a href="https://web.archive.org/web/20250518104503/http://r-nimble.org/">NIMBLE</a>, January 4-6, 2023 from 8 am to 1 pm US Pacific (California) time each day. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Recently we added support for automatic differentiation (AD) to NIMBLE in a <a href="https://web.archive.org/web/20250518104503/https://r-nimble.org/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation">beta release</a>, and the workshop will cover NIMBLE’s AD capabilities in detail.</p>
+<p>The workshop will cover the following material:</p>
+<ul>
+<li>the basic concepts and workflows for using NIMBLE and converting BUGS or JAGS models to work in NIMBLE.</li>
+<li>overview of different MCMC sampling strategies and how to use them in NIMBLE, including Hamiltonian Monte Carlo (HMC).</li>
+<li>writing new distributions and functions for more flexible modeling and more efficient computation.</li>
+<li>tips and tricks for improving computational efficiency.</li>
+<li>using advanced model components, including Bayesian non-parametric distributions (based on Dirichlet process priors), conditional auto-regressive (CAR) models for spatially correlated random fields, Laplace approximation, and reversible jump samplers for variable selection.</li>
+<li>an introduction to programming new algorithms in NIMBLE.</li>
+<li>use of automatic differentiation (AD) in algorithms.</li>
+<li>calling R and compiled C++ code from compiled NIMBLE models or functions.</li>
+</ul>
+<p>If you are interested in attending, please <a href="https://web.archive.org/web/20250518104503/https://forms.gle/8NuUcDJtMUGxCHv78">pre-register</a>. Registration fees will be $125 (regular) or $50 (student). We are also offering a process (see the pre-registration form) for students to request a fee waiver.</p>
+<p>The workshop will assume attendees have a basic understanding of hierarchical/Bayesian models and MCMC, the BUGS (or JAGS) model language, and some familiarity with R.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250518104503/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
+
+
+
+ ]]></description>
+  <category>education</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/nimble-virtual-short-course-january-4-6-2023.html</guid>
+  <pubDate>Thu, 08 Sep 2022 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Beta version of NIMBLE with automatic differentiation, including HMC sampling and Laplace approximation</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’re excited to announce that NIMBLE now supports automatic differentiation (AD), also known as algorithmic differentiation, in a <a href="https://web.archive.org/web/20250518100927/https://r-nimble.org/ad-beta">beta version available on our website</a>. In this beta version, NIMBLE now provides:</p>
+<ul>
+<li>Hamiltonian Monte Carlo (HMC) sampling for an entire parameter vector or arbitrary subsets of the parameter vector (i.e., combined with other samplers for the remaining parameters).</li>
+<li>Laplace approximation for approximate integration over latent states in a model, allowing maximum likelihood estimation and MCMC based on the marginal likelihood (via the RW_llFunction samplers).</li>
+<li>The ability for users and algorithm developers to write nimbleFunctions that calculate derivatives of functions, including many but not all mathematical operations that are supported in the NIMBLE language.</li>
+</ul>
+<p>We’re making this beta release available to allow our users to test and evaluate the AD functionality and the new algorithms, but it is not recommended for production use at this stage. So please give it a try, and let us know of any problems or suggestions you have, either via the <a href="https://web.archive.org/web/20250518100927/https://groups.google.com/g/nimble-users">nimble-users list</a>, <a href="https://web.archive.org/web/20250518100927/https://github.com/nimble-dev/nimble/issues">bug reports to our GitHub repository</a>, or email to <a href="https://web.archive.org/web/20250518100927/mailto:nimble.stats@gmail.com">nimble.stats@gmail.com</a>.</p>
+<p>You can download the <a href="https://web.archive.org/web/20250518100927/https://r-nimble.org/ad-beta">beta version</a> and view an <a href="https://web.archive.org/web/20250518100927/https://r-nimble.org/ADuserManual_draft/chapter_AD.html">extensive draft manual</a> for the AD functionality.</p>
+<p>We plan to release this functionality in the next NIMBLE release on CRAN in the coming months.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250518100927/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
+
+
+
+ ]]></description>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html</guid>
+  <pubDate>Fri, 15 Jul 2022 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 0.12.2 of NIMBLE released, including an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Version 0.12.2 is a bug fix release. In particular, this release fixes a bug in our Bayesian nonparametric distribution (BNP) functionality that gives incorrect MCMC results for some models, specifically when using the dCRP distribution when the parameters of the mixture components (i.e., the clusters) have hyperparameters (i.e., the base measure parameters) that are unknown and sampled during the MCMC. Here is an example basic model structure that is affected by the bug:</p>
+<pre><code>k[1:n] ~ dCRP(alpha, n)
+for(i in 1:n) {
+  y[i] ~ dnorm(mu[k[i]], 1)
+  mu[i] ~ dnorm(mu0, 1) ## mixture component parameters with hyperparameter
+}
+mu0 ~ dnorm(0, 1) ## unknown cluster hyperparameter</code></pre>
+<p>(There is no problem without the hyperparameter layer – i.e., if mu0 is a fixed value – which is the situation in many models.)</p>
+<p>We strongly encourage users using models with this type of structure to rerun their analyses, and we apologize for this issue.</p>
+<p>Other changes in this release include:</p>
+<ul>
+<li>Fixing an issue with reversible jump variable selection under a similar situation to the BNP issue discussed above (in particular where there are unknown hyperparameters of the regression coefficients being considered, which would likely be an unusual use case).</li>
+<li>Fixing a bug preventing setup of conjugate samplers for dwishart or dinvwishart nodes when using dynamic indexing.</li>
+<li>Fixing a bug preventing use of truncation bounds specified via <code>data</code> or <code>constants</code>.</li>
+<li>Fixing a bug preventing MCMC sampling with the LKJ prior for 2×2 matrices.</li>
+<li>Fixing a bug in <code>runCrossValidate</code> affecting extraction of multivariate nodes.</li>
+<li>Fixing a bug producing incorrect subset assignment into logical vectors in nimbleFunction code.</li>
+<li>Fixing a bug preventing use of <code>nimbleExternalCall</code> with a constant expression.</li>
+<li>Fixing a bug preventing use of recursion in nimbleFunctions without setup code.</li>
+</ul>
+<p>Please see the <a href="https://web.archive.org/web/20250427222659/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250427222659/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</guid>
+  <pubDate>Fri, 04 Mar 2022 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>NIMBLE in-person short course, June 1-3, Lisbon, Portugal</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ll be holding a in-person training workshop on NIMBLE, June 1-3, 2022, in Lisbon, Portugal, sponsored by the Centro de Estatística e Aplicações at the Universidade Lisboa (CEAUL).</p>
+<p>NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>More details and registration are available at the <a href="https://web.archive.org/web/20250616220806/https://nimbleworkshop.weebly.com/">workshop website</a>. No previous NIMBLE experience is required, but the workshop will assume some familiarity with hierarchical models, Markov chain Monte Carlo (MCMC), and R.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250616220806/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
+
+
+
+ ]]></description>
+  <category>education</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html</guid>
+  <pubDate>Wed, 02 Mar 2022 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>A close look at some linear model MCMC comparisons</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This is our second blog post taking a careful look at some of the results posted in an <a href="https://web.archive.org/web/20250518101840/https://arxiv.org/abs/2107.09357">arXiv manuscript by Beraha, Falco, and Guglielmi (BFG)</a>. They compare JAGS, Stan, and NIMBLE using four examples. In their results, each package performs best in at least one example.</p>
+<p>In our <a href="https://web.archive.org/web/20250518101840/https://r-nimble.org/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models">previous post</a>, we explained that they compared apples to oranges in the accelerated failure time (AFT) example. They gave Stan a different and easier problem than they gave JAGS and NIMBLE. When we gave NIMBLE the same problem, we saw that its MCMC performance was up to 45 times better than what they reported. We looked first at the AFT example because that’s where NIMBLE seemed to perform comparatively worst.</p>
+<p>On my first real hike, I went to the Carpathians when I was less than 9 years old (already an adult :-), and my sister was 7 then. Some memories of this family trip have survived to this day. I remember how I overate blueberries on the slopes of Temnatik, how they ran wildly up and down the mountain, how they carried small backpacks (it seems that I had 9 kg, and my sister had 7. But I’m not sure in <a href="https://web.archive.org/web/20250518101840/https://beautypositive.org/travel/climbing-with-kids-our-first-experiences-with-travel/">climbing with kids</a>, how my father and I caught delicious trout, how they later roasted it in a cauldron, how they climbed to the top of Mount Stoj and walked among its domes. It’s strange, only a week of hiking, and so many pleasant memories for life…</p>
+<p>In this post we’re looking at the simple linear model example. <strong>It turns out that the models were written more efficiently for Stan than for JAGS and NIMBLE</strong> , because matrix multiplication was used for Stan but all scalar steps of matrix multiplication were written in JAGS and NIMBLE. JAGS and NIMBLE do support matrix multiplication and inner products. <strong>When we modify the models to also use matrix multiplication, NIMBLE’s MCMC performance with default samplers increases often by 1.2 to 3-fold but sometimes by 5 to &gt;10-fold over what was reported</strong> by BFG, as far as we can tell. This had to do with both raw computational efficiency and also MCMC samplers invoked by different ways to write the model code. Other issues are described below.</p>
+<p>BFG’s linear model examples explore different data sizes (n = 30, 100, 1000, or in one case 2000), different numbers of explanatory variables (4, 16, 30, 50 or 100), and different priors for the variance and/or coefficients (beta[i]s), all in a simple linear model. The priors included:</p>
+<ul>
+<li>“LM-C”: an inverse gamma prior for variance, which is used for both residual variance and variance of normal priors for beta[i]s (regression coefficients). This setup should offer conjugate sampling for both the variance parameter and the beta[i]s.</li>
+<li>“LM-C Bin”: the same prior as “LM-C”. This case has Bernoulli- instead of normally-distributed explanatory variables in the data simulations. It’s very similar to “LM-C”.</li>
+<li>“LM-WI”: A weakly informative (“WI”) prior for residual standard deviation using a truncated, scaled t-distribution. beta[i]s have a non-informative (sd = 100) normal prior.</li>
+<li>“LM-NI”: A non-informative (“NI”) flat prior for residual standard deviation. beta[i]s have a non-informative (sd = 100) normal prior.</li>
+<li>“LM-L”: A lasso (“L”) prior for beta[i]s. This uses a double-exponential prior for beta[i]s, with a parameter that itself follows an exponential prior. This prior is a Bayesian analog of the lasso for variable selection, so the scenarios used for this have large numbers of explanatory variables, with different numbers of them (z) set to 0 in the simulations. Residual variance has an inverse gamma prior.</li>
+</ul>
+<p>Again, we are going to stick to NIMBLE here and not try to reproduce or explore results for JAGS or Stan.</p>
+<p>In more detail, the big issues that jumped out from BFG’s code are:</p>
+<ol type="1">
+<li><strong>Stan was given matrix multiplication for<code>X %*% beta</code>, while NIMBLE and JAGS were given code to do all of the element-by-element steps of matrix multiplication.</strong> Both NIMBLE and JAGS support matrix multiplication and inner products, so we think it is better and more directly comparable to use these features.</li>
+<li>For the “LM-C” and “LM-C Bin” cases, the prior for the beta[i]s was given as a multivariate normal with a diagonal covariance matrix. It is better (and equivalent) to give each element a univariate normal prior.</li>
+</ol>
+<p>There are two reasons that writing out matrix multiplication as they did is not a great way to code a model. The first is that it is just inefficient. For X that is N-by-p and beta that is p-by-1, there are N*p scalar multiplications and N summations of length p in the model code. Although somewhere in the computer those elemental steps need to be taken, they will be substantially faster if not broken up by hand-coding them. When NIMBLE generates (and then compiles) C++, it generates C++ for the Eigen linear algebra library, which gives efficient implementations of matrix operations.</p>
+<p>The second reason, however, may be more important in this case. Using either matrix multiplication or inner products makes it easier for NIMBLE to determine that the coefficients (“beta[i]”s) in many of these cases have conjugate relationships that can be used for Gibbs sampling. The way BFG wrote the model revealed to us that we’re not detecting the conjugacy in this case. That’s something we plan to fix, but it’s not a situation that’s come before us yet. Detecting conjugacy in a graphical model — as written in the BUGS/JAGS/NIMBLE dialects of the BUGS language — involves symbolic algebra, so it’s difficult to catch all cases.</p>
+<p>The reasons it’s better to give a set of univariate normal priors than a single multivariate normal are similar. It’s more computationally efficient, and it makes it easier to detect conjugacy.</p>
+<p>In summary, they wrote the model inefficiently for NIMBLE and differently between packages, and we didn’t detect conjugacy for the way they wrote it. In the results below, the “better” results use matrix multiplication directly (in all cases) and use univariate normal priors instead of a multivariate normal (in the “LM-C” and “LM-C Bin” cases).</p>
+<p>It also turns out that neither JAGS nor NIMBLE detects conjugacy for the precision parameter of the “LM-C” and “LM-C Bin” cases. (This is shown by list.samplers in rjags and configureMCMC in NIMBLE.) In NIMBLE, a summary of how conjugacy is determined is in Table 7.1 of our User Manual. It can be obtained by changing <code>sd = sigma</code> to <code>var = sigmasq</code> in one line of BFG’s code. In these examples, we found that this issue doesn’t make much different to MCMC efficiency, so we leave it as they coded it.</p>
+<p>Before giving our results, we’ll make a few observations on BFG’s results, shown in their Table 2. One is that JAGS gives very efficient sampling for many of these cases, and that’s something we’ve seen before. Especially when conjugate sampling is available, JAGS does well. Next is that Stan and NIMBLE each do better than the other in some cases. As we wrote about in the previous post, BFG chose not to calculate what we see as the most relevant metric for comparison. That is the rate of generating effectively independent samples, the ESS/time, which we call MCMC efficiency. An MCMC system can be efficient by slowly generating well-mixed samples or by rapidly generating poorly-mixed samples. One has to make choices such as whether burn-in (or warmup) time is counted in the denominator, depending on exactly what is of interest. BFG reported only ESS/recorded iterations and total iterations/time. The product of these is a measure of ESS/time, scaled by a ratio of total iterations / recorded iterations.</p>
+<p>For example, in the “LM-C” case with “N = 1000, p = 4”, Stan has (ESS/recorded iterations) * (total iterations/time) = 0.99 * 157=155, while NIMBLE has 0.14 * 1571=220. Thus in this case NIMBLE is generating effectively independent samples faster than Stan, because the faster computation out-weighs the poorer mixing. In other cases, Stan has higher ESS/time than NIMBLE. When BFG round ESS/recorded iterations to “1%” in some cases, the ESS/time is unknown up to a factor of 3 because 1% could be rounded from 0.50 or from 1.49. For most cases, Stan and NIMBLE are within a factor of 2 of each other, which is close. One case where Stan really stands out is the non-informative prior (LM-NI) with p&gt;n, but it’s worth noting that this is a statistically unhealthy case. With p&gt;n, parameters are not identifiable without the help of a prior. In the LM-NI case, the prior is uninformative, and the posteriors for beta[i]s are not much different than their priors.</p>
+<p>One other result jumps out as strange from their Table 2. The run-time results for “LM-WI” (total iterations / time) are much, much slower than in other cases. For example, with N = 100 and p = 4, this case was only 2.6% (294 vs 11,000 ) as fast as the corresponding “LM-C” case. We’re not sure how that could make sense, so it was something we wanted to check.</p>
+<p>We took all of <a href="https://web.archive.org/web/20250518101840/https://github.com/daniele-falco/software_comparison/tree/main/linear_models">BFG’s source code</a> and <a href="https://web.archive.org/web/20250518101840/https://github.com/nimble-dev/nimble-demos/tree/master/blog_posts/LM_comparisons_Beraha_etal">organized it to be more fully reproducible</a>. After our previous blog post, set.seed calls were added to their source code, so we use those. We also organize the code into functions and sets of runs to save and process together. We think we interpreted their code correctly, but we can’t be sure. For ESS estimation, we used coda::effectiveSize, but Stan and mcmcse are examples of packages with other methods, and we aren’t sure what BFG used. They thin by 2 and give average results for beta[i]s. We want to compare to their results, so we take those steps too.</p>
+<p>Here are the results:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>BFG</th>
+<th>Better code</th>
+<th>Improvement</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ESS/Ns</td>
+<td>Nit/t</td>
+<td>ESS/t</td>
+<td>ESS/Ns</td>
+</tr>
+</tbody>
+</table>
+<p><strong>LM-C</strong><br>
+N=100, p=4 | 0.15 | 56122.45 | 3738.90 | 1.03 | 23060.80 | 10842.00 | 2.90<br>
+N=1000, p=4 | 0.14 | 9401.71 | 609.97 | 1.00 | 2866.82 | 1303.10 | 2.14<br>
+N=100, p=16 | 0.04 | 25345.62 | 428.45 | 0.95 | 5555.56 | 2396.00 | 5.59<br>
+N=1000, p=16 | 0.03 | 3471.13 | 54.06 | 1.00 | 613.98 | 278.53 | 5.15<br>
+N=2000, p=30 | 0.01 | 863.83 | 5.52 | 1.00 | 137.60 | 62.67 | 11.35<br>
+N=30, p=50 | 0.00 | 11470.28 | 24.49 | 0.07 | 3869.15 | 114.62 | 4.68<br>
+<strong>LM-C Bin</strong><br>
+N=100, p=4 | 0.12 | 61452.51 | 3303.31 | 0.52 | 22916.67 | 5384.40 | 1.63<br>
+N=1000, p=4 | 0.10 | 9945.75 | 441.07 | 0.47 | 2857.14 | 606.16 | 1.37<br>
+N=100, p=16 | 0.04 | 26699.03 | 430.92 | 0.49 | 5530.42 | 1223.25 | 2.84<br>
+N=1000, p=16 | 0.03 | 3505.42 | 41.68 | 0.55 | 655.46 | 163.59 | 3.92<br>
+N=30, p=50 | 0.01 | 11815.25 | 44.01 | 0.12 | 3941.24 | 211.66 | 4.81<br>
+<strong>LM-WI</strong><br>
+N=100, p=4 | 0.38 | 44117.65 | 5595.82 | 0.99 | 22865.85 | 7545.97 | 1.35<br>
+N=1000, p=4 | 0.44 | 4874.88 | 709.03 | 0.98 | 2834.47 | 929.87 | 1.31<br>
+N=100, p=16 | 0.32 | 11441.65 | 1233.59 | 0.94 | 5845.67 | 1837.45 | 1.49<br>
+N=1000, p=16 | 0.42 | 1269.14 | 179.09 | 1.00 | 653.62 | 217.22 | 1.21<br>
+<strong>LM-NI</strong><br>
+N=100, p=4 | 0.37 | 43604.65 | 5415.31 | 1.01 | 22935.78 | 7749.15 | 1.43<br>
+N=1000, p=4 | 0.43 | 5613.77 | 804.61 | 1.06 | 2751.28 | 974.50 | 1.21<br>
+N=100, p=16 | 0.31 | 12386.46 | 1298.40 | 0.94 | 6134.97 | 1932.29 | 1.49<br>
+N=1000, p=16 | 0.43 | 1271.83 | 182.56 | 1.02 | 625.94 | 212.29 | 1.16<br>
+N=30, p=50 | 0.01 | 8581.24 | 14.45 | 0.01 | 3755.63 | 13.80 | 0.96<br>
+<strong>LM-Lasso</strong><br>
+N=100, p=16, z=0 | 0.33 | 10881.39 | 905.68 | 0.33 | 17730.50 | 1475.74 | 1.63<br>
+N=1000, p=16, z=0 | 0.44 | 1219.59 | 132.65 | 0.44 | 2129.02 | 231.57 | 1.75<br>
+N=1000, p=30, z=2 | 0.41 | 552.30 | 56.81 | 0.41 | 942.42 | 96.94 | 1.71<br>
+N=1000, p=30, z=15 | 0.42 | 540.51 | 56.91 | 0.42 | 941.97 | 99.17 | 1.74<br>
+N=1000, p=30, z=28 | 0.42 | 541.01 | 56.27 | 0.42 | 970.73 | 100.97 | 1.79<br>
+N=1000, p=100, z=2 | 0.36 | 77.75 | 7.06 | 0.36 | 141.22 | 12.83 | 1.82<br>
+N=1000, p=100, z=50 | 0.37 | 74.89 | 6.89 | 0.37 | 141.32 | 13.01 | 1.89<br>
+N=1000, p=100, z=98 | 0.39 | 74.78 | 7.37 | 0.39 | 142.60 | 14.05 | 1.91</p>
+<p>The “BFG” columns gives results from the same way BFG ran the cases, we think. The “ESS/Ns” is the same as their <img src="https://latex.codecogs.com/png.latex?varepsilon_%7B%08eta%7D">. ESS is averaged for the beta parameters. Ns is the number of saved samples, after burn-in and thinning. Their code gives different choices of burn-in and saved iterations for the different cases, and we used their settings. The “Nit/t” is the total number of iterations (including burn-in) divided by total computation time. The final column, which BFG don’t give, is “ESS/t”, what we call MCMC efficiency. Choice of time in the denominator includes burn-in time (the same as for “Nit/t”).</p>
+<p>The “Better code” columns give results when we write the code with matrix multiplication and, for “LM-C” and “LM-C Bin”, univariate priors. It is almost as efficient to write the code using an inner product for each mu[i] instead of matrix multiplication for all mu[i] together. Matrix multiplication makes sense when all of the inputs that might changes (in this case, beta[i]s updated by MCMC) require all of the same likelihood contributions to be calculated from the result (in this case, all y[i]s from all mu[i]s). Either way of coding the model makes it easier for NIMBLE to sample the beta[i]s with conjugate samplers and avoids the inefficiency of putting every scalar step into the model code.</p>
+<p>The “Better by” column gives the ratio of “ESS/t” for the “Better code” to “ESS/t” for the BFG code. This is the factor by which the “Better code” version improves upon the “BFG” version.</p>
+<p>We can see that writing better code often give improvements of say 1.2-3.0 fold, and sometimes of 5-10+ fold in ESS/time. These improvements — which came from writing the model in NIMBLE more similarly to how it was written in Stan — often put NIMBLE closer to or faster than Stan in various cases, and sometimes faster than JAGS with BFG’s version of the model. We’re sticking to NIMBLE, so we haven’t run JAGS with the better-written code to see how much it improves. Stan still shines for p&gt;n, and JAGS is still really good at linear models. The results show that, for the first four categories (above the LM-Lasso results), NIMBLE also can achieve very good mixing (near 100% ESS/saved samples), with the exception of the p&gt;n cases. BFG’s results showed worse mixing for NIMBLE in those cases.</p>
+<p>We can also see that BFG’s computation-time results for “LM-WI” (which we noted above) do appear to be really weird. In our results, that case ran somewhat slower than the LM-C cases with matching N and p, but not around 40-times slower as reported by BFG. We won’t make detailed comparisons of LM-WI cases because we’re not confident BFG’s results are solid for these.</p>
+<p>As a example, take LM-C, with the simplest being “N=100, p=4” and the hardest being “N=2000, p=30”, not counting the p&gt;n case. For the simplest case, BFG report that JAGS is about 2.1 times more efficient than Stan and about 2.4 times more efficient than NIMBLE. (E.g., the 2.1 comes from (100 * 3667)/(96 * 1883), reading numbers from their Table 2.) By writing the model in the simpler, better way in NIMBLE, we see a 2.9 fold gain in efficiency. This would make NIMBLE more efficient than Stan. We did not also re-run JAGS with the better code. For the hardest case, BFG report JAGS being about 1.8 times more efficient than Stan and about 2.1 times more efficient than NIMBLE. In that case coding the model better makes NIMBLE 11.4 times more efficient, apparently more efficient than Stan and possibly than JAGS. Again, we did not run JAGS with and without the coding improvement. As a final example, in one of the middle LM-L cases, with N = 1000, p = 30, and 15 of those truly 0, Stan is reported by BFG to be about 3.6 times more efficient than NIMBLE. The better-coded model improves NIMBLE by about 1.7-fold, leaving it still behind Stan but only by about half as much.</p>
+<p>We ran these comparisons on a MacBook Pro (2.4 GHz 8-Core Intel Core i9). It looks like this was roughly 5 times faster than the computer on which BFG ran.</p>
+<p>Inspection of traceplots revealed that the traceplots for the variance in the 5th and 6th “LM-C” cases had not yet converged in the “BFG” version of the model. More burn-in iterations would be needed. This goes hand-in-hand with the recognition that NIMBLE benefits from good initial values. In a real analysis, if a long burn-in was observed, a practical step would be to provide better initial values for the next run. Applied analysis always involves multiple MCMC runs as one gets things working and checked. With the “better code” version, the chains do appear to have converged.</p>
+<p>At this point we should highlight that <strong>there isn’t only one version of NIMBLE’s MCMC performance</strong>. NIMBLE’s MCMC system is highly configurable, and its default samplers are just one possible choice among many. When putting real effort into boosting performance for hard models, we’ve seen improvements by 1-3 orders of magnitude (<a href="https://web.archive.org/web/20250518101840/https://link.springer.com/article/10.1007/s10651-016-0353-z">here</a>, <a href="https://web.archive.org/web/20250518101840/https://doi.org/10.1002/ece3.6053">here</a> and <a href="https://web.archive.org/web/20250518101840/https://doi.org/10.1002/ecs2.3385">here</a>). In non-conjugate cases where JAGS performs well, it is worth noting that JAGS uses a lot of slice samplers, and those can also be configured in NIMBLE. (But the cases here use lots of conjugate samplers, rather than slice samplers.)</p>
+<p>The takeaway is that we don’t know why BFG gave Stan the benefit of matrix multiplication but didn’t do so for JAGS or NIMBLE, and doing so makes a substantial difference for NIMBLE. Also, we see more conjugacy cases to catch in our symbolic processing of model relationships.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250518101840/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
+
+
+
+ ]]></description>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</guid>
+  <pubDate>Thu, 11 Nov 2021 08:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>NIMBLE online tutorial, November 18, 2021</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/nimble-online-tutorial-november-18-2021.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ll be giving a two-hour tutorial on NIMBLE, sponsored by the environmental Bayes (enviBayes) section of ISBA (The International Society for Bayesian Analysis), on Thursday November 18, from 11 am to 1 pm US Eastern time.</p>
+<p>NIMBLE (<a href="https://web.archive.org/web/20250427234837/http://r-nimble.org/">r-nimble.org</a>) is a system for fitting and programming with hierarchical models in R that builds on (a new implementation of) the BUGS language for declaring models. NIMBLE provides analysts with a flexible system for using MCMC, sequential Monte Carlo, MCEM, and other techniques on user-specified models. It provides developers and methodologists with the ability to write algorithms in an R-like syntax that can be easily disseminated to users. C++ versions of models and algorithms are created for speed, but these are manipulated from R without any need for analysts or algorithm developers to program in C++. While analysts can use NIMBLE as a nearly drop-in replacement for WinBUGS or JAGS, NIMBLE provides enhanced functionality in a number of ways.</p>
+<p>Your avatar is your business card. Take high-quality, and better professional photos. Think over your style, add accessories <a href="https://web.archive.org/web/20250427234837/https://hooksexup.com/">hooksexup</a>. In short, show yourself on the back side.</p>
+<p>This workshop will demonstrate how one can use NIMBLE to:</p>
+<ul>
+<li>flexibly specify an MCMC for a specific model, including choosing samplers and blocking approaches (and noting the potential usefulness of this for teaching);</li>
+<li>tailor an MCMC to a specific model using user-defined distributions, user-defined functions, and vectorization;</li>
+<li>write your own MCMC sampling algorithms and use them in combination with samplers from NIMBLE’s library of samplers;</li>
+<li>develop and disseminate your own algorithms, building upon NIMBLE’s existing algorithms; and</li>
+<li>use specialized model components such as Dirichlet processes, conditional auto-regressive (CAR) models, and reversible jump for variable selection.</li>
+</ul>
+<p>The tutorial will assume working knowledge of hierarchical models and some familiarity with MCMC. Given the two-hour time frame, we’ll focus on demonstrating some of the key features of NIMBLE, without going into a lot of detail on any given topic.</p>
+<p>To attend, please register <a href="https://web.archive.org/web/20250427234837/https://uci.zoom.us/meeting/register/tJwkf-CvrzsoG9YNWKAJvkTzgYPUaYzPChef">here</a>.</p>
+
+
+
+ ]]></description>
+  <category>education</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/nimble-online-tutorial-november-18-2021.html</guid>
+  <pubDate>Wed, 20 Oct 2021 07:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Version 0.12.1 of NIMBLE released</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://nimble-dev.github.io/site/blog/version-0-12-1-of-nimble-released.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Version 0.12.1, in combination with version 0.12.0 (which was released just last week), provides a variety of new functionality (in particular enhanced WAIC functionality and adding the LKJ distribution) plus bug fixes affecting MCMC in specific narrow cases described below and that warrant upgrading for some users. The changes include:</p>
+<ul>
+<li>Completely revamping WAIC in NIMBLE, creating an online version that does not require any particular variable monitors. The new WAIC can calculate conditional or marginal WAIC and can group data nodes into joint likelihood terms if desired. In addition there is a new calculateWAIC() function that will calculate the basic conditional WAIC from MCMC output without having to enable the WAIC when creating the MCMC.</li>
+<li>Adding the LKJ distribution, useful for prior distributions for correlation matrices, along with random walk samplers for them. These samplers operate in an unconstrained transformed parameter space and are assigned by default during MCMC configuration.</li>
+<li>Fixing a bug introduced in conjugacy processing in version 0.11.0 that causes incorrect MCMC sampling only in specific cases. The impacted cases have terms of the form “a[i] + x[i] * beta” (or more simply “x[i] * beta”), with beta subject to conjugate sampling and either (i) ‘x’ provided via NIMBLE’s constants argument and x[1] == 1 or (ii) ‘a’ provided via NIMBLE’s constants argument and a[1] == 0.</li>
+<li>Fixing an error in the sampler for the proper CAR distribution (dcar_proper) that gives incorrect MCMC results when the mean of the proper CAR is not the same value for all locations, e.g., when embedding covariate effects directly in the <code>mu</code> parameter of the <code>dcar_proper</code> distribution.</li>
+<li>Fixing isData(‘y’) to return TRUE whenever any elements of a multivariate data node (‘y’) are flagged as data. As a result, attempting to carry out MCMC on the non-data elements will now fail. Formerly if only some elements were flagged as data, <code>isData</code> would only check the first element, potentially leading to other elements that were flagged as data being overwritten.</li>
+<li>Error trapping cases where a BNP model has a differing number of dependent stochastic nodes (e.g., observations) or dependent deterministic nodes per group of elements clustered jointly (using functionality introduced in version 0.10.0). Previously we were not error trapping this, and incorrect MCMC results would be obtained.</li>
+<li>Improving the formatting of standard logging messages.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>release</category>
+  <category>announcement</category>
+  <guid>https://nimble-dev.github.io/site/blog/version-0-12-1-of-nimble-released.html</guid>
+  <pubDate>Wed, 13 Oct 2021 07:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

@@ -7,8 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2024-02-15">
-<meta name="description" content="Bug fixes and improvements in NIMBLE 1.2.1">
+<meta name="dcterms.date" content="2024-07-31">
 
 <title>Version 1.2.1 of NIMBLE released – NIMBLE</title>
 <style>
@@ -22,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -227,9 +191,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
     <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="../index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -280,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
+ <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -342,17 +307,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#bug-fixes" id="toc-bug-fixes" class="nav-link active" data-scroll-target="#bug-fixes">Bug Fixes</a></li>
-  <li><a href="#improvements" id="toc-improvements" class="nav-link" data-scroll-target="#improvements">Improvements</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#migration-from-1.2.0" id="toc-migration-from-1.2.0" class="nav-link" data-scroll-target="#migration-from-1.2.0">Migration from 1.2.0</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -362,15 +318,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 class="title">Version 1.2.1 of NIMBLE released</h1>
   <div class="quarto-categories">
     <div class="quarto-category">release</div>
-    <div class="quarto-category">bugfix</div>
+    <div class="quarto-category">announcement</div>
   </div>
   </div>
 
-<div>
-  <div class="description">
-    Bug fixes and improvements in NIMBLE 1.2.1
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
@@ -385,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 15, 2024</p>
+      <p class="date">July 31, 2024</p>
     </div>
   </div>
   
@@ -397,39 +348,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>We are pleased to announce the release of NIMBLE version 1.2.1. This is a maintenance release that includes several important bug fixes and minor improvements.</p>
-<section id="bug-fixes" class="level2">
-<h2 class="anchored" data-anchor-id="bug-fixes">Bug Fixes</h2>
-<p>This release addresses several issues reported by users:</p>
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250518101613/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>This is a micro release that primarily addresses some packaging changes requested by CRAN. In addition, this release includes:</p>
 <ul>
-<li>Fixed compilation issues on certain Windows configurations</li>
-<li>Resolved memory allocation problems in specific MCMC scenarios</li>
-<li>Corrected behavior of user-defined distributions in edge cases</li>
-<li>Fixed issue with automatic differentiation in complex model structures</li>
+<li>A multinomial MCMC sampler, <code>sampler_RW_multinomial</code>, for random variables following a multinomial distribution.</li>
+<li>Some enhancements to error trapping and warning messages.</li>
+<li>A variety of minor bug fixes.</li>
 </ul>
-</section>
-<section id="improvements" class="level2">
-<h2 class="anchored" data-anchor-id="improvements">Improvements</h2>
-<ul>
-<li>Enhanced error messages for better debugging</li>
-<li>Improved performance in specific nimbleFunction operations</li>
-<li>Updated documentation with additional examples</li>
-</ul>
-</section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Install from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimble"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Or from our repository:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimble"</span>, <span class="at">repos =</span> <span class="st">"https://r-nimble.org"</span>, <span class="at">type =</span> <span class="st">"source"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="migration-from-1.2.0" class="level2">
-<h2 class="anchored" data-anchor-id="migration-from-1.2.0">Migration from 1.2.0</h2>
-<p>No breaking changes - this release is fully compatible with NIMBLE 1.2.0.</p>
-<p>We recommend all users upgrade to this version for improved stability and performance.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

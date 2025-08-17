@@ -7,8 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2024-01-20">
-<meta name="description" content="New features and enhancements in NIMBLE 1.2.0">
+<meta name="dcterms.date" content="2024-06-14">
 
 <title>Version 1.2.0 of NIMBLE released – NIMBLE</title>
 <style>
@@ -22,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -227,9 +191,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
     <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="../index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -280,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
+ <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -342,25 +307,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#new-features" id="toc-new-features" class="nav-link active" data-scroll-target="#new-features">New Features</a>
-  <ul class="collapse">
-  <li><a href="#enhanced-sequential-monte-carlo" id="toc-enhanced-sequential-monte-carlo" class="nav-link" data-scroll-target="#enhanced-sequential-monte-carlo">Enhanced Sequential Monte Carlo</a></li>
-  <li><a href="#mcmc-improvements" id="toc-mcmc-improvements" class="nav-link" data-scroll-target="#mcmc-improvements">MCMC Improvements</a></li>
-  <li><a href="#nimblefunction-enhancements" id="toc-nimblefunction-enhancements" class="nav-link" data-scroll-target="#nimblefunction-enhancements">nimbleFunction Enhancements</a></li>
-  </ul></li>
-  <li><a href="#performance-improvements" id="toc-performance-improvements" class="nav-link" data-scroll-target="#performance-improvements">Performance Improvements</a></li>
-  <li><a href="#new-distributions" id="toc-new-distributions" class="nav-link" data-scroll-target="#new-distributions">New Distributions</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes">Breaking Changes</a></li>
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -370,15 +318,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 class="title">Version 1.2.0 of NIMBLE released</h1>
   <div class="quarto-categories">
     <div class="quarto-category">release</div>
-    <div class="quarto-category">features</div>
+    <div class="quarto-category">announcement</div>
   </div>
   </div>
 
-<div>
-  <div class="description">
-    New features and enhancements in NIMBLE 1.2.0
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
@@ -393,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 20, 2024</p>
+      <p class="date">June 14, 2024</p>
     </div>
   </div>
   
@@ -405,69 +348,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>We’re excited to announce the release of NIMBLE version 1.2.0, which includes several new features and significant improvements.</p>
-<section id="new-features" class="level2">
-<h2 class="anchored" data-anchor-id="new-features">New Features</h2>
-<section id="enhanced-sequential-monte-carlo" class="level3">
-<h3 class="anchored" data-anchor-id="enhanced-sequential-monte-carlo">Enhanced Sequential Monte Carlo</h3>
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250427222134/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>This release provides provides extensive new functionality, including:</p>
 <ul>
-<li>Improved particle filter algorithms</li>
-<li>Better support for state-space models</li>
-<li>New bootstrap and auxiliary particle filters</li>
+<li>A Pólya-gamma sampler, <code>sampler_polyagamma</code>, for conjugate sampling of linear predictor parameters in logistic regression model specifications, including handling zero inflation and stochastic design matrices. This sampler must be added to an MCMC configuration manually.</li>
+<li>A new sampler, <code>sampler_noncentered</code>, which samples the mean or standard deviation of a set of random effect values in a transformed space such that the random effects are deterministically shifted or scaled given new values of their hyperparameters. For random effects written in a centered parameterization, sampling is performed as if they had been written in a noncentered parameterization, thereby enabling a variant on the <a href="https://web.archive.org/web/20250427222134/https://doi.org/10.1198/jcgs.2011.203main">Yu and Meng (2011)</a> interweaving sampling strategy of sampling in both parameterizations.This sampler must be added to an MCMC configuration manually.</li>
+<li>Adaptive Gauss-Hermite quadrature (AGHQ) for integrating over continuous latent effects, as an extension of NIMBLE’s Laplace approximation functionality. We also add user-friendly R functions, <code>runLaplace</code> and <code>runAGHQ</code>, for using Laplace and AGHQ approximation for maximum likelihood estimation.</li>
+<li>A more flexible optimization system via <code>nimOptim</code>, with support for <code>nlminb</code> built in as well as the capability for users to provide potentially arbitrary optimization functions in R.</li>
+<li>Allowing the use of nimbleFunctions with setup code in models, either for user-defined functions via <code>&lt;-</code> or for user-defined distributions via <code>~</code>. This supports holding large objects outside of model nodes for use in models.</li>
+<li>A completely revamped MCEM algorithm, using automatic derivatives in the maximization when possible, fixing a bug so that any parts of the model not connected to the latent states are included in MLE calculations, giving greater control and adding minor extensions to the ascent-based MCEM approach, and converting <code>buildMCEM</code> to be a nimbleFunction rather than an R function.</li>
 </ul>
-</section>
-<section id="mcmc-improvements" class="level3">
-<h3 class="anchored" data-anchor-id="mcmc-improvements">MCMC Improvements</h3>
+<p>In addition to the new functionality above, other enhancements and bug fixes include:</p>
 <ul>
-<li>More efficient adaptive samplers</li>
-<li>Better convergence diagnostics</li>
-<li>Enhanced mixing for challenging posteriors</li>
+<li>Improving the speed of MCMC and MCMC building in certain cases.</li>
+<li>Adding an argument to buildMCMC controlling whether to initialize values in the model.</li>
+<li>Providing the ability to control the number of digits printed in C++ output.</li>
+<li>Allowing use of a categorical MCMC sampler with user-specified dcat-like distributions.</li>
+<li>Warning of use of backward indexing in models.</li>
+<li>Improve documentation of the LKJ distribution and of advanced aspects of writing code for derivative tracking using the AD system.</li>
+<li>Fixing an insufficient check for conjugacy in stick-breaking specifications of Bayesian nonparametric distributions.</li>
+<li>Fixing compilation failures occurring on Red Hat Linux.</li>
+<li>Reenabling functionality for user-provided Eigen library and related updates to the autoconf configuration used in package building.</li>
+<li>Enhancing functionality to support model macros, which will be fully released and documented in the future.</li>
+<li>Removing deprecated <code>is.na.vec</code> and <code>is.nan.vec</code> functions.</li>
+<li>Improving some warnings and error messages.</li>
 </ul>
-</section>
-<section id="nimblefunction-enhancements" class="level3">
-<h3 class="anchored" data-anchor-id="nimblefunction-enhancements">nimbleFunction Enhancements</h3>
-<ul>
-<li>Support for additional mathematical operations</li>
-<li>Improved debugging capabilities</li>
-<li>Better integration with R environments</li>
-</ul>
-</section>
-</section>
-<section id="performance-improvements" class="level2">
-<h2 class="anchored" data-anchor-id="performance-improvements">Performance Improvements</h2>
-<ul>
-<li>Faster model compilation times</li>
-<li>Reduced memory usage in large models</li>
-<li>Optimized linear algebra operations</li>
-</ul>
-</section>
-<section id="new-distributions" class="level2">
-<h2 class="anchored" data-anchor-id="new-distributions">New Distributions</h2>
-<p>Added support for several new probability distributions: - Multivariate t-distribution - Generalized Pareto distribution - Additional parameterizations for existing distributions</p>
-</section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimble"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="breaking-changes" class="level2">
-<h2 class="anchored" data-anchor-id="breaking-changes">Breaking Changes</h2>
-<p>Please note the following changes that may affect existing code: - Deprecated functions have been removed (see migration guide) - Some default sampler choices have been updated</p>
-</section>
-<section id="documentation" class="level2">
-<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
-<ul>
-<li>Updated User Manual with new examples</li>
-<li>Enhanced function documentation</li>
-<li>New vignettes for advanced topics</li>
-</ul>
-</section>
-<section id="acknowledgments" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
-<p>Special thanks to the community members who contributed bug reports, feature requests, and testing feedback.</p>
-<p>For complete details, see the NEWS file in the package.</p>
+<p>Please see the <a href="https://web.archive.org/web/20250427222134/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

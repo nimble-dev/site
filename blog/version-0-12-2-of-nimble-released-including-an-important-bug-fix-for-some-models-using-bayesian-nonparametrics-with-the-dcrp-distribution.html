@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2025-08-17">
+<meta name="dcterms.date" content="2022-03-04">
 
-<title>Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling – NIMBLE</title>
+<title>Version 0.12.2 of NIMBLE released, including an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-0-0-of-nimble-released.html">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Version 0.12.2 of NIMBLE released, including an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -274,7 +274,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link active">
+  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
@@ -313,9 +313,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-0-0-of-nimble-released.html">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</h1>
+<h1 class="title">Version 0.12.2 of NIMBLE released, including an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution</h1>
   <div class="quarto-categories">
     <div class="quarto-category">release</div>
     <div class="quarto-category">announcement</div>
@@ -336,7 +336,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 17, 2025</p>
+      <p class="date">March 4, 2022</p>
     </div>
   </div>
   
@@ -348,24 +348,29 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
-<p>Version 1.0.0 provides substantial new functionality. This includes:</p>
+<p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Version 0.12.2 is a bug fix release. In particular, this release fixes a bug in our Bayesian nonparametric distribution (BNP) functionality that gives incorrect MCMC results for some models, specifically when using the dCRP distribution when the parameters of the mixture components (i.e., the clusters) have hyperparameters (i.e., the base measure parameters) that are unknown and sampled during the MCMC. Here is an example basic model structure that is affected by the bug:</p>
+<pre><code>k[1:n] ~ dCRP(alpha, n)
+for(i in 1:n) {
+  y[i] ~ dnorm(mu[k[i]], 1)
+  mu[i] ~ dnorm(mu0, 1) ## mixture component parameters with hyperparameter
+}
+mu0 ~ dnorm(0, 1) ## unknown cluster hyperparameter</code></pre>
+<p>(There is no problem without the hyperparameter layer – i.e., if mu0 is a fixed value – which is the situation in many models.)</p>
+<p>We strongly encourage users using models with this type of structure to rerun their analyses, and we apologize for this issue.</p>
+<p>Other changes in this release include:</p>
 <ul>
-<li>A Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.</li>
-<li>A Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the newly-released <a href="https://web.archive.org/web/20250321192726/https://cran.r-project.org/web/packages/nimbleHMC/index.html">nimbleHMC</a> package).</li>
-<li>Support in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.</li>
-<li>A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.</li>
+<li>Fixing an issue with reversible jump variable selection under a similar situation to the BNP issue discussed above (in particular where there are unknown hyperparameters of the regression coefficients being considered, which would likely be an unusual use case).</li>
+<li>Fixing a bug preventing setup of conjugate samplers for dwishart or dinvwishart nodes when using dynamic indexing.</li>
+<li>Fixing a bug preventing use of truncation bounds specified via <code>data</code> or <code>constants</code>.</li>
+<li>Fixing a bug preventing MCMC sampling with the LKJ prior for 2×2 matrices.</li>
+<li>Fixing a bug in <code>runCrossValidate</code> affecting extraction of multivariate nodes.</li>
+<li>Fixing a bug producing incorrect subset assignment into logical vectors in nimbleFunction code.</li>
+<li>Fixing a bug preventing use of <code>nimbleExternalCall</code> with a constant expression.</li>
+<li>Fixing a bug preventing use of recursion in nimbleFunctions without setup code.</li>
 </ul>
-<p>These are documented via the R help system and <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/html_manual/cha-AD.html">a new section at the end of our User Manual</a>. We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/more/issues-and-groups">nimble-users list</a>.</p>
-<p>In addition to the new functionality above, other enhancements and bug fixes include:</p>
-<ul>
-<li>Fixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (<code>runCrossValidate</code>) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.</li>
-<li>Fixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.</li>
-<li>Improving control of the <code>addSampler</code> method for MCMC.</li>
-<li>Improving the WAIC system in a few small ways.</li>
-<li>Enhancing error trapping and warning messages.</li>
-</ul>
-<p>Please see the <a href="https://web.archive.org/web/20250321192726/https://github.com/nimble-dev/nimble/blob/devel/packages/nimble/inst/NEWS.md">NEWS file</a> in the package source for more details.</p>
+<p>Please see the <a href="https://web.archive.org/web/20250427222659/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250427222659/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
 
 
 

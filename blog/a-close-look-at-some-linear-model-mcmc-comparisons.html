@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2025-08-17">
+<meta name="dcterms.date" content="2021-11-11">
 
-<title>Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling – NIMBLE</title>
+<title>A close look at some linear model MCMC comparisons – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -203,7 +232,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-0-0-of-nimble-released.html">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">A close look at some linear model MCMC comparisons</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -274,7 +303,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link active">
+  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
@@ -313,11 +342,10 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-0-0-of-nimble-released.html">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</h1>
+<h1 class="title">A close look at some linear model MCMC comparisons</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">release</div>
     <div class="quarto-category">announcement</div>
   </div>
   </div>
@@ -336,7 +364,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 17, 2025</p>
+      <p class="date">November 11, 2021</p>
     </div>
   </div>
   
@@ -348,24 +376,96 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
-<p>Version 1.0.0 provides substantial new functionality. This includes:</p>
+<p>This is our second blog post taking a careful look at some of the results posted in an <a href="https://web.archive.org/web/20250518101840/https://arxiv.org/abs/2107.09357">arXiv manuscript by Beraha, Falco, and Guglielmi (BFG)</a>. They compare JAGS, Stan, and NIMBLE using four examples. In their results, each package performs best in at least one example.</p>
+<p>In our <a href="https://web.archive.org/web/20250518101840/https://r-nimble.org/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models">previous post</a>, we explained that they compared apples to oranges in the accelerated failure time (AFT) example. They gave Stan a different and easier problem than they gave JAGS and NIMBLE. When we gave NIMBLE the same problem, we saw that its MCMC performance was up to 45 times better than what they reported. We looked first at the AFT example because that’s where NIMBLE seemed to perform comparatively worst.</p>
+<p>On my first real hike, I went to the Carpathians when I was less than 9 years old (already an adult :-), and my sister was 7 then. Some memories of this family trip have survived to this day. I remember how I overate blueberries on the slopes of Temnatik, how they ran wildly up and down the mountain, how they carried small backpacks (it seems that I had 9 kg, and my sister had 7. But I’m not sure in <a href="https://web.archive.org/web/20250518101840/https://beautypositive.org/travel/climbing-with-kids-our-first-experiences-with-travel/">climbing with kids</a>, how my father and I caught delicious trout, how they later roasted it in a cauldron, how they climbed to the top of Mount Stoj and walked among its domes. It’s strange, only a week of hiking, and so many pleasant memories for life…</p>
+<p>In this post we’re looking at the simple linear model example. <strong>It turns out that the models were written more efficiently for Stan than for JAGS and NIMBLE</strong> , because matrix multiplication was used for Stan but all scalar steps of matrix multiplication were written in JAGS and NIMBLE. JAGS and NIMBLE do support matrix multiplication and inner products. <strong>When we modify the models to also use matrix multiplication, NIMBLE’s MCMC performance with default samplers increases often by 1.2 to 3-fold but sometimes by 5 to &gt;10-fold over what was reported</strong> by BFG, as far as we can tell. This had to do with both raw computational efficiency and also MCMC samplers invoked by different ways to write the model code. Other issues are described below.</p>
+<p>BFG’s linear model examples explore different data sizes (n = 30, 100, 1000, or in one case 2000), different numbers of explanatory variables (4, 16, 30, 50 or 100), and different priors for the variance and/or coefficients (beta[i]s), all in a simple linear model. The priors included:</p>
 <ul>
-<li>A Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.</li>
-<li>A Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the newly-released <a href="https://web.archive.org/web/20250321192726/https://cran.r-project.org/web/packages/nimbleHMC/index.html">nimbleHMC</a> package).</li>
-<li>Support in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.</li>
-<li>A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.</li>
+<li>“LM-C”: an inverse gamma prior for variance, which is used for both residual variance and variance of normal priors for beta[i]s (regression coefficients). This setup should offer conjugate sampling for both the variance parameter and the beta[i]s.</li>
+<li>“LM-C Bin”: the same prior as “LM-C”. This case has Bernoulli- instead of normally-distributed explanatory variables in the data simulations. It’s very similar to “LM-C”.</li>
+<li>“LM-WI”: A weakly informative (“WI”) prior for residual standard deviation using a truncated, scaled t-distribution. beta[i]s have a non-informative (sd = 100) normal prior.</li>
+<li>“LM-NI”: A non-informative (“NI”) flat prior for residual standard deviation. beta[i]s have a non-informative (sd = 100) normal prior.</li>
+<li>“LM-L”: A lasso (“L”) prior for beta[i]s. This uses a double-exponential prior for beta[i]s, with a parameter that itself follows an exponential prior. This prior is a Bayesian analog of the lasso for variable selection, so the scenarios used for this have large numbers of explanatory variables, with different numbers of them (z) set to 0 in the simulations. Residual variance has an inverse gamma prior.</li>
 </ul>
-<p>These are documented via the R help system and <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/html_manual/cha-AD.html">a new section at the end of our User Manual</a>. We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/more/issues-and-groups">nimble-users list</a>.</p>
-<p>In addition to the new functionality above, other enhancements and bug fixes include:</p>
-<ul>
-<li>Fixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (<code>runCrossValidate</code>) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.</li>
-<li>Fixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.</li>
-<li>Improving control of the <code>addSampler</code> method for MCMC.</li>
-<li>Improving the WAIC system in a few small ways.</li>
-<li>Enhancing error trapping and warning messages.</li>
-</ul>
-<p>Please see the <a href="https://web.archive.org/web/20250321192726/https://github.com/nimble-dev/nimble/blob/devel/packages/nimble/inst/NEWS.md">NEWS file</a> in the package source for more details.</p>
+<p>Again, we are going to stick to NIMBLE here and not try to reproduce or explore results for JAGS or Stan.</p>
+<p>In more detail, the big issues that jumped out from BFG’s code are:</p>
+<ol type="1">
+<li><strong>Stan was given matrix multiplication for<code>X %*% beta</code>, while NIMBLE and JAGS were given code to do all of the element-by-element steps of matrix multiplication.</strong> Both NIMBLE and JAGS support matrix multiplication and inner products, so we think it is better and more directly comparable to use these features.</li>
+<li>For the “LM-C” and “LM-C Bin” cases, the prior for the beta[i]s was given as a multivariate normal with a diagonal covariance matrix. It is better (and equivalent) to give each element a univariate normal prior.</li>
+</ol>
+<p>There are two reasons that writing out matrix multiplication as they did is not a great way to code a model. The first is that it is just inefficient. For X that is N-by-p and beta that is p-by-1, there are N*p scalar multiplications and N summations of length p in the model code. Although somewhere in the computer those elemental steps need to be taken, they will be substantially faster if not broken up by hand-coding them. When NIMBLE generates (and then compiles) C++, it generates C++ for the Eigen linear algebra library, which gives efficient implementations of matrix operations.</p>
+<p>The second reason, however, may be more important in this case. Using either matrix multiplication or inner products makes it easier for NIMBLE to determine that the coefficients (“beta[i]”s) in many of these cases have conjugate relationships that can be used for Gibbs sampling. The way BFG wrote the model revealed to us that we’re not detecting the conjugacy in this case. That’s something we plan to fix, but it’s not a situation that’s come before us yet. Detecting conjugacy in a graphical model — as written in the BUGS/JAGS/NIMBLE dialects of the BUGS language — involves symbolic algebra, so it’s difficult to catch all cases.</p>
+<p>The reasons it’s better to give a set of univariate normal priors than a single multivariate normal are similar. It’s more computationally efficient, and it makes it easier to detect conjugacy.</p>
+<p>In summary, they wrote the model inefficiently for NIMBLE and differently between packages, and we didn’t detect conjugacy for the way they wrote it. In the results below, the “better” results use matrix multiplication directly (in all cases) and use univariate normal priors instead of a multivariate normal (in the “LM-C” and “LM-C Bin” cases).</p>
+<p>It also turns out that neither JAGS nor NIMBLE detects conjugacy for the precision parameter of the “LM-C” and “LM-C Bin” cases. (This is shown by list.samplers in rjags and configureMCMC in NIMBLE.) In NIMBLE, a summary of how conjugacy is determined is in Table 7.1 of our User Manual. It can be obtained by changing <code>sd = sigma</code> to <code>var = sigmasq</code> in one line of BFG’s code. In these examples, we found that this issue doesn’t make much different to MCMC efficiency, so we leave it as they coded it.</p>
+<p>Before giving our results, we’ll make a few observations on BFG’s results, shown in their Table 2. One is that JAGS gives very efficient sampling for many of these cases, and that’s something we’ve seen before. Especially when conjugate sampling is available, JAGS does well. Next is that Stan and NIMBLE each do better than the other in some cases. As we wrote about in the previous post, BFG chose not to calculate what we see as the most relevant metric for comparison. That is the rate of generating effectively independent samples, the ESS/time, which we call MCMC efficiency. An MCMC system can be efficient by slowly generating well-mixed samples or by rapidly generating poorly-mixed samples. One has to make choices such as whether burn-in (or warmup) time is counted in the denominator, depending on exactly what is of interest. BFG reported only ESS/recorded iterations and total iterations/time. The product of these is a measure of ESS/time, scaled by a ratio of total iterations / recorded iterations.</p>
+<p>For example, in the “LM-C” case with “N = 1000, p = 4”, Stan has (ESS/recorded iterations) * (total iterations/time) = 0.99 * 157=155, while NIMBLE has 0.14 * 1571=220. Thus in this case NIMBLE is generating effectively independent samples faster than Stan, because the faster computation out-weighs the poorer mixing. In other cases, Stan has higher ESS/time than NIMBLE. When BFG round ESS/recorded iterations to “1%” in some cases, the ESS/time is unknown up to a factor of 3 because 1% could be rounded from 0.50 or from 1.49. For most cases, Stan and NIMBLE are within a factor of 2 of each other, which is close. One case where Stan really stands out is the non-informative prior (LM-NI) with p&gt;n, but it’s worth noting that this is a statistically unhealthy case. With p&gt;n, parameters are not identifiable without the help of a prior. In the LM-NI case, the prior is uninformative, and the posteriors for beta[i]s are not much different than their priors.</p>
+<p>One other result jumps out as strange from their Table 2. The run-time results for “LM-WI” (total iterations / time) are much, much slower than in other cases. For example, with N = 100 and p = 4, this case was only 2.6% (294 vs 11,000 ) as fast as the corresponding “LM-C” case. We’re not sure how that could make sense, so it was something we wanted to check.</p>
+<p>We took all of <a href="https://web.archive.org/web/20250518101840/https://github.com/daniele-falco/software_comparison/tree/main/linear_models">BFG’s source code</a> and <a href="https://web.archive.org/web/20250518101840/https://github.com/nimble-dev/nimble-demos/tree/master/blog_posts/LM_comparisons_Beraha_etal">organized it to be more fully reproducible</a>. After our previous blog post, set.seed calls were added to their source code, so we use those. We also organize the code into functions and sets of runs to save and process together. We think we interpreted their code correctly, but we can’t be sure. For ESS estimation, we used coda::effectiveSize, but Stan and mcmcse are examples of packages with other methods, and we aren’t sure what BFG used. They thin by 2 and give average results for beta[i]s. We want to compare to their results, so we take those steps too.</p>
+<p>Here are the results:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>BFG</th>
+<th>Better code</th>
+<th>Improvement</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ESS/Ns</td>
+<td>Nit/t</td>
+<td>ESS/t</td>
+<td>ESS/Ns</td>
+</tr>
+</tbody>
+</table>
+<p><strong>LM-C</strong><br>
+N=100, p=4 | 0.15 | 56122.45 | 3738.90 | 1.03 | 23060.80 | 10842.00 | 2.90<br>
+N=1000, p=4 | 0.14 | 9401.71 | 609.97 | 1.00 | 2866.82 | 1303.10 | 2.14<br>
+N=100, p=16 | 0.04 | 25345.62 | 428.45 | 0.95 | 5555.56 | 2396.00 | 5.59<br>
+N=1000, p=16 | 0.03 | 3471.13 | 54.06 | 1.00 | 613.98 | 278.53 | 5.15<br>
+N=2000, p=30 | 0.01 | 863.83 | 5.52 | 1.00 | 137.60 | 62.67 | 11.35<br>
+N=30, p=50 | 0.00 | 11470.28 | 24.49 | 0.07 | 3869.15 | 114.62 | 4.68<br>
+<strong>LM-C Bin</strong><br>
+N=100, p=4 | 0.12 | 61452.51 | 3303.31 | 0.52 | 22916.67 | 5384.40 | 1.63<br>
+N=1000, p=4 | 0.10 | 9945.75 | 441.07 | 0.47 | 2857.14 | 606.16 | 1.37<br>
+N=100, p=16 | 0.04 | 26699.03 | 430.92 | 0.49 | 5530.42 | 1223.25 | 2.84<br>
+N=1000, p=16 | 0.03 | 3505.42 | 41.68 | 0.55 | 655.46 | 163.59 | 3.92<br>
+N=30, p=50 | 0.01 | 11815.25 | 44.01 | 0.12 | 3941.24 | 211.66 | 4.81<br>
+<strong>LM-WI</strong><br>
+N=100, p=4 | 0.38 | 44117.65 | 5595.82 | 0.99 | 22865.85 | 7545.97 | 1.35<br>
+N=1000, p=4 | 0.44 | 4874.88 | 709.03 | 0.98 | 2834.47 | 929.87 | 1.31<br>
+N=100, p=16 | 0.32 | 11441.65 | 1233.59 | 0.94 | 5845.67 | 1837.45 | 1.49<br>
+N=1000, p=16 | 0.42 | 1269.14 | 179.09 | 1.00 | 653.62 | 217.22 | 1.21<br>
+<strong>LM-NI</strong><br>
+N=100, p=4 | 0.37 | 43604.65 | 5415.31 | 1.01 | 22935.78 | 7749.15 | 1.43<br>
+N=1000, p=4 | 0.43 | 5613.77 | 804.61 | 1.06 | 2751.28 | 974.50 | 1.21<br>
+N=100, p=16 | 0.31 | 12386.46 | 1298.40 | 0.94 | 6134.97 | 1932.29 | 1.49<br>
+N=1000, p=16 | 0.43 | 1271.83 | 182.56 | 1.02 | 625.94 | 212.29 | 1.16<br>
+N=30, p=50 | 0.01 | 8581.24 | 14.45 | 0.01 | 3755.63 | 13.80 | 0.96<br>
+<strong>LM-Lasso</strong><br>
+N=100, p=16, z=0 | 0.33 | 10881.39 | 905.68 | 0.33 | 17730.50 | 1475.74 | 1.63<br>
+N=1000, p=16, z=0 | 0.44 | 1219.59 | 132.65 | 0.44 | 2129.02 | 231.57 | 1.75<br>
+N=1000, p=30, z=2 | 0.41 | 552.30 | 56.81 | 0.41 | 942.42 | 96.94 | 1.71<br>
+N=1000, p=30, z=15 | 0.42 | 540.51 | 56.91 | 0.42 | 941.97 | 99.17 | 1.74<br>
+N=1000, p=30, z=28 | 0.42 | 541.01 | 56.27 | 0.42 | 970.73 | 100.97 | 1.79<br>
+N=1000, p=100, z=2 | 0.36 | 77.75 | 7.06 | 0.36 | 141.22 | 12.83 | 1.82<br>
+N=1000, p=100, z=50 | 0.37 | 74.89 | 6.89 | 0.37 | 141.32 | 13.01 | 1.89<br>
+N=1000, p=100, z=98 | 0.39 | 74.78 | 7.37 | 0.39 | 142.60 | 14.05 | 1.91</p>
+<p>The “BFG” columns gives results from the same way BFG ran the cases, we think. The “ESS/Ns” is the same as their <span class="math inline">\(varepsilon_{eta}\)</span>. ESS is averaged for the beta parameters. Ns is the number of saved samples, after burn-in and thinning. Their code gives different choices of burn-in and saved iterations for the different cases, and we used their settings. The “Nit/t” is the total number of iterations (including burn-in) divided by total computation time. The final column, which BFG don’t give, is “ESS/t”, what we call MCMC efficiency. Choice of time in the denominator includes burn-in time (the same as for “Nit/t”).</p>
+<p>The “Better code” columns give results when we write the code with matrix multiplication and, for “LM-C” and “LM-C Bin”, univariate priors. It is almost as efficient to write the code using an inner product for each mu[i] instead of matrix multiplication for all mu[i] together. Matrix multiplication makes sense when all of the inputs that might changes (in this case, beta[i]s updated by MCMC) require all of the same likelihood contributions to be calculated from the result (in this case, all y[i]s from all mu[i]s). Either way of coding the model makes it easier for NIMBLE to sample the beta[i]s with conjugate samplers and avoids the inefficiency of putting every scalar step into the model code.</p>
+<p>The “Better by” column gives the ratio of “ESS/t” for the “Better code” to “ESS/t” for the BFG code. This is the factor by which the “Better code” version improves upon the “BFG” version.</p>
+<p>We can see that writing better code often give improvements of say 1.2-3.0 fold, and sometimes of 5-10+ fold in ESS/time. These improvements — which came from writing the model in NIMBLE more similarly to how it was written in Stan — often put NIMBLE closer to or faster than Stan in various cases, and sometimes faster than JAGS with BFG’s version of the model. We’re sticking to NIMBLE, so we haven’t run JAGS with the better-written code to see how much it improves. Stan still shines for p&gt;n, and JAGS is still really good at linear models. The results show that, for the first four categories (above the LM-Lasso results), NIMBLE also can achieve very good mixing (near 100% ESS/saved samples), with the exception of the p&gt;n cases. BFG’s results showed worse mixing for NIMBLE in those cases.</p>
+<p>We can also see that BFG’s computation-time results for “LM-WI” (which we noted above) do appear to be really weird. In our results, that case ran somewhat slower than the LM-C cases with matching N and p, but not around 40-times slower as reported by BFG. We won’t make detailed comparisons of LM-WI cases because we’re not confident BFG’s results are solid for these.</p>
+<p>As a example, take LM-C, with the simplest being “N=100, p=4” and the hardest being “N=2000, p=30”, not counting the p&gt;n case. For the simplest case, BFG report that JAGS is about 2.1 times more efficient than Stan and about 2.4 times more efficient than NIMBLE. (E.g., the 2.1 comes from (100 * 3667)/(96 * 1883), reading numbers from their Table 2.) By writing the model in the simpler, better way in NIMBLE, we see a 2.9 fold gain in efficiency. This would make NIMBLE more efficient than Stan. We did not also re-run JAGS with the better code. For the hardest case, BFG report JAGS being about 1.8 times more efficient than Stan and about 2.1 times more efficient than NIMBLE. In that case coding the model better makes NIMBLE 11.4 times more efficient, apparently more efficient than Stan and possibly than JAGS. Again, we did not run JAGS with and without the coding improvement. As a final example, in one of the middle LM-L cases, with N = 1000, p = 30, and 15 of those truly 0, Stan is reported by BFG to be about 3.6 times more efficient than NIMBLE. The better-coded model improves NIMBLE by about 1.7-fold, leaving it still behind Stan but only by about half as much.</p>
+<p>We ran these comparisons on a MacBook Pro (2.4 GHz 8-Core Intel Core i9). It looks like this was roughly 5 times faster than the computer on which BFG ran.</p>
+<p>Inspection of traceplots revealed that the traceplots for the variance in the 5th and 6th “LM-C” cases had not yet converged in the “BFG” version of the model. More burn-in iterations would be needed. This goes hand-in-hand with the recognition that NIMBLE benefits from good initial values. In a real analysis, if a long burn-in was observed, a practical step would be to provide better initial values for the next run. Applied analysis always involves multiple MCMC runs as one gets things working and checked. With the “better code” version, the chains do appear to have converged.</p>
+<p>At this point we should highlight that <strong>there isn’t only one version of NIMBLE’s MCMC performance</strong>. NIMBLE’s MCMC system is highly configurable, and its default samplers are just one possible choice among many. When putting real effort into boosting performance for hard models, we’ve seen improvements by 1-3 orders of magnitude (<a href="https://web.archive.org/web/20250518101840/https://link.springer.com/article/10.1007/s10651-016-0353-z">here</a>, <a href="https://web.archive.org/web/20250518101840/https://doi.org/10.1002/ece3.6053">here</a> and <a href="https://web.archive.org/web/20250518101840/https://doi.org/10.1002/ecs2.3385">here</a>). In non-conjugate cases where JAGS performs well, it is worth noting that JAGS uses a lot of slice samplers, and those can also be configured in NIMBLE. (But the cases here use lots of conjugate samplers, rather than slice samplers.)</p>
+<p>The takeaway is that we don’t know why BFG gave Stan the benefit of matrix multiplication but didn’t do so for JAGS or NIMBLE, and doing so makes a substantial difference for NIMBLE. Also, we see more conjugacy cases to catch in our symbolic processing of model relationships.</p>
+<p>Keep everything organized in <a href="https://web.archive.org/web/20250518101840/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
 
 
 

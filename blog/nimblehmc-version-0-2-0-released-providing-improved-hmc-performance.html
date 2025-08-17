@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2025-08-17">
+<meta name="dcterms.date" content="2023-09-20">
 
-<title>Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling – NIMBLE</title>
+<title>nimbleHMC version 0.2.0 released, providing improved HMC performance – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-0-0-of-nimble-released.html">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">nimbleHMC version 0.2.0 released, providing improved HMC performance</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -274,7 +274,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link active">
+  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
@@ -313,9 +313,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-0-0-of-nimble-released.html">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</h1>
+<h1 class="title">nimbleHMC version 0.2.0 released, providing improved HMC performance</h1>
   <div class="quarto-categories">
     <div class="quarto-category">release</div>
     <div class="quarto-category">announcement</div>
@@ -336,7 +336,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 17, 2025</p>
+      <p class="date">September 20, 2023</p>
     </div>
   </div>
   
@@ -348,24 +348,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
-<p>Version 1.0.0 provides substantial new functionality. This includes:</p>
-<ul>
-<li>A Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.</li>
-<li>A Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the newly-released <a href="https://web.archive.org/web/20250321192726/https://cran.r-project.org/web/packages/nimbleHMC/index.html">nimbleHMC</a> package).</li>
-<li>Support in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.</li>
-<li>A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.</li>
-</ul>
-<p>These are documented via the R help system and <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/html_manual/cha-AD.html">a new section at the end of our User Manual</a>. We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/more/issues-and-groups">nimble-users list</a>.</p>
-<p>In addition to the new functionality above, other enhancements and bug fixes include:</p>
-<ul>
-<li>Fixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (<code>runCrossValidate</code>) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.</li>
-<li>Fixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.</li>
-<li>Improving control of the <code>addSampler</code> method for MCMC.</li>
-<li>Improving the WAIC system in a few small ways.</li>
-<li>Enhancing error trapping and warning messages.</li>
-</ul>
-<p>Please see the <a href="https://web.archive.org/web/20250321192726/https://github.com/nimble-dev/nimble/blob/devel/packages/nimble/inst/NEWS.md">NEWS file</a> in the package source for more details.</p>
+<p>nimbleHMC provides Hamiltonian Monte Carlo samplers for use with NIMBLE, in particular NUTS samplers. NIMBLE’s HMC samplers can be flexibly assigned to a subset of model parameters, allowing users to consider various sampling configurations.</p>
+<p>We’ve released version 0.2.0 of nimbleHMC, which includes a new default NUTS sampler inspired by Stan’s implementation of NUTS. It also provides an updated version of our previous NUTS sampler (which is based on the original Hoffman and Gelman paper, and is now called the ‘NUTS_classic’ sampler in NIMBLE) that fixes performance issues in version 0.1.1.</p>
 
 
 

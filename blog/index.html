@@ -80,7 +80,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 25,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
@@ -130,7 +131,7 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../styles.css">
-</head>
+<link rel="alternate" type="application/rss+xml" title="NIMBLE" href="index.xml" data-external="1"></head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
 
@@ -249,9 +250,10 @@ window.Quarto = {
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
     <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="../index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -318,7 +320,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
+ <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -382,7 +384,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(9)</span></div><div class="category" data-category="YW5ub3VuY2VtZW50">announcement <span class="quarto-category-count">(6)</span></div><div class="category" data-category="YnVnZml4">bugfix <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZmVhdHVyZXM=">features <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bWFjcm9z">macros <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bW9kZWxpbmc=">modeling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cGFja2FnZQ==">package <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cmVsZWFzZQ==">release <span class="quarto-category-count">(5)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(33)</span></div><div class="category" data-category="YW5ub3VuY2VtZW50">announcement <span class="quarto-category-count">(33)</span></div><div class="category" data-category="ZWR1Y2F0aW9u">education <span class="quarto-category-count">(5)</span></div><div class="category" data-category="cmVsZWFzZQ==">release <span class="quarto-category-count">(20)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-body" id="quarto-document-content">
 
@@ -397,67 +399,7 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1755414000000" data-listing-file-modified-sort="1755454679240" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3028">
-<div class="thumbnail"><a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
-
-</div>
-<div class="delink listing-description"><a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">
-(Prepared by Claudia Wehrhahn)
-</a></div>
-</div>
-<div class="metadata">
-<a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">
-<div class="listing-date">
-Aug 17, 2025
-</div>
-<div class="listing-author">
-NIMBLE Development Team
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1755414000000" data-listing-file-modified-sort="1755454679240" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2274">
-<div class="thumbnail"><a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">Posterior predictive sampling and other post-MCMC use of samples in NIMBLE</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
-
-</div>
-<div class="delink listing-description"><a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">
-(Prepared by Chris Paciorek and Sally Paganin.)
-</a></div>
-</div>
-<div class="metadata">
-<a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">
-<div class="listing-date">
-Aug 17, 2025
-</div>
-<div class="listing-author">
-NIMBLE Development Team
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1755414000000" data-listing-file-modified-sort="1755454679240" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="309">
+<div class="quarto-post image-right" data-index="0" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1755414000000" data-listing-file-modified-sort="1755454679240" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="309">
 <div class="thumbnail"><a href="../blog/version-1-0-0-of-nimble-released.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -489,29 +431,29 @@ NIMBLE Development Team
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1755414000000" data-listing-file-modified-sort="1755454679240" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1224">
-<div class="thumbnail"><a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="no-external">
+<div class="quarto-post image-right" data-index="1" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1742367600000" data-listing-file-modified-sort="1755465616044" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="226">
+<div class="thumbnail"><a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
 
 </a></div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="no-external">nimbleEcology: custom NIMBLE distributions for ecologists</a>
+<a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="no-external">announcing the nimbleMacros package and the use of macros in NIMBLE models</a>
 </h3>
 <div class="listing-categories">
 
 <div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
 
 </div>
-<div class="delink listing-description"><a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="no-external">
-Prepared by Ben Goldstein.
+<div class="delink listing-description"><a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="no-external">
+Recent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially…
 </a></div>
 </div>
 <div class="metadata">
-<a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="no-external">
+<a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="no-external">
 <div class="listing-date">
-Aug 17, 2025
+Mar 19, 2025
 </div>
 <div class="listing-author">
 NIMBLE Development Team
@@ -519,7 +461,103 @@ NIMBLE Development Team
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1755414000000" data-listing-file-modified-sort="1755454679240" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="355">
+<div class="quarto-post image-right" data-index="2" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1734768000000" data-listing-file-modified-sort="1755465622739" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="436">
+<div class="thumbnail"><a href="../blog/version-1-3-0-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-1-3-0-of-nimble-released.html" class="no-external">Version 1.3.0 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-1-3-0-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-1-3-0-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Dec 21, 2024
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1722409200000" data-listing-file-modified-sort="1755465622531" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="90">
+<div class="thumbnail"><a href="../blog/version-1-2-1-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-1-2-1-of-nimble-released.html" class="no-external">Version 1.2.1 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-1-2-1-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-1-2-1-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Jul 31, 2024
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1718348400000" data-listing-file-modified-sort="1755465622304" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="525">
+<div class="thumbnail"><a href="../blog/version-1-2-0-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-1-2-0-of-nimble-released.html" class="no-external">Version 1.2.0 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-1-2-0-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-1-2-0-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Jun 14, 2024
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="5" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1707033600000" data-listing-file-modified-sort="1755465622102" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="355">
 <div class="thumbnail"><a href="../blog/version-1-1-0-of-nimble-released.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -543,7 +581,7 @@ We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE
 <div class="metadata">
 <a href="../blog/version-1-1-0-of-nimble-released.html" class="no-external">
 <div class="listing-date">
-Aug 17, 2025
+Feb 4, 2024
 </div>
 <div class="listing-author">
 NIMBLE Development Team
@@ -551,49 +589,15 @@ NIMBLE Development Team
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="cGFja2FnZSUyQ21hY3JvcyUyQ21vZGVsaW5n" data-listing-date-sort="1711954800000" data-listing-file-modified-sort="1755454679240" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="234">
-<div class="thumbnail"><a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="no-external">
+<div class="quarto-post image-right" data-index="6" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1695193200000" data-listing-file-modified-sort="1755465617335" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="89">
+<div class="thumbnail"><a href="../blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
 
 </a></div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="no-external">Announcing the nimbleMacros package and the use of macros in NIMBLE models</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cGFja2FnZQ=='); return false;">package</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjcm9z'); return false;">macros</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bW9kZWxpbmc='); return false;">modeling</div>
-
-</div>
-<div class="delink listing-description"><a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="no-external">
-<p>Introduction to the new nimbleMacros package for enhanced model specification</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="no-external">
-<div class="listing-date">
-Apr 1, 2024
-</div>
-<div class="listing-author">
-NIMBLE Development Team
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1710486000000" data-listing-file-modified-sort="1755454679241" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="161">
-<div class="thumbnail"><a href="../blog/version-1-3-0-of-nimble-released.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../blog/version-1-3-0-of-nimble-released.html" class="no-external">Version 1.3.0 of NIMBLE released</a>
+<a href="../blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html" class="no-external">nimbleHMC version 0.2.0 released, providing improved HMC performance</a>
 </h3>
 <div class="listing-categories">
 
@@ -602,14 +606,14 @@ NIMBLE Development Team
 <div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
 
 </div>
-<div class="delink listing-description"><a href="../blog/version-1-3-0-of-nimble-released.html" class="no-external">
-<p>New features and improvements in NIMBLE 1.3.0</p>
+<div class="delink listing-description"><a href="../blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html" class="no-external">
+nimbleHMC provides Hamiltonian Monte Carlo samplers for use with NIMBLE, in particular NUTS samplers. NIMBLE’s HMC samplers can be flexibly assigned to a subset of model…
 </a></div>
 </div>
 <div class="metadata">
-<a href="../blog/version-1-3-0-of-nimble-released.html" class="no-external">
+<a href="../blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html" class="no-external">
 <div class="listing-date">
-Mar 15, 2024
+Sep 20, 2023
 </div>
 <div class="listing-author">
 NIMBLE Development Team
@@ -617,31 +621,31 @@ NIMBLE Development Team
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="cmVsZWFzZSUyQ2J1Z2ZpeA==" data-listing-date-sort="1707984000000" data-listing-file-modified-sort="1755454679241" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="120">
-<div class="thumbnail"><a href="../blog/version-1-2-1-of-nimble-released.html" class="no-external">
+<div class="quarto-post image-right" data-index="7" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1687330800000" data-listing-file-modified-sort="1755465621894" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="277">
+<div class="thumbnail"><a href="../blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
 
 </a></div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="../blog/version-1-2-1-of-nimble-released.html" class="no-external">Version 1.2.1 of NIMBLE released</a>
+<a href="../blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html" class="no-external">Version 1.0.1 of NIMBLE released, fixing a bug in version 1.0.0 affecting certain models</a>
 </h3>
 <div class="listing-categories">
 
 <div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
 
-<div class="listing-category" onclick="window.quartoListingCategory('YnVnZml4'); return false;">bugfix</div>
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
 
 </div>
-<div class="delink listing-description"><a href="../blog/version-1-2-1-of-nimble-released.html" class="no-external">
-<p>Bug fixes and improvements in NIMBLE 1.2.1</p>
+<div class="delink listing-description"><a href="../blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
 </a></div>
 </div>
 <div class="metadata">
-<a href="../blog/version-1-2-1-of-nimble-released.html" class="no-external">
+<a href="../blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html" class="no-external">
 <div class="listing-date">
-Feb 15, 2024
+Jun 21, 2023
 </div>
 <div class="listing-author">
 NIMBLE Development Team
@@ -649,31 +653,785 @@ NIMBLE Development Team
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="cmVsZWFzZSUyQ2ZlYXR1cmVz" data-listing-date-sort="1705737600000" data-listing-file-modified-sort="1755454679241" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="166">
-<div class="thumbnail"><a href="../blog/version-1-2-0-of-nimble-released.html" class="no-external">
+<div class="quarto-post image-right" data-index="8" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1685516400000" data-listing-file-modified-sort="1755465621691" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="309">
+<div class="thumbnail"><a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
 
 </a></div>
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="../blog/version-1-2-0-of-nimble-released.html" class="no-external">Version 1.2.0 of NIMBLE released</a>
+<a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="no-external">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a>
 </h3>
 <div class="listing-categories">
 
 <div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
 
-<div class="listing-category" onclick="window.quartoListingCategory('ZmVhdHVyZXM='); return false;">features</div>
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
 
 </div>
-<div class="delink listing-description"><a href="../blog/version-1-2-0-of-nimble-released.html" class="no-external">
-<p>New features and enhancements in NIMBLE 1.2.0</p>
+<div class="delink listing-description"><a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
 </a></div>
 </div>
 <div class="metadata">
-<a href="../blog/version-1-2-0-of-nimble-released.html" class="no-external">
+<a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="no-external">
 <div class="listing-date">
-Jan 20, 2024
+May 31, 2023
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="9" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1671436800000" data-listing-file-modified-sort="1755465620838" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="48">
+<div class="thumbnail"><a href="../blog/version-0-13-1-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-13-1-of-nimble-released.html" class="no-external">Version 0.13.1 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-13-1-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. This version is purely a bug fix release that fixes a bug introduced in our new handling of…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-13-1-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Dec 19, 2022
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="10" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1670486400000" data-listing-file-modified-sort="1755465616740" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="166">
+<div class="thumbnail"><a href="../blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html" class="no-external">Bug in newly-released version 0.13.0 affecting MCMC for models with predictive nodes</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html" class="no-external">
+We recently released version 0.13.0, which has some improvements in how we handle predictive nodes in NIMBLE’s MCMC engine.
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html" class="no-external">
+<div class="listing-date">
+Dec 8, 2022
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="11" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1669708800000" data-listing-file-modified-sort="1755465620636" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="270">
+<div class="thumbnail"><a href="../blog/version-0-13-0-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-13-0-of-nimble-released.html" class="no-external">Version 0.13.0 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-13-0-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-13-0-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Nov 29, 2022
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="12" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1665126000000" data-listing-file-modified-sort="1755465622953" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="93">
+<div class="thumbnail"><a href="../blog/were-looking-for-a-programmer.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/were-looking-for-a-programmer.html" class="no-external">We’re looking for a programmer</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/were-looking-for-a-programmer.html" class="no-external">
+The NIMBLE project anticipates having some funding for a part-time programmer to implement statistical algorithms and make improvements in nimble’s core code. Examples may…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/were-looking-for-a-programmer.html" class="no-external">
+<div class="listing-date">
+Oct 7, 2022
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="13" data-categories="ZWR1Y2F0aW9uJTJDYW5ub3VuY2VtZW50" data-listing-date-sort="1662620400000" data-listing-file-modified-sort="1755465618390" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="291">
+<div class="thumbnail"><a href="../blog/nimble-virtual-short-course-january-4-6-2023.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/nimble-virtual-short-course-january-4-6-2023.html" class="no-external">NIMBLE virtual short course, January 4-6, 2023</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZWR1Y2F0aW9u'); return false;">education</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/nimble-virtual-short-course-january-4-6-2023.html" class="no-external">
+We’ll be holding a virtual training workshop on NIMBLE, January 4-6, 2023 from 8 am to 1 pm US Pacific (California) time each day. NIMBLE is a system for building and…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/nimble-virtual-short-course-january-4-6-2023.html" class="no-external">
+<div class="listing-date">
+Sep 8, 2022
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="14" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1657868400000" data-listing-file-modified-sort="1755465616514" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="241">
+<div class="thumbnail"><a href="../blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html" class="no-external">Beta version of NIMBLE with automatic differentiation, including HMC sampling and Laplace approximation</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html" class="no-external">
+We’re excited to announce that NIMBLE now supports automatic differentiation (AD), also known as algorithmic differentiation, in a beta version available on our website. In…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html" class="no-external">
+<div class="listing-date">
+Jul 15, 2022
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="15" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1646380800000" data-listing-file-modified-sort="1755465620416" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="399">
+<div class="thumbnail"><a href="../blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html" class="no-external">Version 0.12.2 of NIMBLE released, including an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html" class="no-external">
+<div class="listing-date">
+Mar 4, 2022
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="16" data-categories="ZWR1Y2F0aW9uJTJDYW5ub3VuY2VtZW50" data-listing-date-sort="1646208000000" data-listing-file-modified-sort="1755465617541" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="110">
+<div class="thumbnail"><a href="../blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html" class="no-external">NIMBLE in-person short course, June 1-3, Lisbon, Portugal</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZWR1Y2F0aW9u'); return false;">education</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html" class="no-external">
+We’ll be holding a in-person training workshop on NIMBLE, June 1-3, 2022, in Lisbon, Portugal, sponsored by the Centro de Estatística e Aplicações at the Universidade Lisboa…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html" class="no-external">
+<div class="listing-date">
+Mar 2, 2022
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="17" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1636617600000" data-listing-file-modified-sort="1755465615652" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3089">
+<div class="thumbnail"><a href="../blog/a-close-look-at-some-linear-model-mcmc-comparisons.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/a-close-look-at-some-linear-model-mcmc-comparisons.html" class="no-external">A close look at some linear model MCMC comparisons</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/a-close-look-at-some-linear-model-mcmc-comparisons.html" class="no-external">
+This is our second blog post taking a careful look at some of the results posted in an arXiv manuscript by Beraha, Falco, and Guglielmi (BFG). They compare JAGS, Stan, and…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/a-close-look-at-some-linear-model-mcmc-comparisons.html" class="no-external">
+<div class="listing-date">
+Nov 11, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="18" data-categories="ZWR1Y2F0aW9uJTJDYW5ub3VuY2VtZW50" data-listing-date-sort="1634713200000" data-listing-file-modified-sort="1755465617978" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="330">
+<div class="thumbnail"><a href="../blog/nimble-online-tutorial-november-18-2021.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/nimble-online-tutorial-november-18-2021.html" class="no-external">NIMBLE online tutorial, November 18, 2021</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZWR1Y2F0aW9u'); return false;">education</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/nimble-online-tutorial-november-18-2021.html" class="no-external">
+We’ll be giving a two-hour tutorial on NIMBLE, sponsored by the environmental Bayes (enviBayes) section of ISBA (The International Society for Bayesian Analysis), on…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/nimble-online-tutorial-november-18-2021.html" class="no-external">
+<div class="listing-date">
+Oct 20, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="19" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1634108400000" data-listing-file-modified-sort="1755465620206" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="431">
+<div class="thumbnail"><a href="../blog/version-0-12-1-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-12-1-of-nimble-released.html" class="no-external">Version 0.12.1 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-12-1-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-12-1-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Oct 13, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="20" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1628578800000" data-listing-file-modified-sort="1755465618853" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2269">
+<div class="thumbnail"><a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">Posterior predictive sampling and other post-MCMC use of samples in NIMBLE</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">
+(Prepared by Chris Paciorek and Sally Paganin.)
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">
+<div class="listing-date">
+Aug 10, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="21" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1622617200000" data-listing-file-modified-sort="1755465619995" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="154">
+<div class="thumbnail"><a href="../blog/version-0-11-1-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-11-1-of-nimble-released.html" class="no-external">Version 0.11.1 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-11-1-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-11-1-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Jun 2, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="22" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1619247600000" data-listing-file-modified-sort="1755465619796" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="173">
+<div class="thumbnail"><a href="../blog/version-0-11-0-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-11-0-of-nimble-released.html" class="no-external">Version 0.11.0 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-11-0-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-11-0-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Apr 24, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="23" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1616655600000" data-listing-file-modified-sort="1755465616292" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3002">
+<div class="thumbnail"><a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">
+(Prepared by Claudia Wehrhahn)
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">
+<div class="listing-date">
+Mar 25, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="24" data-categories="ZWR1Y2F0aW9uJTJDYW5ub3VuY2VtZW50" data-listing-date-sort="1614931200000" data-listing-file-modified-sort="1755465618608" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="318">
+<div class="thumbnail"><a href="../blog/nimble-virtual-short-course-may-26-28.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/nimble-virtual-short-course-may-26-28.html" class="no-external">NIMBLE virtual short course, May 26-28</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZWR1Y2F0aW9u'); return false;">education</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/nimble-virtual-short-course-may-26-28.html" class="no-external">
+We’ll be holding a virtual training workshop on NIMBLE, May 26-28, from 8 am to 1 pm US Pacific (California) time each day. NIMBLE is a system for building and sharing…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/nimble-virtual-short-course-may-26-28.html" class="no-external">
+<div class="listing-date">
+Mar 5, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="25" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1612252800000" data-listing-file-modified-sort="1755465617742" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="43">
+<div class="thumbnail"><a href="../blog/nimble-is-hiring-a-programmer-2.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/nimble-is-hiring-a-programmer-2.html" class="no-external">NIMBLE is hiring a programmer</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/nimble-is-hiring-a-programmer-2.html" class="no-external">
+The NIMBLE development team is hiring for a one-year programmer position. We are looking for someone with R and C++ experience. There is also a possibility of a part-time…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/nimble-is-hiring-a-programmer-2.html" class="no-external">
+<div class="listing-date">
+Feb 2, 2021
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="26" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1606723200000" data-listing-file-modified-sort="1755465619516" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="187">
+<div class="thumbnail"><a href="../blog/version-0-10-1-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-10-1-of-nimble-released.html" class="no-external">Version 0.10.1 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-10-1-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-10-1-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Nov 30, 2020
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="27" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1602658800000" data-listing-file-modified-sort="1755465619289" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="132">
+<div class="thumbnail"><a href="../blog/version-0-10-0-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-10-0-of-nimble-released.html" class="no-external">Version 0.10.0 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-10-0-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-10-0-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Oct 14, 2020
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="28" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1590562800000" data-listing-file-modified-sort="1755465621479" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="170">
+<div class="thumbnail"><a href="../blog/version-0-9-1-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-9-1-of-nimble-released.html" class="no-external">Version 0.9.1 of NIMBLE released</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-9-1-of-nimble-released.html" class="no-external">
+We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-9-1-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+May 27, 2020
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="29" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1587193200000" data-listing-file-modified-sort="1755465617136" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1224">
+<div class="thumbnail"><a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="no-external">nimbleEcology: custom NIMBLE distributions for ecologists</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="no-external">
+Prepared by Ben Goldstein.
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="no-external">
+<div class="listing-date">
+Apr 18, 2020
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="30" data-categories="ZWR1Y2F0aW9uJTJDYW5ub3VuY2VtZW50" data-listing-date-sort="1586156400000" data-listing-file-modified-sort="1755465619081" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="276">
+<div class="thumbnail"><a href="../blog/registration-open-for-online-nimble-short-course-june-3-5-2020.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/registration-open-for-online-nimble-short-course-june-3-5-2020.html" class="no-external">registration open for online NIMBLE short course, June 3-5, 2020</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZWR1Y2F0aW9u'); return false;">education</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/registration-open-for-online-nimble-short-course-june-3-5-2020.html" class="no-external">
+Registration is now open for a three-day <strong>online</strong> training workshop on NIMBLE, June 3-5, 2020, 9 am – 2 pm California time (noon – 5 pm US EDT). This online workshop will be…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/registration-open-for-online-nimble-short-course-june-3-5-2020.html" class="no-external">
+<div class="listing-date">
+Apr 6, 2020
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="31" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1501311600000" data-listing-file-modified-sort="1755465621264" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="285">
+<div class="thumbnail"><a href="../blog/version-0-6-0-of-nimble-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-6-0-of-nimble-released.html" class="no-external">Version 0.6-6 of NIMBLE released!</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-6-0-of-nimble-released.html" class="no-external">
+We’ve just released the newest version of NIMBLE on CRAN and on our website. Version 0.6-6 has some important new features, and more are on the way in the next few months.
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-6-0-of-nimble-released.html" class="no-external">
+<div class="listing-date">
+Jul 29, 2017
+</div>
+<div class="listing-author">
+NIMBLE Development Team
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="32" data-categories="cmVsZWFzZSUyQ2Fubm91bmNlbWVudA==" data-listing-date-sort="1441004400000" data-listing-file-modified-sort="1755465621058" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="110">
+<div class="thumbnail"><a href="../blog/version-0-4-released.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../blog/version-0-4-released.html" class="no-external">Version 0.4 released!</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVsZWFzZQ=='); return false;">release</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('YW5ub3VuY2VtZW50'); return false;">announcement</div>
+
+</div>
+<div class="delink listing-description"><a href="../blog/version-0-4-released.html" class="no-external">
+In late July we released a major new version of NIMBLE, 0.4. Ok, that’s still a low version number, indicating we have a lot we still want to build and improve, but this…
+</a></div>
+</div>
+<div class="metadata">
+<a href="../blog/version-0-4-released.html" class="no-external">
+<div class="listing-date">
+Aug 31, 2015
 </div>
 <div class="listing-author">
 NIMBLE Development Team
@@ -683,6 +1441,9 @@ NIMBLE Development Team
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

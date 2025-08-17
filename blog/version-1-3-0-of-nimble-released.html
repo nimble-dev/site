@@ -7,8 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2024-03-15">
-<meta name="description" content="New features and improvements in NIMBLE 1.3.0">
+<meta name="dcterms.date" content="2024-12-21">
 
 <title>Version 1.3.0 of NIMBLE released – NIMBLE</title>
 <style>
@@ -22,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -227,9 +191,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
     <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="../index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -280,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
+ <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -342,24 +307,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#key-new-features" id="toc-key-new-features" class="nav-link active" data-scroll-target="#key-new-features">Key New Features</a>
-  <ul class="collapse">
-  <li><a href="#enhanced-automatic-differentiation" id="toc-enhanced-automatic-differentiation" class="nav-link" data-scroll-target="#enhanced-automatic-differentiation">Enhanced Automatic Differentiation</a></li>
-  <li><a href="#new-distributions" id="toc-new-distributions" class="nav-link" data-scroll-target="#new-distributions">New Distributions</a></li>
-  <li><a href="#performance-improvements" id="toc-performance-improvements" class="nav-link" data-scroll-target="#performance-improvements">Performance Improvements</a></li>
-  </ul></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#breaking-changes" id="toc-breaking-changes" class="nav-link" data-scroll-target="#breaking-changes">Breaking Changes</a></li>
-  <li><a href="#bug-fixes" id="toc-bug-fixes" class="nav-link" data-scroll-target="#bug-fixes">Bug Fixes</a></li>
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -373,11 +322,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   </div>
 
-<div>
-  <div class="description">
-    New features and improvements in NIMBLE 1.3.0
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
@@ -392,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 15, 2024</p>
+      <p class="date">December 21, 2024</p>
     </div>
   </div>
   
@@ -404,59 +348,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>We are pleased to announce the release of NIMBLE version 1.3.0. This release includes several new features, performance improvements, and bug fixes.</p>
-<section id="key-new-features" class="level2">
-<h2 class="anchored" data-anchor-id="key-new-features">Key New Features</h2>
-<section id="enhanced-automatic-differentiation" class="level3">
-<h3 class="anchored" data-anchor-id="enhanced-automatic-differentiation">Enhanced Automatic Differentiation</h3>
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250427232859/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>Version 1.3.0 provides some new and improved functionality, plus some bug fixes and improved error trapping.</p>
+<p>The new and improved functionality includes:</p>
 <ul>
-<li>Improved performance for AD-enabled functions</li>
-<li>Better integration with MCMC samplers</li>
-<li>Support for more mathematical operations</li>
+<li>A new multivariate sampler, the Barker proposal sampler (<code>sampler_barker</code>). We encourage users to try this sampler in place of the block Metropolis <code>RW_block</code> sampler and let us know how well it works. The Barker sampler uses gradient information and may improve adaptation behavior, including<br>
+better mixing when parameters are on different scales or the initialproposal scale is too large.</li>
+<li>An improved Laplace/AGHQ implementation that includes use of the <code>nlminb</code> optimizer for both inner and outer optimization (for better optimization performance), improved messaging and output naming, returning the log-likelihood and degrees of freedom for model selection calculations, and unified control of optimization method and other controls at either the build stage or through the <code>updateSettings</code> method.</li>
+<li>The addition of the BOBYQA optimization method through <code>nimOptim</code>, registered via <code>nimOptimMethod</code>.</li>
 </ul>
-</section>
-<section id="new-distributions" class="level3">
-<h3 class="anchored" data-anchor-id="new-distributions">New Distributions</h3>
+<p>In addition to the new and improved functionality above, other bug fixes, improved error trapping, and enhancements include:</p>
 <ul>
-<li>Additional built-in distributions for specialized models</li>
-<li>Improved parameterizations for existing distributions</li>
+<li>Preventing the use of nimbleFunction method names and nimbleFunction names that conflict with names in the nimble language (DSL).</li>
+<li>More carefully checking for and warning of cases of NaN and non-finite log probability values in various samplers that in some cases may indicate invalid MCMC sampling.</li>
+<li>More carefully handling of NaN and non-finite log probability values in the CRP sampler.</li>
+<li>Error trapping cases of dynamic indices producing a non-scalar result in AD-enabled models and provide a suggested work-around.</li>
+<li>Error trapping use of a non-existent nimbleList.</li>
+<li>Preventing use of a single seed when running multiple chains via <code>runMCMC</code>.</li>
+<li>Improving messaging related to lack of derivative support for functions.</li>
+<li>Adding information about model macros to the manual.</li>
+<li>Fixing bug in caching values in the CRP sampler when maximum number of clusters is exceeded, which would have caused incorrect sampling (albeit with the user having been warned that they should increase the maximum number of clusters).</li>
+<li>Fixing an issue preventing use of nimbleList elements in <code>nimCat</code>.</li>
+<li>Preventing an adaptation interval of one for various block samplers for which an interval of one leads to an error.</li>
+<li>Allowing <code>runLaplace</code> to use an uncompiled Laplace object.</li>
 </ul>
-</section>
-<section id="performance-improvements" class="level3">
-<h3 class="anchored" data-anchor-id="performance-improvements">Performance Improvements</h3>
-<ul>
-<li>Faster compilation times</li>
-<li>Optimized MCMC sampling</li>
-<li>Reduced memory usage</li>
-</ul>
-</section>
-</section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Install the latest version from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimble"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Or from our repository:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimble"</span>, <span class="at">repos =</span> <span class="st">"https://r-nimble.org"</span>, <span class="at">type =</span> <span class="st">"source"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="breaking-changes" class="level2">
-<h2 class="anchored" data-anchor-id="breaking-changes">Breaking Changes</h2>
-<p>Please note the following changes that may affect existing code: - [List any breaking changes here]</p>
-</section>
-<section id="bug-fixes" class="level2">
-<h2 class="anchored" data-anchor-id="bug-fixes">Bug Fixes</h2>
-<p>This release fixes several issues reported by users: - Fixed issue with [specific bug] - Improved error messages for [specific case] - Resolved memory leak in [specific function]</p>
-</section>
-<section id="documentation" class="level2">
-<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
-<p>Updated documentation is available in our <a href="../documentation.html">User Manual</a>.</p>
-</section>
-<section id="acknowledgments" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
-<p>We thank the community for their contributions, bug reports, and feedback. Special thanks to contributors who helped with this release.</p>
-<p>For a complete list of changes, see the NEWS file in the package.</p>
+<p>Please see the <a href="https://web.archive.org/web/20250427232859/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2025-08-17">
+<meta name="dcterms.date" content="2023-06-21">
 
-<title>Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling – NIMBLE</title>
+<title>Version 1.0.1 of NIMBLE released, fixing a bug in version 1.0.0 affecting certain models – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-0-0-of-nimble-released.html">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Version 1.0.1 of NIMBLE released, fixing a bug in version 1.0.0 affecting certain models</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -274,7 +274,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link active">
+  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
@@ -313,9 +313,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-0-0-of-nimble-released.html">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</h1>
+<h1 class="title">Version 1.0.1 of NIMBLE released, fixing a bug in version 1.0.0 affecting certain models</h1>
   <div class="quarto-categories">
     <div class="quarto-category">release</div>
     <div class="quarto-category">announcement</div>
@@ -336,7 +336,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 17, 2025</p>
+      <p class="date">June 21, 2023</p>
     </div>
   </div>
   
@@ -348,24 +348,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
-<p>Version 1.0.0 provides substantial new functionality. This includes:</p>
-<ul>
-<li>A Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.</li>
-<li>A Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the newly-released <a href="https://web.archive.org/web/20250321192726/https://cran.r-project.org/web/packages/nimbleHMC/index.html">nimbleHMC</a> package).</li>
-<li>Support in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.</li>
-<li>A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.</li>
-</ul>
-<p>These are documented via the R help system and <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/html_manual/cha-AD.html">a new section at the end of our User Manual</a>. We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the <a href="https://web.archive.org/web/20250321192726/https://r-nimble.org/more/issues-and-groups">nimble-users list</a>.</p>
-<p>In addition to the new functionality above, other enhancements and bug fixes include:</p>
-<ul>
-<li>Fixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (<code>runCrossValidate</code>) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.</li>
-<li>Fixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.</li>
-<li>Improving control of the <code>addSampler</code> method for MCMC.</li>
-<li>Improving the WAIC system in a few small ways.</li>
-<li>Enhancing error trapping and warning messages.</li>
-</ul>
-<p>Please see the <a href="https://web.archive.org/web/20250321192726/https://github.com/nimble-dev/nimble/blob/devel/packages/nimble/inst/NEWS.md">NEWS file</a> in the package source for more details.</p>
+<p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>Version 1.0.1 follows shortly after 1.0.0 and fixes an issue and a bug introduced in version 1.0.0 causing data to be set incorrectly in certain models.</p>
+<p>Both cases occur only when a variable (e.g., “x”) contains both stochastic nodes (e.g.&nbsp;“x[2] ~ <some distribution="">”) and <em>either</em> deterministic nodes (e.g.&nbsp;“x[3] &lt;- <some calculation="">”) or right-hand-side-only nodes (e.g.&nbsp;“x[4]” appears only on the right-hand-side, like an explanatory value).</some></some></p>
+<p>The issue involves a change of behavior (relative to previous nimble versions) when both setting data values for some nodes and initial values for other nodes within the same variable (that satisfies the previous condition). Data values for right-hand-side-only nodes were replaced by initial values (inits) if both were provided. Version 1.0.1 reverts to previous behavior that data values are not replaced by initial values in that situation.</p>
+<p>The bug involves models where (for a variable satisfying the previous condition) not every scalar element within the variable is used as a node and some of the nodes in the variable are data. In that situation, data values may be set incorrectly. This could typically occur in models with autoregressive structure directly on some data nodes (such as may be the case for capture-recapture models involving many individual capture histories within the same variable, indexed by individual and time, with some individuals not present for the entire time series, resulting in unused scalar elements of the variable).</p>
+<p>Please see the <a href="https://web.archive.org/web/20250427225827/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
 
 
 

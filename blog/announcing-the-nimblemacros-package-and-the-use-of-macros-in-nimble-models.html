@@ -7,10 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2024-04-01">
-<meta name="description" content="Introduction to the new nimbleMacros package for enhanced model specification">
+<meta name="dcterms.date" content="2025-03-19">
 
-<title>Announcing the nimbleMacros package and the use of macros in NIMBLE models – NIMBLE</title>
+<title>announcing the nimbleMacros package and the use of macros in NIMBLE models – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -227,9 +191,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools tools-wide">
     <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
     <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="../index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -238,7 +203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">Announcing the nimbleMacros package and the use of macros in NIMBLE models</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">announcing the nimbleMacros package and the use of macros in NIMBLE models</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -280,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
+ <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -342,43 +307,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#what-are-nimble-macros" id="toc-what-are-nimble-macros" class="nav-link active" data-scroll-target="#what-are-nimble-macros">What are NIMBLE Macros?</a></li>
-  <li><a href="#key-features" id="toc-key-features" class="nav-link" data-scroll-target="#key-features">Key Features</a>
-  <ul class="collapse">
-  <li><a href="#template-based-model-components" id="toc-template-based-model-components" class="nav-link" data-scroll-target="#template-based-model-components">Template-based Model Components</a></li>
-  <li><a href="#conditional-model-structure" id="toc-conditional-model-structure" class="nav-link" data-scroll-target="#conditional-model-structure">Conditional Model Structure</a></li>
-  <li><a href="#integration-with-nimblefunctions" id="toc-integration-with-nimblefunctions" class="nav-link" data-scroll-target="#integration-with-nimblefunctions">Integration with nimbleFunctions</a></li>
-  </ul></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#community-feedback" id="toc-community-feedback" class="nav-link" data-scroll-target="#community-feedback">Community Feedback</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">Announcing the nimbleMacros package and the use of macros in NIMBLE models</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">announcing the nimbleMacros package and the use of macros in NIMBLE models</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Announcing the nimbleMacros package and the use of macros in NIMBLE models</h1>
+<h1 class="title">announcing the nimbleMacros package and the use of macros in NIMBLE models</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">package</div>
-    <div class="quarto-category">macros</div>
-    <div class="quarto-category">modeling</div>
+    <div class="quarto-category">announcement</div>
   </div>
   </div>
 
-<div>
-  <div class="description">
-    Introduction to the new nimbleMacros package for enhanced model specification
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
@@ -393,7 +335,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 1, 2024</p>
+      <p class="date">March 19, 2025</p>
     </div>
   </div>
   
@@ -405,76 +347,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>We’re excited to announce the release of the <code>nimbleMacros</code> package, which extends NIMBLE’s modeling capabilities with a powerful macro system.</p>
-<section id="what-are-nimble-macros" class="level2">
-<h2 class="anchored" data-anchor-id="what-are-nimble-macros">What are NIMBLE Macros?</h2>
-<p>Macros in NIMBLE allow you to define reusable code patterns that can be expanded during model compilation. This helps reduce code duplication and makes complex models more maintainable.</p>
-</section>
-<section id="key-features" class="level2">
-<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
-<section id="template-based-model-components" class="level3">
-<h3 class="anchored" data-anchor-id="template-based-model-components">Template-based Model Components</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a macro for a hierarchical prior</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>hierarchical_prior <span class="ot">&lt;-</span> <span class="fu">nimbleMacro</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">0.001</span>),</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  tau <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="fl">0.001</span>, <span class="fl">0.001</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(tau)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="conditional-model-structure" class="level3">
-<h3 class="anchored" data-anchor-id="conditional-model-structure">Conditional Model Structure</h3>
-<p>Macros can include conditional logic to adapt model structure based on data or parameters.</p>
-</section>
-<section id="integration-with-nimblefunctions" class="level3">
-<h3 class="anchored" data-anchor-id="integration-with-nimblefunctions">Integration with nimbleFunctions</h3>
-<p>Seamlessly integrate macros with existing nimbleFunction workflows.</p>
-</section>
-</section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Install the nimbleMacros package:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From CRAN (when available)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimbleMacros"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or from GitHub</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"nimble-dev/nimbleMacros"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>Here’s a simple example of using macros in a hierarchical model:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimbleMacros)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define macro for random effects</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>random_effects_macro <span class="ot">&lt;-</span> <span class="fu">nimbleMacro</span>(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    theta[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu, tau)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="sc">~</span> <span class="fu">dnorm</span>(theta[i], sigma)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Use in model</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>model_code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Hyperpriors</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  mu <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">0.001</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  tau <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="fl">0.001</span>, <span class="fl">0.001</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="fl">0.001</span>, <span class="fl">0.001</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Expand macro</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">random_effects_macro</span>()</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="documentation" class="level2">
-<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
-<p>Complete documentation and examples are available in the package vignettes and on our <a href="../documentation.html">documentation page</a>.</p>
-</section>
-<section id="community-feedback" class="level2">
-<h2 class="anchored" data-anchor-id="community-feedback">Community Feedback</h2>
-<p>We welcome feedback and suggestions for the nimbleMacros package. Please share your experiences and ideas on our <a href="../groups-and-issues.html">discussion forum</a>.</p>
-<p>This package represents our ongoing commitment to making NIMBLE more flexible and user-friendly for complex statistical modeling tasks.</p>
+<p>Recent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>A NIMBLE macro is a succinct syntax that expands to create the NIMBLE model code for part or all of a model.</p>
+<p>We recently released the first version of the <a href="https://web.archive.org/web/20250427235758/https://cran.r-project.org/web/packages/nimbleMacros/index.html"><code>nimbleMacros</code> package on CRAN</a>, which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the <code>LM</code> (“linear model”) macro like this:</p>
+<pre><code>library(nimbleMacros)
+
+code &lt;- nimbleCode({
+&nbsp; LM(weight[1:N] ~ Time + (1|Chick))
+})</code></pre>
+<p>with the formula syntax mimicking that of the lme4 package. After building the model based on the <code>code</code> object, you can see the model code produced after the macro is expanded with <code>model$getCode()</code>. The nimbleMacros package also includes macros for creating linear predictors and for loops, and we plan to add additional macros in the future.</p>
+<p>Developers can use the tools in <code>nimble</code> itself to create their own macros. See <a href="https://web.archive.org/web/20250427235758/https://r-nimble.org/html_manual/cha-user-defined.html#sec:user-macros">Section 12.4 of the NIMBLE user manual</a>, <a href="https://web.archive.org/web/20250427235758/https://cran.r-project.org/web/packages/nimbleMacros/vignettes/nimbleMacros.html">the <code>nimbleMacros</code> vignette</a>, or <code>help(buildMacro)</code> for more information.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
