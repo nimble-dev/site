@@ -70,6 +70,8 @@ website:
         href: "https://github.com/nimble-dev/nimble"
       - icon: twitter
         href: "https://twitter.com/R_nimble"
+      - icon: rss
+        href: index.xml
 
   sidebar:
     style: "docked"
