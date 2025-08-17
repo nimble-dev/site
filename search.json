@@ -1,0 +1,810 @@
+[
+  {
+    "objectID": "contributing.html",
+    "href": "contributing.html",
+    "title": "Contributions",
+    "section": "",
+    "text": "We welcome contributions to help improve NIMBLE.\nThese may include:\n\nNew algorithms to the nimble repository.\nUsage examples to the demos repository.\nImprovements or updates to our documentation in the docs repository.\nTutorial or workshop materials to the outreach repository.\n\n\nHow to Contribute\nContributions to NIMBLE can be made by forking the NIMBLE repository and submitting a pull request with your changes.\nIf you have questions about this workflow, or would like to request membership to the NIMBLE Github organization, please contact the development team."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "NIMBLE",
+    "section": "",
+    "text": "Other packages that use the BUGS language are only for Markov chain Monte Carlo (MCMC). With NIMBLE, you can turn BUGS code into model objects and use them for whatever algorithm you want. That includes algorithms provided with NIMBLE and algorithms you write using nimbleFunctions. NIMBLE extends BUGS by allowing multiple parameterizations for distributions, user-written functions and distributions, and more."
+  },
+  {
+    "objectID": "index.html#write-statistical-models-in-the-bugs-language-from-r",
+    "href": "index.html#write-statistical-models-in-the-bugs-language-from-r",
+    "title": "NIMBLE",
+    "section": "",
+    "text": "Other packages that use the BUGS language are only for Markov chain Monte Carlo (MCMC). With NIMBLE, you can turn BUGS code into model objects and use them for whatever algorithm you want. That includes algorithms provided with NIMBLE and algorithms you write using nimbleFunctions. NIMBLE extends BUGS by allowing multiple parameterizations for distributions, user-written functions and distributions, and more."
+  },
+  {
+    "objectID": "index.html#use-and-customize-nimbles-statistical-algorithms",
+    "href": "index.html#use-and-customize-nimbles-statistical-algorithms",
+    "title": "NIMBLE",
+    "section": "Use and customize NIMBLE’s statistical algorithms",
+    "text": "Use and customize NIMBLE’s statistical algorithms\n\nNIMBLE provides MCMC, sequential Monte Carlo (particle filters), and more.\nNIMBLE algorithms are written so they can adapt to different statistical models. For MCMC, NIMBLE can assign a default set of sampler choices, but you can customize the samplers from R. For example, you can choose what parameters to sample in a block, and you can easily write your own samplers and include them."
+  },
+  {
+    "objectID": "index.html#compile-your-models-and-algorithms-for-fast-execution.",
+    "href": "index.html#compile-your-models-and-algorithms-for-fast-execution.",
+    "title": "NIMBLE",
+    "section": "Compile your models and algorithms for fast execution.",
+    "text": "Compile your models and algorithms for fast execution.\n\nNIMBLE generates C++ code customized to your model and algorithms, compiles it, and lets you use it from R.\nYou don’t need to know anything about C++ to use NIMBLE’s compiler. NIMBLE provides R functions to call the compiled algorithms, and you get the output back in R. (You do need to have a C++ compiler and related tools installed. See installation instructions.)"
+  },
+  {
+    "objectID": "index.html#write-your-own-algorithms-in-nimble",
+    "href": "index.html#write-your-own-algorithms-in-nimble",
+    "title": "NIMBLE",
+    "section": "Write your own algorithms in NIMBLE",
+    "text": "Write your own algorithms in NIMBLE\n\nWriting new statistical methods using nimbleFunctions in R is similar to writing R functions.\nIf you have a method you’d like to implement, you can program it using nimbleFunctions. The syntax is very similar to R, but you’ll need to learn some details to get started. The nimbleFunction system allows programmers to control how a particular algorithm should adapt to each model and/or variables it is applied to. The NIMBLE compiler can make nimbleFunctions run very efficiently."
+  },
+  {
+    "objectID": "index.html#compile-numerical-work-in-r-via-c-without-coding-any-c.",
+    "href": "index.html#compile-numerical-work-in-r-via-c-without-coding-any-c.",
+    "title": "NIMBLE",
+    "section": "Compile numerical work in R via C++ without coding any C++.",
+    "text": "Compile numerical work in R via C++ without coding any C++.\n\nDon’t care about models written in the BUGS language? Just want to try making your R code to go faster?\nnimbleFunctions don’t need to use BUGS models, so you can use them to speed up many kinds of numerical computations for any other purpose. The NIMBLE compiler can handle math, including linear algebra and distributions. It also supports basic iteration, flow control, and data structures."
+  },
+  {
+    "objectID": "documentation.html",
+    "href": "documentation.html",
+    "title": "Documentation",
+    "section": "",
+    "text": "New as of version 0.9.1:\n\nThe NIMBLE cheatsheet — a compact two-page overview and reference guide."
+  },
+  {
+    "objectID": "documentation.html#cheatsheet",
+    "href": "documentation.html#cheatsheet",
+    "title": "Documentation",
+    "section": "",
+    "text": "New as of version 0.9.1:\n\nThe NIMBLE cheatsheet — a compact two-page overview and reference guide."
+  },
+  {
+    "objectID": "documentation.html#user-manual",
+    "href": "documentation.html#user-manual",
+    "title": "Documentation",
+    "section": "User Manual",
+    "text": "User Manual\n\nAn HTML version of the manual.\nA PDF version of the manual.\n\nThe manual provides information for those wishing to use NIMBLE to work with their own models as well as algorithm developers wishing to write algorithms using NIMBLE. Old versions of the manual can be found here."
+  },
+  {
+    "objectID": "documentation.html#training-materials",
+    "href": "documentation.html#training-materials",
+    "title": "Documentation",
+    "section": "Training materials",
+    "text": "Training materials\nPlease see our collection of Github repositories with training materials for materials from our various NIMBLE training workshops, including workshops developed for statisticans and workshops developed for ecologists."
+  },
+  {
+    "objectID": "documentation.html#other-links",
+    "href": "documentation.html#other-links",
+    "title": "Documentation",
+    "section": "Other links",
+    "text": "Other links\n\nExamples of spatial and spatio-temporal models (specifically for disease mapping) provided by Andrew Lawson.\nBlog post on converting from JAGS or BUGS to NIMBLE.\nFirst and second blog posts on support for Bayesian non-parametric distributions.\nBlog post on reversible jump sampling for variable selection.\nUsing NIMBLE for the examples in the book Applied Hierarchical Modeling in Ecology.."
+  },
+  {
+    "objectID": "documentation.html#some-papers-about-nimble",
+    "href": "documentation.html#some-papers-about-nimble",
+    "title": "Documentation",
+    "section": "Some papers about NIMBLE",
+    "text": "Some papers about NIMBLE\n\nMotivation and design of NIMBLE:\nde Valpine, P., D. Turek, C.J. Paciorek, C. Anderson-Bergman, D. Temple Lang, and R. Bodik. 2017. Programming with models: writing statistical algorithms for general model structures with NIMBLE. Journal of Computational and Graphical Statistics 26:403-413. https://doi.org/10.1080/10618600.2016.1172487.\n\n\nNIMBLE for Hidden Markov Models:\nTurek, D., P. de Valpine, and C.J. Paciorek. 2016. Efficient Markov chain Monte Carlo sampling for hierarchical hidden Markov models. Environmental and Ecological Statistics 23:549–564. https://doi.org/10.1007/s10651-016-0353-z\n\n\nNIMBLE for Ecological Models:\nPonisio, L.C., P. de Valpine, N. Michaud, and D. Turek. 2020. One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE. Ecology & Evolution 10: 2385– 2416. https://doi.org/10.1002/ece3.6053\n\n\nSequential Monte Carlo (particle filtering) methods in NIMBLE:\nMichaud, N., P. de Valpine, D. Turek, C.J. Paciorek, and D. Nguyen. 2021. Sequential Monte Carlo Methods in the nimble and nimbleSMC R Packages. Journal of Statistical Software 100(3): 1-39. https://doi.org/10.18637/jss.v100.i03\n\n\nSpatial Epidemiology in NIMBLE:\nLawson, A.B. 2020. NIMBLE for Bayesian Disease Mapping. Spatial and Spatio-temporal Epidemiology 33. https://doi.org/10.1016/j.sste.2020.100323\n\n\nNIMBLE for item response theory models:\nPaganin, S., C.J. Paciorek, C. Wehrhahn, A. Rodríguez, S. Rabe-Hesketh, and P. de Valpine. 2021. Computational methods for Bayesian semiparametric Item Response Theory models. https://arxiv.org/abs/2101.11583.\n\n\nWAIC in NIMBLE\nHug, J.E., and C.J. Paciorek. 2021. A numerically stable online implementation and exploration of WAIC through variations of the predictive density, using NIMBLE. https://arxiv.org/abs/2106.13359."
+  },
+  {
+    "objectID": "documentation.html#packages-with-extensions-and-applications-of-nimble",
+    "href": "documentation.html#packages-with-extensions-and-applications-of-nimble",
+    "title": "Documentation",
+    "section": "Packages with extensions and applications of NIMBLE",
+    "text": "Packages with extensions and applications of NIMBLE\nA partial list of packages that extend or use nimble.\n\nnimbleSMC: all of NIMBLE’s sequential Monte Carlo (aka particle filtering) algorithms; migrated out of the core NIMBLE package as of version 0.10.0.\nnimbleEcology: distributions commonly used in ecology for use in nimble models\nnimbleSCR: utility functions, distributions, and methods for improving Markov chain Monte Carlo (MCMC) sampling efficiency for ecological spatial capture-recapture (SCR) models.\nbayesNSGP: Bayesian analysis of (non-stationary) Gaussian processes, using nimble as the computational engine.\nbcgam: Bayesian constrained generalized linear models\nbridgesampling: functions for estimating marginal likelihoods, Bayes factors, posterior model probabilities, and normalizing constants in general, via different versions of bridge sampling.\nnimbleDistance: user-defined distributions that can be used to implement distance sampling models in nimble.\nnimbleCarbon: utility functions and bespoke probability distributions for the Bayesian analyses of radiocarbon dates."
+  },
+  {
+    "objectID": "groups-and-issues.html",
+    "href": "groups-and-issues.html",
+    "title": "Groups and Issues",
+    "section": "",
+    "text": "We will post (occasional) announcements on the nimble-announce Google groups site.\nWe have an email list on the nimble-users Google groups site. This is intended for questions about NIMBLE, requests for new features, and other discussion of NIMBLE."
+  },
+  {
+    "objectID": "groups-and-issues.html#groups",
+    "href": "groups-and-issues.html#groups",
+    "title": "Groups and Issues",
+    "section": "",
+    "text": "We will post (occasional) announcements on the nimble-announce Google groups site.\nWe have an email list on the nimble-users Google groups site. This is intended for questions about NIMBLE, requests for new features, and other discussion of NIMBLE."
+  },
+  {
+    "objectID": "groups-and-issues.html#issues",
+    "href": "groups-and-issues.html#issues",
+    "title": "Groups and Issues",
+    "section": "Issues",
+    "text": "Issues\nIssues and bugs can be reported via the issue tracker of the nimble repository or via the nimble-users Google groups site. General “how to” questions are welcome. If reporting a problem, please provide a reproducible example. For compilation errors, please provide your operating system."
+  },
+  {
+    "objectID": "download.html",
+    "href": "download.html",
+    "title": "Download",
+    "section": "",
+    "text": "Before installing NIMBLE, you need a compiler and related tools such as make that R can use. You’ll need these anyway to use NIMBLE.\nOn Windows you can get these by installing Rtools.exe from here. Important: with R version 4.0 or newer, for which you need Rtools40, be sure to follow the instructions in the section “Putting Rtools on the PATH” to set the PATH after the installation is complete. For older versions of R, for which you would use Rtools35.exe, be sure to check the box that will modify your PATH during the installation process.\nOn Mac OS X you can get these by installing the XCode command line tools. (The full XCode development environment is fine but not required.)\nMore details and troubleshooting tips are provided in Section 4 of the User Manual.\nIf you install a new version of R, you will need to reinstall NIMBLE."
+  },
+  {
+    "objectID": "download.html#prerequisites",
+    "href": "download.html#prerequisites",
+    "title": "Download",
+    "section": "",
+    "text": "Before installing NIMBLE, you need a compiler and related tools such as make that R can use. You’ll need these anyway to use NIMBLE.\nOn Windows you can get these by installing Rtools.exe from here. Important: with R version 4.0 or newer, for which you need Rtools40, be sure to follow the instructions in the section “Putting Rtools on the PATH” to set the PATH after the installation is complete. For older versions of R, for which you would use Rtools35.exe, be sure to check the box that will modify your PATH during the installation process.\nOn Mac OS X you can get these by installing the XCode command line tools. (The full XCode development environment is fine but not required.)\nMore details and troubleshooting tips are provided in Section 4 of the User Manual.\nIf you install a new version of R, you will need to reinstall NIMBLE."
+  },
+  {
+    "objectID": "download.html#current-version-1.3.0",
+    "href": "download.html#current-version-1.3.0",
+    "title": "Download",
+    "section": "Current version (1.3.0)",
+    "text": "Current version (1.3.0)\n\nInstalling from CRAN\nNIMBLE is available from CRAN as a source package and as a binary package for Windows and Mac OS. Please note that even if you install from CRAN, you still need to have a compiler and related tools installed as discussed above and in Section 4 of our User Manual.\ninstall.packages(\"nimble\")\n\n\nInstalling from R-nimble.org\nIf you prefer, you can install the package directly from our repository as follows.\nIf you install in this manner, please first install the igraph, R6, coda, numDeriv, and pracma R packages as these are dependencies and will not be automatically installed when installing from source.\nOnly the installation from source works when installing from our repository. Invoke the following at the R command line:\n# Install from source for MacOS, Linux, or Windows:\ninstall.packages(\"nimble\", repos = \"https://r-nimble.org\", type = \"source\")\n# the 'type = \"source\"' is unnecessary for Linux\nOr download the source package for installation via R CMD INSTALL on Linux, Mac, or Windows\nThe NIMBLE source code can be viewed by unzipping the source package tarball or directly on our GitHub repository."
+  },
+  {
+    "objectID": "download.html#installing-from-github",
+    "href": "download.html#installing-from-github",
+    "title": "Download",
+    "section": "Installing from GitHub",
+    "text": "Installing from GitHub\nYou can install either the current release or the latest development version from GitHub.\n# For the current release:\nremotes::install_github(\"nimble-dev/nimble\", ref = \"master\", subdir = \"packages/nimble\")\n\n# For the development release:\nremotes::install_github(\"nimble-dev/nimble\", ref = \"devel\", subdir = \"packages/nimble\")"
+  },
+  {
+    "objectID": "download.html#older-versions",
+    "href": "download.html#older-versions",
+    "title": "Download",
+    "section": "Older versions",
+    "text": "Older versions\nPrevious releases of NIMBLE can be found here.\nFor a summary of changes in each version, please see the News page or the NEWS file in the package."
+  },
+  {
+    "objectID": "download.html#beta-testing-of-automatic-differentiation-features",
+    "href": "download.html#beta-testing-of-automatic-differentiation-features",
+    "title": "Download",
+    "section": "Beta testing of automatic differentiation features",
+    "text": "Beta testing of automatic differentiation features\nAutomatic differentiation, including support for Hamiltonian Monte Carlo and Laplace (and AGHQ) approximation is part of NIMBLE as of the version 1.0.0 release. Instructions for using it are in our User Manual."
+  },
+  {
+    "objectID": "archived-versions-of-nimble-and-the-user-manual.html",
+    "href": "archived-versions-of-nimble-and-the-user-manual.html",
+    "title": "Archived Versions of NIMBLE and the User Manual",
+    "section": "",
+    "text": "This page provides access to previous versions of NIMBLE and their corresponding documentation."
+  },
+  {
+    "objectID": "archived-versions-of-nimble-and-the-user-manual.html#current-version",
+    "href": "archived-versions-of-nimble-and-the-user-manual.html#current-version",
+    "title": "Archived Versions of NIMBLE and the User Manual",
+    "section": "Current Version",
+    "text": "Current Version\n\nNIMBLE 1.3.0 - Download | User Manual"
+  },
+  {
+    "objectID": "archived-versions-of-nimble-and-the-user-manual.html#previous-versions",
+    "href": "archived-versions-of-nimble-and-the-user-manual.html#previous-versions",
+    "title": "Archived Versions of NIMBLE and the User Manual",
+    "section": "Previous Versions",
+    "text": "Previous Versions\n\nVersion 1.2.x Series\n\nNIMBLE 1.2.1 - Source Package\nNIMBLE 1.2.0 - Source Package\n\n\n\nVersion 1.1.x Series\n\nNIMBLE 1.1.0 - Source Package\n\n\n\nVersion 1.0.x Series\n\nNIMBLE 1.0.1 - Source Package\nNIMBLE 1.0.0 - Source Package\n\n\n\nVersion 0.13.x Series\n\nNIMBLE 0.13.1 - Source Package\nNIMBLE 0.13.0 - Source Package\n\n\n\nVersion 0.12.x Series\n\nNIMBLE 0.12.2 - Source Package\nNIMBLE 0.12.1 - Source Package\n\n\n\nOlder Versions\nFor versions prior to 0.12.x, please check our GitHub releases page or contact the development team."
+  },
+  {
+    "objectID": "archived-versions-of-nimble-and-the-user-manual.html#installation-instructions",
+    "href": "archived-versions-of-nimble-and-the-user-manual.html#installation-instructions",
+    "title": "Archived Versions of NIMBLE and the User Manual",
+    "section": "Installation Instructions",
+    "text": "Installation Instructions\nTo install an archived version:\n# Download the source package and install\ninstall.packages(\"path/to/nimble_X.Y.Z.tar.gz\", repos = NULL, type = \"source\")\n\n# Or install directly from URL\ninstall.packages(\"https://r-nimble.org/src/contrib/Archive/nimble/nimble_X.Y.Z.tar.gz\", \n                 repos = NULL, type = \"source\")"
+  },
+  {
+    "objectID": "archived-versions-of-nimble-and-the-user-manual.html#user-manual-archives",
+    "href": "archived-versions-of-nimble-and-the-user-manual.html#user-manual-archives",
+    "title": "Archived Versions of NIMBLE and the User Manual",
+    "section": "User Manual Archives",
+    "text": "User Manual Archives\n\nCurrent User Manual: HTML | PDF\nPrevious versions of the manual are included with each package release"
+  },
+  {
+    "objectID": "archived-versions-of-nimble-and-the-user-manual.html#release-notes",
+    "href": "archived-versions-of-nimble-and-the-user-manual.html#release-notes",
+    "title": "Archived Versions of NIMBLE and the User Manual",
+    "section": "Release Notes",
+    "text": "Release Notes\nFor detailed information about changes in each version, see our Release Notes page or the NEWS file included with each package."
+  },
+  {
+    "objectID": "archived-versions-of-nimble-and-the-user-manual.html#support-for-older-versions",
+    "href": "archived-versions-of-nimble-and-the-user-manual.html#support-for-older-versions",
+    "title": "Archived Versions of NIMBLE and the User Manual",
+    "section": "Support for Older Versions",
+    "text": "Support for Older Versions\nWhile we encourage users to upgrade to the latest version, we understand that some projects may require older versions. Limited support is available through our community forum for older versions."
+  },
+  {
+    "objectID": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html",
+    "href": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html",
+    "title": "Announcing the nimbleMacros package and the use of macros in NIMBLE models",
+    "section": "",
+    "text": "We’re excited to announce the release of the nimbleMacros package, which extends NIMBLE’s modeling capabilities with a powerful macro system.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
+    ]
+  },
+  {
+    "objectID": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#what-are-nimble-macros",
+    "href": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#what-are-nimble-macros",
+    "title": "Announcing the nimbleMacros package and the use of macros in NIMBLE models",
+    "section": "What are NIMBLE Macros?",
+    "text": "What are NIMBLE Macros?\nMacros in NIMBLE allow you to define reusable code patterns that can be expanded during model compilation. This helps reduce code duplication and makes complex models more maintainable.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
+    ]
+  },
+  {
+    "objectID": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#key-features",
+    "href": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#key-features",
+    "title": "Announcing the nimbleMacros package and the use of macros in NIMBLE models",
+    "section": "Key Features",
+    "text": "Key Features\n\nTemplate-based Model Components\n# Define a macro for a hierarchical prior\nhierarchical_prior &lt;- nimbleMacro(\n  mu ~ dnorm(0, 0.001),\n  tau ~ dgamma(0.001, 0.001),\n  sigma &lt;- 1/sqrt(tau)\n)\n\n\nConditional Model Structure\nMacros can include conditional logic to adapt model structure based on data or parameters.\n\n\nIntegration with nimbleFunctions\nSeamlessly integrate macros with existing nimbleFunction workflows.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
+    ]
+  },
+  {
+    "objectID": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#installation",
+    "href": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#installation",
+    "title": "Announcing the nimbleMacros package and the use of macros in NIMBLE models",
+    "section": "Installation",
+    "text": "Installation\nInstall the nimbleMacros package:\n# From CRAN (when available)\ninstall.packages(\"nimbleMacros\")\n\n# Or from GitHub\nremotes::install_github(\"nimble-dev/nimbleMacros\")",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
+    ]
+  },
+  {
+    "objectID": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#getting-started",
+    "href": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#getting-started",
+    "title": "Announcing the nimbleMacros package and the use of macros in NIMBLE models",
+    "section": "Getting Started",
+    "text": "Getting Started\nHere’s a simple example of using macros in a hierarchical model:\nlibrary(nimble)\nlibrary(nimbleMacros)\n\n# Define macro for random effects\nrandom_effects_macro &lt;- nimbleMacro(\n  for(i in 1:N) {\n    theta[i] ~ dnorm(mu, tau)\n    y[i] ~ dnorm(theta[i], sigma)\n  }\n)\n\n# Use in model\nmodel_code &lt;- nimbleCode({\n  # Hyperpriors\n  mu ~ dnorm(0, 0.001)\n  tau ~ dgamma(0.001, 0.001)\n  sigma ~ dgamma(0.001, 0.001)\n  \n  # Expand macro\n  random_effects_macro()\n})",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
+    ]
+  },
+  {
+    "objectID": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#documentation",
+    "href": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#documentation",
+    "title": "Announcing the nimbleMacros package and the use of macros in NIMBLE models",
+    "section": "Documentation",
+    "text": "Documentation\nComplete documentation and examples are available in the package vignettes and on our documentation page.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
+    ]
+  },
+  {
+    "objectID": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#community-feedback",
+    "href": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html#community-feedback",
+    "title": "Announcing the nimbleMacros package and the use of macros in NIMBLE models",
+    "section": "Community Feedback",
+    "text": "Community Feedback\nWe welcome feedback and suggestions for the nimbleMacros package. Please share your experiences and ideas on our discussion forum.\nThis package represents our ongoing commitment to making NIMBLE more flexible and user-friendly for complex statistical modeling tasks.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-3-0-of-nimble-released.html",
+    "href": "blog/version-1-3-0-of-nimble-released.html",
+    "title": "Version 1.3.0 of NIMBLE released",
+    "section": "",
+    "text": "We are pleased to announce the release of NIMBLE version 1.3.0. This release includes several new features, performance improvements, and bug fixes.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.3.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-3-0-of-nimble-released.html#key-new-features",
+    "href": "blog/version-1-3-0-of-nimble-released.html#key-new-features",
+    "title": "Version 1.3.0 of NIMBLE released",
+    "section": "Key New Features",
+    "text": "Key New Features\n\nEnhanced Automatic Differentiation\n\nImproved performance for AD-enabled functions\nBetter integration with MCMC samplers\nSupport for more mathematical operations\n\n\n\nNew Distributions\n\nAdditional built-in distributions for specialized models\nImproved parameterizations for existing distributions\n\n\n\nPerformance Improvements\n\nFaster compilation times\nOptimized MCMC sampling\nReduced memory usage",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.3.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-3-0-of-nimble-released.html#installation",
+    "href": "blog/version-1-3-0-of-nimble-released.html#installation",
+    "title": "Version 1.3.0 of NIMBLE released",
+    "section": "Installation",
+    "text": "Installation\nInstall the latest version from CRAN:\ninstall.packages(\"nimble\")\nOr from our repository:\ninstall.packages(\"nimble\", repos = \"https://r-nimble.org\", type = \"source\")",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.3.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-3-0-of-nimble-released.html#breaking-changes",
+    "href": "blog/version-1-3-0-of-nimble-released.html#breaking-changes",
+    "title": "Version 1.3.0 of NIMBLE released",
+    "section": "Breaking Changes",
+    "text": "Breaking Changes\nPlease note the following changes that may affect existing code: - [List any breaking changes here]",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.3.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-3-0-of-nimble-released.html#bug-fixes",
+    "href": "blog/version-1-3-0-of-nimble-released.html#bug-fixes",
+    "title": "Version 1.3.0 of NIMBLE released",
+    "section": "Bug Fixes",
+    "text": "Bug Fixes\nThis release fixes several issues reported by users: - Fixed issue with [specific bug] - Improved error messages for [specific case] - Resolved memory leak in [specific function]",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.3.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-3-0-of-nimble-released.html#documentation",
+    "href": "blog/version-1-3-0-of-nimble-released.html#documentation",
+    "title": "Version 1.3.0 of NIMBLE released",
+    "section": "Documentation",
+    "text": "Documentation\nUpdated documentation is available in our User Manual.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.3.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-3-0-of-nimble-released.html#acknowledgments",
+    "href": "blog/version-1-3-0-of-nimble-released.html#acknowledgments",
+    "title": "Version 1.3.0 of NIMBLE released",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nWe thank the community for their contributions, bug reports, and feedback. Special thanks to contributors who helped with this release.\nFor a complete list of changes, see the NEWS file in the package.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.3.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html",
+    "href": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html",
+    "title": "nimbleEcology: custom NIMBLE distributions for ecologists",
+    "section": "",
+    "text": "Prepared by Ben Goldstein.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "nimbleEcology: custom NIMBLE distributions for ecologists"
+    ]
+  },
+  {
+    "objectID": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#what-is-nimbleecology",
+    "href": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#what-is-nimbleecology",
+    "title": "nimbleEcology: custom NIMBLE distributions for ecologists",
+    "section": "What is nimbleEcology?",
+    "text": "What is nimbleEcology?\nnimbleEcology is an auxiliary nimble package for ecologists.\nnimbleEcology contains a set of distributions corresponding to some common ecological models. When the package is loaded, these distributions are registered to NIMBLE and can be used directly in models.\nnimbleEcology contains distributions often used in modeling abundance, occupancy and capture-recapture studies.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "nimbleEcology: custom NIMBLE distributions for ecologists"
+    ]
+  },
+  {
+    "objectID": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#why-use-nimbleecology",
+    "href": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#why-use-nimbleecology",
+    "title": "nimbleEcology: custom NIMBLE distributions for ecologists",
+    "section": "Why use nimbleEcology?",
+    "text": "Why use nimbleEcology?\nEcological models for abundance, occupancy and capture-recapture often involve many discrete latent states. Writing such models can be error-prone and in some cases can lead to slow MCMC mixing. We’ve put together a collection of distributions in nimble to make writing these models easier\n\nEasy to use. Using a nimbleEcology distribution is easier than writing out probabilities or hierarchical model descriptions.\nMinimize errors. You don’t have to lose hours looking for the misplaced minus sign; the distributions are checked and tested.\nIntegrate over latent states. nimbleEcology implementations integrate or sum likelihoods over latent states. This eliminates the need for sampling these latent variables, which in some cases can provide efficiency gains, and allows maximum likelihood (ML) estimation methods with hierarchical models.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "nimbleEcology: custom NIMBLE distributions for ecologists"
+    ]
+  },
+  {
+    "objectID": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#how-to-use",
+    "href": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#how-to-use",
+    "title": "nimbleEcology: custom NIMBLE distributions for ecologists",
+    "section": "How to use",
+    "text": "How to use\nnimbleEcology can be installed directly from CRAN as follows.\ninstall.packages(\"nimbleEcology\")\nOnce nimbleEcology is installed, load it using library. It will also load nimble.\nlibrary(nimbleEcology)\n\n\n\n## Loading required package: nimble\n\n\n\n## nimble version 0.10.0 is loaded.\n## For more information on NIMBLE and a User Manual,\n## please visit http://R-nimble.org.\n\n\n\n## \n## Attaching package: 'nimble'\n\n\n\n## The following object is masked from 'package:stats':\n## \n##     simulate\n\n\n\n## Loading nimbleEcology. \n## Registering the following user-defined functions: \n## dOcc, dDynOcc, dCJS, dHMM, dDHMM\nNote the message indicating which distribution families have been loaded.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "nimbleEcology: custom NIMBLE distributions for ecologists"
+    ]
+  },
+  {
+    "objectID": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#which-distributions-are-available",
+    "href": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#which-distributions-are-available",
+    "title": "nimbleEcology: custom NIMBLE distributions for ecologists",
+    "section": "Which distributions are available?",
+    "text": "Which distributions are available?\nThe following distributions are available in nimbleEcology.\n\ndOcc (occupancy model)\ndDynOcc (dynamic occupancy model)\ndHMM (hidden Markov model)\ndDHMM (dynamic hidden Markov model)\ndCJS (Cormack-Jolly-Seber or mark-recapture model)\ndNmixture (N-mixture model)\ndYourNewDistribution Do you have a custom distribution that would fit the package? Are we missing a distribution you need? Let us know! We actively encourage contributions through GitHub or direct communication.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "nimbleEcology: custom NIMBLE distributions for ecologists"
+    ]
+  },
+  {
+    "objectID": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#example-code",
+    "href": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#example-code",
+    "title": "nimbleEcology: custom NIMBLE distributions for ecologists",
+    "section": "Example code",
+    "text": "Example code\nThe following code illustrates a NIMBLE model definition for an occupancy model using nimbleEcology. The model is specified, built, and used to simulate some data according to the occupancy distribution.\nlibrary(nimbleEcology)\n\nocc_code &lt;- nimbleCode({\n  psi ~ dunif(0, 1)\n  p ~ dunif(0, 1)\n  for (s in 1:nsite) {\n    x[s, 1:nvisit] ~ dOcc_s(probOcc = psi, probDetect = p,\n                            len = nvisit)\n  }\n})\n\nocc_model &lt;- nimbleModel(occ_code,\n               constants = list(nsite = 10, nvisit = 5),\n               inits = list(psi = 0.5, p = 0.5))\n\n\n\n## defining model...\n\n\n\n## building model...\n\n\n\n## setting data and initial values...\n\n\n\n## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... \n## checking model sizes and dimensions... This model is not fully initialized. This is not an error. To see which variables are not initialized, use model$initializeInfo(). For more information on model initialization, see help(modelInitialization).\n## model building finished.\n\n\n\nset.seed(94)\nocc_model$simulate(\"x\")\nocc_model$x\n\n\n\n##       [,1] [,2] [,3] [,4] [,5]\n##  [1,]    0    0    0    0    0\n##  [2,]    0    0    0    0    0\n##  [3,]    0    0    0    0    0\n##  [4,]    0    0    0    0    0\n##  [5,]    1    1    1    0    1\n##  [6,]    0    0    0    1    0\n##  [7,]    0    0    0    0    0\n##  [8,]    0    0    0    0    1\n##  [9,]    1    1    1    0    0\n## [10,]    0    1    0    0    0",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "nimbleEcology: custom NIMBLE distributions for ecologists"
+    ]
+  },
+  {
+    "objectID": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#how-to-learn-more",
+    "href": "blog/nimbleecology-custom-nimble-distributions-for-ecologists.html#how-to-learn-more",
+    "title": "nimbleEcology: custom NIMBLE distributions for ecologists",
+    "section": "How to learn more",
+    "text": "How to learn more\nOnce the package is installed, you can check out the package vignette with vignette(“nimbleEcology”).\nDocumentation is available for each distribution family using the R syntax ?distribution, for example\n?dHMM\nFor more detail on marginalization in these distributions, see the paper “One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE” (Ponisio et al. 2020).",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "nimbleEcology: custom NIMBLE distributions for ecologists"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-0-0-of-nimble-released.html",
+    "href": "blog/version-1-0-0-of-nimble-released.html",
+    "title": "Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling",
+    "section": "",
+    "text": "We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).\nVersion 1.0.0 provides substantial new functionality. This includes:\n\nA Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.\nA Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the newly-released nimbleHMC package).\nSupport in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.\nA parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.\n\nThese are documented via the R help system and a new section at the end of our User Manual. We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the nimble-users list.\nIn addition to the new functionality above, other enhancements and bug fixes include:\n\nFixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (runCrossValidate) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.\nFixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.\nImproving control of the addSampler method for MCMC.\nImproving the WAIC system in a few small ways.\nEnhancing error trapping and warning messages.\n\nPlease see the NEWS file in the package source for more details.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-1-of-nimble-released.html",
+    "href": "blog/version-1-2-1-of-nimble-released.html",
+    "title": "Version 1.2.1 of NIMBLE released",
+    "section": "",
+    "text": "We are pleased to announce the release of NIMBLE version 1.2.1. This is a maintenance release that includes several important bug fixes and minor improvements.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.1 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-1-of-nimble-released.html#bug-fixes",
+    "href": "blog/version-1-2-1-of-nimble-released.html#bug-fixes",
+    "title": "Version 1.2.1 of NIMBLE released",
+    "section": "Bug Fixes",
+    "text": "Bug Fixes\nThis release addresses several issues reported by users:\n\nFixed compilation issues on certain Windows configurations\nResolved memory allocation problems in specific MCMC scenarios\nCorrected behavior of user-defined distributions in edge cases\nFixed issue with automatic differentiation in complex model structures",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.1 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-1-of-nimble-released.html#improvements",
+    "href": "blog/version-1-2-1-of-nimble-released.html#improvements",
+    "title": "Version 1.2.1 of NIMBLE released",
+    "section": "Improvements",
+    "text": "Improvements\n\nEnhanced error messages for better debugging\nImproved performance in specific nimbleFunction operations\nUpdated documentation with additional examples",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.1 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-1-of-nimble-released.html#installation",
+    "href": "blog/version-1-2-1-of-nimble-released.html#installation",
+    "title": "Version 1.2.1 of NIMBLE released",
+    "section": "Installation",
+    "text": "Installation\nInstall from CRAN:\ninstall.packages(\"nimble\")\nOr from our repository:\ninstall.packages(\"nimble\", repos = \"https://r-nimble.org\", type = \"source\")",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.1 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-1-of-nimble-released.html#migration-from-1.2.0",
+    "href": "blog/version-1-2-1-of-nimble-released.html#migration-from-1.2.0",
+    "title": "Version 1.2.1 of NIMBLE released",
+    "section": "Migration from 1.2.0",
+    "text": "Migration from 1.2.0\nNo breaking changes - this release is fully compatible with NIMBLE 1.2.0.\nWe recommend all users upgrade to this version for improved stability and performance.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.1 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "release-notes.html",
+    "href": "release-notes.html",
+    "title": "Release notes",
+    "section": "",
+    "text": "December 19, 2024: We’re released Version 1.3.0\nWe’ve released the newest version of NIMBLE on CRAN and on our website.\nVersion 1.3.0 provides some new and improved functionality, plus some bug fixes and improved error trapping.\nThe new and improved functionality includes:\n\nA new multivariate sampler, the Barker proposal sampler (sampler_barker). We encourage users to try this sampler in place of the block Metropolis RW_block sampler and let us know how well it works. The Barker sampler uses gradient information and may improve adaptation behavior, including better mixing when parameters are on different scales or the initial proposal scale is too large.\nAn improved Laplace/AGHQ implementation that includes use of the nlminb optimizer for both inner and outer optimization (for better optimization performance), improved messaging and output naming, returning the log-likelihood and degrees of freedom for model selection calculations, and unified control of optimization method and other controls at either the build stage or through the updateSettings method.\nThe addition of the BOBYQA optimization method through nimOptim, registered via nimOptimMethod.\n\nIn addition to the new and improved functionality above, other bug fixes, improved error trapping, and enhancements include:\n\nPreventing the use of nimbleFunction method names and nimbleFunction names that conflict with names in the nimble language (DSL).\nMore carefully checking for and warning of cases of NaN and non-finite log probability values in various samplers that in some cases may indicate invalid MCMC sampling.\nMore carefully handling of NaN and non-finite log probability values in the CRP sampler.\nError trapping cases of dynamic indices producing a non-scalar result in AD-enabled models, and provide a suggested work-around.\nError trapping use of non-existent nimbleList.\nPreventing use of a single seed when running multiple chains via runMCMC.\nImproving messaging related to lack of derivative support for functions.\nAdding information about model macros to the manual.\nFixing bug in caching values in the CRP sampler when maximum number of clusters is exceeded, which would have caused incorrect sampling (albeit with the user having been warned that they should increase the maximum number of clusters).\nFixing an issue preventing use of nimbleList elements in nimCat.\nPreventing an adaptation interval of one for various block samplers for which an interval of one leads to an error.\nAllowing runLaplace to use an uncompiled Laplace object.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nJuly 31, 2024: We’ve released Version 1.2.1\nWe’ve released the newest version of NIMBLE on CRAN and on our website. This is a micro release that primarily addresses some packaging changes requested by CRAN. In addition this release includes:\n\nA multinomial MCMC sampler, sampler_RW_multinomial, for random variables following a multinomial distribution.\nSome enhancements to error trapping and warning messages.\nA variety of minor bug fixes.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nJune 9, 2024: We’ve released Version 1.2.0\nWe’ve released the newest version of NIMBLE on CRAN and on our website.\nVersion 1.2.0 provides extensive new functionality, including:\n\nA Pólya-gamma sampler, sampler_polyagamma, for conjugate sampling of linear predictor parameters in logistic regression model specifications, including handling zero inflation and stochastic design matrices.\nA new sampler, sampler_noncentered, which samples the mean or standard deviation of a set of random effect values in a transformed space such that the random effects are deterministically shifted or scaled given new values of their hyperparameters. For random effects written in a centered parameterization, sampling is performed as if they had been written in a noncentered parameterization, thereby enabling a variant on the Yu and Meng (2011) interweaving sampling strategy of sampling in both parameterizations.\nA completely revamped MCEM algorithm, fixing a bug so that any parts of the model not connected to the latent states are included in MLE calculations, giving greater control and adding minor extensions to the ascent-based MCEM approach, using automatic derivatives in the maximization when possible, and converting buildMCEM to be a nimbleFunction rather than an R function.\nAdaptive Gauss-Hermite quadrature (AGHQ) for integrating over latent effects, as an extension of NIMBLE’s Laplace approximation functionality. Also adds user-friendly R functions, runLaplace and runAGHQ, for using Laplace and AGHQ approximation for maximum likelihood estimation.\nA more flexible optimization system via nimOptim, with support for nlminb built in as well as the capability for users to provide potentially arbitrary optimization functions in R.\nAllowing the use of nimbleFunctions with setup code in models either for user-defined functions via &lt;- or for user-defined distributions via ~. This supports holding large objects outside of model nodes for use in models.\n\nIn addition to the new functionality above, other enhancements and bug fixes include:\n\nSome internal improvements to increase speed of model and MCMC building in certain cases.\nSome fixes and improvements in error-trapping and warnings.\nAdding an argument to buildMCMC controlling whether to initialize values in the model.\nProviding ability to control number of digits printed in C++ output.\nAllowing use of categorical MCMC sampler with user-specified dcat-like distributions.\nImprove documentation of LKJ distribution and derivative tracking in the AD system.\nFixing an insufficient check for conjugacy in stickbreaking specifications.\nFixing compilation failures occurring on Red Hat Linux.\nReenabling functionality for user-provided Eigen library and related updates to autoconf configuration.\nEnhancing functionality to support model macros.\nRemoving deprecated is.na.vec and is.nan.vec.\nRemoving deprecated dummy functions for compareMCMCs functions.\n\n\n\nJanuary 31, 2024: We’ve released Version 1.1.0\nWe’ve released the newest version of NIMBLE on CRAN and on our website. This version provides new functionality and a variety of bug fixes.\n\nImproving our automatic differentiation (AD) system so it can be used in a wider range of models, including models with stochastic indexing, discrete latent states, and CAR distributions. Support for AD for these models means that HMC sampling and Laplace approximation can be used.\nAllowing distributions and functions (whether user-defined or built-in) that lack AD support (such as dinterval, dconstraint, and truncated distributions) to be used and compiled in AD-enabled models. The added flexibility increases the range of models in which one can use AD methods (HMC or Laplace) on some parts of a model and other samplers or methods on other parts.\nAdding nimIntegrate to the NIMBLE language, providing one-dimensional numerical integration via adaptive quadrature, equivalent to R’s integrate. This can, for example, be used in a user-defined function or distribution for use in model code, such as to implement certain point process or survival models that involve a one-dimensional integral.\nAdding a “prior samples” MCMC sampler, which uses an existing set of numerical samples to define the prior distribution of model node(s).\nBetter support of the dCRP distribution in non-standard model structures.\nAdding error trapping to prevent accidental use of C++ keywords as model variable names.\nRemoving the RW_multinomial MCMC sampler, which was found to generate incorrect posterior results (in cases when a latent state followed a multinomial distribution)\nFixing a bug in conjugacy checking in a case of subsets of multivariate nodes.\nFixing is.na and is.nan to operate in the expected vectorized fashion.\nImproving documentation of AD, nimbleHMC, and nimbleSMC in the manual.\nUpdating Eigen (the C++ linear algebra library used by nimble) to version 3.4.0.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nJune 15, 2023: We’ve released Version 1.0.1\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 1.0.1 follows shortly after 1.0.0 and fixes an issue and a bug introduced in version 1.0.0 causing data to be set incorrectly in certain models.\nBoth cases occur only when a variable (e.g., “x”) contains both stochastic nodes (e.g. “x[2] ~ ”) and either deterministic nodes (e.g. “x[3] &lt;- ”) or right-hand-side-only nodes (e.g. “x[4]” appears only on the right-hand-side, like an explanatory value).\nThe issue involves a change of behavior (relative to previous nimble versions) when both setting data values for some nodes and initial values for other nodes within the same variable (that satisfies the previous condition). Data values for right-hand-side-only nodes were replaced by initial values (inits) if both were provided. Version 1.0.1 reverts to previous behavior that data values are not replaced by initial values in that situation.\nThe bug involves models where (for a variable satisfying the previous condition) not every scalar element within the variable is used as a node and some of the nodes in the variable are data. In that situation, data values may be set incorrectly. This could typically occur in models with autoregressive structure directly on some data nodes (such as may be the case for capture-recapture models involving many individual capture histories within the same variable, indexed by individual and time, with some individuals not present for the entire time series, resulting in unused scalar elements of the variable).\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nMay 26, 2023: We’ve released Version 1.0.0\nWe’re very pleased to announce the release of version 1.0.0 of NIMBLE. This version provides substantial new functionality. This includes:\n\nA Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.\nA Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the nimbleHMC package).\nSupport in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.\nA parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.\n\nThese are documented via the R help system and a new section at the end of our User Manual. We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the nimble-users list.\nIn addition to the new functionality above, other enhancements and bug fixes include:\n\nFixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (runCrossValidate) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.\nFixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.\nImproving control of the addSampler method for MCMC.\nImproving the WAIC system in a few small ways.\nEnhancing error trapping and warning messages.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nMay 15, 2023: We’ve released Version 0.13.2\nWe’ve released the newest version of NIMBLE on CRAN. This version exists solely to address some developer-level issues required by CRAN and is identical to version 0.13.2 from a user perspective.\n\n\nDecember 13, 2022: We’ve released Version 0.13.1\nWe’ve released the newest version of NIMBLE on CRAN and on our website. This is purely a bug fix release that fixes a bug in our new handling of predictive nodes introduced in the recently released Version 0.13.0. The bug could affect MCMC sampling in models that both (1) have predictive nodes and (2) have multivariate nodes.\n\n\nNovember 15, 2022: We’ve released Version 0.13.0\nWe’ve released the newest version of NIMBLE on CRAN and on our website. The main highlight of this version is a major change to how predictive nodes are handled in MCMC sampling that should improve mixing for models with predictive nodes. The changes in version 0.13.0 include:\n\nThoroughly revamping handling of posterior predictive nodes in the MCMC system, in particular that MCMC samplers, by default, will now exclude predictive dependencies from internal sampler calculations. This should improve MCMC mixing for models with predictive nodes. Posterior predictive nodes are now sampled conditional on all other model nodes at the end of each MCMC iteration.\nAdding functionality to the MCMC configuration system, including a new replaceSamplers method and arguments default and nodes for the addSamplers method.\nAdding an option to the WAIC system to allow additional burnin (in addition to standard MCMC burnin) before calculating online WAIC, thereby allowing inspection of initial samples without forcing them to be used for WAIC\nWarning users of unused constants during model building.\nFixing bugs that prevented use of variables starting with ‘logProb’ or named ‘i’ in model code.\nFixing a bug to prevent infinite recursion in particular cases in conjugacy checking.\nFixing a bug in simulating from dcar_normal nodes when multiple nodes passed to simulate.\n\n\n\nFebruary 24, 2022: We’ve released Version 0.12.2, which includes an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.12.2 is a bug fix release. In particular, this release fixes a bug in our Bayesian nonparametric distribution (BNP) functionality that gives incorrect MCMC results when using the dCRP distribution when the parameters of the mixture components (i.e., the clusters) have hyperparameters (i.e., the base measure parameters) that are unknown and sampled during the MCMC. Here is an example basic model structure that is affected by the bug:\nk[1:n] ~ dCRP(alpha, n)\nfor(i in 1:n) {\n  y[i] ~ dnorm(mu[k[i]], 1)\n  mu[i] ~ dnorm(mu0, 1)    ## mixture component parameters with hyperparameter\n}\nmu0 ~ dnorm(0, 1)    ## unknown cluster hyperparameter\n(There is no problem without the hyperparameter layer – i.e., if mu0 is a fixed value – which is the situation in many models.) We strongly encourage users using models with this structure to rerun their analyses.\nOther changes in this release include:\n\nFixing an issue with reversible jump variable selection under a similar situation to the BNP issue discussed above (in particular where there are unknown hyperparameters of the regression coefficients being considered, which would likely be an unusual use case).\nFixing a bug preventing setup of conjugate samplers for dwishart or dinvwishart nodes when using dynamic indexing.\nFixing a bug preventing use of truncation bounds specified via data or constants.\nFixing a bug preventing MCMC sampling with the LKJ prior for 2×2 matrices.\nFixing a bug in runCrossValidate affecting extraction of multivariate nodes.\nFixing a bug producing incorrect subset assignment into logical vectors in nimbleFunction code.\nFixing a bug preventing use of nimbleExternalCall with a constant expression.\nFixing a bug preventing use of recursion in nimbleFunctions without setup code.\nFixing handling nimSeq default by value.\nFixing access to member data more than two dimensions in a nested nimbleFunction.\n\nPlease see the NEWS file in the source package or the nimble-dev Github site for more detailed information.\n\n\nOctober 12, 2021: We’ve released Version 0.12.1 (including changes in Version 0.12.0)\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.12.1, in combination with version 0.12.0 (which was released just last week), provides a variety of new functionality (in particular enhanced WAIC functionality and adding the LKJ distribution) plus bug fixes affecting MCMC in specific narrow cases described below and that warrant upgrading for some users. The changes include:\n\nCompletely revamping WAIC in NIMBLE, creating an online version that does not require any particular variable monitors. The new WAIC can calculate conditional or marginal WAIC and can group data nodes into joint likelihood terms if desired. In addition there is a new calculateWAIC() function that will calculate the basic conditional WAIC from MCMC output without having to enable the WAIC when creating the MCMC.\nAdding the LKJ distribution, useful for prior distributions for correlation matrices, along with random walk samplers for them. These samplers operate in an unconstrained transformed parameter space and are assigned by default during MCMC configuration.\nFixing a bug introduced in conjugacy processing in version 0.11.0 that causes incorrect MCMC sampling only in specific cases. The impacted cases have terms of the form “a[i] + x[i] * beta” (or more simply “x[i] * beta”), with beta subject to conjugate sampling and either (i) ‘x’ provided via NIMBLE’s constants argument and x[1] == 1 or (ii) ‘a’ provided via NIMBLE’s constants argument and a[1] == 0.\nFixing an error in the sampler for the proper CAR distribution (dcar_proper) that gives incorrect MCMC results when the mean of the proper CAR is not the same value for all locations, e.g., when embedding covariate effects directly in the mu parameter of the dcar_proper distribution.\nFixing isData(‘y’) to return TRUE whenever any elements of a multivariate data node (‘y’) are flagged as data. As a result, attempting to carry out MCMC on the non-data elements will now fail. Formerly if only some elements were flagged as data, isData would only check the first element, potentially leading to other elements that were flagged as data being overwritten.\nError trapping cases where a BNP model has a differing number of dependent stochastic nodes (e.g., observations) or dependent deterministic nodes per group of elements clustered jointly (using functionality introduced in version 0.10.0). Previously we were not error trapping this, and incorrect MCMC results would be obtained.\nImproving the formatting of standard logging messages.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nMay 24, 2021: We’ve released Version 0.11.1\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.11.1 is primarily a bug fix release that fixes a bug that was introduced in Version 0.11.0 (which was released on April 17, 2021) that affected MCMC sampling in MCMCs using the “posterior_predictive_branch” sampler introduced in version 0.11.0. This sampler would be listed by name when the MCMC configuration object is created and would be assigned to any set of multiple nodes that (as a group of nodes) have no data dependencies and are therefore sampled as a group from their predictive distributions.\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nApril 17, 2021: We’ve released Version 0.11.0\nWe’ve released the newest version of NIMBLE on CRAN and on our website.\nWe’ve released version 0.11.0. Version 0.11.0 provides a variety of new functionality, improved error trapping, and bug fixes, including:\n\nadded the ‘posterior_predictive_branch’ MCMC sampler, which samples jointly from the predictive distribution of networks of entirely non-data nodes, to improve MCMC mixing,\nadded a model method to find parent nodes, getParents(), analogous to getDependencies(),\nimproved efficiency of conjugate samplers,\nallowed use of the elliptical slice sampler for univariate nodes, which can be useful for posteriors with multiple modes,\nallowed model definition using if-then-else without an else clause, and\nfixed a bug giving incorrect node names and potentially affecting algorithm behavior for models with more than 100,000 elements in a vector node or in any dimension of a multi-dimensional node.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nNovember 30, 2020: We’ve released Version 0.10.1\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.10.1 is primarily a bug fix release:\n\nIn particular, it fixes a bug in retrieving parameter values from distributions that was introduced in version 0.10.0. The bug can cause incorrect behavior of conjugate MCMC samplers under certain model structures (such as particular state-space models), so we strongly encourage users to upgrade to 0.10.1.\nIn addition, version 0.10.1 restricts use of WAIC to the conditional version of WAIC (conditioning on all parameters directly involved in the likelihood). Previous versions of nimble gave incorrect results when not conditioning on all parameters directly involved in the likelihood (i.e., when not monitoring all such parameters). In a future version of nimble we plan to make a number of improvements to WAIC, including allowing use of marginal versions of WAIC, where the WAIC calculation integrates over random effects.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nOctober 12, 2020: We’ve released Version 0.10.0\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.10.0 provides new features, improvements in speed of building models and algorithms, bug fixes, and various improvements.\nNew features and bug fixes include:\n\ngreatly extended NIMBLE’s CRP-based BNP functionality by allowing multiple observations to be grouped together;\nfixed a bug giving incorrect results in our cross-validation function, runCrossValidate();\nmoved NIMBLE’s sequential Monte Carlo (SMC, aka particle filtering) methods into the nimbleSMC package; and\nimproved the efficiency of model and MCMC building and compilation.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nMay 22, 2020: We’ve released Version 0.9.1\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.9.1 is primarily a bug fix release, but also provides some minor improvements in functionality.\nUsers of NIMBLE in R 4.0 on Windows MUST upgrade to this release for NIMBLE to work.\nNew features and bug fixes include:\n\nswitched to use of system2() from system() to avoid an issue on Windows in R 4.0;\nmodified various adaptive MCMC samplers so the exponent controlling the scale decay of the adaptation is adjustable by user;\nallowed pmin() and pmax() to be used in models;\nimproved handling of NA values in the dCRP distribution; and\nimproved handling of cases where indexing goes beyond the extent of a variable in expandNodeNames() and related queries of model structure.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nDecember 20, 2019: We’ve released Version 0.9.0\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.9.0 provides some new features as well as providing a variety of speed improvements, better output handling, and bug fixes.\nNew features and bug fixes include:\n\nadded an iterated filtering 2 (IF2) algorithm (a new sequential Monte Carlo (SMC) method) for parameter estimation via maximum likelihood;\nfixed several bugs in our SMC algorithms;\nimproved the speed of MCMC configuration;\nimproved the user interface for interacting with the MCMC configuration; and\nimproved our conjugacy checking system to detect some additional cases of conjugacy.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nJune 3, 2019: We’ve released Version 0.8.0\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.8.0 provides some new features as well as providing a variety of speed improvements, better errors/warnings and bug fixes.\nNew features and bug fixes include:\n\nadded a reversible jump MCMC sampler for variable selection via configureRJ();\ngreatly improved the speed of MCMC sampling for Bayesian nonparametric models with a dCRP distribution by not sampling parameters for empty clusters;\nadded experimental faster MCMC configuration, available by setting nimbleOptions(oldConjugacyChecking = FALSE) and nimbleOptions(useNewConfigureMCMC = TRUE);\nremoved compareMCMCs() and MCMCsuite(), which will be provided in a separate package — see https://github.com/nimble-dev/compareMCMCs; and\nimproved warning and error messages for MCEM and slice sampling.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nMarch 12, 2019: We’ve released Version 0.7.1\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.7.1 is primarily a maintenance release with a couple important bug fixes, but also provides a bit of additional functionality.\nNew features and bug fixes include:\n\nfixing a bug in MCMC sampling of dCRP nodes in non-conjugate situations that was introduced in Version 0.7.0;\navoiding a protection stack overflow in working with large models, also introduced in Version 0.7.0;\nsupport for 6-dimensional arrays in model code and nimbleFunctions;\nrecognition of normal-normal conjugacy in multivariate regression structures.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nFebruary 5, 2019: We’ve released Version 0.7.0 (essentially the same as Version 0.6.13)\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.7.0 is a slight (and rapid) update to Version 0.6.13. Together they provide a variety of new features, as well as various bug fixes.\nNew features and bug fixes include:\n\ngreatly improved efficiency of sampling for Bayesian nonparametric (BNP) mixture models that use the dCRP (Chinese Restaurant process) distribution;\naddition of the double exponential (Laplace) distribution for use in models and nimbleFunctions;\na new “RW_wishart” MCMC sampler, for sampling non-conjugate Wishart and inverse-Wishart nodes;\nhandling of the normal-inverse gamma conjugacy for BNP mixture models using the dCRP distribution;\nenhanced functionality of the getSamplesDPmeasure function for posterior sampling from BNP random measures with Dirichlet process priors.\nhandling of five-dimensional arrays in models;\nfixing a bug producing incorrect WAIC calculations when using multiple chains for models with at least one non-scalar monitored variable;\nfixing a bug in conjugate samplers for CRP distribution: CRP_conjugate_dgamma_dnorm, CRP_conjugate_dbeta_dbin, CRP_conjugate_dbeta_dnegbin, CRP_conjugate_dgamma_dinvgamma, CRP_conjugate_ddirch_dmulti;\nenhanced warning messages; and\nan HTML version of the NIMBLE manual.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nJune 27, 2018: We’ve released Version 0.6-12\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-12 is primarily a maintenance release with a variety of bug fixes.\nChanges include:\n\nfix the bootstrap particle filter to correctly calculate weights when particles are not resampled (the filter had been omitting the previous weights when calculating the new weights);\nadd an option to print MCMC samplers of a particular type;\navoid an overly-aggressive check for ragged arrays when building models;\navoid assigning a sampler to non-conjugacy inverse-Wishart nodes (thereby matching our handling of Wishart nodes);\nand a variety of bug fixes and internal changes.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nJune 14, 2018: We’ve released Version 0.6-11\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-11 has new features, notably support for Bayesian nonparametric mixture modeling, as well as a variety of bug fixes.\nChanges include:\n\nsupport for Bayesian nonparametric mixture modeling using Dirichlet process mixtures, with specialized MCMC samplers automatically assigned in NIMBLE’s default MCMC (See Chapter 10 of the manual for details);\nadditional resampling methods available with the auxiliary and bootstrap particle filters;\nuser-defined filtering algorithms can be used with NIMBLE’s particle MCMC samplers;\nMCMC thinning intervals can be modified at MCMC run-time;\nboth runMCMC() and nimbleMCMC() now drop burn-in samples before thinning, making their behavior consistent with each other;\nincreased functionality for the ‘setSeed’ argument in nimbleMCMC() and runMCMC();\nnew functionality for specifying the order in which sampler functions are executed in an MCMC;\ninvalid dynamic indexes now result in a warning and NaN values but do not cause execution to error out, allowing MCMC sampling to continue; and\nand a variety of bug fixes and improved error trapping/messages.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nMarch 26, 2018: We’ve released Version 0.6-10\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-10 is primarily a maintenance release with various bug fixes and internal changes to speed up model and algorithm building and compilation.\nChanges include:\n\nsome steps of model and algorithm building and compilation are faster;\ncompiled execution with multivariate distributions or function arguments may be faster;\ndata can now be provided as a numeric data frame rather than a matrix;\nto run WAIC, a user now must set ‘enableWAIC’ to TRUE, either in NIMBLE’s options or as an argument to buildMCMC();\nif ‘enableWAIC’ is TRUE, buildMCMC() will now check to make sure that the nodes monitored by the MCMC algorithm will lead to a valid WAIC calculation; and\nthe use of identityMatrix() is deprecated in favor of diag().\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nFebruary 9, 2018: We’ve released Version 0.6-9\nWe’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-9 is primarily a maintenance release with various bug fixes and fixes for CRAN packaging issues.\nNew features include:\n\ndimensions in a model will now be determined from either ‘inits’ or ‘data’ if not otherwise available;\none can now specify “nBootReps = NA” in the runCrossValidate() function, which will prevent the Monte Carlo error from being calculated;\nrunCrossValidate() now returns the averaged loss over all k folds, instead of the summed loss;\nwe’ve added the besselK function to the NIMBLE language; and\nand a variety of bug fixes.\n\nPlease see the NEWS file in the installed package for more details\n\n\nNovember 24, 2017: We’ve released Version 0.6-8\n(Note that version 0.6-7 was the version on CRAN for about a week. Version 0.6-8 is essentially identical to version 0.6-7 but contains a minor fix to resolve a CRAN packaging issue.)\nVersion 0.6-8 has a few new features.\nChanges as of Version 0.6-8 include:\n\nthe proper Gaussian CAR (conditional autoregressive) model can now be used in BUGS code as dcar_proper, which behaves similarly to BUGS’ car.proper distribution;\na new nimbleMCMC function that provides one-line invocation of NIMBLE’s MCMC engine, akin to usage of JAGS and WinBUGS through R;\na new runCrossValidate function that will conduct k-fold cross-validation of NIMBLE models fit by MCMC;\ndynamic indexing in BUGS code is now allowed by default;\nand a variety of bug fixes.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nJuly 29, 2017: We’ve released Version 0.6-6\nVersion 0.6-6 has many new features.\nChanges as of Version 0.6-6 include:\n\ndynamic indexes are now allowed in BUGS code — indexes of a variable no longer need to be constants but can be other nodes or functions of other nodes; for this release this is a beta feature that needs to be enabled with nimbleOptions(allowDynamicIndexing = TRUE);\nthe intrinsic Gaussian CAR (conditional autoregressive) model can now be used in BUGS code as dcar_normal, which behaves similarly to BUGS’ car.normal distribution;\noptim is now part of the NIMBLE language and can be used in nimbleFunctions;\nthe WAIC model selection criterion can be calculated using the calculateWAIC method for MCMC objects;\nit is possible to call out to external compiled code or back to R functions from a nimbleFunction using nimbleExternalCall and nimbleRcall (this is an experimental feature);\nthe bootstrap and auxiliary particle filters can now return their ESS values;\nand a variety of bug fixes.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nJune 7, 2017: We’ve released Version 0.6-5\nVersion 0.6-5 is a minor release that primarily fixes some bugs and addresses some issues with packaging for CRAN. However, there are some new capabilities in this version.\nChanges as of Version 0.6-5 include:\n\nnimbleLists can now also be used in nimbleFunctions without setup code;\nbuildMCEM() can now estimate the asymptotic covariance of the model parameter estimates;\nvarious additional R-style functions (c(), rep(), seq(), diag() and ‘:’) can now be used in BUGS code;\nnew (improper) distributions, dflat and dhalfflat, are now available;\nan inverse-Wishart distribution is now available;\nand a variety of bug fixes and better error trapping.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nApril 25, 2017: We’ve released Version 0.6-4\nVersion 0.6-4 has many new features.\nChanges as of Version 0.6-4 include:\n\naddition of the functions c(), seq(), rep(), :, diag(), dim(), and which() for use in the NIMBLE language (i.e., run code) — usage generally mimics usage in R;\na complete reorganization of the User Manual, with the goal of clarifying how one can write nimbleFunctions to program with models;\naddition of the adaptive factor slice sampler, which can improve MCMC sampling for correlated blocks of parameters;\naddition of a new sampler that can handle non-conjugate Dirichlet settings;\naddition of a nimbleList data structure that behaves like R lists for use in nimbleFunctions;\naddition of eigendecomposition and SVD functions for use in the NIMBLE language;\nadditional flexibility in providing initial values for numeric(), logical(), integer(), matrix(), and array();\nlogical vectors and operators can now be used in the NIMBLE language;\nindexing of vectors and matrices can now use arbitrary numeric and logical vectors;\none can now index a vector of node names provided to values(), and more general indexing of node names in calculate(), simulate(), calculateDiff() and getLogProb();\naddition of the inverse-gamma distribution;\nuse of recycling for distribution functions used in the NIMBLE language;\nenhanced MCMC configuration functionality;\nusers can specify a user-defined BUGS distribution by simply providing a user-defined ‘d’ function without an ‘r’ function for use when an algorithm doesn’t need the ‘r’ function;\nand a variety of bug fixes, speedups, and better error trapping and checking.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nDecember 15, 2016: We’ve released Version 0.6-3\nVersion 0.6-3 is a very minor release primarily intended to address some CRAN packaging issues that do not affect users.\nWe also fixed a bug involving MCEM functionality and a bug that prevented use of the sd() and var() functions in BUGS code.\nFor most users, there is probably no need to upgrade from version 0.6-2.\n\n\nNovember 23, 2016: We’ve released Version 0.6-2\nVersion 0.6-2 is a minor release with a variety of useful functionality for users.\nChanges as of Version 0.6-2 include:\n\nuser-defined distributions can be used in BUGS code without needing to call the registerDistributions() function (unless one wants to specify alternative parameterizations, distribution range or that the distribution is discrete),\nusers can now specify the use of conjugate (Gibbs) samplers for nodes in a model,\nNIMBLE will now check the run code of nimbleFunctions for functions (in particular R functions) that are not part of the DSL and will not compile,\nadded getBound() functionality to find the lower and upper bounds of a node either from R or in DSL code,\nadded functionality to get distributional information about a node in a model or information about a distribution based on the name of the density function; these may be useful in setup code for algorithms,\nmultinomial and categorical distributions now allow ‘probs’ arguments that do not sum to one (these will be internally normalized) and\na variety of bug fixes.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nOctober 17, 2016: We’ve released Version 0.6-1\n(Note that version 0.6 has been on CRAN for about a month and contains essentially the same features as version 0.6-1. The reason for skipping a version number here on the website is because of some internal packaging issues we need to resolve with CRAN.)\nVersion 0.6-1 is a major release, with many of the changes focused on our internal implementation, some of which should speed building and compiling models and algorithms.\nChanges as of Version 0.6-1 include:\n\nincreased speed and reduced memory use in building and models, as well as compiling nimbleFunctions,\nenhanced MCMC functionality including a new runMCMC function for easily running multiple chains, a new multinomial random walk sampler, the ability to time each sampler in an MCMC, and a progress bar,\nthe addition of the ability to handle syntax such as model$calculate(nodes[i]) in the DSL,\na variety of changes to clean up our compilation system to comply with CRAN rules (including that NIMBLE should now work with gcc on Solaris), and\na variety of other items.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nMay 27, 2016: We’ve released Version 0.5-1\nVersion 0.5-1 is officially a minor release, but it actually has quite a bit in it, in particular the addition/improvement of a number of our algorithms. In addition there are some more improvements in our speed in building and compiling models and algorithms.\nChanges as of Version 0.5-1 include:\n\nthe addition of a variety of sequential Monte Carlo (aka particle filtering) algorithms, including particle MCMC samplers for use within an MCMC,\na greatly improved MCEM algorithm with an automated convergence and stopping criterion,\nnew syntax for declaring multivariate variables in the NIMBLE DSL, namely numeric(), integer(), matrix(), and array(), with declare() now deprecated,\naddition of the multivariate-t distribution for use in BUGS and DSL code,\na new binary MCMC sampler for discrete 0/1 nodes,\naddition of functionality to our random walk sampler to allow sampling on the log scale and use of reflection,\nmore flexible use of forwardsolve(), backsolve(), and solve(), including use in BUGS code, and\na variety of other items.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nApril 7, 2016: We’ve released Version 0.5\nVersion 0.5 is a major release. It is faster, uses less memory, and provides better syntax.\nChanges as of Version 0.5 include:\n\nmore efficient computations for conjugate sampling,\nadditional automated checking of BUGS syntax to improve NIMBLE’s warning/error messages,\nnew DSL (nimbleFunction programming) functionality to allow the use of syntax such as model$calculate(), etc. (syntax such as calculate(model) still works),\nnew functionality for MCMC sampler specification,\nimprovements in speed and memory use in building models,\naddition of forwardsolve, backsolve, and solve to the NIMBLE DSL, and\na variety of other items.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nOctober 4, 2015: We’ve released Version 0.4-1\nVersion 0.4-1 is a minor release. It fixes some logistical issues and adds a small amount of MCMC-related functionality.\nChanges as of Version 0.4-1 include:\n\nadded an elliptical slice sampler to the MCMC engine\nfixed bug preventing use of nimbleFunctions in packages depending on NIMBLE\nreduced C++ compiler warnings on Windows during use of compileNimble.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nAugust 2, 2015: We’ve released Version 0.4\nVersion 0.4 is a major release. We’ve added a number of user-level features and sped up most of the steps of building and compiling models and algorithms in the system.\nChanges as of Version 0.4 include:\n\nadded support for user-defined functions in BUGS code\nadded support for user-defined distributions in BUGS code\nadded support for truncated distributions, censoring, and general constraints in BUGS code\nnearly all calls to DSL functions or other nimbleFunctions handle R-style named or ordered arguments\nimproved handling of distribution functions in nimbleFunction run code and as deterministic functions in BUGS code\nadded an optional check when building model that alerts user to presence of nodes without values and log probability calculations that return NA\nadded calculateDiff as a fourth fundamental method (in addition to calculate, simulate, and getLogProb)\nadded flexibility and better organized return values of functions that specify MCMC samplers\nincorporated automated blocking into MCMC engine\nimproved a number of error messages to provide more useful diagnostic information\na variety of bug fixes\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nMarch 7, 2015: We’ve released Version 0.3-1\nChanges as of Version 0.3-1 include:\n\naddition of Dirichlet-multinomial conjugate sampling to the NIMBLE MCMC implementation\nhandling of arrays up to and including four dimensions\nnimbleModel() now allows data and constants to be provided together as the ‘constants’ argument\na variety of bug fixes\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nDecember 31, 2014: We’ve released Version 0.3\nChanges as of Version 0.3 include:\nImportant user-level syntax changes for creating and compiling models and algorithms that in some cases are not backwards compatible:\n\nnimbleFunctions are run via myNimbleFunction$run() instead of myNimbleFunction(). This means code written in v0.2 and earlier will not run without adding $run.\nWriting code for nimble models is now done with nimbleCode() (previously modelCode() ).\nTo customize MCMC use “myMCMCspec &lt;- configureMCMC(myModel)” (previously MCMCspec() ).\nTo build an MCMC algorithm, use either “myGenericMCMC &lt;- buildMCMC(myModel)” for a generic build or “myCustomizedMCMC &lt;- buildMCMC(myMCMCspec)” for a customized MCMC algorithm (previously one always had to build an MCMCspec, even for a generic build).\nVariables and methods of a nimbleFunction can be accessed by “myNimbleFunction\\(myVariable\" or \"myNimbleFunction\\)myMethod()” rather than “nfVar(myNimbleFunction, ‘myVariable’)” or “nfMethod(myNimbleFunction, ‘myMethod’)()”. Similarly, names of objects/methods of a nimble function can be queried by “ls(myNimbleFunction)”.\n\nIn addition:\n\nInternal changes to decrease compilation time, notably when compiling MCMC algorithms.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information.\n\n\nOctober, 2014: We’ve released Version 0.2\nChanges as of Version 0.2 include:\n\nInternal changes to decrease time to build models and nimbleFunctions.\nMultivariate conjugate updaters for the multivariate normal and Wishart are now included in our MCMC implementation, as well as block updating on multivariate nodes.\nAn extensive suite of tests of NIMBLE’s math functions, model building, and default MCMC.\nA number of bug fixes.\n\nPlease see the NEWS file in the source package or the nimble-dev GitHub site for more detailed information."
+  },
+  {
+    "objectID": "blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html",
+    "href": "blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html",
+    "title": "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models",
+    "section": "",
+    "text": "(Prepared by Claudia Wehrhahn)",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models"
+    ]
+  },
+  {
+    "objectID": "blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html#overview",
+    "href": "blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html#overview",
+    "title": "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models",
+    "section": "Overview",
+    "text": "Overview\nNIMBLE is a hierarchical modeling package that uses nearly the same language for model specification as the popular MCMC packages WinBUGS, OpenBUGS and JAGS, while making the modeling language extensible — you can add distributions and functions — and also allowing customization of the algorithms used to estimate the parameters of the model.\nNIMBLE supports Markov chain Monte Carlo (MCMC) inference for Bayesian nonparametric (BNP) mixture models. Specifically, NIMBLE provides functionality for fitting models involving Dirichlet process priors using either the Chinese Restaurant Process (CRP) or a truncated stick-breaking (SB) representation.\nIn version 0.10.1, we’ve extended NIMBLE to be able to handle more general multivariate models when using the CRP prior. In particular, one can now easily use the CRP prior when multiple observations (or multiple latent variables) are being jointly clustered. For example, in a longitudinal study, one may want to cluster at the individual level, i.e., to jointly cluster all of the observations for each of the individuals in the study. (Formerly this was only possible in NIMBLE by specifying the observations for each individual as coming from a single multivariate distribution.)\nThis allows one to specify a multivariate mixture kernel as the product of univariate ones. This is particularly useful when working with discrete data. In general, multivariate extensions of well-known univariate discrete distributions, such as the Bernoulli, Poisson and Gamma, are not straightforward. For example, for multivariate count data, a multivariate Poisson distribution might appear to be a good fit, yet its definition is not trivial, inference is cumbersome, and the model lacks flexibility to deal with overdispersion. See Inouye et al. (2017) for a review on multivariate distributions for count data based on the Poisson distribution.\nIn this post, we illustrate NIMBLE’s new extended BNP capabilities by modelling multivariate discrete data. Specifically, we show how to model multivariate count data from a longitudinal study under a nonparametric framework. The modeling approach is simple and introduces correlation in the measurements within subjects.\nFor more detailed information on NIMBLE and Bayesian nonparametrics in NIMBLE, see the User Manual.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models"
+    ]
+  },
+  {
+    "objectID": "blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html#bnp-analysis-of-epileptic-seizure-count-data",
+    "href": "blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html#bnp-analysis-of-epileptic-seizure-count-data",
+    "title": "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models",
+    "section": "BNP analysis of epileptic seizure count data",
+    "text": "BNP analysis of epileptic seizure count data\nWe illustrate the use of nonparametric multivariate mixture models for modeling counts of epileptic seizures from a longitudinal study of the drug progabide as an adjuvant antiepileptic chemotherapy. The data, originally reported in Leppik et al. (1985), arise from a clinical trial of 59 people with epilepsy. At four clinic visits, subjects reported the number of seizures occurring over successive two-week periods. Additional data include the baseline seizure count and the age of the patient. Patients were randomized to receive either progabide or a placebo, in addition to standard chemotherapy.\nload(url(\"https://r-nimble.org/nimbleExamples/seizures.Rda\"))\nnames(seizures)\n\n\n\n## [1] \"id\"    \"seize\" \"visit\" \"trt\"   \"age\"\n\n\n\nhead(seizures)\n\n\n\n##    id seize visit trt age\n## 1 101    76     0   1  18\n## 2 101    11     1   1  18\n## 3 101    14     2   1  18\n## 4 101     9     3   1  18\n## 5 101     8     4   1  18\n## 6 102    38     0   1  32\n\nModel formulation\nWe model the joint distribution of the baseline number of seizures and the counts from each of the two-week periods as a Dirichlet Process mixture (DPM) of products of Poisson distributions. Let , where  denotes the seizure count for patient  measured at visit , for , and . The value for  is the baseline count. The model takes the form\n\nwhere  and  corresponds to a product of Gamma distributions.\nOur specification uses a product of Poisson distributions as the kernel in the DPM which, at first sight, would suggest independence of the repeated seizure count measurements. However, because we are mixing over the parameters, this specification in fact induces dependence within subjects, with the strength of the dependence being inferred from the data. In order to specify the model in NIMBLE, first we translate the information in seize into a matrix and then we write the NIMBLE code.\nWe specify this model in NIMBLE with the following code in R. The vector xi contains the latent cluster IDs, one for each patient.\nn &lt;- 59\nJ &lt;- 5\ndata &lt;- list(y = matrix(seizures$seize, ncol = J, nrow = n, byrow = TRUE))\nconstants &lt;- list(n = n, J = J)\n\ncode &lt;- nimbleCode({\n  for(i in 1:n) {\n    for(j in 1:J) {\n      y[i, j] ~ dpois(lambda[xi[i], j])\n    }\n  }\n  for(i in 1:n) {\n    for(j in 1:J) {\n      lambda[i, j] ~ dgamma(shape = 1, rate = 0.1)\n    }\n  }\n  xi[1:n] ~ dCRP(conc = alpha, size = n)\n  alpha ~ dgamma(shape = 1, rate = 1)\n})\n\n\nRunning the MCMC\nThe following code sets up the data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm. For speed, the MCMC runs using compiled C++ code, hence the calls to compileNimble to create compiled versions of the model and the MCMC algorithm.\nBecause the specification is in terms of a Chinese restaurant process, the default sampler selected by NIMBLE is a collapsed Gibbs sampler. More specifically, because the baseline distribution  is conjugate to the product of Poisson kernels, Algorithm 2 from Neal (2000) is used.\nset.seed(1)\ninits &lt;- list(xi = 1:n, alpha = 1,\n             lambda = matrix(rgamma(J*n, shape = 1, rate = 0.1), ncol = J, nrow = n))\nmodel &lt;- nimbleModel(code, data=data, inits = inits, constants = constants, dimensions = list(lambda = c(n, J)))\n\n\n\n## defining model...\n\n\n\n## building model...\n\n\n\n## setting data and initial values...\n\n\n\n## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... \n## checking model sizes and dimensions...\n## model building finished.\n\n\n\ncmodel &lt;- compileNimble(model)\n\n\n\n## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.\n## compilation finished.\n\n\n\nconf &lt;- configureMCMC(model, monitors = c('xi','lambda', 'alpha'), print = TRUE)\n\n\n\n## ===== Monitors =====\n## thin = 1: xi, lambda, alpha\n## ===== Samplers =====\n## CRP_concentration sampler (1)\n##   - alpha\n## CRP_cluster_wrapper sampler (295)\n##   - lambda[]  (295 elements)\n## CRP sampler (1)\n##   - xi[1:59]\n\n\n\nmcmc &lt;- buildMCMC(conf)\ncmcmc &lt;- compileNimble(mcmc, project = model)\n\n\n\n## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.\n## compilation finished.\n\n\n\nsamples &lt;- runMCMC(cmcmc,  niter=55000, nburnin = 5000, thin=10)\n\n\n\n## running chain 1...\n\n\n\n## |-------------|-------------|-------------|-------------|\n## |-------------------------------------------------------|\nWe can extract posterior samples for some parameters of interest. The following are trace plots of the posterior samples for the concentration parameter, , and the number of clusters.\nxiSamples &lt;- samples[, grep('xi', colnames(samples))]    # samples of cluster IDs\nnGroups &lt;- apply(xiSamples, 1, function(x)  length(unique(x)))\nconcSamples &lt;- samples[, grep('alpha', colnames(samples))]\n\npar(mfrow=c(1, 2))\nts.plot(concSamples, xlab = \"Iteration\", ylab = expression(alpha), main = expression(paste('Traceplot for ', alpha)))\nts.plot(nGroups,  xlab = \"Iteration\", ylab = \"Number of components\", main = \"Number of clusters\")\n\n\n\nTrace plots showing MCMC convergence diagnostics for concentration parameter and cluster count\n\n\n\n\nAssessing the posterior\nWe can compute the posterior predictive distribution for a new observation , , which in turn allows us to obtain univariate or multivariate marginals or conditionals, or any other density estimate of interest. As an illustration, we compute the bivariate posterior predictive distribution for the number of seizures at baseline and at the 4th hospital visit. This is done in two steps. First, we compute posterior samples of the random measure , which can be done using the getSamplesDPmeasure() function. Based on the MCMC output, getSamplesDPmeasure() returns a list of matrices, each of them corresponding to a single posterior sample from , using its stick-breaking (SB) representation. The first column of each of these matrices contains the weights of the SB representation of  while the rest of the columns contain the atoms of the SB representation of , here . Second, we compute the bivariate posterior predictive distribution of the seizure counts at baseline and at the fourth visit, based on the posterior samples of . We use a compiled nimble function, called ‘bivariate’, to speed up the computations of the bivariate posterior predictive density.\n# samples from the random measure\nsamplesG &lt;- getSamplesDPmeasure(cmcmc)\n\n\n\n## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.\n\n\n\n## compilation finished.\n\n\n\nniter &lt;- length(samplesG)\nweightsIndex &lt;- grep('weights', colnames(samplesG[[1]]))\nlambdaIndex &lt;- grep('lambda', colnames(samplesG[[1]]))\nygrid &lt;- 0:45\n\n# function used to compute bivariate posterior predictive\nbivariateFun &lt;- nimbleFunction(\n  run = function(w = double(1),\n               lambda1 = double(1),\n               lambda5 = double(1),\n               ytilde = double(1)) {\n    returnType(double(2))\n\n    ngrid &lt;- length(ytilde)\n    out &lt;- matrix(0, ncol = ngrid, nrow = ngrid)\n\n    for(i in 1:ngrid) {\n      for(j in 1:ngrid) {\n        out[i, j] &lt;- sum(w * dpois(ytilde[i], lambda1) * dpois(ytilde[j], lambda5))\n      }\n    }\n\n    return(out)\n  }\n)\ncbivariateFun &lt;- compileNimble(bivariateFun)\n\n\n\n## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.\n## compilation finished.\n\n\n\n# computing bivariate posterior predictive of seizure counts are baseline and fourth visit\nbivariate &lt;- matrix(0, ncol = length(ygrid), nrow = length(ygrid))\nfor(iter in 1:niter) {\n  weights &lt;- samplesG[[iter]][, weightsIndex] # posterior weights\n  lambdaBaseline &lt;- samplesG[[iter]][, lambdaIndex[1]] # posterior rate of baseline\n  lambdaVisit4 &lt;- samplesG[[iter]][, lambdaIndex[5]] # posterior rate at fourth visit\n  bivariate &lt;- bivariate + cbivariateFun(weights, lambdaBaseline, lambdaVisit4, ygrid)\n}\nbivariate &lt;- bivariate / niter\nThe following code creates a heatmap of the posterior predictive bivariate distribution of the number of seizures at baseline and at the fourth hospital visit, showing that there is a positive correlation between these two measurements.\ncollist &lt;- colorRampPalette(c('white', 'grey', 'black'))\nimage.plot(ygrid, ygrid, bivariate, col = collist(6),\n           xlab = 'Baseline', ylab = '4th visit', ylim = c(0, 15), axes = TRUE)\n\n\n\nHeatmap showing bivariate posterior predictive distribution for seizure counts at baseline and fourth visit\n\n\nIn order to describe the uncertainty in the posterior clustering structure of the individuals in the study, we present a heat map of the posterior probability of two subjects belonging to the same cluster. To do this, first we compute the posterior pairwise clustering matrix that describes the probability of two individuals belonging to the same cluster, then we reorder the observations and finally plot the associated heatmap.\npairMatrix &lt;- apply(xiSamples, 2, function(focal) {\n                                   colSums(focal == xiSamples)\n                                  })\npairMatrix &lt;- pairMatrix / niter\n\n\nnewOrder &lt;- c(1, 35, 13, 16, 32, 33,  2, 29, 39, 26, 28, 52, 17, 15, 23,  8, 31,\n              38,  9, 46, 45, 11, 49, 44, 50, 41, 54, 21,  3, 40, 47, 48, 12,\n              6, 14,  7, 18, 22, 30, 55, 19, 34, 56, 57,  4,  5, 58, 10, 43, 25,\n              59, 20, 27, 24, 36, 37, 42, 51, 53)\n\nreordered_pairMatrix &lt;- pairMatrix[newOrder, newOrder]\nimage.plot(1:n, 1:n, reordered_pairMatrix , col = collist(6),\n           xlab = 'Patient', ylab = 'Patient',  axes = TRUE)\naxis(1, at = 1:n, labels = FALSE, tck = -.02)\naxis(2, at = 1:n, labels = FALSE, tck = -.02)\naxis(3, at = 1:n, tck = 0, labels = FALSE)\naxis(4, at = 1:n, tck = 0, labels = FALSE)\n\n\n\nPairwise scatter plots showing relationships between seizure counts at different time points",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models"
+    ]
+  },
+  {
+    "objectID": "blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html#references",
+    "href": "blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html#references",
+    "title": "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models",
+    "section": "References",
+    "text": "References\nInouye, D.I., E. Yang, G.I. Allen, and P. Ravikumar. 2017. A Review of Multivariate Distributions for Count Data Derived from the Poisson Distribution. Wiley Interdisciplinary Reviews: Computational Statistics 9: e1398.\nLeppik, I., F. Dreifuss, T. Bowman, N. Santilli, M. Jacobs, C. Crosby, J. Cloyd, et al. 1985. A Double-Blind Crossover Evaluation of Progabide in Partial Seizures: 3: 15 Pm8. Neurology 35.\nNeal, R. 2000. Markov chain sampling methods for Dirichlet process mixture models. Journal of Computational and Graphical Statistics 9: 249–65.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models"
+    ]
+  },
+  {
+    "objectID": "blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html",
+    "href": "blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html",
+    "title": "Posterior predictive sampling and other post-MCMC use of samples in NIMBLE",
+    "section": "",
+    "text": "(Prepared by Chris Paciorek and Sally Paganin.)\nOnce one has samples from an MCMC, one often wants to do some post hoc manipulation of the samples. An important example is posterior predictive sampling, which is needed for posterior predictive checking.\nWith posterior predictive sampling, we need to simulate new data values, once for each posterior sample. These samples can then be compared with the actual data as a model check.\nIn this example, we’ll follow the posterior predictive checking done in the Gelman et al. Bayesian Data Analysis book, using Newcomb’s speed of light measurements (Section 6.3).",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Posterior predictive sampling and other post-MCMC use of samples in NIMBLE"
+    ]
+  },
+  {
+    "objectID": "blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html#posterior-predictive-sampling-using-a-loop-in-r",
+    "href": "blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html#posterior-predictive-sampling-using-a-loop-in-r",
+    "title": "Posterior predictive sampling and other post-MCMC use of samples in NIMBLE",
+    "section": "Posterior predictive sampling using a loop in R",
+    "text": "Posterior predictive sampling using a loop in R\nSimon Newcomb made 66 measurements of the speed of light, which one might model using a normal distribution. One question discussed in Gelman et al. is whether the lowest measurements, which look like outliers, could have reasonably come from a normal distribution.\n\nSetup\nWe set up the nimble model.\nlibrary(nimble, warn.conflicts = FALSE)\n\ncode &lt;- nimbleCode({\n    ## noninformative priors\n    mu ~ dflat()\n    sigma ~ dhalfflat()\n    ## likelihood\n    for(i in 1:n) {\n        y[i] ~ dnorm(mu, sd = sigma)\n    }\n})\n\ndata &lt;- list(y = MASS::newcomb)\ninits &lt;- list(mu = 0, sigma = 5)\nconstants &lt;- list(n = length(data$y))\n\nmodel &lt;- nimbleModel(code = code, data = data, constants = constants, inits = inits)\n\n\n\n## defining model...\n\n\n\n## building model...\n\n\n\n## setting data and initial values...\n\n\n\n## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... \n## checking model sizes and dimensions...\n## model building finished.\nNext we’ll create some vectors of node names that will be useful for our manipulations.\n## Ensure we have the nodes needed to simulate new datasets\ndataNodes &lt;- model$getNodeNames(dataOnly = TRUE)\nparentNodes &lt;- model$getParents(dataNodes, stochOnly = TRUE)  # `getParents` is new in nimble 0.11.0\n## Ensure we have both data nodes and deterministic intermediates (e.g., lifted nodes)\nsimNodes &lt;- model$getDependencies(parentNodes, self = FALSE)\nNow run the MCMC.\ncmodel  &lt;- compileNimble(model)\n\n\n\n## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.\n\n\n\n## compilation finished.\n\n\n\nmcmc    &lt;- buildMCMC(model, monitors = parentNodes)\n\n\n\n## ===== Monitors =====\n## thin = 1: mu, sigma\n## ===== Samplers =====\n## conjugate sampler (2)\n##   - mu\n##   - sigma\n\n\n\ncmcmc   &lt;- compileNimble(mcmc, project = model)\n\n\n\n## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.\n## compilation finished.\n\n\n\nsamples &lt;- runMCMC(cmcmc, niter = 1000, nburnin = 500)\n\n\n\n## running chain 1...\n\n\n\n## |-------------|-------------|-------------|-------------|\n## |-------------------------------------------------------|\n\n\nPosterior predictive sampling by direct variable assignment\nWe’ll loop over the samples and use the compiled model (uncompiled would be ok too, but slower) to simulate new datasets.\nnSamp &lt;- nrow(samples)\nn &lt;- length(data$y)\nppSamples &lt;- matrix(0, nSamp, n)\n\nset.seed(1)\nfor(i in 1:nSamp){\n  cmodel[[\"mu\"]] &lt;- samples[i, \"mu\"]             ## or cmodel$mu &lt;- samples[i, \"mu\"]\n  cmodel[[\"sigma\"]] &lt;- samples[i, \"sigma\"]\n  cmodel$simulate(simNodes, includeData = TRUE)\n  ppSamples[i, ] &lt;- cmodel[[\"y\"]]\n}\n\n\nPosterior predictive sampling using values\nThat’s fine, but we needed to manually insert values for the different variables. For a more general solution, we can use nimble’s values function as follows.\nppSamples &lt;- matrix(0, nrow = nSamp, ncol =\n          length(model$expandNodeNames(dataNodes, returnScalarComponents = TRUE)))\npostNames &lt;- colnames(samples)\n\nset.seed(1)\nsystem.time({\nfor(i in seq_len(nSamp)) {\n    values(cmodel, postNames) &lt;- samples[i, ]  # assign 'flattened' values\n    cmodel$simulate(simNodes, includeData = TRUE)\n    ppSamples[i, ] &lt;- values(cmodel, dataNodes)\n}\n})\n\n\n\n##    user  system elapsed \n##   4.657   0.000   4.656\nSide note: For large models, it might be faster to use the variable names as the second argument to values() rather than the names of all the elements of the variables. If one chooses to do this, it’s important to check that the ordering of variables in the ‘flattened’ values in samples is the same as the ordering of variables in the second argument to values so that the first line of the for loop assigns the values from samples correctly into the model.\n\n\nDoing the posterior predictive check\nAt this point, we can implement the check we want using our chosen discrepancy measure. Here a simple check uses the minimum observation.\nobsMin &lt;- min(data$y)\nppMin &lt;- apply(ppSamples, 1, min)\n\n# ## Check with plot in Gelman et al. (3rd edition), Figure 6.3\nhist(ppMin, xlim = c(-50, 20),\n    main = \"Discrepancy = min(y)\",\n    xlab = \"min(y_rep)\")\nabline(v = obsMin, col = 'red')\n\n\n\nHistogram showing posterior predictive distribution results",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Posterior predictive sampling and other post-MCMC use of samples in NIMBLE"
+    ]
+  },
+  {
+    "objectID": "blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html#fast-posterior-predictive-sampling-using-a-nimblefunction",
+    "href": "blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html#fast-posterior-predictive-sampling-using-a-nimblefunction",
+    "title": "Posterior predictive sampling and other post-MCMC use of samples in NIMBLE",
+    "section": "Fast posterior predictive sampling using a nimbleFunction",
+    "text": "Fast posterior predictive sampling using a nimbleFunction\nThe approach above could be slow, even with a compiled model, because the loop is carried out in R. We could instead do all the work in a compiled nimbleFunction.\n\nWriting the nimbleFunction\nLet’s set up a nimbleFunction. In the setup code, we’ll manipulate the nodes and variables, similarly to the code above. In the run code, we’ll loop through the samples and simulate, also similarly.\nRemember that all querying of the model structure needs to happen in the setup code. We also need to pass the MCMC object to the nimble function, so that we can determine at setup time the names of the variables we are copying from the posterior samples into the model.\nThe run code takes the actual samples as the input argument, so the nimbleFunction will work regardless of how long the MCMC was run for.\nppSamplerNF &lt;- nimbleFunction(\n          setup = function(model, mcmc) {\n              dataNodes &lt;- model$getNodeNames(dataOnly = TRUE)\n              parentNodes &lt;- model$getParents(dataNodes, stochOnly = TRUE)\n              cat(\"Stochastic parents of data are:\", paste(parentNodes, collapse = ','), \".\\n\")\n              simNodes &lt;- model$getDependencies(parentNodes, self = FALSE)\n              vars &lt;- mcmc$mvSamples$getVarNames()  # need ordering of variables in mvSamples / samples matrix\n              cat(\"Using posterior samples of:\", paste(vars, collapse = ','), \".\\n\")\n              n &lt;- length(model$expandNodeNames(dataNodes, returnScalarComponents = TRUE))\n          },\n          run = function(samples = double(2)) {\n              nSamp &lt;- dim(samples)[1]\n              ppSamples &lt;- matrix(nrow = nSamp, ncol = n)\n              for(i in 1:nSamp) {\n                    values(model, vars) &lt;&lt;- samples[i, ]\n                    model$simulate(simNodes, includeData = TRUE)\n                    ppSamples[i, ] &lt;- values(model, dataNodes)\n              }\n              returnType(double(2))\n              return(ppSamples)\n          })\n\n\nUsing the nimbleFunction\nWe’ll create the instance of the nimbleFunction for this model and MCMC.\nThen we run the compiled nimbleFunction.\n## Create the sampler for this model and this MCMC.\nppSampler &lt;- ppSamplerNF(model, mcmc)\n\n\n\n## Stochastic parents of data are: mu,sigma .\n## Using posterior samples of: mu,sigma .\n\n\n\ncppSampler &lt;- compileNimble(ppSampler, project = model)\n\n\n\n## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.\n\n\n\n## compilation finished.\n\n\n\n## Check ordering of variables is same in 'vars' and in 'samples'.\ncolnames(samples)\n\n\n\n## [1] \"mu\"    \"sigma\"\n\n\n\nidentical(colnames(samples), model$expandNodeNames(mcmc$mvSamples$getVarNames()))\n\n\n\n## [1] TRUE\n\n\n\nset.seed(1)\nsystem.time(ppSamples_via_nf &lt;- cppSampler$run(samples))\n\n\n\n##    user  system elapsed \n##   0.004   0.000   0.004\n\n\n\nidentical(ppSamples, ppSamples_via_nf)\n\n\n\n## [1] TRUE\nSo we get exactly the same results (note the use of set.seed to ensure this) but much faster.\nHere the speed doesn’t really matter but for more samples and larger models it often will, even after accounting for the time spent to compile the nimbleFunction.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Posterior predictive sampling and other post-MCMC use of samples in NIMBLE"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-0-of-nimble-released.html",
+    "href": "blog/version-1-2-0-of-nimble-released.html",
+    "title": "Version 1.2.0 of NIMBLE released",
+    "section": "",
+    "text": "We’re excited to announce the release of NIMBLE version 1.2.0, which includes several new features and significant improvements.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-0-of-nimble-released.html#new-features",
+    "href": "blog/version-1-2-0-of-nimble-released.html#new-features",
+    "title": "Version 1.2.0 of NIMBLE released",
+    "section": "New Features",
+    "text": "New Features\n\nEnhanced Sequential Monte Carlo\n\nImproved particle filter algorithms\nBetter support for state-space models\nNew bootstrap and auxiliary particle filters\n\n\n\nMCMC Improvements\n\nMore efficient adaptive samplers\nBetter convergence diagnostics\nEnhanced mixing for challenging posteriors\n\n\n\nnimbleFunction Enhancements\n\nSupport for additional mathematical operations\nImproved debugging capabilities\nBetter integration with R environments",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-0-of-nimble-released.html#performance-improvements",
+    "href": "blog/version-1-2-0-of-nimble-released.html#performance-improvements",
+    "title": "Version 1.2.0 of NIMBLE released",
+    "section": "Performance Improvements",
+    "text": "Performance Improvements\n\nFaster model compilation times\nReduced memory usage in large models\nOptimized linear algebra operations",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-0-of-nimble-released.html#new-distributions",
+    "href": "blog/version-1-2-0-of-nimble-released.html#new-distributions",
+    "title": "Version 1.2.0 of NIMBLE released",
+    "section": "New Distributions",
+    "text": "New Distributions\nAdded support for several new probability distributions: - Multivariate t-distribution - Generalized Pareto distribution - Additional parameterizations for existing distributions",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-0-of-nimble-released.html#installation",
+    "href": "blog/version-1-2-0-of-nimble-released.html#installation",
+    "title": "Version 1.2.0 of NIMBLE released",
+    "section": "Installation",
+    "text": "Installation\ninstall.packages(\"nimble\")",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-0-of-nimble-released.html#breaking-changes",
+    "href": "blog/version-1-2-0-of-nimble-released.html#breaking-changes",
+    "title": "Version 1.2.0 of NIMBLE released",
+    "section": "Breaking Changes",
+    "text": "Breaking Changes\nPlease note the following changes that may affect existing code: - Deprecated functions have been removed (see migration guide) - Some default sampler choices have been updated",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-0-of-nimble-released.html#documentation",
+    "href": "blog/version-1-2-0-of-nimble-released.html#documentation",
+    "title": "Version 1.2.0 of NIMBLE released",
+    "section": "Documentation",
+    "text": "Documentation\n\nUpdated User Manual with new examples\nEnhanced function documentation\nNew vignettes for advanced topics",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-2-0-of-nimble-released.html#acknowledgments",
+    "href": "blog/version-1-2-0-of-nimble-released.html#acknowledgments",
+    "title": "Version 1.2.0 of NIMBLE released",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nSpecial thanks to the community members who contributed bug reports, feature requests, and testing feedback.\nFor complete details, see the NEWS file in the package.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.2.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "blog/index.html",
+    "href": "blog/index.html",
+    "title": "Blog Posts",
+    "section": "",
+    "text": "Welcome to the NIMBLE blog! Here you’ll find announcements about new releases, tutorials, and insights into using NIMBLE for your statistical computing needs.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBayesian Nonparametric Models in NIMBLE: General Multivariate Models\n\n\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nPosterior predictive sampling and other post-MCMC use of samples in NIMBLE\n\n\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling\n\n\n\nrelease\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nnimbleEcology: custom NIMBLE distributions for ecologists\n\n\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.1.0 of NIMBLE released\n\n\n\nrelease\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nAnnouncing the nimbleMacros package and the use of macros in NIMBLE models\n\n\n\npackage\n\nmacros\n\nmodeling\n\n\n\nIntroduction to the new nimbleMacros package for enhanced model specification\n\n\n\n\n\nApr 1, 2024\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.3.0 of NIMBLE released\n\n\n\nrelease\n\nannouncement\n\n\n\nNew features and improvements in NIMBLE 1.3.0\n\n\n\n\n\nMar 15, 2024\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.2.1 of NIMBLE released\n\n\n\nrelease\n\nbugfix\n\n\n\nBug fixes and improvements in NIMBLE 1.2.1\n\n\n\n\n\nFeb 15, 2024\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.2.0 of NIMBLE released\n\n\n\nrelease\n\nfeatures\n\n\n\nNew features and enhancements in NIMBLE 1.2.0\n\n\n\n\n\nJan 20, 2024\n\n\nNIMBLE Development Team\n\n\n\n\n\nNo matching items",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "All Posts"
+    ]
+  },
+  {
+    "objectID": "blog/version-1-1-0-of-nimble-released.html",
+    "href": "blog/version-1-1-0-of-nimble-released.html",
+    "title": "Version 1.1.0 of NIMBLE released",
+    "section": "",
+    "text": "We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC,Laplace approximation, and SMC).\nThis release provides new functionality as well as various bug fixes and improved error trapping, including:\n\nImproving our automatic differentiation (AD) system so it can be used in a wider range of models, including models with stochastic indexing, discrete latent states, and CAR distributions. Support for AD for these models means that HMC sampling and Laplace approximation can be used.\nAllowing distributions and functions (whether user-defined or built-in) that lack AD support (such as dinterval, dconstraint, and truncated distributions) to be used and compiled in AD-enabled models. The added flexibility increases the range of models in which one can use AD methods (HMC or Laplace) on some parts of a model and other samplers or methods on other parts.\nAdding nimIntegrate to the NIMBLE language, providing one-dimensional numerical integration via adaptive quadrature, equivalent to R’s integrate. This can, for example, be used in a user-defined function or distribution for use in model code, such as to implement certain point process or survival models that involve a one-dimensional integral.\nAdding a “prior samples” MCMC sampler, which uses an existing set of numerical samples to define the prior distribution of model node(s).\nBetter support of the dCRP distribution in non-standard model structures.\nAdding error trapping to prevent accidental use of C++ keywords as model variable names.\nRemoving the RW_multinomial MCMC sampler, which was found to generate incorrect posterior results (in cases when a latent state followed a multinomial distribution)\nFixing a bug in conjugacy checking in a case of subsets of multivariate nodes.\nFixing is.na and is.nan to operate in the expected vectorized fashion.\nImproving documentation of AD, nimbleHMC, and nimbleSMC in the manual.\nUpdating Eigen (the C++ linear algebra library used by nimble) to version 3.4.0.\n\nPlease see the release notes on our website for more details.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.1.0 of NIMBLE released"
+    ]
+  },
+  {
+    "objectID": "recent-posts.html",
+    "href": "recent-posts.html",
+    "title": "Recent Posts",
+    "section": "",
+    "text": "Stay up to date with the latest NIMBLE developments, releases, and community news.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBlog Posts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBayesian Nonparametric Models in NIMBLE: General Multivariate Models\n\n\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nPosterior predictive sampling and other post-MCMC use of samples in NIMBLE\n\n\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling\n\n\n\nrelease\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nnimbleEcology: custom NIMBLE distributions for ecologists\n\n\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.1.0 of NIMBLE released\n\n\n\nrelease\n\nannouncement\n\n\n\n\n\n\n\n\n\nAug 17, 2025\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nAnnouncing the nimbleMacros package and the use of macros in NIMBLE models\n\n\n\npackage\n\nmacros\n\nmodeling\n\n\n\nIntroduction to the new nimbleMacros package for enhanced model specification\n\n\n\n\n\nApr 1, 2024\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.3.0 of NIMBLE released\n\n\n\nrelease\n\nannouncement\n\n\n\nNew features and improvements in NIMBLE 1.3.0\n\n\n\n\n\nMar 15, 2024\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.2.1 of NIMBLE released\n\n\n\nrelease\n\nbugfix\n\n\n\nBug fixes and improvements in NIMBLE 1.2.1\n\n\n\n\n\nFeb 15, 2024\n\n\nNIMBLE Development Team\n\n\n\n\n\n\n\n\n\n\n\n\nVersion 1.2.0 of NIMBLE released\n\n\n\nrelease\n\nfeatures\n\n\n\nNew features and enhancements in NIMBLE 1.2.0\n\n\n\n\n\nJan 20, 2024\n\n\nNIMBLE Development Team\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "examples.html",
+    "href": "examples.html",
+    "title": "Examples",
+    "section": "",
+    "text": "NIMBLE provides a rich collection of examples to help you get started with statistical modeling and algorithm development. Examples cover a wide range of topics from basic BUGS model usage to advanced algorithm implementation.\n\n\n\n\n\n\nBuilding a model from BUGS code\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nConverting to NIMBLE\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nCreating a default MCMC\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nCustomizing an MCMC\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nParallelizing NIMBLE\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nSimulating from a model (quickly!)\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nUsing linear predictors in a regression model\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nBuilding a generalized linear mixed model and an MCMC for it\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nVariable selection using reversible jump MCMC (RJMCMC)\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nRestarting an MCMC\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nPosterior predictive sampling and other post-MCMC use of samples\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nEcology examples from the book Applied Hierarchical Modeling in Ecology\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nWriting a new distribution for use in BUGS code: zero-inflated Poisson\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nGaussian process models\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nConditional autoregressive (CAR) models\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nItem response theory (IRT) models\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nMaximum likelihood via Monte Carlo Expectation-Maximization (MCEM)\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nMaximum likelihood (basic example)\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nStochastic volatility modeling using a custom distribution\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nBayesian nonparametric density estimation\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nBayesian nonparametric random effects\n\n\n\n\n\nRead this example on a new page.\n\n\n\n\n\n\n\n\n\n\n\nBayesian nonparametrics with jointly clustered observations\n\n\n\n\n\nRead this example on a new page."
+  },
+  {
+    "objectID": "license-and-citation.html",
+    "href": "license-and-citation.html",
+    "title": "License and Citation",
+    "section": "",
+    "text": "License\nNIMBLE is largely licensed under the BSD 3-Clause license, but our C++ code is licensed under the GPL (&gt;=2) and the package includes external contributions with their own licensing. Please see the COPYRIGHTS file in the package.\n\n\nCiting NIMBLE\nPlease cite the Journal of Computational and Graphical Statistics article in published work that uses or mentions NIMBLE. In work that also uses NIMBLE, please also cite the R package for the specific version. To help us track usage to justify funding support for NIMBLE, please include the DOI in the citation. Please cite the manual for specific material from the manual.\nHow to cite NIMBLE in general:\n@article{nimble-article:2017, \n  author = {{de Valpine}, P. and Turek, D. and Paciorek, C.J. and Anderson-Bergman, C. and {Temple Lang}, D. and Bodik, R.} \n  title = {Programming with models: writing statistical algorithms for general model structures with {NIMBLE}},\n  year = {2017}, \n  journal = {Journal of Computational and Graphical Statistics},\n  volume = 26,\n  pages = {403-417},\n  doi = {10.1080/10618600.2016.1172487}\n}\nHow to cite the package:\nNIMBLE Development Team. 2024. NIMBLE: MCMC, Particle Filtering, and Programmable Hierarchical Modeling. doi: 10.5281/zenodo.1211190. R package version 1.3.0, https://cran.r-project.org/package=nimble.\n@misc{nimble-software:2024,\n  author = {{de Valpine}, P. and Paciorek, C. and Turek, D. and Michaud, N. and Anderson-Bergman, C. and Obermeyer, F. and Wehrhahn Cortes, C. and Rodr{\\'i}guez, A. and {Temple Lang}, D. and Zhang, W. and Paganin, S. and Hug, J. and van Dam-Bates, P.}, \n  year = {2024},\n  title = {NIMBLE: MCMC, Particle Filtering, and Programmable Hierarchical Modeling}\n  version = 1.3.0,\n  doi = {10.5281/zenodo.1211190},\n  url = {https://cran.r-project.org/package=nimble}\n}\nHow to cite the manual:\nNIMBLE Development Team. 2024. NIMBLE User Manual. doi: 10.5281/zenodo.1211190. R package manual version 1.3.0. https://r-nimble.org.\n@manual{nimble-manual:2024,\n  author = {{de Valpine}, P. and Paciorek, C. and Turek, D. and Michaud, N. and Anderson-Bergman, C. and Obermeyer, F. and Wehrhahn Cortes, C. and Rodr{\\'i}guez, A. and {Temple Lang}, D. and Zhang, W. and Paganin, S. and Hug, J. and van Dam-Bates, P.}, \n  year = {2024}, \n  title = {NIMBLE User Manual}, \n  version = 1.3.0, \n  doi = {10.5281/zenodo.1211190}, \n  url = {https://r-nimble.org} \n}"
+  },
+  {
+    "objectID": "CONVERSION_NOTES.html",
+    "href": "CONVERSION_NOTES.html",
+    "title": "WordPress to Quarto Conversion - NIMBLE Website",
+    "section": "",
+    "text": "Successfully converted the NIMBLE WordPress website to a Quarto website format. The conversion includes:\n\n\n\nMain Site Structure\n\nHomepage (index.qmd) with all key features\nNavigation structure in _quarto.yml\nCustom styling (styles.css, custom.scss)\n\nCore Pages Converted\n\nAbout Us (with team member photos)\nWhat is NIMBLE?\nDownload/Installation instructions\nDocumentation links\nExamples page\nContributing guidelines\nLicense and Citation\nGroups and Issues\nRelease Notes\nRecent Posts listing\n\nBlog System\n\nBlog index with listing functionality\nSample blog posts converted\nCategory system implemented\nRSS-ready structure\n\nAssets\n\nLogo and team member images\nEssential graphics (BUGS diagrams, flow charts)\nNIMBLE cheat sheet PDF\n\nConversion Tools\n\nPython script for HTML to Markdown conversion\nBash script for batch processing\nDocumentation for future conversions\n\n\n\n\n\n\nResponsive Design: Mobile-friendly navigation and layout\nSearch: Built-in site search functionality\nRSS: Automatic RSS feed generation\nCategories: Blog post categorization system\nSocial Links: GitHub and Twitter integration\nModern UI: Clean, professional appearance\n\n\n\n\nwebsite/\n├── _quarto.yml           # Main configuration\n├── index.qmd            # Homepage\n├── about-us.qmd         # Team information\n├── what-is-nimble.qmd   # Introduction\n├── download.qmd         # Installation\n├── documentation.qmd    # Docs links\n├── examples.qmd         # Code examples\n├── contributing.qmd     # How to contribute\n├── license-and-citation.qmd\n├── groups-and-issues.qmd\n├── release-notes.qmd\n├── recent-posts.qmd\n├── archived-versions-of-nimble-and-the-user-manual.qmd\n├── styles.css           # Custom CSS\n├── custom.scss          # SCSS variables\n├── blog/               # Blog posts\n│   ├── index.qmd       # Blog listing\n│   ├── version-1-3-0-of-nimble-released.qmd\n│   ├── version-1-2-1-of-nimble-released.qmd\n│   ├── version-1-2-0-of-nimble-released.qmd\n│   └── announcing-the-nimblemacros-package.qmd\n├── images/             # Static assets\n│   ├── nimble-logo-oval-small.png\n│   ├── team member photos...\n│   ├── BUGSfig.png\n│   ├── mixingExample.png\n│   ├── compileFlowChart.png\n│   └── NimbleCheatSheet.pdf\n├── convert_post.py     # HTML to Markdown converter\n├── convert_posts.sh    # Batch conversion script\n└── README.md           # Documentation\n\n\n\n\nConvert Remaining Blog Posts\n# Use the provided script\n./convert_posts.sh\nReview and Clean Up\n\nEdit converted blog posts for formatting\nUpdate dates and categories\nFix any broken links or images\n\nAdditional Content\n\nConvert WordPress pages not yet included\nAdd any missing documentation\nUpdate external links\n\nDeployment\n\nSet up hosting (Netlify, GitHub Pages, etc.)\nConfigure domain name\nSet up continuous deployment\n\n\n\n\n\n\nAdding New Posts: Create .qmd files in blog/ directory\nUpdating Pages: Edit corresponding .qmd files\nStyling Changes: Modify styles.css or custom.scss\nNavigation: Update _quarto.yml\n\n\n\n\n\nVersion Control: Full Git integration\nMaintainability: Markdown-based content\nPerformance: Static site generation\nModern Features: Built-in search, RSS, responsive design\nExtensibility: Easy to add new features\nSecurity: No database or dynamic components\n\nThe conversion preserves all essential content and functionality while providing a modern, maintainable foundation for the NIMBLE website."
+  },
+  {
+    "objectID": "CONVERSION_NOTES.html#conversion-summary",
+    "href": "CONVERSION_NOTES.html#conversion-summary",
+    "title": "WordPress to Quarto Conversion - NIMBLE Website",
+    "section": "",
+    "text": "Successfully converted the NIMBLE WordPress website to a Quarto website format. The conversion includes:\n\n\n\nMain Site Structure\n\nHomepage (index.qmd) with all key features\nNavigation structure in _quarto.yml\nCustom styling (styles.css, custom.scss)\n\nCore Pages Converted\n\nAbout Us (with team member photos)\nWhat is NIMBLE?\nDownload/Installation instructions\nDocumentation links\nExamples page\nContributing guidelines\nLicense and Citation\nGroups and Issues\nRelease Notes\nRecent Posts listing\n\nBlog System\n\nBlog index with listing functionality\nSample blog posts converted\nCategory system implemented\nRSS-ready structure\n\nAssets\n\nLogo and team member images\nEssential graphics (BUGS diagrams, flow charts)\nNIMBLE cheat sheet PDF\n\nConversion Tools\n\nPython script for HTML to Markdown conversion\nBash script for batch processing\nDocumentation for future conversions\n\n\n\n\n\n\nResponsive Design: Mobile-friendly navigation and layout\nSearch: Built-in site search functionality\nRSS: Automatic RSS feed generation\nCategories: Blog post categorization system\nSocial Links: GitHub and Twitter integration\nModern UI: Clean, professional appearance\n\n\n\n\nwebsite/\n├── _quarto.yml           # Main configuration\n├── index.qmd            # Homepage\n├── about-us.qmd         # Team information\n├── what-is-nimble.qmd   # Introduction\n├── download.qmd         # Installation\n├── documentation.qmd    # Docs links\n├── examples.qmd         # Code examples\n├── contributing.qmd     # How to contribute\n├── license-and-citation.qmd\n├── groups-and-issues.qmd\n├── release-notes.qmd\n├── recent-posts.qmd\n├── archived-versions-of-nimble-and-the-user-manual.qmd\n├── styles.css           # Custom CSS\n├── custom.scss          # SCSS variables\n├── blog/               # Blog posts\n│   ├── index.qmd       # Blog listing\n│   ├── version-1-3-0-of-nimble-released.qmd\n│   ├── version-1-2-1-of-nimble-released.qmd\n│   ├── version-1-2-0-of-nimble-released.qmd\n│   └── announcing-the-nimblemacros-package.qmd\n├── images/             # Static assets\n│   ├── nimble-logo-oval-small.png\n│   ├── team member photos...\n│   ├── BUGSfig.png\n│   ├── mixingExample.png\n│   ├── compileFlowChart.png\n│   └── NimbleCheatSheet.pdf\n├── convert_post.py     # HTML to Markdown converter\n├── convert_posts.sh    # Batch conversion script\n└── README.md           # Documentation\n\n\n\n\nConvert Remaining Blog Posts\n# Use the provided script\n./convert_posts.sh\nReview and Clean Up\n\nEdit converted blog posts for formatting\nUpdate dates and categories\nFix any broken links or images\n\nAdditional Content\n\nConvert WordPress pages not yet included\nAdd any missing documentation\nUpdate external links\n\nDeployment\n\nSet up hosting (Netlify, GitHub Pages, etc.)\nConfigure domain name\nSet up continuous deployment\n\n\n\n\n\n\nAdding New Posts: Create .qmd files in blog/ directory\nUpdating Pages: Edit corresponding .qmd files\nStyling Changes: Modify styles.css or custom.scss\nNavigation: Update _quarto.yml\n\n\n\n\n\nVersion Control: Full Git integration\nMaintainability: Markdown-based content\nPerformance: Static site generation\nModern Features: Built-in search, RSS, responsive design\nExtensibility: Easy to add new features\nSecurity: No database or dynamic components\n\nThe conversion preserves all essential content and functionality while providing a modern, maintainable foundation for the NIMBLE website."
+  },
+  {
+    "objectID": "about-us.html",
+    "href": "about-us.html",
+    "title": "About Us",
+    "section": "",
+    "text": "Perry de Valpine is in the Department of Environmental Science, Policy and Management at the University of California, Berkeley.\n\n\n\nChris Paciorek is an adjunct professor in the Department of Statistics at UC Berkeley, as well as the department’s statistical computing consultant.\n\n\n\nDaniel Turek is in the Department of Mathematics at Lafayette College.\n\n\n\nDuncan Temple Lang is in the Department of Statistics at the University of California, Davis."
+  },
+  {
+    "objectID": "about-us.html#core-team",
+    "href": "about-us.html#core-team",
+    "title": "About Us",
+    "section": "",
+    "text": "Perry de Valpine is in the Department of Environmental Science, Policy and Management at the University of California, Berkeley.\n\n\n\nChris Paciorek is an adjunct professor in the Department of Statistics at UC Berkeley, as well as the department’s statistical computing consultant.\n\n\n\nDaniel Turek is in the Department of Mathematics at Lafayette College.\n\n\n\nDuncan Temple Lang is in the Department of Statistics at the University of California, Davis."
+  },
+  {
+    "objectID": "what-is-nimble.html",
+    "href": "what-is-nimble.html",
+    "title": "What is NIMBLE?",
+    "section": "",
+    "text": "NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods. NIMBLE is built in R but compiles your models and algorithms using C++ for speed. It includes three components:\nNIMBLE can also be used without BUGS models as a way to compile simple R-like code into C++, which is then compiled and loaded into R with an interface function or object."
+  },
+  {
+    "objectID": "what-is-nimble.html#funding",
+    "href": "what-is-nimble.html#funding",
+    "title": "What is NIMBLE?",
+    "section": "Funding",
+    "text": "Funding\nThe development of NIMBLE has been funded by:\n\nan NSF Advances in Biological Informatics grant (DBI-1147230) to P. de Valpine, C. Paciorek, and D. Temple Lang;\nan NSF SI2-SSI grant (ACI-1550488) to P. de Valpine, C. Paciorek, and D. Temple Lang; and\nan NSF Collaborative Research grant (DMS-1622444) to P. de Valpine, A. Rodriguez, and C. Paciorek.\nan NSF Collaborative Research grant (DMS-2152860) to P. de Valpine, C. Paciorek, and D. Turek.\n\nwith additional support provided by postdoctoral funding for D. Turek from the Berkeley Institute for Data Science and Google Summer of Code fellowships for N. Michaud (2015) and C. Lewis-Beck (2017)."
+  }
+]

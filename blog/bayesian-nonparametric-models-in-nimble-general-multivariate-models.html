@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="NIMBLE Development Team">
+<meta name="dcterms.date" content="2025-08-17">
+
+<title>Bayesian Nonparametric Models in NIMBLE: General Multivariate Models – NIMBLE</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../what-is-nimble.html"> 
+<span class="menu-text">What is NIMBLE?</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../examples.html"> 
+<span class="menu-text">Examples</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../documentation.html"> 
+<span class="menu-text">Documentation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../download.html"> 
+<span class="menu-text">Download</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-blog" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Blog</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-blog">    
+        <li>
+    <a class="dropdown-item" href="../blog/index.html">
+ <span class="dropdown-text">All Posts</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Recent Posts</li>
+        <li>
+    <a class="dropdown-item" href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">
+ <span class="dropdown-text">nimbleMacros Package</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-3-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.3.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-2-1-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.2.1 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-2-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.2.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-1-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.1.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.0.0 Released</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Feature Posts</li>
+        <li>
+    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
+ <span class="dropdown-text">nimbleEcology Package</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
+ <span class="dropdown-text">Bayesian Nonparametrics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
+ <span class="dropdown-text">Posterior Predictive Sampling</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../contributing.html">
+ <span class="dropdown-text">How to Contribute</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../release-notes.html">
+ <span class="dropdown-text">Release Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../groups-and-issues.html">
+ <span class="dropdown-text">Groups and Issues</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../license-and-citation.html">
+ <span class="dropdown-text">License and Citation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../about-us.html">
+ <span class="dropdown-text">About Us</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Blog Posts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All Posts</span></a>
+  </div>
+</li>
+          <li class="px-0"><hr class="sidebar-divider hi "></li>
+          <li class="sidebar-item">
+ <span class="menu-text">Recent Posts</span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-3-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.3.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-2-1-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.2.1 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-2-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.2.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-1-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.1.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
+  </div>
+</li>
+          <li class="px-0"><hr class="sidebar-divider hi "></li>
+          <li class="sidebar-item">
+ <span class="menu-text">Feature Posts</span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nimbleEcology: custom NIMBLE distributions for ecologists</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Posterior predictive sampling and other post-MCMC use of samples in NIMBLE</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#bnp-analysis-of-epileptic-seizure-count-data" id="toc-bnp-analysis-of-epileptic-seizure-count-data" class="nav-link" data-scroll-target="#bnp-analysis-of-epileptic-seizure-count-data">BNP analysis of epileptic seizure count data</a>
+  <ul class="collapse">
+  <li><a href="#model-formulation" id="toc-model-formulation" class="nav-link" data-scroll-target="#model-formulation">Model formulation</a></li>
+  <li><a href="#running-the-mcmc" id="toc-running-the-mcmc" class="nav-link" data-scroll-target="#running-the-mcmc">Running the MCMC</a></li>
+  <li><a href="#assessing-the-posterior" id="toc-assessing-the-posterior" class="nav-link" data-scroll-target="#assessing-the-posterior">Assessing the posterior</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">announcement</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>NIMBLE Development Team </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 17, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>(Prepared by Claudia Wehrhahn)</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>NIMBLE is a hierarchical modeling package that uses nearly the same language for model specification as the popular MCMC packages WinBUGS, OpenBUGS and JAGS, while making the modeling language extensible — you can add distributions and functions — and also allowing customization of the algorithms used to estimate the parameters of the model.</p>
+<p>NIMBLE supports Markov chain Monte Carlo (MCMC) inference for Bayesian nonparametric (BNP) mixture models. Specifically, NIMBLE provides functionality for fitting models involving Dirichlet process priors using either the Chinese Restaurant Process (CRP) or a truncated stick-breaking (SB) representation.</p>
+<p>In version 0.10.1, we’ve extended NIMBLE to be able to handle more general multivariate models when using the CRP prior. In particular, one can now easily use the CRP prior when multiple observations (or multiple latent variables) are being jointly clustered. For example, in a longitudinal study, one may want to cluster at the individual level, i.e., to jointly cluster all of the observations for each of the individuals in the study. (Formerly this was only possible in NIMBLE by specifying the observations for each individual as coming from a single multivariate distribution.)</p>
+<p>This allows one to specify a multivariate mixture kernel as the product of univariate ones. This is particularly useful when working with discrete data. In general, multivariate extensions of well-known univariate discrete distributions, such as the Bernoulli, Poisson and Gamma, are not straightforward. For example, for multivariate count data, a multivariate Poisson distribution might appear to be a good fit, yet its definition is not trivial, inference is cumbersome, and the model lacks flexibility to deal with overdispersion. See Inouye et al.&nbsp;(2017) for a review on multivariate distributions for count data based on the Poisson distribution.</p>
+<p>In this post, we illustrate NIMBLE’s new extended BNP capabilities by modelling multivariate discrete data. Specifically, we show how to model multivariate count data from a longitudinal study under a nonparametric framework. The modeling approach is simple and introduces correlation in the measurements within subjects.</p>
+<p>For more detailed information on NIMBLE and Bayesian nonparametrics in NIMBLE, see the <a href="https://web.archive.org/web/20250427222053/https://r-nimble.org/documentation">User Manual</a>.</p>
+</section>
+<section id="bnp-analysis-of-epileptic-seizure-count-data" class="level2">
+<h2 class="anchored" data-anchor-id="bnp-analysis-of-epileptic-seizure-count-data">BNP analysis of epileptic seizure count data</h2>
+<p>We illustrate the use of nonparametric multivariate mixture models for modeling counts of epileptic seizures from a longitudinal study of the drug progabide as an adjuvant antiepileptic chemotherapy. The data, originally reported in Leppik et al.&nbsp;(1985), arise from a clinical trial of 59 people with epilepsy. At four clinic visits, subjects reported the number of seizures occurring over successive two-week periods. Additional data include the baseline seizure count and the age of the patient. Patients were randomized to receive either progabide or a placebo, in addition to standard chemotherapy.</p>
+<pre><code>load(url("https://r-nimble.org/nimbleExamples/seizures.Rda"))
+names(seizures)
+
+
+
+## [1] "id"    "seize" "visit" "trt"   "age"
+
+
+
+head(seizures)
+
+
+
+##    id seize visit trt age
+## 1 101    76     0   1  18
+## 2 101    11     1   1  18
+## 3 101    14     2   1  18
+## 4 101     9     3   1  18
+## 5 101     8     4   1  18
+## 6 102    38     0   1  32</code></pre>
+<section id="model-formulation" class="level3">
+<h3 class="anchored" data-anchor-id="model-formulation">Model formulation</h3>
+<p>We model the joint distribution of the baseline number of seizures and the counts from each of the two-week periods as a Dirichlet Process mixture (DPM) of products of Poisson distributions. Let <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%5Cboldsymbol%7By%7D_i%3D%28y_%7Bi%2C+1%7D%2C+%5Cldots%2C+y_%7Bi%2C5%7D%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, where <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=y_%7Bi%2Cj%7D&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> denotes the seizure count for patient <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=i&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> measured at visit <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=j&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, for <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=i%3D1%2C+%5Cldots%2C+59&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, and <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=j%3D1%2C+%5Cldots%2C+5&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">. The value for <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=j%3D1&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> is the baseline count. The model takes the form</p>
+<p><embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=++%5Cboldsymbol%7By%7D_i+%5Cmid+%5Cboldsymbol%7B%5Clambda%7D_%7Bi%7D+%5Csim+%5Cprod_%7Bj%3D1%7D%5E5+%5Cmbox%7BPoisson%7D%28%5Clambda_%7Bi%2C+j%7D%29%2C++%5Cquad%5Cquad++%5Cboldsymbol%7B%5Clambda%7D_%7Bi%7D+%5Cmid+G+%5Csim+G%2C++%5Cquad%5Cquad++G+%5Csim+DP%28%5Calpha%2C+H%29%2C++&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"><br>
+where <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%5Cboldsymbol%7B%5Clambda%7D_%7Bi%7D%3D%28%5Clambda_%7Bi%2C1%7D%2C+%5Cldots%5Clambda_%7Bi%2C5%7D%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> and <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=H&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> corresponds to a product of Gamma distributions.</p>
+<p>Our specification uses a product of Poisson distributions as the kernel in the DPM which, at first sight, would suggest independence of the repeated seizure count measurements. However, because we are mixing over the parameters, this specification in fact induces dependence within subjects, with the strength of the dependence being inferred from the data. In order to specify the model in NIMBLE, first we translate the information in <code>seize</code> into a matrix and then we write the NIMBLE code.</p>
+<p>We specify this model in NIMBLE with the following code in R. The vector <code>xi</code> contains the latent cluster IDs, one for each patient.</p>
+<pre><code>n &lt;- 59
+J &lt;- 5
+data &lt;- list(y = matrix(seizures$seize, ncol = J, nrow = n, byrow = TRUE))
+constants &lt;- list(n = n, J = J)
+
+code &lt;- nimbleCode({
+  for(i in 1:n) {
+    for(j in 1:J) {
+      y[i, j] ~ dpois(lambda[xi[i], j])
+    }
+  }
+  for(i in 1:n) {
+    for(j in 1:J) {
+      lambda[i, j] ~ dgamma(shape = 1, rate = 0.1)
+    }
+  }
+  xi[1:n] ~ dCRP(conc = alpha, size = n)
+  alpha ~ dgamma(shape = 1, rate = 1)
+})</code></pre>
+</section>
+<section id="running-the-mcmc" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-mcmc">Running the MCMC</h3>
+<p>The following code sets up the data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm. For speed, the MCMC runs using compiled C++ code, hence the calls to <code>compileNimble</code> to create compiled versions of the model and the MCMC algorithm.</p>
+<p>Because the specification is in terms of a Chinese restaurant process, the default sampler selected by NIMBLE is a collapsed Gibbs sampler. More specifically, because the baseline distribution <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=H&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> is conjugate to the product of Poisson kernels, Algorithm 2 from Neal (2000) is used.</p>
+<pre><code>set.seed(1)
+inits &lt;- list(xi = 1:n, alpha = 1,
+             lambda = matrix(rgamma(J*n, shape = 1, rate = 0.1), ncol = J, nrow = n))
+model &lt;- nimbleModel(code, data=data, inits = inits, constants = constants, dimensions = list(lambda = c(n, J)))
+
+
+
+## defining model...
+
+
+
+## building model...
+
+
+
+## setting data and initial values...
+
+
+
+## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
+## checking model sizes and dimensions...
+## model building finished.
+
+
+
+cmodel &lt;- compileNimble(model)
+
+
+
+## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
+## compilation finished.
+
+
+
+conf &lt;- configureMCMC(model, monitors = c('xi','lambda', 'alpha'), print = TRUE)
+
+
+
+## ===== Monitors =====
+## thin = 1: xi, lambda, alpha
+## ===== Samplers =====
+## CRP_concentration sampler (1)
+##   - alpha
+## CRP_cluster_wrapper sampler (295)
+##   - lambda[]  (295 elements)
+## CRP sampler (1)
+##   - xi[1:59]
+
+
+
+mcmc &lt;- buildMCMC(conf)
+cmcmc &lt;- compileNimble(mcmc, project = model)
+
+
+
+## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
+## compilation finished.
+
+
+
+samples &lt;- runMCMC(cmcmc,  niter=55000, nburnin = 5000, thin=10)
+
+
+
+## running chain 1...
+
+
+
+## |-------------|-------------|-------------|-------------|
+## |-------------------------------------------------------|</code></pre>
+<p>We can extract posterior samples for some parameters of interest. The following are trace plots of the posterior samples for the concentration parameter, <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%5Calpha&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, and the number of clusters.</p>
+<pre><code>xiSamples &lt;- samples[, grep('xi', colnames(samples))]    # samples of cluster IDs
+nGroups &lt;- apply(xiSamples, 1, function(x)  length(unique(x)))
+concSamples &lt;- samples[, grep('alpha', colnames(samples))]
+
+par(mfrow=c(1, 2))
+ts.plot(concSamples, xlab = "Iteration", ylab = expression(alpha), main = expression(paste('Traceplot for ', alpha)))
+ts.plot(nGroups,  xlab = "Iteration", ylab = "Number of components", main = "Number of clusters")</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Trace plots showing MCMC convergence diagnostics for concentration parameter and cluster count</figcaption>
+</figure>
+</div>
+</section>
+<section id="assessing-the-posterior" class="level3">
+<h3 class="anchored" data-anchor-id="assessing-the-posterior">Assessing the posterior</h3>
+<p>We can compute the posterior predictive distribution for a new observation <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%5Ctilde%7B%5Cboldsymbol%7By%7D%7D&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=p%28%5Ctilde%7B%5Cboldsymbol%7By%7D%7D%5Cmid+%5Cboldsymbol%7By%7D_1%2C+%5Cldots%2C+%5Cboldsymbol%7By%7D_n%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, which in turn allows us to obtain univariate or multivariate marginals or conditionals, or any other density estimate of interest. As an illustration, we compute the bivariate posterior predictive distribution for the number of seizures at baseline and at the 4th hospital visit. This is done in two steps. First, we compute posterior samples of the random measure <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, which can be done using the <code>getSamplesDPmeasure()</code> function. Based on the MCMC output, <code>getSamplesDPmeasure()</code> returns a list of matrices, each of them corresponding to a single posterior sample from <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, using its stick-breaking (SB) representation. The first column of each of these matrices contains the weights of the SB representation of <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> while the rest of the columns contain the atoms of the SB representation of <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, here <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%28%5Clambda_1%2C+%5Clambda_2%2C+%5Cldots%2C+%5Clambda_5%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">. Second, we compute the bivariate posterior predictive distribution of the seizure counts at baseline and at the fourth visit, based on the posterior samples of <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">. We use a compiled nimble function, called ‘bivariate’, to speed up the computations of the bivariate posterior predictive density.</p>
+<pre><code># samples from the random measure
+samplesG &lt;- getSamplesDPmeasure(cmcmc)
+
+
+
+## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
+
+
+
+## compilation finished.
+
+
+
+niter &lt;- length(samplesG)
+weightsIndex &lt;- grep('weights', colnames(samplesG[[1]]))
+lambdaIndex &lt;- grep('lambda', colnames(samplesG[[1]]))
+ygrid &lt;- 0:45
+
+# function used to compute bivariate posterior predictive
+bivariateFun &lt;- nimbleFunction(
+  run = function(w = double(1),
+               lambda1 = double(1),
+               lambda5 = double(1),
+               ytilde = double(1)) {
+    returnType(double(2))
+
+    ngrid &lt;- length(ytilde)
+    out &lt;- matrix(0, ncol = ngrid, nrow = ngrid)
+
+    for(i in 1:ngrid) {
+      for(j in 1:ngrid) {
+        out[i, j] &lt;- sum(w * dpois(ytilde[i], lambda1) * dpois(ytilde[j], lambda5))
+      }
+    }
+
+    return(out)
+  }
+)
+cbivariateFun &lt;- compileNimble(bivariateFun)
+
+
+
+## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
+## compilation finished.
+
+
+
+# computing bivariate posterior predictive of seizure counts are baseline and fourth visit
+bivariate &lt;- matrix(0, ncol = length(ygrid), nrow = length(ygrid))
+for(iter in 1:niter) {
+  weights &lt;- samplesG[[iter]][, weightsIndex] # posterior weights
+  lambdaBaseline &lt;- samplesG[[iter]][, lambdaIndex[1]] # posterior rate of baseline
+  lambdaVisit4 &lt;- samplesG[[iter]][, lambdaIndex[5]] # posterior rate at fourth visit
+  bivariate &lt;- bivariate + cbivariateFun(weights, lambdaBaseline, lambdaVisit4, ygrid)
+}
+bivariate &lt;- bivariate / niter</code></pre>
+<p>The following code creates a heatmap of the posterior predictive bivariate distribution of the number of seizures at baseline and at the fourth hospital visit, showing that there is a positive correlation between these two measurements.</p>
+<pre><code>collist &lt;- colorRampPalette(c('white', 'grey', 'black'))
+image.plot(ygrid, ygrid, bivariate, col = collist(6),
+           xlab = 'Baseline', ylab = '4th visit', ylim = c(0, 15), axes = TRUE)</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-bivariate-heatmap-1.png" class="img-fluid figure-img"></p>
+<figcaption>Heatmap showing bivariate posterior predictive distribution for seizure counts at baseline and fourth visit</figcaption>
+</figure>
+</div>
+<p>In order to describe the uncertainty in the posterior clustering structure of the individuals in the study, we present a heat map of the posterior probability of two subjects belonging to the same cluster. To do this, first we compute the posterior pairwise clustering matrix that describes the probability of two individuals belonging to the same cluster, then we reorder the observations and finally plot the associated heatmap.</p>
+<pre><code>pairMatrix &lt;- apply(xiSamples, 2, function(focal) {
+                                   colSums(focal == xiSamples)
+                                  })
+pairMatrix &lt;- pairMatrix / niter
+
+
+newOrder &lt;- c(1, 35, 13, 16, 32, 33,  2, 29, 39, 26, 28, 52, 17, 15, 23,  8, 31,
+              38,  9, 46, 45, 11, 49, 44, 50, 41, 54, 21,  3, 40, 47, 48, 12,
+              6, 14,  7, 18, 22, 30, 55, 19, 34, 56, 57,  4,  5, 58, 10, 43, 25,
+              59, 20, 27, 24, 36, 37, 42, 51, 53)
+
+reordered_pairMatrix &lt;- pairMatrix[newOrder, newOrder]
+image.plot(1:n, 1:n, reordered_pairMatrix , col = collist(6),
+           xlab = 'Patient', ylab = 'Patient',  axes = TRUE)
+axis(1, at = 1:n, labels = FALSE, tck = -.02)
+axis(2, at = 1:n, labels = FALSE, tck = -.02)
+axis(3, at = 1:n, tck = 0, labels = FALSE)
+axis(4, at = 1:n, tck = 0, labels = FALSE)</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-pairwise-1.png" class="img-fluid figure-img"></p>
+<figcaption>Pairwise scatter plots showing relationships between seizure counts at different time points</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>Inouye, D.I., E. Yang, G.I. Allen, and P. Ravikumar. 2017. A Review of Multivariate Distributions for Count Data Derived from the Poisson Distribution. Wiley Interdisciplinary Reviews: Computational Statistics 9: e1398.</p>
+<p>Leppik, I., F. Dreifuss, T. Bowman, N. Santilli, M. Jacobs, C. Crosby, J. Cloyd, et al.&nbsp;1985. A Double-Blind Crossover Evaluation of Progabide in Partial Seizures: 3: 15 Pm8. Neurology 35.</p>
+<p>Neal, R. 2000. Markov chain sampling methods for Dirichlet process mixture models. Journal of Computational and Graphical Statistics 9: 249–65.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/nimble-dev\.github\.io\/site");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

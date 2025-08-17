@@ -1,0 +1,130 @@
+/* Custom styles for NIMBLE website */
+
+.hero-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+}
+
+.hero-section h1 {
+  color: #008cff;
+  font-weight: bold;
+}
+
+.hero-section h2 {
+  color: #495057;
+  font-weight: 300;
+}
+
+.feature-section {
+  padding: 2rem 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.feature-section:last-child {
+  border-bottom: none;
+}
+
+.nimble-logo {
+  max-width: 250px;
+  height: auto;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.team-member {
+  text-align: center;
+  padding: 1rem;
+}
+
+.team-member img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.download-section {
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+}
+
+.code-example {
+  background-color: #f8f9fa;
+  border-left: 4px solid #008cff;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-links a {
+  text-decoration: none;
+  color: #495057;
+}
+
+.social-links a:hover {
+  color: #008cff;
+}
+
+.blog-post-card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.blog-post-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.post-meta {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.recent-posts-widget {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+}
+
+.recent-posts-widget h3 {
+  color: #008cff;
+  border-bottom: 2px solid #008cff;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.recent-posts-widget ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recent-posts-widget li {
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.recent-posts-widget li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #008cff;
+}
