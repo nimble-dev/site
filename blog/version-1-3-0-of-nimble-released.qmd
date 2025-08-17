@@ -1,0 +1,61 @@
+---
+title: "Version 1.3.0 of NIMBLE released"
+description: "New features and improvements in NIMBLE 1.3.0"
+author: "NIMBLE Development Team"
+date: "2024-03-15"
+categories: [release, announcement]
+---
+
+We are pleased to announce the release of NIMBLE version 1.3.0. This release includes several new features, performance improvements, and bug fixes.
+
+## Key New Features
+
+### Enhanced Automatic Differentiation
+- Improved performance for AD-enabled functions
+- Better integration with MCMC samplers
+- Support for more mathematical operations
+
+### New Distributions
+- Additional built-in distributions for specialized models
+- Improved parameterizations for existing distributions
+
+### Performance Improvements
+- Faster compilation times
+- Optimized MCMC sampling
+- Reduced memory usage
+
+## Installation
+
+Install the latest version from CRAN:
+
+```r
+install.packages("nimble")
+```
+
+Or from our repository:
+
+```r
+install.packages("nimble", repos = "https://r-nimble.org", type = "source")
+```
+
+## Breaking Changes
+
+Please note the following changes that may affect existing code:
+- [List any breaking changes here]
+
+## Bug Fixes
+
+This release fixes several issues reported by users:
+- Fixed issue with [specific bug]
+- Improved error messages for [specific case]
+- Resolved memory leak in [specific function]
+
+## Documentation
+
+Updated documentation is available in our [User Manual](../documentation.qmd).
+
+## Acknowledgments
+
+We thank the community for their contributions, bug reports, and feedback. Special thanks to contributors who helped with this release.
+
+For a complete list of changes, see the NEWS file in the package.

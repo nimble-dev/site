@@ -1,0 +1,63 @@
+---
+title: "Version 1.2.0 of NIMBLE released"
+description: "New features and enhancements in NIMBLE 1.2.0"
+author: "NIMBLE Development Team"
+date: "2024-01-20"
+categories: [release, features]
+---
+
+We're excited to announce the release of NIMBLE version 1.2.0, which includes several new features and significant improvements.
+
+## New Features
+
+### Enhanced Sequential Monte Carlo
+- Improved particle filter algorithms
+- Better support for state-space models
+- New bootstrap and auxiliary particle filters
+
+### MCMC Improvements
+- More efficient adaptive samplers
+- Better convergence diagnostics
+- Enhanced mixing for challenging posteriors
+
+### nimbleFunction Enhancements
+- Support for additional mathematical operations
+- Improved debugging capabilities
+- Better integration with R environments
+
+## Performance Improvements
+
+- Faster model compilation times
+- Reduced memory usage in large models
+- Optimized linear algebra operations
+
+## New Distributions
+
+Added support for several new probability distributions:
+- Multivariate t-distribution
+- Generalized Pareto distribution
+- Additional parameterizations for existing distributions
+
+## Installation
+
+```r
+install.packages("nimble")
+```
+
+## Breaking Changes
+
+Please note the following changes that may affect existing code:
+- Deprecated functions have been removed (see migration guide)
+- Some default sampler choices have been updated
+
+## Documentation
+
+- Updated User Manual with new examples
+- Enhanced function documentation
+- New vignettes for advanced topics
+
+## Acknowledgments
+
+Special thanks to the community members who contributed bug reports, feature requests, and testing feedback.
+
+For complete details, see the NEWS file in the package.

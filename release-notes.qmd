@@ -1,0 +1,581 @@
+---
+title: "Release notes"
+---
+
+### December 19, 2024: We're released Version 1.3.0
+
+We've released the newest version of NIMBLE on CRAN and on our website.
+
+Version 1.3.0 provides some new and improved functionality, plus some bug fixes and improved error trapping.
+
+The new and improved functionality includes:
+
+- A new multivariate sampler, the Barker proposal sampler (`sampler_barker`). We encourage users to try this sampler in place of the block Metropolis `RW_block` sampler and let us know how well it works. The Barker sampler uses gradient information and may improve adaptation behavior, including better mixing when parameters are on different scales or the initial proposal scale is too large.
+- An improved Laplace/AGHQ implementation that includes use of the `nlminb` optimizer for both inner and outer optimization (for better optimization performance), improved messaging and output naming, returning the log-likelihood and degrees of freedom for model selection calculations, and unified control of optimization method and other controls at either the build stage or through the `updateSettings` method.
+- The addition of the BOBYQA optimization method through `nimOptim`, registered via `nimOptimMethod`.
+
+In addition to the new and improved functionality above, other bug fixes, improved error trapping, and enhancements include:
+
+- Preventing the use of nimbleFunction method names and nimbleFunction names that conflict with names in the nimble language (DSL).
+- More carefully checking for and warning of cases of NaN and non-finite log probability values in various samplers that in some cases may indicate invalid MCMC sampling.
+- More carefully handling of NaN and non-finite log probability values in the CRP sampler.
+- Error trapping cases of dynamic indices producing a non-scalar result in AD-enabled models, and provide a suggested work-around.
+- Error trapping use of non-existent nimbleList.
+- Preventing use of a single seed when running multiple chains via `runMCMC`.
+- Improving messaging related to lack of derivative support for functions.
+- Adding information about model macros to the manual.
+- Fixing bug in caching values in the CRP sampler when maximum number of clusters is exceeded, which would have caused incorrect sampling (albeit with the user having been warned that they should increase the maximum number of clusters).
+- Fixing an issue preventing use of nimbleList elements in `nimCat`.
+- Preventing an adaptation interval of one for various block samplers for which an interval of one leads to an error.
+- Allowing `runLaplace` to use an uncompiled Laplace object.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+
+### July 31, 2024: We've released Version 1.2.1
+
+We've released the newest version of NIMBLE on CRAN and on our website. This is a micro release that primarily addresses some packaging changes requested by CRAN. In addition this release includes:
+
+- A multinomial MCMC sampler, `sampler_RW_multinomial`, for random variables following a multinomial distribution.
+- Some enhancements to error trapping and warning messages.
+- A variety of minor bug fixes.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+
+### June 9, 2024: We've released Version 1.2.0
+
+We've released the newest version of NIMBLE on CRAN and on our website.
+
+Version 1.2.0 provides extensive new functionality, including:
+
+- A Pólya-gamma sampler, `sampler_polyagamma`, for conjugate sampling of linear predictor parameters in logistic regression model specifications, including handling zero inflation and stochastic design matrices.
+- A new sampler, `sampler_noncentered`, which samples the mean or standard deviation of a set of random effect values in a transformed space such that the random effects are deterministically shifted or scaled given new values of their hyperparameters. For random effects written in a centered parameterization, sampling is performed as if they had been written in a noncentered parameterization, thereby enabling a variant on the Yu and Meng (2011) interweaving sampling strategy of sampling in both parameterizations.
+- A completely revamped MCEM algorithm, fixing a bug so that any parts of the model not connected to the latent states are included in MLE calculations, giving greater control and adding minor extensions to the ascent-based MCEM approach, using automatic derivatives in the maximization when possible, and converting `buildMCEM` to be a nimbleFunction rather than an R function.
+- Adaptive Gauss-Hermite quadrature (AGHQ) for integrating over latent effects, as an extension of NIMBLE's Laplace approximation functionality. Also adds user-friendly R functions, `runLaplace` and `runAGHQ`, for using Laplace and AGHQ approximation for maximum likelihood estimation.
+- A more flexible optimization system via `nimOptim`, with support for `nlminb` built in as well as the capability for users to provide potentially arbitrary optimization functions in R.
+- Allowing the use of nimbleFunctions with setup code in models either for user-defined functions via `<-` or for user-defined distributions via `~`. This supports holding large objects outside of model nodes for use in models.
+
+In addition to the new functionality above, other enhancements and bug fixes include:
+
+- Some internal improvements to increase speed of model and MCMC building in certain cases.
+- Some fixes and improvements in error-trapping and warnings.
+- Adding an argument to `buildMCMC` controlling whether to initialize values in the model.
+- Providing ability to control number of digits printed in C++ output.
+- Allowing use of categorical MCMC sampler with user-specified `dcat`-like distributions.
+- Improve documentation of LKJ distribution and derivative tracking in the AD system.
+- Fixing an insufficient check for conjugacy in stickbreaking specifications.
+- Fixing compilation failures occurring on Red Hat Linux.
+- Reenabling functionality for user-provided Eigen library and related updates to autoconf configuration.
+- Enhancing functionality to support model macros.
+- Removing deprecated `is.na.vec` and `is.nan.vec`.
+- Removing deprecated dummy functions for `compareMCMCs` functions.
+
+### January 31, 2024: We've released Version 1.1.0
+
+We've released the newest version of NIMBLE on CRAN and on our website. This version provides new functionality and a variety of bug fixes.
+
+- Improving our automatic differentiation (AD) system so it can be used in a wider range of models, including models with stochastic indexing, discrete latent states, and CAR distributions. Support for AD for these models means that HMC sampling and Laplace approximation can be used.
+- Allowing distributions and functions (whether user-defined or built-in) that lack AD support (such as `dinterval`, `dconstraint`, and truncated distributions) to be used and compiled in AD-enabled models. The added flexibility increases the range of models in which one can use AD methods (HMC or Laplace) on some parts of a model and other samplers or methods on other parts.
+- Adding `nimIntegrate` to the NIMBLE language, providing one-dimensional numerical integration via adaptive quadrature, equivalent to R's `integrate`. This can, for example, be used in a user-defined function or distribution for use in model code, such as to implement certain point process or survival models that involve a one-dimensional integral.
+- Adding a "prior samples" MCMC sampler, which uses an existing set of numerical samples to define the prior distribution of model node(s).
+- Better support of the dCRP distribution in non-standard model structures.
+- Adding error trapping to prevent accidental use of C++ keywords as model variable names.
+- Removing the `RW_multinomial` MCMC sampler, which was found to generate incorrect posterior results (in cases when a latent state followed a multinomial distribution)
+- Fixing a bug in conjugacy checking in a case of subsets of multivariate nodes.
+- Fixing `is.na` and `is.nan` to operate in the expected vectorized fashion.
+- Improving documentation of AD, nimbleHMC, and nimbleSMC in the manual.
+- Updating Eigen (the C++ linear algebra library used by nimble) to version 3.4.0.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+
+### June 15, 2023: We've released Version 1.0.1
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 1.0.1 follows shortly after 1.0.0 and fixes an issue and a bug introduced in version 1.0.0 causing data to be set incorrectly in certain models.
+
+Both cases occur only when a variable (e.g., "x") contains both stochastic nodes (e.g. "x[2] ~ <some distribution>") and **either** deterministic nodes (e.g. "x[3] <- <some calculation>") or right-hand-side-only nodes (e.g. "x[4]" appears only on the right-hand-side, like an explanatory value).
+
+The issue involves a change of behavior (relative to previous nimble versions) when both setting data values for some nodes and initial values for other nodes within the same variable (that satisfies the previous condition). Data values for right-hand-side-only nodes were replaced by initial values (inits) if both were provided. Version 1.0.1 reverts to previous behavior that data values are not replaced by initial values in that situation.
+
+The bug involves models where (for a variable satisfying the previous condition) not every scalar element within the variable is used as a node and some of the nodes in the variable are data. In that situation, data values may be set incorrectly. This could typically occur in models with autoregressive structure directly on some data nodes (such as may be the case for capture-recapture models involving many individual capture histories within the same variable, indexed by individual and time, with some individuals not present for the entire time series, resulting in unused scalar elements of the variable).
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+
+### May 26, 2023: We've released Version 1.0.0
+
+We're very pleased to announce the release of version 1.0.0 of NIMBLE. This version provides substantial new functionality. This includes:
+
+- A Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.
+- A Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the `nimbleHMC` package).
+- Support in NIMBLE's algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.
+- A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.
+
+These are documented via the R help system and a [new section at the end of our User Manual](https://r-nimble.org/html_manual/cha-AD.html). We're excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the [nimble-users list](https://r-nimble.org/more/issues-and-groups).
+
+In addition to the new functionality above, other enhancements and bug fixes include:
+
+- Fixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE's cross-validation function (`runCrossValidate`) for all but the 'predictive' loss function for NIMBLE versions 0.10.0 – 0.13.2.
+- Fixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.
+- Improving control of the `addSampler` method for MCMC.
+- Improving the WAIC system in a few small ways.
+- Enhancing error trapping and warning messages.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+
+### May 15, 2023: We've released Version 0.13.2
+
+We've released the newest version of NIMBLE on CRAN. This version exists solely to address some developer-level issues required by CRAN and is identical to version 0.13.2 from a user perspective.
+
+### December 13, 2022: We've released Version 0.13.1
+
+We've released the newest version of NIMBLE on CRAN and on our website. This is purely a bug fix release that fixes a bug in our new handling of predictive nodes introduced in the recently released Version 0.13.0. The bug could affect MCMC sampling in models that both (1) have predictive nodes and (2) have multivariate nodes.
+
+### November 15, 2022: We've released Version 0.13.0
+
+We've released the newest version of NIMBLE on CRAN and on our website. The main highlight of this version is a major change to how predictive nodes are handled in MCMC sampling that should improve mixing for models with predictive nodes. The changes in version 0.13.0 include:
+
+- Thoroughly revamping handling of posterior predictive nodes in the MCMC system, in particular that MCMC samplers, by default, will now exclude predictive dependencies from internal sampler calculations. This should improve MCMC mixing for models with predictive nodes. Posterior predictive nodes are now sampled conditional on all other model nodes at the end of each MCMC iteration.
+- Adding functionality to the MCMC configuration system, including a new `replaceSamplers` method and arguments `default` and `nodes` for the `addSamplers` method.
+- Adding an option to the WAIC system to allow additional burnin (in addition to standard MCMC burnin) before calculating online WAIC, thereby allowing inspection of initial samples without forcing them to be used for WAIC
+- Warning users of unused constants during model building.
+- Fixing bugs that prevented use of variables starting with 'logProb' or named 'i' in model code.
+- Fixing a bug to prevent infinite recursion in particular cases in conjugacy checking.
+- Fixing a bug in simulating from `dcar_normal` nodes when multiple nodes passed to simulate.
+
+### February 24, 2022: We've released Version 0.12.2, which includes an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.12.2 is a bug fix release. In particular, this release fixes a bug in our Bayesian nonparametric distribution (BNP) functionality that gives incorrect MCMC results when using the dCRP distribution when the parameters of the mixture components (i.e., the clusters) have hyperparameters (i.e., the base measure parameters) that are unknown and sampled during the MCMC. Here is an example basic model structure that is affected by the bug:
+
+```
+k[1:n] ~ dCRP(alpha, n)
+for(i in 1:n) {
+  y[i] ~ dnorm(mu[k[i]], 1)
+  mu[i] ~ dnorm(mu0, 1)    ## mixture component parameters with hyperparameter
+}
+mu0 ~ dnorm(0, 1)    ## unknown cluster hyperparameter
+```
+
+(There is no problem without the hyperparameter layer – i.e., if mu0 is a fixed value – which is the situation in many models.) We strongly encourage users using models with this structure to rerun their analyses.
+
+Other changes in this release include:
+
+- Fixing an issue with reversible jump variable selection under a similar situation to the BNP issue discussed above (in particular where there are unknown hyperparameters of the regression coefficients being considered, which would likely be an unusual use case).
+- Fixing a bug preventing setup of conjugate samplers for dwishart or dinvwishart nodes when using dynamic indexing.
+- Fixing a bug preventing use of truncation bounds specified via `data` or `constants`.
+- Fixing a bug preventing MCMC sampling with the LKJ prior for 2×2 matrices.
+- Fixing a bug in `runCrossValidate` affecting extraction of multivariate nodes.
+- Fixing a bug producing incorrect subset assignment into logical vectors in nimbleFunction code.
+- Fixing a bug preventing use of `nimbleExternalCall` with a constant expression.
+- Fixing a bug preventing use of recursion in nimbleFunctions without setup code.
+- Fixing handling `nimSeq` default `by` value.
+- Fixing access to member data more than two dimensions in a nested nimbleFunction.
+
+Please see the NEWS file in the source package or the [nimble-dev Github site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
+
+### October 12, 2021: We've released Version 0.12.1 (including changes in Version 0.12.0)
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.12.1, in combination with version 0.12.0 (which was released just last week), provides a variety of new functionality (in particular enhanced WAIC functionality and adding the LKJ distribution) plus bug fixes affecting MCMC in specific narrow cases described below and that warrant upgrading for some users. The changes include:
+
+- Completely revamping WAIC in NIMBLE, creating an online version that does not require any particular variable monitors. The new WAIC can calculate conditional or marginal WAIC and can group data nodes into joint likelihood terms if desired. In addition there is a new calculateWAIC() function that will calculate the basic conditional WAIC from MCMC output without having to enable the WAIC when creating the MCMC.
+- Adding the LKJ distribution, useful for prior distributions for correlation matrices, along with random walk samplers for them. These samplers operate in an unconstrained transformed parameter space and are assigned by default during MCMC configuration.
+- Fixing a bug introduced in conjugacy processing in version 0.11.0 that causes incorrect MCMC sampling only in specific cases. The impacted cases have terms of the form "a[i] + x[i] * beta" (or more simply "x[i] * beta"), with beta subject to conjugate sampling and either (i) 'x' provided via NIMBLE's constants argument and x[1] == 1 or (ii) 'a' provided via NIMBLE's constants argument and a[1] == 0.
+- Fixing an error in the sampler for the proper CAR distribution (dcar_proper) that gives incorrect MCMC results when the mean of the proper CAR is not the same value for all locations, e.g., when embedding covariate effects directly in the `mu` parameter of the `dcar_proper` distribution.
+- Fixing isData('y') to return TRUE whenever any elements of a multivariate data node ('y') are flagged as data. As a result, attempting to carry out MCMC on the non-data elements will now fail. Formerly if only some elements were flagged as data, `isData` would only check the first element, potentially leading to other elements that were flagged as data being overwritten.
+- Error trapping cases where a BNP model has a differing number of dependent stochastic nodes (e.g., observations) or dependent deterministic nodes per group of elements clustered jointly (using functionality introduced in version 0.10.0). Previously we were not error trapping this, and incorrect MCMC results would be obtained.
+- Improving the formatting of standard logging messages.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
+
+### May 24, 2021: We've released Version 0.11.1
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.11.1 is primarily a bug fix release that fixes a bug that was introduced in Version 0.11.0 (which was released on April 17, 2021) that affected MCMC sampling in MCMCs using the "posterior_predictive_branch" sampler introduced in version 0.11.0. This sampler would be listed by name when the MCMC configuration object is created and would be assigned to any set of multiple nodes that (as a group of nodes) have no data dependencies and are therefore sampled as a group from their predictive distributions.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
+
+### April 17, 2021: We've released Version 0.11.0
+
+We've released the newest version of NIMBLE on CRAN and on our website.
+
+We've released version 0.11.0. Version 0.11.0 provides a variety of new functionality, improved error trapping, and bug fixes, including:
+
+- added the 'posterior_predictive_branch' MCMC sampler, which samples jointly from the predictive distribution of networks of entirely non-data nodes, to improve MCMC mixing,
+- added a model method to find parent nodes, getParents(), analogous to getDependencies(),
+- improved efficiency of conjugate samplers,
+- allowed use of the elliptical slice sampler for univariate nodes, which can be useful for posteriors with multiple modes,
+- allowed model definition using if-then-else without an else clause, and
+- fixed a bug giving incorrect node names and potentially affecting algorithm behavior for models with more than 100,000 elements in a vector node or in any dimension of a multi-dimensional node.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
+
+### November 30, 2020: We've released Version 0.10.1
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.10.1 is primarily a bug fix release:
+
+- In particular, it fixes a bug in retrieving parameter values from distributions that was introduced in version 0.10.0. The bug can cause incorrect behavior of conjugate MCMC samplers under certain model structures (such as particular state-space models), so we strongly encourage users to upgrade to 0.10.1.
+- In addition, version 0.10.1 restricts use of WAIC to the conditional version of WAIC (conditioning on all parameters directly involved in the likelihood). Previous versions of nimble gave incorrect results when not conditioning on all parameters directly involved in the likelihood (i.e., when not monitoring all such parameters). In a future version of nimble we plan to make a number of improvements to WAIC, including allowing use of marginal versions of WAIC, where the WAIC calculation integrates over random effects.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
+
+### October 12, 2020: We've released Version 0.10.0
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.10.0 provides new features, improvements in speed of building models and algorithms, bug fixes, and various improvements.
+
+New features and bug fixes include:
+
+- greatly extended NIMBLE's CRP-based BNP functionality by allowing multiple observations to be grouped together;
+- fixed a bug giving incorrect results in our cross-validation function, runCrossValidate();
+- moved NIMBLE's sequential Monte Carlo (SMC, aka particle filtering) methods into the nimbleSMC package; and
+- improved the efficiency of model and MCMC building and compilation.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS) for more detailed information.
+
+### May 22, 2020: We've released Version 0.9.1
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.9.1 is primarily a bug fix release, but also provides some minor improvements in functionality.
+
+Users of NIMBLE in R 4.0 on Windows MUST upgrade to this release for NIMBLE to work.
+
+New features and bug fixes include:
+
+- switched to use of system2() from system() to avoid an issue on Windows in R 4.0;
+- modified various adaptive MCMC samplers so the exponent controlling the scale decay of the adaptation is adjustable by user;
+- allowed pmin() and pmax() to be used in models;
+- improved handling of NA values in the dCRP distribution; and
+- improved handling of cases where indexing goes beyond the extent of a variable in expandNodeNames() and related queries of model structure.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS) for more detailed information.
+
+### December 20, 2019: We've released Version 0.9.0
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.9.0 provides some new features as well as providing a variety of speed improvements, better output handling, and bug fixes.
+
+New features and bug fixes include:
+
+- added an iterated filtering 2 (IF2) algorithm (a new sequential Monte Carlo (SMC) method) for parameter estimation via maximum likelihood;
+- fixed several bugs in our SMC algorithms;
+- improved the speed of MCMC configuration;
+- improved the user interface for interacting with the MCMC configuration; and
+- improved our conjugacy checking system to detect some additional cases of conjugacy.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS) for more detailed information.
+
+### June 3, 2019: We've released Version 0.8.0
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.8.0 provides some new features as well as providing a variety of speed improvements, better errors/warnings and bug fixes.
+
+New features and bug fixes include:
+
+- added a reversible jump MCMC sampler for variable selection via configureRJ();
+- greatly improved the speed of MCMC sampling for Bayesian nonparametric models with a dCRP distribution by not sampling parameters for empty clusters;
+- added experimental faster MCMC configuration, available by setting nimbleOptions(oldConjugacyChecking = FALSE) and nimbleOptions(useNewConfigureMCMC = TRUE);
+- removed compareMCMCs() and MCMCsuite(), which will be provided in a separate package — see https://github.com/nimble-dev/compareMCMCs; and
+- improved warning and error messages for MCEM and slice sampling.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS) for more detailed information.
+
+### March 12, 2019: We've released Version 0.7.1
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.7.1 is primarily a maintenance release with a couple important bug fixes, but also provides a bit of additional functionality.
+
+New features and bug fixes include:
+
+- fixing a bug in MCMC sampling of dCRP nodes in non-conjugate situations that was introduced in Version 0.7.0;
+- avoiding a protection stack overflow in working with large models, also introduced in Version 0.7.0;
+- support for 6-dimensional arrays in model code and nimbleFunctions;
+- recognition of normal-normal conjugacy in multivariate regression structures.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS) for more detailed information.
+
+### February 5, 2019: We've released Version 0.7.0 (essentially the same as Version 0.6.13)
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.7.0 is a slight (and rapid) update to Version 0.6.13. Together they provide a variety of new features, as well as various bug fixes.
+
+New features and bug fixes include:
+
+- greatly improved efficiency of sampling for Bayesian nonparametric (BNP) mixture models that use the dCRP (Chinese Restaurant process) distribution;
+- addition of the double exponential (Laplace) distribution for use in models and nimbleFunctions;
+- a new "RW_wishart" MCMC sampler, for sampling non-conjugate Wishart and inverse-Wishart nodes;
+- handling of the normal-inverse gamma conjugacy for BNP mixture models using the dCRP distribution;
+- enhanced functionality of the getSamplesDPmeasure function for posterior sampling from BNP random measures with Dirichlet process priors.
+- handling of five-dimensional arrays in models;
+- fixing a bug producing incorrect WAIC calculations when using multiple chains for models with at least one non-scalar monitored variable;
+- fixing a bug in conjugate samplers for CRP distribution: CRP_conjugate_dgamma_dnorm, CRP_conjugate_dbeta_dbin, CRP_conjugate_dbeta_dnegbin, CRP_conjugate_dgamma_dinvgamma, CRP_conjugate_ddirch_dmulti;
+- enhanced warning messages; and
+- an [HTML version of the NIMBLE manual](https://r-nimble.org/documentation-2).
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS) for more detailed information.
+
+### June 27, 2018: We've released Version 0.6-12
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.6-12 is primarily a maintenance release with a variety of bug fixes.
+
+Changes include:
+
+- fix the bootstrap particle filter to correctly calculate weights when particles are not resampled (the filter had been omitting the previous weights when calculating the new weights);
+- add an option to print MCMC samplers of a particular type;
+- avoid an overly-aggressive check for ragged arrays when building models;
+- avoid assigning a sampler to non-conjugacy inverse-Wishart nodes (thereby matching our handling of Wishart nodes);
+- and a variety of bug fixes and internal changes.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### June 14, 2018: We've released Version 0.6-11
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.6-11 has new features, notably support for Bayesian nonparametric mixture modeling, as well as a variety of bug fixes.
+
+Changes include:
+
+- support for Bayesian nonparametric mixture modeling using Dirichlet process mixtures, with specialized MCMC samplers automatically assigned in NIMBLE's default MCMC (See Chapter 10 of the manual for details);
+- additional resampling methods available with the auxiliary and bootstrap particle filters;
+- user-defined filtering algorithms can be used with NIMBLE's particle MCMC samplers;
+- MCMC thinning intervals can be modified at MCMC run-time;
+- both runMCMC() and nimbleMCMC() now drop burn-in samples before thinning, making their behavior consistent with each other;
+- increased functionality for the 'setSeed' argument in nimbleMCMC() and runMCMC();
+- new functionality for specifying the order in which sampler functions are executed in an MCMC;
+- invalid dynamic indexes now result in a warning and NaN values but do not cause execution to error out, allowing MCMC sampling to continue; and
+- and a variety of bug fixes and improved error trapping/messages.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### March 26, 2018: We've released Version 0.6-10
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.6-10 is primarily a maintenance release with various bug fixes and internal changes to speed up model and algorithm building and compilation.
+
+Changes include:
+
+- some steps of model and algorithm building and compilation are faster;
+- compiled execution with multivariate distributions or function arguments may be faster;
+- data can now be provided as a numeric data frame rather than a matrix;
+- to run WAIC, a user now must set 'enableWAIC' to TRUE, either in NIMBLE's options or as an argument to buildMCMC();
+- if 'enableWAIC' is TRUE, buildMCMC() will now check to make sure that the nodes monitored by the MCMC algorithm will lead to a valid WAIC calculation; and
+- the use of identityMatrix() is deprecated in favor of diag().
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### February 9, 2018: We've released Version 0.6-9
+
+We've released the newest version of NIMBLE on CRAN and on our website. Version 0.6-9 is primarily a maintenance release with various bug fixes and fixes for CRAN packaging issues.
+
+New features include:
+
+- dimensions in a model will now be determined from either 'inits' or 'data' if not otherwise available;
+- one can now specify "nBootReps = NA" in the runCrossValidate() function, which will prevent the Monte Carlo error from being calculated;
+- runCrossValidate() now returns the averaged loss over all k folds, instead of the summed loss;
+- we've added the besselK function to the NIMBLE language; and
+- and a variety of bug fixes.
+
+Please see the NEWS file in the installed package for more details
+
+### November 24, 2017: We've released Version 0.6-8
+
+(Note that version 0.6-7 was the version on CRAN for about a week. Version 0.6-8 is essentially identical to version 0.6-7 but contains a minor fix to resolve a CRAN packaging issue.)
+
+Version 0.6-8 has a few new features.
+
+Changes as of Version 0.6-8 include:
+
+- the proper Gaussian CAR (conditional autoregressive) model can now be used in BUGS code as dcar_proper, which behaves similarly to BUGS' car.proper distribution;
+- a new nimbleMCMC function that provides one-line invocation of NIMBLE's MCMC engine, akin to usage of JAGS and WinBUGS through R;
+- a new runCrossValidate function that will conduct k-fold cross-validation of NIMBLE models fit by MCMC;
+- dynamic indexing in BUGS code is now allowed by default;
+- and a variety of bug fixes.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### July 29, 2017: We've released Version 0.6-6
+
+Version 0.6-6 has many new features.
+
+Changes as of Version 0.6-6 include:
+
+- dynamic indexes are now allowed in BUGS code — indexes of a variable no longer need to be constants but can be other nodes or functions of other nodes; for this release this is a beta feature that needs to be enabled with nimbleOptions(allowDynamicIndexing = TRUE);
+- the intrinsic Gaussian CAR (conditional autoregressive) model can now be used in BUGS code as dcar_normal, which behaves similarly to BUGS' car.normal distribution;
+- optim is now part of the NIMBLE language and can be used in nimbleFunctions;
+- the WAIC model selection criterion can be calculated using the calculateWAIC method for MCMC objects;
+- it is possible to call out to external compiled code or back to R functions from a nimbleFunction using nimbleExternalCall and nimbleRcall (this is an experimental feature);
+- the bootstrap and auxiliary particle filters can now return their ESS values;
+- and a variety of bug fixes.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### June 7, 2017: We've released Version 0.6-5
+
+Version 0.6-5 is a minor release that primarily fixes some bugs and addresses some issues with packaging for CRAN. However, there are some new capabilities in this version.
+
+Changes as of Version 0.6-5 include:
+
+- nimbleLists can now also be used in nimbleFunctions without setup code;
+- buildMCEM() can now estimate the asymptotic covariance of the model parameter estimates;
+- various additional R-style functions (c(), rep(), seq(), diag() and ':') can now be used in BUGS code;
+- new (improper) distributions, dflat and dhalfflat, are now available;
+- an inverse-Wishart distribution is now available;
+- and a variety of bug fixes and better error trapping.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### April 25, 2017: We've released Version 0.6-4
+
+Version 0.6-4 has many new features.
+
+Changes as of Version 0.6-4 include:
+
+- addition of the functions c(), seq(), rep(), `:`, diag(), dim(), and which() for use in the NIMBLE language (i.e., run code) — usage generally mimics usage in R;
+- a complete reorganization of the User Manual, with the goal of clarifying how one can write nimbleFunctions to program with models;
+- addition of the adaptive factor slice sampler, which can improve MCMC sampling for correlated blocks of parameters;
+- addition of a new sampler that can handle non-conjugate Dirichlet settings;
+- addition of a nimbleList data structure that behaves like R lists for use in nimbleFunctions;
+- addition of eigendecomposition and SVD functions for use in the NIMBLE language;
+- additional flexibility in providing initial values for numeric(), logical(), integer(), matrix(), and array();
+- logical vectors and operators can now be used in the NIMBLE language;
+- indexing of vectors and matrices can now use arbitrary numeric and logical vectors;
+- one can now index a vector of node names provided to values(), and more general indexing of node names in calculate(), simulate(), calculateDiff() and getLogProb();
+- addition of the inverse-gamma distribution;
+- use of recycling for distribution functions used in the NIMBLE language;
+- enhanced MCMC configuration functionality;
+- users can specify a user-defined BUGS distribution by simply providing a user-defined 'd' function without an 'r' function for use when an algorithm doesn't need the 'r' function;
+- and a variety of bug fixes, speedups, and better error trapping and checking.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### December 15, 2016: We've released Version 0.6-3
+
+Version 0.6-3 is a very minor release primarily intended to address some CRAN packaging issues that do not affect users.
+
+We also fixed a bug involving MCEM functionality and a bug that prevented use of the sd() and var() functions in BUGS code.
+
+For most users, there is probably no need to upgrade from version 0.6-2.
+
+### November 23, 2016: We've released Version 0.6-2
+
+Version 0.6-2 is a minor release with a variety of useful functionality for users.
+
+Changes as of Version 0.6-2 include:
+
+- user-defined distributions can be used in BUGS code without needing to call the registerDistributions() function (unless one wants to specify alternative parameterizations, distribution range or that the distribution is discrete),
+- users can now specify the use of conjugate (Gibbs) samplers for nodes in a model,
+- NIMBLE will now check the run code of nimbleFunctions for functions (in particular R functions) that are not part of the DSL and will not compile,
+- added getBound() functionality to find the lower and upper bounds of a node either from R or in DSL code,
+- added functionality to get distributional information about a node in a model or information about a distribution based on the name of the density function; these may be useful in setup code for algorithms,
+- multinomial and categorical distributions now allow 'probs' arguments that do not sum to one (these will be internally normalized) and
+- a variety of bug fixes.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### October 17, 2016: We've released Version 0.6-1
+
+(Note that version 0.6 has been on CRAN for about a month and contains essentially the same features as version 0.6-1. The reason for skipping a version number here on the website is because of some internal packaging issues we need to resolve with CRAN.)
+
+Version 0.6-1 is a major release, with many of the changes focused on our internal implementation, some of which should speed building and compiling models and algorithms.
+
+Changes as of Version 0.6-1 include:
+
+- increased speed and reduced memory use in building and models, as well as compiling nimbleFunctions,
+- enhanced MCMC functionality including a new runMCMC function for easily running multiple chains, a new multinomial random walk sampler, the ability to time each sampler in an MCMC, and a progress bar,
+- the addition of the ability to handle syntax such as model$calculate(nodes[i]) in the DSL,
+- a variety of changes to clean up our compilation system to comply with CRAN rules (including that NIMBLE should now work with gcc on Solaris), and
+- a variety of other items.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### May 27, 2016: We've released Version 0.5-1
+
+Version 0.5-1 is officially a minor release, but it actually has quite a bit in it, in particular the addition/improvement of a number of our algorithms. In addition there are some more improvements in our speed in building and compiling models and algorithms.
+
+Changes as of Version 0.5-1 include:
+
+- the addition of a variety of sequential Monte Carlo (aka particle filtering) algorithms, including particle MCMC samplers for use within an MCMC,
+- a greatly improved MCEM algorithm with an automated convergence and stopping criterion,
+- new syntax for declaring multivariate variables in the NIMBLE DSL, namely numeric(), integer(), matrix(), and array(), with declare() now deprecated,
+- addition of the multivariate-t distribution for use in BUGS and DSL code,
+- a new binary MCMC sampler for discrete 0/1 nodes,
+- addition of functionality to our random walk sampler to allow sampling on the log scale and use of reflection,
+- more flexible use of forwardsolve(), backsolve(), and solve(), including use in BUGS code, and
+- a variety of other items.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### April 7, 2016: We've released Version 0.5
+
+Version 0.5 is a major release. It is faster, uses less memory, and provides better syntax.
+
+Changes as of Version 0.5 include:
+
+- more efficient computations for conjugate sampling,
+- additional automated checking of BUGS syntax to improve NIMBLE's warning/error messages,
+- new DSL (nimbleFunction programming) functionality to allow the use of syntax such as model$calculate(), etc. (syntax such as calculate(model) still works),
+- new functionality for MCMC sampler specification,
+- improvements in speed and memory use in building models,
+- addition of forwardsolve, backsolve, and solve to the NIMBLE DSL, and
+- a variety of other items.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### October 4, 2015: We've released Version 0.4-1
+
+Version 0.4-1 is a minor release. It fixes some logistical issues and adds a small amount of MCMC-related functionality.
+
+Changes as of Version 0.4-1 include:
+
+- added an elliptical slice sampler to the MCMC engine
+- fixed bug preventing use of nimbleFunctions in packages depending on NIMBLE
+- reduced C++ compiler warnings on Windows during use of compileNimble.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### August 2, 2015: We've released Version 0.4
+
+Version 0.4 is a major release. We've added a number of user-level features and sped up most of the steps of building and compiling models and algorithms in the system.
+
+Changes as of Version 0.4 include:
+
+- added support for user-defined functions in BUGS code
+- added support for user-defined distributions in BUGS code
+- added support for truncated distributions, censoring, and general constraints in BUGS code
+- nearly all calls to DSL functions or other nimbleFunctions handle R-style named or ordered arguments
+- improved handling of distribution functions in nimbleFunction run code and as deterministic functions in BUGS code
+- added an optional check when building model that alerts user to presence of nodes without values and log probability calculations that return NA
+- added calculateDiff as a fourth fundamental method (in addition to calculate, simulate, and getLogProb)
+- added flexibility and better organized return values of functions that specify MCMC samplers
+- incorporated automated blocking into MCMC engine
+- improved a number of error messages to provide more useful diagnostic information
+- a variety of bug fixes
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### March 7, 2015: We've released Version 0.3-1
+
+Changes as of Version 0.3-1 include:
+
+- addition of Dirichlet-multinomial conjugate sampling to the NIMBLE MCMC implementation
+- handling of arrays up to and including four dimensions
+- nimbleModel() now allows data and constants to be provided together as the 'constants' argument
+- a variety of bug fixes
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### December 31, 2014: We've released Version 0.3
+
+Changes as of Version 0.3 include:
+
+Important user-level syntax changes for creating and compiling models and algorithms that in some cases are not backwards compatible:
+
+- nimbleFunctions are run via myNimbleFunction$run() instead of myNimbleFunction(). This means code written in v0.2 and earlier will not run without adding $run.
+- Writing code for nimble models is now done with nimbleCode() (previously modelCode() ).
+- To customize MCMC use "myMCMCspec <- configureMCMC(myModel)" (previously MCMCspec() ).
+- To build an MCMC algorithm, use either "myGenericMCMC <- buildMCMC(myModel)" for a generic build or "myCustomizedMCMC <- buildMCMC(myMCMCspec)" for a customized MCMC algorithm (previously one always had to build an MCMCspec, even for a generic build).
+- Variables and methods of a nimbleFunction can be accessed by "myNimbleFunction$myVariable" or "myNimbleFunction$myMethod()" rather than "nfVar(myNimbleFunction, 'myVariable')" or "nfMethod(myNimbleFunction, 'myMethod')()". Similarly, names of objects/methods of a nimble function can be queried by "ls(myNimbleFunction)".
+
+In addition:
+
+- Internal changes to decrease compilation time, notably when compiling MCMC algorithms.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.
+
+### October, 2014: We've released Version 0.2
+
+Changes as of Version 0.2 include:
+
+- Internal changes to decrease time to build models and nimbleFunctions.
+- Multivariate conjugate updaters for the multivariate normal and Wishart are now included in our MCMC implementation, as well as block updating on multivariate nodes.
+- An extensive suite of tests of NIMBLE's math functions, model building, and default MCMC.
+- A number of bug fixes.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/NEWS) for more detailed information.

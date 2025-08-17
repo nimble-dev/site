@@ -1,0 +1,81 @@
+---
+title: "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
+description: "Introduction to the new nimbleMacros package for enhanced model specification"
+author: "NIMBLE Development Team"  
+date: "2024-04-01"
+categories: [package, macros, modeling]
+---
+
+We're excited to announce the release of the `nimbleMacros` package, which extends NIMBLE's modeling capabilities with a powerful macro system.
+
+## What are NIMBLE Macros?
+
+Macros in NIMBLE allow you to define reusable code patterns that can be expanded during model compilation. This helps reduce code duplication and makes complex models more maintainable.
+
+## Key Features
+
+### Template-based Model Components
+```r
+# Define a macro for a hierarchical prior
+hierarchical_prior <- nimbleMacro(
+  mu ~ dnorm(0, 0.001),
+  tau ~ dgamma(0.001, 0.001),
+  sigma <- 1/sqrt(tau)
+)
+```
+
+### Conditional Model Structure
+Macros can include conditional logic to adapt model structure based on data or parameters.
+
+### Integration with nimbleFunctions
+Seamlessly integrate macros with existing nimbleFunction workflows.
+
+## Installation
+
+Install the nimbleMacros package:
+
+```r
+# From CRAN (when available)
+install.packages("nimbleMacros")
+
+# Or from GitHub
+remotes::install_github("nimble-dev/nimbleMacros")
+```
+
+## Getting Started
+
+Here's a simple example of using macros in a hierarchical model:
+
+```r
+library(nimble)
+library(nimbleMacros)
+
+# Define macro for random effects
+random_effects_macro <- nimbleMacro(
+  for(i in 1:N) {
+    theta[i] ~ dnorm(mu, tau)
+    y[i] ~ dnorm(theta[i], sigma)
+  }
+)
+
+# Use in model
+model_code <- nimbleCode({
+  # Hyperpriors
+  mu ~ dnorm(0, 0.001)
+  tau ~ dgamma(0.001, 0.001)
+  sigma ~ dgamma(0.001, 0.001)
+  
+  # Expand macro
+  random_effects_macro()
+})
+```
+
+## Documentation
+
+Complete documentation and examples are available in the package vignettes and on our [documentation page](../documentation.qmd).
+
+## Community Feedback
+
+We welcome feedback and suggestions for the nimbleMacros package. Please share your experiences and ideas on our [discussion forum](../groups-and-issues.qmd).
+
+This package represents our ongoing commitment to making NIMBLE more flexible and user-friendly for complex statistical modeling tasks.

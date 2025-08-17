@@ -1,0 +1,184 @@
+---
+title: "Examples"
+---
+
+NIMBLE provides a rich collection of examples to help you get started with statistical modeling and algorithm development. Examples cover a wide range of topics from basic BUGS model usage to advanced algorithm implementation.
+
+::: {.callout-note collapse="true"}
+## Building a model from BUGS code
+
+[Read this example on a new page.](examples/nimble_build_a_model.html)
+
+<iframe src="examples/nimble_build_a_model.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Converting to NIMBLE
+
+[Read this example on a new page.](examples/converting_to_nimble.html)
+
+<iframe src="examples/converting_to_nimble.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Creating a default MCMC
+
+[Read this example on a new page.](examples/nimble_basic_mcmc.html)
+
+<iframe src="examples/nimble_basic_mcmc.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Customizing an MCMC
+
+[Read this example on a new page.](examples/nimble_customizing_mcmc.html)
+
+<iframe src="examples/nimble_customizing_mcmc.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Parallelizing NIMBLE
+
+[Read this example on a new page.](examples/parallelizing_NIMBLE.html)
+
+<iframe src="examples/parallelizing_NIMBLE.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Simulating from a model (quickly!)
+
+[Read this example on a new page.](examples/simulation_from_model.html)
+
+<iframe src="examples/simulation_from_model.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Using linear predictors in a regression model
+
+[Read this example on a new page.](examples/linpred.html)
+
+<iframe src="examples/linpred.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Building a generalized linear mixed model and an MCMC for it
+
+[Read this example on a new page.](examples/nimble_logistic_regression.html)
+
+<iframe src="examples/nimble_logistic_regression.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Variable selection using reversible jump MCMC (RJMCMC)
+
+[Read this example on a new page.](examples/RJMCMC_example.html)
+
+<iframe src="examples/RJMCMC_example.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Restarting an MCMC
+
+[Read this example on a new page.](examples/restart_mcmc.html)
+
+<iframe src="examples/restart_mcmc.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Posterior predictive sampling and other post-MCMC use of samples
+
+[Read this example on a new page.](examples/posterior_predictive.html)
+
+<iframe src="examples/posterior_predictive.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Ecology examples from the book Applied Hierarchical Modeling in Ecology
+
+[Read this example on a new page.](examples/Ecology_Examples.html)
+
+<iframe src="examples/Ecology_Examples.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Writing a new distribution for use in BUGS code: zero-inflated Poisson
+
+[Read this example on a new page.](examples/zero_inflated_poisson.html)
+
+<iframe src="examples/zero_inflated_poisson.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Gaussian process models
+
+[Read this example on a new page.](examples/gaussian_process.html)
+
+<iframe src="examples/gaussian_process.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Conditional autoregressive (CAR) models
+
+[Read this example on a new page.](examples/CAR.html)
+
+<iframe src="examples/CAR.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Item response theory (IRT) models
+
+[Read this example on a new page.](examples/IRT_example.html)
+
+<iframe src="examples/IRT_example.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Maximum likelihood via Monte Carlo Expectation-Maximization (MCEM)
+
+[Read this example on a new page.](examples/pumpMCEM.html)
+
+<iframe src="examples/MLE.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Maximum likelihood (basic example)
+
+[Read this example on a new page.](examples/MLE.html)
+
+<iframe src="examples/MLE.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+
+:::
+
+::: {.callout-note collapse="true"}
+## Stochastic volatility modeling using a custom distribution
+
+[Read this example on a new page.](examples/stochastic_volatility.html)
+
+<iframe src="examples/stochastic_volatility.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Bayesian nonparametric density estimation
+
+[Read this example on a new page.](examples/bnp_density.html)
+
+<iframe src="examples/bnp_density.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Bayesian nonparametric random effects
+
+[Read this example on a new page.](examples/bnp_raneff.html)
+
+<iframe src="examples/bnp_raneff.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+::: {.callout-note collapse="true"}
+## Bayesian nonparametrics with jointly clustered observations
+
+[Read this example on a new page.](examples/bnp_multivariate.html)
+
+<iframe src="examples/bnp_multivariate.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+
+

@@ -1,0 +1,55 @@
+---
+title: "License and Citation"
+---
+
+### License
+
+NIMBLE is largely licensed under the BSD 3-Clause license, but our C++ code is licensed under the GPL (>=2) and the package includes external contributions with their own licensing. Please see the COPYRIGHTS file in the package.
+
+### Citing NIMBLE
+
+Please cite the Journal of Computational and Graphical Statistics article in published work that uses or mentions NIMBLE. In work that also uses NIMBLE, please also cite the R package for the specific version. To help us track usage to justify funding support for NIMBLE, please include the DOI in the citation. Please cite the manual for specific material from the manual.
+
+How to cite NIMBLE in general:
+
+```
+@article{nimble-article:2017, 
+  author = {{de Valpine}, P. and Turek, D. and Paciorek, C.J. and Anderson-Bergman, C. and {Temple Lang}, D. and Bodik, R.} 
+  title = {Programming with models: writing statistical algorithms for general model structures with {NIMBLE}},
+  year = {2017}, 
+  journal = {Journal of Computational and Graphical Statistics},
+  volume = 26,
+  pages = {403-417},
+  doi = {10.1080/10618600.2016.1172487}
+}
+```
+
+How to cite the package:
+
+NIMBLE Development Team. 2024. NIMBLE: MCMC, Particle Filtering, and Programmable Hierarchical Modeling. doi: 10.5281/zenodo.1211190. R package version 1.3.0, https://cran.r-project.org/package=nimble.
+
+```
+@misc{nimble-software:2024,
+  author = {{de Valpine}, P. and Paciorek, C. and Turek, D. and Michaud, N. and Anderson-Bergman, C. and Obermeyer, F. and Wehrhahn Cortes, C. and Rodr{\'i}guez, A. and {Temple Lang}, D. and Zhang, W. and Paganin, S. and Hug, J. and van Dam-Bates, P.}, 
+  year = {2024},
+  title = {NIMBLE: MCMC, Particle Filtering, and Programmable Hierarchical Modeling}
+  version = 1.3.0,
+  doi = {10.5281/zenodo.1211190},
+  url = {https://cran.r-project.org/package=nimble}
+}
+```
+
+How to cite the manual:
+
+NIMBLE Development Team. 2024. NIMBLE User Manual. doi: 10.5281/zenodo.1211190. R package manual version 1.3.0. https://r-nimble.org.
+
+```
+@manual{nimble-manual:2024,
+  author = {{de Valpine}, P. and Paciorek, C. and Turek, D. and Michaud, N. and Anderson-Bergman, C. and Obermeyer, F. and Wehrhahn Cortes, C. and Rodr{\'i}guez, A. and {Temple Lang}, D. and Zhang, W. and Paganin, S. and Hug, J. and van Dam-Bates, P.}, 
+  year = {2024}, 
+  title = {NIMBLE User Manual}, 
+  version = 1.3.0, 
+  doi = {10.5281/zenodo.1211190}, 
+  url = {https://r-nimble.org} 
+}
+```

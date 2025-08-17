@@ -1,0 +1,18 @@
+---
+title: "Contributions"
+---
+
+We welcome contributions to help improve NIMBLE.
+
+These may include:
+
+- New algorithms to the [nimble](https://github.com/nimble-dev/nimble) repository.
+- Usage examples to the [demos](https://github.com/nimble-dev/nimble-demos) repository.
+- Improvements or updates to our documentation in the [docs](https://github.com/nimble-dev/nimble-docs) repository.
+- Tutorial or workshop materials to the [outreach](https://github.com/nimble-dev/nimble-outreach) repository.
+
+### How to Contribute
+
+Contributions to NIMBLE can be made by [forking](https://help.github.com/articles/fork-a-repo/) the NIMBLE repository and submitting a [pull request](https://help.github.com/articles/using-pull-requests/) with your changes.
+
+If you have questions about this workflow, or would like to request membership to the NIMBLE Github organization, please contact the [development team](mailto:nimble.stats@gmail.com).

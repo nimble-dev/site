@@ -1,0 +1,22 @@
+---
+title: "What is NIMBLE?"
+---
+
+NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods. NIMBLE is built in R but compiles your models and algorithms using C++ for speed. It includes three components:
+
+1. A system for using models written in the BUGS model language as programmable objects in R.
+2. An initial library of algorithms for models written in BUGS, including basic MCMC, which can be used directly or can be customized from R before being compiled and run.
+3. A language embedded in R for programming algorithms for models, both of which are compiled through C++ code and loaded into R.
+
+NIMBLE can also be used without BUGS models as a way to compile simple R-like code into C++, which is then compiled and loaded into R with an interface function or object.
+
+## Funding
+
+The development of NIMBLE has been funded by:
+
+- an NSF Advances in Biological Informatics grant (DBI-1147230) to P. de Valpine, C. Paciorek, and D. Temple Lang;
+- an NSF SI2-SSI grant (ACI-1550488) to P. de Valpine, C. Paciorek, and D. Temple Lang; and
+- an NSF Collaborative Research grant (DMS-1622444) to P. de Valpine, A. Rodriguez, and C. Paciorek.
+- an NSF Collaborative Research grant (DMS-2152860) to P. de Valpine, C. Paciorek, and D. Turek.
+
+with additional support provided by postdoctoral funding for D. Turek from the [Berkeley Institute for Data Science](http://vcresearch.berkeley.edu/datascience) and Google Summer of Code fellowships for N. Michaud (2015) and C. Lewis-Beck (2017).

@@ -1,0 +1,106 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - "manual/**"
+    - "examples/**"
+
+website:
+  title: "NIMBLE"
+  description: "An R package for programming with BUGS models and compiling parts of R"
+  site-url: "https://nimble-dev.github.io/site"
+  repo-url: "https://github.com/nimble-dev/nimble"
+  
+  navbar:
+    logo: "images/nimble-logo-oval-small-clean.png"
+    logo-href: "index.qmd"
+    title: false
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "What is NIMBLE?"
+        href: what-is-nimble.qmd
+      - text: "Examples"
+        href: examples.qmd
+      - text: "Documentation"
+        href: documentation.qmd
+      - text: "Download"
+        href: download.qmd
+      - text: "Blog"
+        menu:
+          - text: "All Posts"
+            href: blog/index.qmd
+          - text: "---"
+          - text: "Recent Posts"
+          - text: "nimbleMacros Package"
+            href: blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.qmd
+          - text: "Version 1.3.0 Released"
+            href: blog/version-1-3-0-of-nimble-released.qmd
+          - text: "Version 1.2.1 Released"
+            href: blog/version-1-2-1-of-nimble-released.qmd
+          - text: "Version 1.2.0 Released"
+            href: blog/version-1-2-0-of-nimble-released.qmd
+          - text: "Version 1.1.0 Released"
+            href: blog/version-1-1-0-of-nimble-released.qmd
+          - text: "Version 1.0.0 Released"
+            href: blog/version-1-0-0-of-nimble-released.qmd
+          - text: "---"
+          - text: "Feature Posts"
+          - text: "nimbleEcology Package"
+            href: blog/nimbleecology-custom-nimble-distributions-for-ecologists.qmd
+          - text: "Bayesian Nonparametrics"
+            href: blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.qmd
+          - text: "Posterior Predictive Sampling"
+            href: blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.qmd
+      - text: "More"
+        menu:
+          - text: "How to Contribute"
+            href: contributing.qmd
+          - text: "Release Notes"
+            href: release-notes.qmd
+          - text: "Groups and Issues"
+            href: groups-and-issues.qmd
+          - text: "License and Citation"
+            href: license-and-citation.qmd
+          - text: "About Us"
+            href: about-us.qmd
+    
+    tools:
+      - icon: github
+        href: "https://github.com/nimble-dev/nimble"
+      - icon: twitter
+        href: "https://twitter.com/R_nimble"
+
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Blog Posts"
+        contents:
+          - text: "All Posts"
+            href: blog/index.qmd
+          - text: "---"
+          - text: "Recent Posts"
+          - blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.qmd
+          - blog/version-1-3-0-of-nimble-released.qmd
+          - blog/version-1-2-1-of-nimble-released.qmd
+          - blog/version-1-2-0-of-nimble-released.qmd
+          - blog/version-1-1-0-of-nimble-released.qmd
+          - blog/version-1-0-0-of-nimble-released.qmd
+          - text: "---"
+          - text: "Feature Posts"
+          - blog/nimbleecology-custom-nimble-distributions-for-ecologists.qmd
+          - blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.qmd
+          - blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.qmd
+
+format:
+  html:
+    theme: 
+      - cosmo
+      - custom.scss
+    css: styles.css
+    toc: true
+    toc-location: right
+    code-copy: true
+    code-overflow: wrap
+    page-layout: article

@@ -1,0 +1,72 @@
+---
+title: "NIMBLE"
+subtitle: "An R package for programming with BUGS models and compiling parts of R"
+---
+
+::: {.hero-section}
+![NIMBLE Logo](images/nimble-logo-oval-small.png){.nimble-logo}
+
+*Create fast models and algorithms in R.*
+:::
+
+::: {.recent-posts-widget}
+### Recent Posts
+
+- [announcing the nimbleMacros package and the use of macros in NIMBLE models](blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.qmd)
+- [Version 1.3.0 of NIMBLE released](blog/version-1-3-0-of-nimble-released.qmd)
+- [Version 1.2.1 of NIMBLE released](blog/version-1-2-1-of-nimble-released.qmd)
+- [Version 1.2.0 of NIMBLE released](blog/version-1-2-0-of-nimble-released.qmd)
+:::
+
+::: {.feature-section}
+## Write statistical models in the BUGS language from R {style="color: #0000ff;"}
+
+### NIMBLE adopts and extends BUGS as a modeling language and lets you program with the models you create.
+
+Other packages that use the BUGS language are only for Markov chain Monte Carlo (MCMC). With NIMBLE, you can turn BUGS code into model objects and use them for whatever algorithm you want. That includes algorithms provided with NIMBLE and algorithms you write using nimbleFunctions. NIMBLE extends BUGS by allowing multiple parameterizations for distributions, user-written functions and distributions, and more.
+:::
+
+::: {.feature-section}
+## Use and customize NIMBLE's statistical algorithms {style="color: #0000ff;"}
+
+### NIMBLE provides MCMC, sequential Monte Carlo (particle filters), and more.
+
+NIMBLE algorithms are written so they can adapt to different statistical models. For MCMC, NIMBLE can assign a default set of sampler choices, but you can customize the samplers from R. For example, you can choose what parameters to sample in a block, and you can easily write your own samplers and include them.
+
+![BUGS Flow Chart](images/BUGSfig.png){width="202" height="142"}
+:::
+
+::: {.feature-section}
+## Compile your models and algorithms for fast execution. {style="color: #0000ff;"}
+
+### NIMBLE generates C++ code customized to your model and algorithms, compiles it, and lets you use it from R.
+
+You don't need to know anything about C++ to use NIMBLE's compiler. NIMBLE provides R functions to call the compiled algorithms, and you get the output back in R. (You do need to have a C++ compiler and related tools installed. See installation instructions.)
+
+![Mixing Example](images/mixingExample.png){width="300" height="300"}
+:::
+
+::: {.feature-section}
+## Write your own algorithms in NIMBLE {style="color: #0000ff;"}
+
+### Writing new statistical methods using nimbleFunctions in R is similar to writing R functions.
+
+If you have a method you'd like to implement, you can program it using nimbleFunctions. The syntax is very similar to R, but you'll need to learn some details to get started. The nimbleFunction system allows programmers to control how a particular algorithm should adapt to each model and/or variables it is applied to. The NIMBLE compiler can make nimbleFunctions run very efficiently.
+
+![Compile Flow Chart](images/compileFlowChart.png){width="344" height="224"}
+:::
+
+::: {.feature-section}
+## Compile numerical work in R via C++ without coding any C++. {style="color: #0000ff;"}
+
+### Don't care about models written in the BUGS language? Just want to try making your R code to go faster?
+
+nimbleFunctions don't need to use BUGS models, so you can use them to speed up many kinds of numerical computations for any other purpose. The NIMBLE compiler can handle math, including linear algebra and distributions. It also supports basic iteration, flow control, and data structures.
+:::
+
+---
+
+::: {.social-links}
+[GitHub](https://github.com/nimble-dev/nimble){.btn .btn-outline-primary}
+[Twitter](https://twitter.com/R_nimble){.btn .btn-outline-primary}
+:::

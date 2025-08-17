@@ -1,0 +1,67 @@
+---
+title: "Download"
+---
+
+## Prerequisites
+
+Before installing NIMBLE, you need a compiler and related tools such as *make* that R can use. You'll need these anyway to use NIMBLE.
+
+On Windows you can get these by installing Rtools.exe from [here](http://cran.r-project.org/bin/windows/Rtools). **Important**: with R version 4.0 or newer, for which you need Rtools40, be sure to follow the instructions in the section "Putting Rtools on the PATH" to set the PATH after the installation is complete. For older versions of R, for which you would use Rtools35.exe, be sure to check the box that will modify your PATH during the installation process.
+
+On Mac OS X you can get these by installing the XCode command line tools. (The full XCode development environment is fine but not required.)
+
+More details and troubleshooting tips are provided in [Section 4 of the User Manual](https://r-nimble.org/html_manual/cha-installing-nimble.html).
+
+If you install a new version of R, you will need to reinstall NIMBLE.
+
+## Current version (1.3.0)
+
+::: {.download-section}
+### Installing from CRAN
+
+[NIMBLE is available from CRAN](https://cran.r-project.org/package=nimble) as a source package and as a binary package for Windows and Mac OS. Please note that even if you install from CRAN, you still need to have a compiler and related tools installed as discussed above and in Section 4 of our User Manual.
+
+```r
+install.packages("nimble")
+```
+:::
+
+### Installing from R-nimble.org
+
+If you prefer, you can install the package directly from our repository as follows.
+
+If you install in this manner, please first install the igraph, R6, coda, numDeriv, and pracma R packages as these are dependencies and will not be automatically installed when installing from source.
+
+Only the installation from source works when installing from our repository. Invoke the following at the R command line:
+
+```r
+# Install from source for MacOS, Linux, or Windows:
+install.packages("nimble", repos = "https://r-nimble.org", type = "source")
+# the 'type = "source"' is unnecessary for Linux
+```
+
+Or download the [source package](https://r-nimble.org/src/contrib/nimble_1.3.0.tar.gz) for installation via R CMD INSTALL on Linux, Mac, or Windows
+
+The NIMBLE source code can be viewed by unzipping the source package tarball or directly on our [GitHub repository](https://github.com/nimble-dev/nimble).
+
+## Installing from GitHub
+
+You can install either the current release or the latest development version from GitHub.
+
+```r
+# For the current release:
+remotes::install_github("nimble-dev/nimble", ref = "master", subdir = "packages/nimble")
+
+# For the development release:
+remotes::install_github("nimble-dev/nimble", ref = "devel", subdir = "packages/nimble")
+```
+
+## Older versions
+
+Previous releases of NIMBLE can be found [here](archived-versions-of-nimble-and-the-user-manual.qmd).
+
+For a summary of changes in each version, please see the [News page](http://r-nimble.org/news) or the NEWS file in the package.
+
+## Beta testing of automatic differentiation features
+
+Automatic differentiation, including support for Hamiltonian Monte Carlo and Laplace (and AGHQ) approximation is part of NIMBLE as of the version 1.0.0 release. Instructions for using it are in our [User Manual](https://r-nimble.org/html_manual/cha-AD.html).

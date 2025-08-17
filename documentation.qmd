@@ -1,0 +1,71 @@
+---
+title: "Documentation"
+---
+
+## Cheatsheet
+
+New as of version 0.9.1:
+
+- [The NIMBLE cheatsheet — a compact two-page overview and reference guide](NimbleCheatSheet.pdf).
+
+## User Manual
+
+- An [HTML version of the manual](manual/cha-welcome-nimble.html).
+- A [PDF version of the manual](manual/NimbleUserManual.pdf).
+
+The manual provides information for those wishing to use NIMBLE to work with their own models as well as algorithm developers wishing to write algorithms using NIMBLE. Old versions of the manual can be found [here](archived-versions-of-nimble-and-the-user-manual.qmd).
+
+## Training materials
+
+Please see our collection of [Github repositories with training materials](https://github.com/nimble-training) for materials from our various NIMBLE training workshops, including workshops developed for statisticans and workshops developed for ecologists.
+
+## Other links
+
+- [Examples of spatial and spatio-temporal models](https://github.com/Andrew9Lawson/Bayesian_DM_Nimble_code/tree/ICAR-and-other-code) (specifically for disease mapping) provided by Andrew Lawson.
+- [Blog post on converting from JAGS or BUGS to NIMBLE.](blog/quick-guide-for-converting-from-jags-or-bugs-to-nimble.qmd)
+- [First](blog/bayesian-nonparametric-models-in-nimble-part-1-density-estimation.qmd) and [second](blog/bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects.qmd) blog posts on support for Bayesian non-parametric distributions.
+- [Blog post on reversible jump sampling for variable selection](blog/variable-selection-in-nimble-using-reversible-jump-mcmc.qmd).
+- [Using NIMBLE for the examples in the book Applied Hierarchical Modeling in Ecology.](https://github.com/nimble-dev/AHMnimble).
+
+## Some papers about NIMBLE
+
+### Motivation and design of NIMBLE:
+
+de Valpine, P., D. Turek, C.J. Paciorek, C. Anderson-Bergman, D. Temple Lang, and R. Bodik. 2017. Programming with models: writing statistical algorithms for general model structures with NIMBLE. *Journal of Computational and Graphical Statistics* 26:403-413. [https://doi.org/10.1080/10618600.2016.1172487](https://doi.org/10.1080/10618600.2016.1172487).
+
+### NIMBLE for Hidden Markov Models:
+
+Turek, D., P. de Valpine, and C.J. Paciorek. 2016. Efficient Markov chain Monte Carlo sampling for hierarchical hidden Markov models. *Environmental and Ecological Statistics* 23:549–564. [https://doi.org/10.1007/s10651-016-0353-z](https://doi.org/10.1007/s10651-016-0353-z)
+
+### NIMBLE for Ecological Models:
+
+Ponisio, L.C., P. de Valpine, N. Michaud, and D. Turek. 2020. One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE. *Ecology & Evolution* 10: 2385– 2416. [https://doi.org/10.1002/ece3.6053](https://doi.org/10.1002/ece3.6053)
+
+### Sequential Monte Carlo (particle filtering) methods in NIMBLE:
+
+Michaud, N., P. de Valpine, D. Turek, C.J. Paciorek, and D. Nguyen. 2021. Sequential Monte Carlo Methods in the nimble and nimbleSMC R Packages. *Journal of Statistical Software* 100(3): 1-39. [https://doi.org/10.18637/jss.v100.i03](https://doi.org/10.18637/jss.v100.i03)
+
+### Spatial Epidemiology in NIMBLE:
+
+Lawson, A.B. 2020. NIMBLE for Bayesian Disease Mapping. Spatial and Spatio-temporal Epidemiology 33. [https://doi.org/10.1016/j.sste.2020.100323](https://doi.org/10.1016/j.sste.2020.100323)
+
+### NIMBLE for item response theory models:
+
+Paganin, S., C.J. Paciorek, C. Wehrhahn, A. Rodríguez, S. Rabe-Hesketh, and P. de Valpine. 2021. Computational methods for Bayesian semiparametric Item Response Theory models. [https://arxiv.org/abs/2101.11583](https://arxiv.org/abs/2101.11583).
+
+### WAIC in NIMBLE
+
+Hug, J.E., and C.J. Paciorek. 2021. A numerically stable online implementation and exploration of WAIC through variations of the predictive density, using NIMBLE. [https://arxiv.org/abs/2106.13359](https://arxiv.org/abs/2106.13359).
+
+## Packages with extensions and applications of NIMBLE
+
+A partial list of packages that extend or use nimble.
+
+- [nimbleSMC](https://cran.r-project.org/package=nimbleSMC): all of NIMBLE's sequential Monte Carlo (aka particle filtering) algorithms; migrated out of the core NIMBLE package as of version 0.10.0.
+- [nimbleEcology](https://cran.r-project.org/package=BayesEcology): distributions commonly used in ecology for use in nimble models
+- [nimbleSCR](https://cran.r-project.org/package=nimbleSCR): utility functions, distributions, and methods for improving Markov chain Monte Carlo (MCMC) sampling efficiency for ecological spatial capture-recapture (SCR) models.
+- [bayesNSGP](https://cran.r-project.org/package=BayesNSGP): Bayesian analysis of (non-stationary) Gaussian processes, using nimble as the computational engine.
+- bcgam: Bayesian constrained generalized linear models
+- [bridgesampling](https://cran.r-project.org/package=bridgesampling): functions for estimating marginal likelihoods, Bayes factors, posterior model probabilities, and normalizing constants in general, via different versions of bridge sampling.
+- [nimbleDistance](https://github.com/scrogster/nimbleDistance): user-defined distributions that can be used to implement distance sampling models in nimble.
+- [nimbleCarbon](https://github.com/ercrema/nimbleCarbon): utility functions and bespoke probability distributions for the Bayesian analyses of radiocarbon dates.

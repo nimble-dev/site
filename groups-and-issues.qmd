@@ -1,0 +1,13 @@
+---
+title: "Groups and Issues"
+---
+
+## Groups
+
+- We will post (occasional) announcements on the [nimble-announce](https://groups.google.com/forum/#!forum/nimble-announce) Google groups site.
+
+- We have an email list on the [nimble-users](https://groups.google.com/forum/#!forum/nimble-users) Google groups site. This is intended for questions about NIMBLE, requests for new features, and other discussion of NIMBLE.
+
+## Issues
+
+Issues and bugs can be reported via the [issue tracker](https://github.com/nimble-dev/nimble/issues) of the nimble repository or via the [nimble-users](https://groups.google.com/forum/#!forum/nimble-users) Google groups site. General "how to" questions are welcome. If reporting a problem, please provide a reproducible example. For compilation errors, please provide your operating system.

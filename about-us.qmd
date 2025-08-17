@@ -1,0 +1,93 @@
+---
+title: "About Us"
+---
+
+## Core team
+
+::: {.team-grid}
+::: {.team-member}
+[![](images/PerryCropped2.png){width="72" height="72" fig-alt="Portrait photo of Perry de Valpine"}](https://nature.berkeley.edu/~pdevalpine/)
+
+**Perry de Valpine** is in the Department of Environmental Science, Policy and Management at the University of California, Berkeley.
+:::
+
+::: {.team-member}
+[![](images/ChrisCropped2.png){width="72" height="72" fig-alt="Portrait photo of Chris Paciorek"}](http://www.stat.berkeley.edu/~paciorek/)
+
+**Chris Paciorek** is an adjunct professor in the Department of Statistics at UC Berkeley, as well as the department's statistical computing consultant.
+:::
+
+::: {.team-member}
+[![](images/download-1_crop1_circle90_9.jpg){width="72" height="72" fig-alt="Portrait photo of Daniel Turek"}](http://danielturek.weebly.com/)
+
+**Daniel Turek** is in the Department of Mathematics at Lafayette College.
+:::
+:::
+
+- **[Duncan Temple Lang](http://www.stat.ucdavis.edu/~duncan/)** is in the Department of Statistics at the University of California, Davis.
+
+# Core team alums
+
+- **Nick Michaud** is a Statistician at Vertex Pharmaceuticals who contributed to various NIMBLE algorithms and NIMBLE internals as a postdoc.
+- **[Clifford Anderson-Bergman](http://cliffstats.weebly.com/)** is a Statistician at Lawrence Livermore National Lab.
+- **Jagadish Babu** contributed to an early pre-release version of NIMBLE.
+
+# Collaborators
+
+- **Claudia Wehrhahn Cortes**, is a visiting assistant professor at the University of California, Santa Cruz, Department of Applied Mathematics & Statistics implementing Bayesian nonparametric methods in NIMBLE.
+- **[Abel Rodriguez](https://stat.uw.edu/about-us/people/abel-rodriguez)** is a faculty member at the University of Washington Department of Statistics
+- **[Wei Zhang](https://www.gla.ac.uk/schools/mathematicsstatistics/staff/weizhang/)** is a lecturer in the School of Mathematics and Statistics at the University of Glasgow who has contributed to NIMBLE methods and applications.
+- **[Sally Paganin](https://www.hsph.harvard.edu/profile/sally-paganin/)** is a postdoc at Harvard School of Public Health who has contributed to NIMBLE methods and applications.
+
+::: {.team-grid}
+::: {.team-member}
+[![](images/LaurenCropped2.png){width="72" height="72" fig-alt="Portrait photo of Lauren Ponisio"}](http://www.ponisiolab.com/)
+
+**Lauren Ponisio** is a faculty member at the Oregon State University.
+:::
+
+::: {.team-member}
+[![](images/DaoCropped2.png){width="72" height="72" fig-alt="Portrait photo of Dao Nguyen"}](http://www-personal.umich.edu/~nguyenxd/)
+
+**Dao Nguyen** is a faculty member at the University of Mississippi.
+:::
+
+::: {.team-member}
+[![](images/BenCropped2.png){width="68" height="76" fig-alt="Portrait photo of Ben Staton"}](http://www.personal.psu.edu/bas59/)
+
+**Ben Shaby** is a faculty member at Colorado State University, Department of Statistics
+:::
+:::
+
+- **[Ras Bodik](http://homes.cs.washington.edu/~bodik/)** is a faculty member at the University of Washington, Department of Computer Science and Engineering
+
+# Contributors
+
+::: {.team-grid}
+::: {.team-member}
+![](images/fho_portraitCropped.png){width="72" height="72" fig-alt="Portrait photo of Fritz Obermeyer"}
+
+**Fritz Obermeyer** is a computer scientist who worked on NIMBLE development.
+:::
+
+::: {.team-member}
+[![](images/DavidCropped2-1.png){width="72" height="72" fig-alt="Portrait photo of David Pleydell"}](https://sites.google.com/site/drjpleydell/)
+
+**David Pleydell** is in the French National Institute for Agricultural Research (INRA).
+:::
+
+::: {.team-member}
+[![](images/RyanCropped2-1.png){width="72" height="72" fig-alt="Portrait photo of Ryan Lim"}](http://linkedin.com/in/ryanglim)
+
+**Ryan Lim** contributed to NIMBLE as part of Berkeley's Undergraduate Research Apprentice Program. He now works for Microsoft.
+:::
+
+::: {.team-member}
+![](images/logo.png){width="72" height="72" fig-alt="Portrait photo of Luke Larson"}
+
+**Luke Larson** is a Berkeley student who designed our logo.
+:::
+:::
+
+- Joshua Hug contributed to NIMBLE's WAIC algorithm while a master's student in Statistics at Berkeley. He now works for Aetna.
+- **[Peter Sujan](https://www.ocf.berkeley.edu/~psujan/)** contributed to NIMBLE while a master's student in Statistics at Berkeley. He now works for Microsoft.

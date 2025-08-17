@@ -1,0 +1,28 @@
+---
+title: "Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling"
+description: ""
+author: "NIMBLE Development Team"
+date: "2025-08-17"
+categories: ['release', 'announcement']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://web.archive.org/web/20250321192726/https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+
+Version 1.0.0 provides substantial new functionality. This includes:
+
+  * A Laplace approximation algorithm that allows one to find the MLE for model parameters based on approximating the marginal likelihood in models with continuous random effects/latent process values.
+  * A Hamiltonian Monte Carlo (HMC) MCMC sampler implementing the NUTS algorithm (available in the newly-released [nimbleHMC](https://web.archive.org/web/20250321192726/https://cran.r-project.org/web/packages/nimbleHMC/index.html) package).
+  * Support in NIMBLE’s algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.
+  * A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.
+
+These are documented via the R help system and [a new section at the end of our User Manual](https://web.archive.org/web/20250321192726/https://r-nimble.org/html_manual/cha-AD.html). We’re excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the [nimble-users list](https://web.archive.org/web/20250321192726/https://r-nimble.org/more/issues-and-groups).
+
+In addition to the new functionality above, other enhancements and bug fixes include:
+
+  * Fixing a bug (previously reported in a nimble-users message) giving incorrect results in NIMBLE’s cross-validation function (`runCrossValidate`) for all but the ‘predictive’ loss function for NIMBLE versions 0.10.0 – 0.13.2.
+  * Fixing a bug in conjugacy checking causing incorrect identification of conjugate relationships in models with unusual uses of subsets, supersets, and slices of multivariate normal nodes.
+  * Improving control of the `addSampler` method for MCMC.
+  * Improving the WAIC system in a few small ways.
+  * Enhancing error trapping and warning messages.
+
+Please see the [NEWS file](https://web.archive.org/web/20250321192726/https://github.com/nimble-dev/nimble/blob/devel/packages/nimble/inst/NEWS.md) in the package source for more details.
