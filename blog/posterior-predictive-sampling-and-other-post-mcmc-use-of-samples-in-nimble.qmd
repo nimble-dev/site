@@ -2,7 +2,7 @@
 title: "Posterior predictive sampling and other post-MCMC use of samples in NIMBLE"
 description: ""
 author: "NIMBLE Development Team"
-date: "2025-08-17"
+date: "2021-08-10"
 categories: ['announcement']
 ---
 
@@ -178,7 +178,7 @@ At this point, we can implement the check we want using our chosen discrepancy m
     abline(v = obsMin, col = 'red')
     
 
-![Histogram showing posterior predictive distribution results](https://web.archive.org/web/20250616215553im_/https://r-nimble.org/wp-content/uploads/2021/08/postpred_hist-1.png)
+![](https://web.archive.org/web/20250616215553im_/https://r-nimble.org/wp-content/uploads/2021/08/postpred_hist-1.png)
 
 ## Fast posterior predictive sampling using a nimbleFunction
 

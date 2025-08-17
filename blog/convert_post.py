@@ -26,6 +26,39 @@ def extract_title(soup):
         return title
     return "Untitled Post"
 
+def extract_publication_date(soup):
+    """Extract publication date from WordPress HTML"""
+    # Look for the WordPress entry-date element
+    date_element = soup.find('time', class_='entry-date')
+    if date_element and date_element.get('datetime'):
+        datetime_str = date_element.get('datetime')
+        try:
+            # Parse the datetime string (e.g., "2024-12-21T12:35:40-08:00")
+            # Extract just the date part (YYYY-MM-DD)
+            parsed_date = datetime.fromisoformat(datetime_str.replace('Z', '+00:00'))
+            return parsed_date.strftime("%Y-%m-%d")
+        except (ValueError, AttributeError):
+            # If parsing fails, try to extract date from the text content
+            if date_element.get_text():
+                date_text = date_element.get_text().strip()
+                try:
+                    # Try to parse common date formats like "December 21, 2024"
+                    parsed_date = datetime.strptime(date_text, "%B %d, %Y")
+                    return parsed_date.strftime("%Y-%m-%d")
+                except ValueError:
+                    pass
+    
+    # Fallback: look for other date patterns in meta elements
+    meta_date = soup.find('meta', {'property': 'article:published_time'})
+    if meta_date and meta_date.get('content'):
+        try:
+            parsed_date = datetime.fromisoformat(meta_date.get('content').replace('Z', '+00:00'))
+            return parsed_date.strftime("%Y-%m-%d")
+        except ValueError:
+            pass
+    
+    return None
+
 def extract_content(soup):
     """Extract main content from WordPress HTML"""
     # Look for common WordPress content containers
@@ -100,7 +133,10 @@ def convert_post(input_file, output_file):
         
         title = extract_title(soup)
         content = extract_content(soup)
-        frontmatter = create_frontmatter(title)
+        
+        # Extract publication date from the HTML
+        pub_date = extract_publication_date(soup)
+        frontmatter = create_frontmatter(title, pub_date)
         
         # Combine frontmatter and content
         full_content = frontmatter + content
@@ -111,6 +147,10 @@ def convert_post(input_file, output_file):
         
         print(f"Successfully converted {input_file} to {output_file}")
         print(f"Title: {title}")
+        if pub_date:
+            print(f"Date: {pub_date}")
+        else:
+            print("Date: Using current date (publication date not found)")
         
     except Exception as e:
         print(f"Error converting {input_file}: {e}")

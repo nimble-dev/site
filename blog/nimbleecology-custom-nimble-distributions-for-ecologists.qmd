@@ -2,7 +2,7 @@
 title: "nimbleEcology: custom NIMBLE distributions for ecologists"
 description: ""
 author: "NIMBLE Development Team"
-date: "2025-08-17"
+date: "2020-04-18"
 categories: ['announcement']
 ---
 

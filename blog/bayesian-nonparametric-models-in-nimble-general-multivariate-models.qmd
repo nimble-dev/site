@@ -2,7 +2,7 @@
 title: "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models"
 description: ""
 author: "NIMBLE Development Team"
-date: "2025-08-17"
+date: "2021-03-25"
 categories: ['announcement']
 ---
 
@@ -173,7 +173,7 @@ We can extract posterior samples for some parameters of interest. The following 
     ts.plot(nGroups,  xlab = "Iteration", ylab = "Number of components", main = "Number of clusters")
     
 
-![Trace plots showing MCMC convergence diagnostics for concentration parameter and cluster count](https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-output-1.png)
+![plot of chunk longitudinalStudy-bnp-output](https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-output-1.png)
 
 ### Assessing the posterior
 
@@ -246,7 +246,7 @@ The following code creates a heatmap of the posterior predictive bivariate distr
                xlab = 'Baseline', ylab = '4th visit', ylim = c(0, 15), axes = TRUE)
     
 
-![Heatmap showing bivariate posterior predictive distribution for seizure counts at baseline and fourth visit](https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-bivariate-heatmap-1.png)
+![plot of chunk longitudinalStudy-bnp-bivariate-heatmap](https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-bivariate-heatmap-1.png)
 
 In order to describe the uncertainty in the posterior clustering structure of the individuals in the study, we present a heat map of the posterior probability of two subjects belonging to the same cluster. To do this, first we compute the posterior pairwise clustering matrix that describes the probability of two individuals belonging to the same cluster, then we reorder the observations and finally plot the associated heatmap.
     
@@ -271,7 +271,7 @@ In order to describe the uncertainty in the posterior clustering structure of th
     axis(4, at = 1:n, tck = 0, labels = FALSE)
     
 
-![Pairwise scatter plots showing relationships between seizure counts at different time points](https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-pairwise-1.png)
+![plot of chunk longitudinalStudy-bnp-pairwise](https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-pairwise-1.png)
 
 ## References
 

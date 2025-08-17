@@ -1,44 +1,15 @@
 ---
 title: "Version 1.2.1 of NIMBLE released"
-description: "Bug fixes and improvements in NIMBLE 1.2.1"
+description: ""
 author: "NIMBLE Development Team"
-date: "2024-02-15"
-categories: [release, bugfix]
+date: "2024-07-31"
+categories: ['release', 'announcement']
 ---
 
-We are pleased to announce the release of NIMBLE version 1.2.1. This is a maintenance release that includes several important bug fixes and minor improvements.
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://web.archive.org/web/20250518101613/https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).
 
-## Bug Fixes
+This is a micro release that primarily addresses some packaging changes requested by CRAN. In addition, this release includes:
 
-This release addresses several issues reported by users:
-
-- Fixed compilation issues on certain Windows configurations
-- Resolved memory allocation problems in specific MCMC scenarios
-- Corrected behavior of user-defined distributions in edge cases
-- Fixed issue with automatic differentiation in complex model structures
-
-## Improvements
-
-- Enhanced error messages for better debugging
-- Improved performance in specific nimbleFunction operations
-- Updated documentation with additional examples
-
-## Installation
-
-Install from CRAN:
-
-```r
-install.packages("nimble")
-```
-
-Or from our repository:
-
-```r
-install.packages("nimble", repos = "https://r-nimble.org", type = "source")
-```
-
-## Migration from 1.2.0
-
-No breaking changes - this release is fully compatible with NIMBLE 1.2.0.
-
-We recommend all users upgrade to this version for improved stability and performance.
+  * A multinomial MCMC sampler, `sampler_RW_multinomial`, for random variables following a multinomial distribution.
+  * Some enhancements to error trapping and warning messages.
+  * A variety of minor bug fixes.

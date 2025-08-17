@@ -1,63 +1,35 @@
 ---
 title: "Version 1.2.0 of NIMBLE released"
-description: "New features and enhancements in NIMBLE 1.2.0"
+description: ""
 author: "NIMBLE Development Team"
-date: "2024-01-20"
-categories: [release, features]
+date: "2024-06-14"
+categories: ['release', 'announcement']
 ---
 
-We're excited to announce the release of NIMBLE version 1.2.0, which includes several new features and significant improvements.
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://web.archive.org/web/20250427222134/https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).
 
-## New Features
+This release provides provides extensive new functionality, including:
 
-### Enhanced Sequential Monte Carlo
-- Improved particle filter algorithms
-- Better support for state-space models
-- New bootstrap and auxiliary particle filters
+  * A Pólya-gamma sampler, `sampler_polyagamma`, for conjugate sampling of linear predictor parameters in logistic regression model specifications, including handling zero inflation and stochastic design matrices. This sampler must be added to an MCMC configuration manually.
+  * A new sampler, `sampler_noncentered`, which samples the mean or standard deviation of a set of random effect values in a transformed space such that the random effects are deterministically shifted or scaled given new values of their hyperparameters. For random effects written in a centered parameterization, sampling is performed as if they had been written in a noncentered parameterization, thereby enabling a variant on the [Yu and Meng (2011)](https://web.archive.org/web/20250427222134/https://doi.org/10.1198/jcgs.2011.203main) interweaving sampling strategy of sampling in both parameterizations.This sampler must be added to an MCMC configuration manually.
+  * Adaptive Gauss-Hermite quadrature (AGHQ) for integrating over continuous latent effects, as an extension of NIMBLE’s Laplace approximation functionality. We also add user-friendly R functions, `runLaplace` and `runAGHQ`, for using Laplace and AGHQ approximation for maximum likelihood estimation.
+  * A more flexible optimization system via `nimOptim`, with support for `nlminb` built in as well as the capability for users to provide potentially arbitrary optimization functions in R.
+  * Allowing the use of nimbleFunctions with setup code in models, either for user-defined functions via `<-` or for user-defined distributions via `~`. This supports holding large objects outside of model nodes for use in models.
+  * A completely revamped MCEM algorithm, using automatic derivatives in the maximization when possible, fixing a bug so that any parts of the model not connected to the latent states are included in MLE calculations, giving greater control and adding minor extensions to the ascent-based MCEM approach, and converting `buildMCEM` to be a nimbleFunction rather than an R function.
 
-### MCMC Improvements
-- More efficient adaptive samplers
-- Better convergence diagnostics
-- Enhanced mixing for challenging posteriors
+In addition to the new functionality above, other enhancements and bug fixes include:
 
-### nimbleFunction Enhancements
-- Support for additional mathematical operations
-- Improved debugging capabilities
-- Better integration with R environments
+  * Improving the speed of MCMC and MCMC building in certain cases.
+  * Adding an argument to buildMCMC controlling whether to initialize values in the model.
+  * Providing the ability to control the number of digits printed in C++ output.
+  * Allowing use of a categorical MCMC sampler with user-specified dcat-like distributions.
+  * Warning of use of backward indexing in models.
+  * Improve documentation of the LKJ distribution and of advanced aspects of writing code for derivative tracking using the AD system.
+  * Fixing an insufficient check for conjugacy in stick-breaking specifications of Bayesian nonparametric distributions.
+  * Fixing compilation failures occurring on Red Hat Linux.
+  * Reenabling functionality for user-provided Eigen library and related updates to the autoconf configuration used in package building.
+  * Enhancing functionality to support model macros, which will be fully released and documented in the future.
+  * Removing deprecated `is.na.vec` and `is.nan.vec` functions.
+  * Improving some warnings and error messages.
 
-## Performance Improvements
-
-- Faster model compilation times
-- Reduced memory usage in large models
-- Optimized linear algebra operations
-
-## New Distributions
-
-Added support for several new probability distributions:
-- Multivariate t-distribution
-- Generalized Pareto distribution
-- Additional parameterizations for existing distributions
-
-## Installation
-
-```r
-install.packages("nimble")
-```
-
-## Breaking Changes
-
-Please note the following changes that may affect existing code:
-- Deprecated functions have been removed (see migration guide)
-- Some default sampler choices have been updated
-
-## Documentation
-
-- Updated User Manual with new examples
-- Enhanced function documentation
-- New vignettes for advanced topics
-
-## Acknowledgments
-
-Special thanks to the community members who contributed bug reports, feature requests, and testing feedback.
-
-For complete details, see the NEWS file in the package.
+Please see the [release notes](https://web.archive.org/web/20250427222134/https://r-nimble.org/more/news) on our website for more details.

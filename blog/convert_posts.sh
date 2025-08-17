@@ -5,9 +5,6 @@
 
 echo "Converting WordPress posts to Quarto format..."
 
-# Create blog directory if it doesn't exist
-mkdir -p blog
-
 # Convert each post file
 for file in posts/*; do
     if [ -f "$file" ]; then
@@ -20,7 +17,7 @@ for file in posts/*; do
         fi
         
         # Create output filename
-        output="blog/${filename}.qmd"
+        output="${filename}.qmd"
         
         echo "Converting $file to $output"
         

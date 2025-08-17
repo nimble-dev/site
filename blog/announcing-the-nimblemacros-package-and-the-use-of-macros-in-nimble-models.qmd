@@ -1,81 +1,24 @@
 ---
-title: "Announcing the nimbleMacros package and the use of macros in NIMBLE models"
-description: "Introduction to the new nimbleMacros package for enhanced model specification"
-author: "NIMBLE Development Team"  
-date: "2024-04-01"
-categories: [package, macros, modeling]
+title: "announcing the nimbleMacros package and the use of macros in NIMBLE models"
+description: ""
+author: "NIMBLE Development Team"
+date: "2025-03-19"
+categories: ['announcement']
 ---
 
-We're excited to announce the release of the `nimbleMacros` package, which extends NIMBLE's modeling capabilities with a powerful macro system.
+Recent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).
 
-## What are NIMBLE Macros?
+A NIMBLE macro is a succinct syntax that expands to create the NIMBLE model code for part or all of a model.
 
-Macros in NIMBLE allow you to define reusable code patterns that can be expanded during model compilation. This helps reduce code duplication and makes complex models more maintainable.
+We recently released the first version of the [`nimbleMacros` package on CRAN](https://web.archive.org/web/20250427235758/https://cran.r-project.org/web/packages/nimbleMacros/index.html), which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the `LM` (“linear model”) macro like this:
+    
+    
+    library(nimbleMacros)
+    
+    code <- nimbleCode({
+      LM(weight[1:N] ~ Time + (1|Chick))
+    })
 
-## Key Features
+with the formula syntax mimicking that of the lme4 package. After building the model based on the `code` object, you can see the model code produced after the macro is expanded with `model$getCode()`. The nimbleMacros package also includes macros for creating linear predictors and for loops, and we plan to add additional macros in the future.
 
-### Template-based Model Components
-```r
-# Define a macro for a hierarchical prior
-hierarchical_prior <- nimbleMacro(
-  mu ~ dnorm(0, 0.001),
-  tau ~ dgamma(0.001, 0.001),
-  sigma <- 1/sqrt(tau)
-)
-```
-
-### Conditional Model Structure
-Macros can include conditional logic to adapt model structure based on data or parameters.
-
-### Integration with nimbleFunctions
-Seamlessly integrate macros with existing nimbleFunction workflows.
-
-## Installation
-
-Install the nimbleMacros package:
-
-```r
-# From CRAN (when available)
-install.packages("nimbleMacros")
-
-# Or from GitHub
-remotes::install_github("nimble-dev/nimbleMacros")
-```
-
-## Getting Started
-
-Here's a simple example of using macros in a hierarchical model:
-
-```r
-library(nimble)
-library(nimbleMacros)
-
-# Define macro for random effects
-random_effects_macro <- nimbleMacro(
-  for(i in 1:N) {
-    theta[i] ~ dnorm(mu, tau)
-    y[i] ~ dnorm(theta[i], sigma)
-  }
-)
-
-# Use in model
-model_code <- nimbleCode({
-  # Hyperpriors
-  mu ~ dnorm(0, 0.001)
-  tau ~ dgamma(0.001, 0.001)
-  sigma ~ dgamma(0.001, 0.001)
-  
-  # Expand macro
-  random_effects_macro()
-})
-```
-
-## Documentation
-
-Complete documentation and examples are available in the package vignettes and on our [documentation page](../documentation.qmd).
-
-## Community Feedback
-
-We welcome feedback and suggestions for the nimbleMacros package. Please share your experiences and ideas on our [discussion forum](../groups-and-issues.qmd).
-
-This package represents our ongoing commitment to making NIMBLE more flexible and user-friendly for complex statistical modeling tasks.
+Developers can use the tools in `nimble` itself to create their own macros. See [Section 12.4 of the NIMBLE user manual](https://web.archive.org/web/20250427235758/https://r-nimble.org/html_manual/cha-user-defined.html#sec:user-macros), [the `nimbleMacros` vignette](https://web.archive.org/web/20250427235758/https://cran.r-project.org/web/packages/nimbleMacros/vignettes/nimbleMacros.html), or `help(buildMacro)` for more information.
