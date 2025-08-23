@@ -690,7 +690,7 @@
     "href": "what-is-nimble.html",
     "title": "What is NIMBLE?",
     "section": "",
-    "text": "NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods. NIMBLE is built in R but compiles your models and algorithms using C++ for speed. It includes three components:\nNIMBLE can also be used without BUGS models as a way to compile simple R-like code into C++, which is then compiled and loaded into R with an interface function or object."
+    "text": "NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods. NIMBLE is built in R but compiles your models and algorithms using C++ for speed. It includes three components:\nNIMBLE can also be used without models as a way to compile simple R-like code into C++, which is then compiled and loaded into R with an interface function or object."
   },
   {
     "objectID": "what-is-nimble.html#funding",

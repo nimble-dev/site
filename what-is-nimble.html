@@ -338,11 +338,18 @@ ul.task-list li input[type="checkbox"] {
 
 <p>NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods. NIMBLE is built in R but compiles your models and algorithms using C++ for speed. It includes three components:</p>
 <ol type="1">
-<li>A system for using models written in the BUGS model language as programmable objects in R.</li>
-<li>An initial library of algorithms for models written in BUGS, including basic MCMC, which can be used directly or can be customized from R before being compiled and run.</li>
+<li>A system for using models written in the BUGS-compatible NIMBLE model language as programmable objects in R.</li>
+<li>An extensive library of algorithms for models written in NIMBLE, including:
+<ul>
+<li>MCMC, which can be used directly or can be customized from R before being compiled and run,</li>
+<li>HMC (via the <code>nimbleHMC</code> package),</li>
+<li>sequential Monte Carlo (via the <code>nimbleSMC</code> package),</li>
+<li>Laplace and adaptive Gauss-Hermite quadrature (AGHQ) approximation, and</li>
+<li>(coming soon) an INLA-like nested approximation (via the forthcoming <code>nimbleQuad</code> package).</li>
+</ul></li>
 <li>A language embedded in R for programming algorithms for models, both of which are compiled through C++ code and loaded into R.</li>
 </ol>
-<p>NIMBLE can also be used without BUGS models as a way to compile simple R-like code into C++, which is then compiled and loaded into R with an interface function or object.</p>
+<p>NIMBLE can also be used without models as a way to compile simple R-like code into C++, which is then compiled and loaded into R with an interface function or object.</p>
 <section id="funding" class="level2">
 <h2 class="anchored" data-anchor-id="funding">Funding</h2>
 <p>The development of NIMBLE has been funded by:</p>
