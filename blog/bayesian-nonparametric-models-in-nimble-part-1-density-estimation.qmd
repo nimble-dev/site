@@ -1,12 +1,12 @@
 ---
 title: "Bayesian Nonparametric Models in NIMBLE, Part 1: Density Estimation"
 date: "2018-12-04"
-author: "Chris Paciorek"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["announcement"]
 ---
 
 Bayesian Nonparametric Models in NIMBLE, Part 1: Density Estimation  
@@ -34,9 +34,9 @@ The NIMBLE implementation of this model is flexible and allows for mixtures of a
 
 To illustrate these capabilities, we consider the estimation of the probability density function of the waiting time between eruptions of the Old Faithful volcano data set available in R. 
     
-    
+```{r}    
     data(faithful)
-    
+```    
 
 The observations ![y_1, \\ldots, y_n](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=y_1%2C+%5Cldots%2C+y_n&bg=ffffff&fg=000000&s=0) correspond to the second column of the dataframe, and ![n = 272](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=n+%3D+272&bg=ffffff&fg=000000&s=0).
 
@@ -62,7 +62,7 @@ where
 
 NIMBLE’s specification of this model is given by
     
-    
+```{r}    
     code <- nimbleCode({
       for(i in 1:n) {
         y[i] ~ dnorm(mu[i], var = s2[i])
@@ -76,7 +76,7 @@ NIMBLE’s specification of this model is given by
       }
       alpha ~ dgamma(1, 1)
     })
-    
+```    
 
 Note that in the model code the length of the parameter vectors `muTilde` and `s2Tilde` has been set to ![n](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=n&bg=ffffff&fg=000000&s=0). We do this because the current implementation of NIMBLE requires that the length of vector of parameters be set in advance and does not allow for their number to change between iterations. Hence, if we are to ensure that the algorithm always performs as intended we need to work with the worst case scenario, i.e., the case where there are as many components as observations. While this ensures that the algorithm always works as intended, it is also somewhat inefficient, both in terms of memory requirements (when ![n](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=n&bg=ffffff&fg=000000&s=0) is large a large number of unoccupied components need to be maintained) and in terms of computational burden (a large number of parameters that are not required for posterior inference need to be updated at every iteration). When we use a mixture of gamma distributions below, we will show a computational shortcut that improves the efficiency.
 
@@ -86,7 +86,7 @@ Note also that the value of ![\\alpha](https://web.archive.org/web/2025051810070
 
 The following code sets up the data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm. Because the specification is in terms of a Chinese restaurant process, the default sampler selected by NIMBLE is a collapsed Gibbs sampler (Neal, 2000).
     
-    
+```{r}    
     set.seed(1)
     # Model Data
     lFaithful <- log(faithful$waiting)
@@ -101,88 +101,30 @@ The following code sets up the data and constants, initializes the parameters, d
                   alpha = 1)
     # Model creation and compilation
     rModel <- nimbleModel(code, data = data, inits = inits, constants = consts)
-    
-    
-    
-    ## defining model...
-    
-    
-    
-    ## building model...
-    
-    
-    
-    ## setting data and initial values...
-    
-    
-    
-    ## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
-    ## checking model sizes and dimensions...
-    ## model building finished.
-    
-    
-    
     cModel <- compileNimble(rModel)
-    
-    
-    
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    ## compilation finished.
-    
-    
     
     # MCMC configuration, creation, and compilation
     conf <- configureMCMC(rModel, monitors = c("xi", "muTilde", "s2Tilde", "alpha"))
     mcmc <- buildMCMC(conf)
     cmcmc <- compileNimble(mcmc, project = rModel)
     
-    
-    
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    ## compilation finished.
-    
-    
-    
     samples <- runMCMC(cmcmc, niter = 7000, nburnin = 2000, setSeed = TRUE)
-    
-    
-    
-    ## running chain 1...
-    
-    
-    
-    ## |-------------|-------------|-------------|-------------|
-    ## |-------------------------------------------------------|
-    
+```    
 
 We can extract the samples from the posterior distributions of the parameters and create trace plots, histograms, and any other summary of interest. For example, for the concentration parameter ![\\alpha](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=%5Calpha&bg=ffffff&fg=000000&s=0) we have:
     
-    
+```{r}    
     # Trace plot for the concentration parameter
     ts.plot(samples[ , "alpha"], xlab = "iteration", ylab = expression(alpha))
-    
-
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/MCMC-normaldensity-somegraphs-1.png)
-    
-    
     # Posterior histogram
     hist(samples[ , "alpha"], xlab = expression(alpha), main = "", ylab = "Frequency")
-    
 
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/MCMC-normaldensity-somegraphs-2.png)
-    
-    
     quantile(samples[ , "alpha"], c(0.5, 0.025, 0.975))
-    
-    
-    
-    ##        50%       2.5%      97.5% 
-    ## 0.42365754 0.06021512 1.52299639
-    
+```    
 
 Under this model, the posterior predictive distribution for a new observation ![\\tilde{y}](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=%5Ctilde%7By%7D&bg=ffffff&fg=000000&s=0), ![p\(\\tilde{y} \\mid y_1, \\ldots, y_n\)](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=p%28%5Ctilde%7By%7D+%5Cmid+y_1%2C+%5Cldots%2C+y_n%29&bg=ffffff&fg=000000&s=0), is the optimal density estimator (under squared error loss). Samples for this estimator can be easily computed from the samples generated by our MCMC:
     
-    
+```{r}    
     # posterior samples of the concentration parameter
     alphaSamples <- samples[ , "alpha"]
     # posterior samples of the cluster means
@@ -222,13 +164,11 @@ Under this model, the posterior predictive distribution for a new observation ![
     lines(standlGrid, apply(densitySamplesStandl, 2, mean), lwd = 2, col = 'black')
     lines(standlGrid, apply(densitySamplesStandl, 2, quantile, 0.025), lty = 2, col = 'black')
     lines(standlGrid, apply(densitySamplesStandl, 2, quantile, 0.975), lty = 2, col = 'black')
-    
-
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/MCMC-normaldensity-predictive-1.png)
+```    
 
 Recall, however, that this is the density estimate for the logarithm of the waiting time. To obtain the density on the original scale we need to apply the appropriate transformation to the kernel.
     
-    
+```{r}    
     lgrid <- standlGrid*sd(lFaithful) + mean(lFaithful) # grid on log scale
     densitySamplesl <- densitySamplesStandl / sd(lFaithful) # density samples for grid on log scale
     
@@ -239,9 +179,7 @@ Recall, however, that this is the density estimate for the logarithm of the wait
           col = 'black')
     lines(exp(lgrid), apply(densitySamplesl, 2, quantile, 0.975)/exp(lgrid), lty = 2,
           col = 'black')
-    
-
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/MCMC-normaldensity-predictive-originalScale-1.png)
+```    
 
 In either case, there is clear evidence that the data has two components for the waiting times.
 
@@ -251,32 +189,15 @@ While samples from the posterior distribution of linear functionals of the mixin
 
 The following code generates posterior samples from the random measure ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0). The `cMCMC` object includes the model and posterior samples from the parameters. The `getSamplesDPmeasure` function estimates a truncation level of ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0), namely `truncG`. The posterior samples are in a matrix with ![\(\\mbox{truncG} \\cdot \(p+1\)\)](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=%28%5Cmbox%7BtruncG%7D+%5Ccdot+%28p%2B1%29%29&bg=ffffff&fg=000000&s=0) columns, where ![p](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=p&bg=ffffff&fg=000000&s=0) is the dimension of the vector of parameters with distribution ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0) (in this example ![p=2](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=p%3D2&bg=ffffff&fg=000000&s=0)).
     
-    
+```{r}    
     outputG <- getSamplesDPmeasure(cmcmc)
-    
-    
-    
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    
-    
-    
-    ## compilation finished.
-    
-    
-    
-    ## sampleDPmeasure: Approximating the random measure by a finite stick-breaking representation with and error smaller than 1e-10, leads to a truncation level of 33.
-    
-    
-    
-    if(packageVersion('nimble') <= '0.6-12')
-      samplesG <- outputG else samplesG <- outputG$samples
-    
+    samplesG <- outputG else samplesG <- outputG$samples
+```    
 
 The following code computes posterior samples of ![P\(\\tilde{y} > 70\)](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=P%28%5Ctilde%7By%7D+%3E+70%29&bg=ffffff&fg=000000&s=0) using the posterior samples from the random measure ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0). Note that these samples are computed based on the transformed model and a value larger than 70 corresponds to a value larger than 0.03557236 on the above defined grid.
-    
-    
-    if(packageVersion('nimble') >= '0.6.13')
-         truncG <- outputG$trunc # truncation level for G
+
+```{r}
+    truncG <- outputG$trunc # truncation level for G
     
     weightIndex <- grep('weight', colnames(samplesG))
     muTildeIndex <- grep('muTilde', colnames(samplesG))
@@ -290,9 +211,7 @@ The following code computes posterior samples of ![P\(\\tilde{y} > 70\)](https:/
     }
     
     hist(probY70,  xlab = "Probability", ylab = "P(yTilde > 70 | data)" , main = "" )
-    
-
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/G-normaldensity-probYtildeLarger70-1.png)
+```    
 
 ##  Fitting a mixture of gamma distributions using the CRP representation
 
@@ -306,7 +225,7 @@ In this case, the model takes the form
 
 where ![H](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=H&bg=ffffff&fg=000000&s=0) corresponds to the product of two independent Gamma distributions. The following code provides the NIMBLE specification for the model:
     
-    
+```{r}    
     code <- nimbleCode({
       for(i in 1:n) {
         y[i] ~ dgamma(shape = beta[i], scale = lambda[i])
@@ -320,7 +239,7 @@ where ![H](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex
       }
       alpha ~ dgamma(1, 1)
     })
-    
+```    
 
 Note that in this case the vectors `betaTilde` and `lambdaTilde` have length ![50 \\ll n = 272](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=50+%5Cll+n+%3D+272&bg=ffffff&fg=000000&s=0). This is done to reduce the computational and storage burdens associated with the sampling algorithm. You could think about this approach as truncating the process, except that it can be thought of as an *exact* truncation. Indeed, under the CRP representation, using parameter vector(s) with a length that is shorter than the number of observations in the sample will lead to a proper algorithm as long as the number of components instatiated by the sampler is strictly lower than the length of the parameter vector(s) for every iteration of the sampler.
 
@@ -328,7 +247,7 @@ Note that in this case the vectors `betaTilde` and `lambdaTilde` have length ![5
 
 The following code sets up the model data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm for the mixture of Gamma distributions. Note that, when building the MCMC, a warning message about the number of cluster parameters is generated. This is because the lengths of `betaTilde` and `lambdaTilde` are smaller than ![n](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=n&bg=ffffff&fg=000000&s=0). Also, note that no error message is generated during execution, which indicates that the number of clusters required never exceeded the maximum of 50.
     
-    
+```{r}    
     data <- list(y = faithful$waiting)
     set.seed(1)
     inits <- list(xi = sample(1:10, size=consts$n, replace=TRUE),
@@ -336,112 +255,36 @@ The following code sets up the model data and constants, initializes the paramet
                   lambdaTilde = rgamma(50, shape = 2, scale = 2),
                   alpha = 1)
     rModel <- nimbleModel(code, data = data, inits = inits, constants = consts)
-    
-    
-    
-    ## defining model...
-    
-    
-    
-    ## building model...
-    
-    
-    
-    ## setting data and initial values...
-    
-    
-    
-    ## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
-    ## checking model sizes and dimensions...
-    ## model building finished.
-    
-    
-    
     cModel <- compileNimble(rModel)
-    
-    
-    
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    ## compilation finished.
-    
-    
-    
     conf <- configureMCMC(rModel, monitors = c("xi", "betaTilde", "lambdaTilde", "alpha"))
     mcmc <- buildMCMC(conf)
-    
-    
-    
-    ## Warning in samplerFunction(model = model, mvSaved = mvSaved, target = target, : sampler_CRP: The number of cluster parameters is less than the number of potential clusters. The MCMC is not strictly valid if ever it proposes more components than cluster parameters exist; NIMBLE will warn you if this occurs.
-    
-    
-    
     cmcmc <- compileNimble(mcmc, project = rModel)
-    
-    
-    
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    ## compilation finished.
-    
-    
-    
     samples <- runMCMC(cmcmc, niter = 7000, nburnin = 2000, setSeed = TRUE)
-    
-    
-    
-    ## running chain 1...
-    
-    
-    
-    ## |-------------|-------------|-------------|-------------|
-    ## |-------------------------------------------------------|
-    
+```
 
 In this case we use the posterior samples of the parameters to construct a trace plot and estimate the posterior distribution of ![\\alpha](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=%5Calpha&bg=ffffff&fg=000000&s=0):
     
-    
+```{r}    
     # Trace plot of the posterior samples of the concentration parameter
     ts.plot(samples[ , 'alpha'], xlab = "iteration", ylab = expression(alpha))
-    
-
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/results-CRPalpha2-1.png)
-    
-    
     # Histogram of the posterior samples for the concentration parameter 
     hist(samples[ , 'alpha'], xlab = expression(alpha), ylab = "Frequency", main = "")
-    
-
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/results-CRPalpha2-2.png)
+```
 
 ###  Generating samples from the mixing distribution
 
 As before, we obtain samples from the posterior distribution of ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0) using the `getSamplesDPmeasure` function. 
     
-    
+```{r}    
     outputG <- getSamplesDPmeasure(cmcmc)
-    
-    
-    
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    
-    
-    
-    ## compilation finished.
-    
-    
-    
     ## sampleDPmeasure: Approximating the random measure by a finite stick-breaking representation with and error smaller than 1e-10, leads to a truncation level of 28.
-    
-    
-    
-    if(packageVersion('nimble') <= '0.6-12')
-      samplesG <- outputG else samplesG <- outputG$samples
-    
+    samplesG <- outputG else samplesG <- outputG$samples
+```    
 
 We use these samples to create an estimate of the density of the data along with a pointwise 95% credible band:
     
-    
-    if(packageVersion('nimble') >= '0.6.13')
-         truncG <- outputG$trunc # truncation level for G
+```{r}
+    truncG <- outputG$trunc # truncation level for G
     grid <- seq(40, 100, len = 200)
     
     weightSamples <- samplesG[ , grep('weight', colnames(samplesG))]
@@ -461,9 +304,7 @@ We use these samples to create an estimate of the density of the data along with
     lines(grid, apply(densitySamples, 2, mean), lwd = 2, col = 'black')
     lines(grid, apply(densitySamples, 2, quantile, 0.025), lwd = 2, lty = 2, col = 'black')
     lines(grid, apply(densitySamples, 2, quantile, 0.975), lwd = 2, lty = 2, col = 'black')
-    
-
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/results-normaldensity-1.png)
+```
 
 Again, we see that the density of the data is bimodal, and looks very similar to the one we obtained before.
 
@@ -483,7 +324,7 @@ where ![H](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex
 
 with ![v_l \\mid \\alpha\\sim \\mbox{Beta}\(1, \\alpha\), l=1, \\ldots, L-1](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=v_l+%5Cmid+%5Calpha%5Csim+%5Cmbox%7BBeta%7D%281%2C+%5Calpha%29%2C+l%3D1%2C+%5Cldots%2C+L-1&bg=ffffff&fg=000000&s=0). The following code provides the NIMBLE specification for the model:
     
-    
+```{r}    
     code <- nimbleCode(
       {
         for(i in 1:n) {
@@ -503,7 +344,7 @@ with ![v_l \\mid \\alpha\\sim \\mbox{Beta}\(1, \\alpha\), l=1, \\ldots, L-1](htt
         alpha ~ dgamma(1, 1)
       }
     )
-    
+```    
 
 Note that the truncation level ![L](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=L&bg=ffffff&fg=000000&s=0) of ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0) has been set to a value `Trunc`, which is to be defined in the `constants` argument of the `nimbleModel` function.
 
@@ -511,7 +352,7 @@ Note that the truncation level ![L](https://web.archive.org/web/20250518100700im
 
 The following code sets up the model data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm for the mixture of Gamma distributions. When a stick-breaking representation is used, a blocked Gibbs sampler is assigned (Ishwaran, 2001; Ishwaran and James, 2002).
     
-    
+```{r}   
     data <- list(y = faithful$waiting)
     set.seed(1)
     consts <- list(n = length(faithful$waiting), Trunc = 50)
@@ -522,62 +363,16 @@ The following code sets up the model data and constants, initializes the paramet
                   alpha = 1)
     
     rModel <- nimbleModel(code, data = data, inits = inits, constants = consts)
-    
-    
-    
-    ## defining model...
-    
-    
-    
-    ## building model...
-    
-    
-    
-    ## setting data and initial values...
-    
-    
-    
-    ## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
-    ## checking model sizes and dimensions...
-    ## model building finished.
-    
-    
-    
     cModel <- compileNimble(rModel)
-    
-    
-    
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    ## compilation finished.
-    
-    
-    
     conf <- configureMCMC(rModel, monitors = c("w", "betaStar", "lambdaStar", 'z', 'alpha'))
     mcmc <- buildMCMC(conf)
     cmcmc <- compileNimble(mcmc, project = rModel)
-    
-    
-    
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    ## compilation finished.
-    
-    
-    
     samples <- runMCMC(cmcmc, niter = 24000, nburnin = 4000, setSeed = TRUE)
-    
-    
-    
-    ## running chain 1...
-    
-    
-    
-    ## |-------------|-------------|-------------|-------------|
-    ## |-------------------------------------------------------|
-    
+```    
 
 Using the stick-breaking approximation automatically provides an approximation, ![G_L](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G_L&bg=ffffff&fg=000000&s=0), of the random distribution ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0). The following code computes posterior samples of ![G_L](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G_L&bg=ffffff&fg=000000&s=0) using posterior samples from the `samples` object, and from them, a density estimate for the data.
     
-    
+```{r}    
     betaStarSamples <- samples[ , grep('betaStar', colnames(samples))]
     lambdaStarSamples <- samples[ , grep('lambdaStar', colnames(samples))]
     weightSamples <- samples[ , grep('w', colnames(samples))]
@@ -596,9 +391,7 @@ Using the stick-breaking approximation automatically provides an approximation, 
     lines(grid, apply(densitySamples, 2, mean), lwd = 2, col = 'black')
     lines(grid, apply(densitySamples, 2, quantile, 0.025), lwd = 2, lty = 2, col = 'black')
     lines(grid, apply(densitySamples, 2, quantile, 0.975), lwd = 2, lty = 2, col = 'black')
-    
-
-![](https://web.archive.org/web/20250518100700im_/https://r-nimble.org/wp-content/uploads/2018/12/MCMC-gammadensity-bnp-SB-G-1.png)
+```
 
 As expected, this estimate looks identical to the one we obtained through the CRP representation of the process.
 

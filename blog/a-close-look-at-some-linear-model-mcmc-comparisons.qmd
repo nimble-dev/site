@@ -1,16 +1,13 @@
 ---
 title: "A close look at some linear model MCMC comparisons"
 description: ""
-author: "NIMBLE Development Team"
+author: "Perry de Valpine"
 date: "2021-11-11"
-categories: ['announcement']
 ---
 
 This is our second blog post taking a careful look at some of the results posted in an [arXiv manuscript by Beraha, Falco, and Guglielmi (BFG)](https://web.archive.org/web/20250518101840/https://arxiv.org/abs/2107.09357). They compare JAGS, Stan, and NIMBLE using four examples. In their results, each package performs best in at least one example.
 
 In our [previous post](https://web.archive.org/web/20250518101840/https://r-nimble.org/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models), we explained that they compared apples to oranges in the accelerated failure time (AFT) example. They gave Stan a different and easier problem than they gave JAGS and NIMBLE. When we gave NIMBLE the same problem, we saw that its MCMC performance was up to 45 times better than what they reported. We looked first at the AFT example because that’s where NIMBLE seemed to perform comparatively worst.
-
-On my first real hike, I went to the Carpathians when I was less than 9 years old (already an adult :-), and my sister was 7 then. Some memories of this family trip have survived to this day. I remember how I overate blueberries on the slopes of Temnatik, how they ran wildly up and down the mountain, how they carried small backpacks (it seems that I had 9 kg, and my sister had 7. But I’m not sure in [climbing with kids](https://web.archive.org/web/20250518101840/https://beautypositive.org/travel/climbing-with-kids-our-first-experiences-with-travel/), how my father and I caught delicious trout, how they later roasted it in a cauldron, how they climbed to the top of Mount Stoj and walked among its domes. It’s strange, only a week of hiking, and so many pleasant memories for life…
 
 In this post we’re looking at the simple linear model example. **It turns out that the models were written more efficiently for Stan than for JAGS and NIMBLE** , because matrix multiplication was used for Stan but all scalar steps of matrix multiplication were written in JAGS and NIMBLE. JAGS and NIMBLE do support matrix multiplication and inner products. **When we modify the models to also use matrix multiplication, NIMBLE’s MCMC performance with default samplers increases often by 1.2 to 3-fold but sometimes by 5 to >10-fold over what was reported** by BFG, as far as we can tell. This had to do with both raw computational efficiency and also MCMC samplers invoked by different ways to write the model code. Other issues are described below.
 
@@ -106,4 +103,3 @@ At this point we should highlight that **there isn’t only one version of NIMBL
 
 The takeaway is that we don’t know why BFG gave Stan the benefit of matrix multiplication but didn’t do so for JAGS or NIMBLE, and doing so makes a substantial difference for NIMBLE. Also, we see more conjugacy cases to catch in our symbolic processing of model relationships.
 
-Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://web.archive.org/web/20250518101840/https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.

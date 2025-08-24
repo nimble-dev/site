@@ -19,4 +19,3 @@ If you have upgraded to version 0.13.0 and if you have run an MCMC on a model th
 
 and then reconfigure/rebuild and rerun your MCMC. The option above will ensure that the MCMC behaves as it would in previous versions of NIMBLE.
 
-Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://web.archive.org/web/20250427235403/https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.

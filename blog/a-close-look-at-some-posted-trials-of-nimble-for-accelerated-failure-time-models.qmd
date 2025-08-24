@@ -1,7 +1,7 @@
 ---
 title: "A close look at some posted trials of nimble for accelerated failure time models"
 date: "2021-10-29"
-author: "nimble-admin"
+author: "Perry de Valpine"
 format:
   html:
     toc: true

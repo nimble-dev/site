@@ -1,12 +1,10 @@
 ---
 title: "Bayesian Nonparametric Models in NIMBLE, Part 2: Nonparametric Random Effects"
 date: "2018-12-06"
-author: "Chris Paciorek"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
 ---
 
 # Bayesian nonparametrics in NIMBLE: Nonparametric random effects
@@ -25,24 +23,11 @@ For more detailed information on NIMBLE and Bayesian nonparametrics in NIMBLE, s
 
 We will illustrate the use of nonparametric mixture models for modeling random effects distributions in the context of a meta-analysis of the side effects of a formerly very popular drug for diabetes called Avandia. The data we analyze played a role in raising serious questions about the safety of this drug. The question is whether Avandia use increases the risk of myocardial infarction (heart attack). There are 48 studies (the 49th study in the data file is different in some ways and excluded here), each with treatment and control arms.
     
-    
+```{r}  
     dat <- read.csv('https://rawgit.com/nimble-dev/nimble-demos/master/intro_bnp/avandia.csv')
     head(dat)
-    
-    
-    
-    ##   trial nAvandia avandiaMI nControl controlMI
-    ## 1     1      357         2      176         0
-    ## 2     2      391         2      207         1
-    ## 3     3      774         1      185         1
-    ## 4     4      213         0      109         1
-    ## 5     5      232         1      116         0
-    ## 6     6       43         0       47         1
-    
-    
-    
     dat <- dat[-49, ]
-    
+```    
 
 ### Model formulation
 
@@ -54,7 +39,7 @@ where the random effects, ![\\gamma_i](https://web.archive.org/web/2025051810401
 
 This model can be specified in NIMBLE using the following code:
     
-    
+```{r}    
     x <- dat$controlMI
     n <- dat$nControl
     y <- dat$avandiaMI
@@ -77,49 +62,19 @@ This model can be specified in NIMBLE using the following code:
         mu ~ dnorm(0, 10)
         tau2 ~ dinvgamma(2, 1)
     })
-    
+```    
 
 ### Running the MCMC
 
 Let’s run a basic MCMC.
     
-    
+```{r}    
     set.seed(9)
     inits = list(theta = 0, mu = 0, tau2 = 1, gamma = rnorm(nStudies))
     
     samples <- nimbleMCMC(code = codeParam, data = data, inits = inits,
                           constants = constants, monitors = c("mu", "tau2", "theta", "gamma"),
                           thin = 10, niter = 22000, nburnin = 2000, nchains = 1, setSeed = TRUE)
-    
-    
-    
-    ## defining model...
-    
-    
-    
-    ## building model...
-    
-    
-    
-    ## setting data and initial values...
-    
-    
-    
-    ## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
-    ## checking model sizes and dimensions...
-    ## checking model calculations...
-    ## model building finished.
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    ## compilation finished.
-    ## runMCMC's handling of nburnin changed in nimble version 0.6-11. Previously, nburnin samples were discarded *post-thinning*.  Now nburnin samples are discarded *pre-thinning*.  The number of samples returned will be floor((niter-nburnin)/thin).
-    ## running chain 1...
-    
-    
-    
-    ## |-------------|-------------|-------------|-------------|
-    ## |-------------------------------------------------------|
-    
-    
     
     par(mfrow = c(1, 4), cex = 1.1, mgp = c(1.8,.7,0))
     ts.plot(samples[ , 'theta'], xlab = 'iteration', ylab = expression(theta))
@@ -130,10 +85,7 @@ Let’s run a basic MCMC.
     hist(gammaMn, xlab = 'posterior means', main = 'random effects distribution')
     hist(samples[1000, gammaCols], xlab = 'single draw',
                        main = 'random effects distribution')
-    
-
-![](https://web.archive.org/web/20250518104016im_/https://r-nimble.org/wp-content/uploads/2018/12/mcmc-1.png)
-
+``` 
 The results suggests there is an overall difference in risk between the control and treatment arms. But what about the normality assumption? Are our conclusions robust to that assumption? Perhaps the random effects distribution are skewed. (And recall that the estimates above of the random effects are generated under the normality assumption, which pushes the estimated effects to look more normal…)
 
 ## DP-based random effects modeling for meta analysis
@@ -148,7 +100,7 @@ where ![H](https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex
 
 This specification induces clustering among the random effects. As in the case of density estimation problems, the DP prior allows the data to determine the number of components, from as few as one component (i.e., simplifying to the parametric model), to as many as ![n](https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=n&bg=ffffff&fg=000000&s=0) components, i.e., one component for each observation. This allows the distribution of the random effects to be multimodal if the data supports such behavior, greatly increasing its flexibility. This model can be specified in NIMBLE using the following code:
     
-    
+```{r}    
     codeBNP <- nimbleCode({
         for(i in 1:nStudies) {
             y[i] ~ dbin(size = m[i], prob = q[i])   # avandia MIs
@@ -174,13 +126,13 @@ This specification induces clustering among the random effects. As in the case o
         b0 ~ dinvgamma(2, 1)
         theta ~ dflat()          # effect of Avandia
     })
-    
+```    
 
 ### Running the MCMC
 
 The following code compiles the model and runs a collapsed Gibbs sampler for the model
     
-    
+```{r}    
     inits <- list(gamma = rnorm(nStudies), xi = sample(1:2, nStudies, replace = TRUE),
                   alpha = 1, mu0 = 0, var0 = 1, a0 = 1, b0 = 1, theta = 0,
                   muTilde = rnorm(nStudies), tau2Tilde = rep(1, nStudies))
@@ -189,37 +141,7 @@ The following code compiles the model and runs a collapsed Gibbs sampler for the
                    constants = constants,
                    monitors = c("theta", "gamma", "alpha", "xi", "mu0", "var0", "a0", "b0"),
                    thin = 10, niter = 22000, nburnin = 2000, nchains = 1, setSeed = TRUE)
-    
-    
-    
-    ## defining model...
-    
-    
-    
-    ## building model...
-    
-    
-    
-    ## setting data and initial values...
-    
-    
-    
-    ## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
-    ## checking model sizes and dimensions...
-    ## checking model calculations...
-    ## model building finished.
-    ## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compiler details.
-    ## compilation finished.
-    ## runMCMC's handling of nburnin changed in nimble version 0.6-11. Previously, nburnin samples were discarded *post-thinning*.  Now nburnin samples are discarded *pre-thinning*.  The number of samples returned will be floor((niter-nburnin)/thin).
-    ## running chain 1...
-    
-    
-    
-    ## |-------------|-------------|-------------|-------------|
-    ## |-------------------------------------------------------|
-    
-    
-    
+
     gammaCols <- grep('gamma', colnames(samplesBNP))
     gammaMn <- colMeans(samplesBNP[ , gammaCols])
     xiCols <- grep('xi', colnames(samplesBNP))
@@ -238,9 +160,7 @@ The following code compiles the model and runs a collapsed Gibbs sampler for the
     nGrps <- apply(xiRes, 1, function(x) length(unique(x)))
     ts.plot(nGrps, xlab = 'iteration', ylab = 'number of components',
        main = 'number of components')
-    
-
-![](https://web.archive.org/web/20250518104016im_/https://r-nimble.org/wp-content/uploads/2018/12/DP-MCMC-1.png)
+```
 
 The primary inference seems robust to the original parametric assumption. This is probably driven by the fact that there is not much evidence of lack of normality in the random effects distribution (as evidenced by the fact that the posterior distribution of the number of mixture components places a large amount of probability on exactly one component).
 

@@ -35,4 +35,3 @@ Other changes in this release include:
 
 Please see the [release notes](https://web.archive.org/web/20250427222659/https://r-nimble.org/more/news) on our website for more details.
 
-Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://web.archive.org/web/20250427222659/https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.
