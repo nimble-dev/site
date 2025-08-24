@@ -1,0 +1,16 @@
+---
+title: "New NIMBLE code examples"
+date: "2019-12-19"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+We’ve posted a variety of new code examples for NIMBLE at <https://r-nimble.org/examples>.
+
+These include some introductory code for getting started with NIMBLE, as well as examples of setting up specific kinds of models such as GLMMs, spatial models, item-response theory models, and a variety of models widely used in ecology. We also have examples of doing variable selection via reversible jump MCMC, using MCEM, and writing new distributions for use with NIMBLE.
+
+And if you have examples that you think might be useful to make available to others, please get in touch with us.

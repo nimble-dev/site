@@ -1,0 +1,24 @@
+---
+title: "Version 0.6-2 released!"
+date: "2016-11-23"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+Version 0.6-2 is a minor release with a variety of useful functionality for users.
+
+Changes as of Version 0.6-2 include:
+
+  * user-defined distributions can be used in BUGS code without needing to call the registerDistributions() function (unless one wants to specify alternative parameterizations, distribution range or that the distribution is discrete),
+  * users can now specify the use of conjugate (Gibbs) samplers for nodes in a model,
+  * NIMBLE will now check the run code of nimbleFunctions for functions (in particular R functions) that are not part of the DSL and will not compile,
+  * added getBound() functionality to find the lower and upper bounds of a node either from R or in DSL code,
+  * added functionality to get distributional information about a node in a model or information about a distribution based on the name of the density function; these may be useful in setup code for algorithms,
+  * multinomial and categorical distributions now allow ‘probs’ arguments that do not sum to one (these will be internally normalized) and
+  * a variety of bug fixes.
+
+Please see the NEWS file in the installed package for more details.

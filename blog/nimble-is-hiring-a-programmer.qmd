@@ -1,0 +1,16 @@
+---
+title: "NIMBLE is hiring a programmer"
+date: "2017-01-11"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+This position includes work to harness parallel processing and automatic differentiation, to generate interfaces with other languages such as Python, to improve NIMBLE’s scope and efficiency for large statistical models, and to build other new features into NIMBLE.
+
+The work will involve programming in R and C++, primarily designing and implementing software involving automated generation of C++ code for class and function definitions, parallel computing, use of external libraries for automatic differentiation and linear algebra, statistical algorithms and related problems. The position will also involve writing documentation and following good open-source software practices.
+
+See [here](https://aprecruit.berkeley.edu/apply/JPF01260) to apply.

@@ -1,0 +1,18 @@
+---
+title: "Version 0.4-1 released!"
+date: "2015-10-04"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+We’ve just released version 0.4-1, a minor release that fixes some logistical issues and adds a bit of functionality to our MCMC engine.
+
+Changes as of Version 0.4-1 include:
+
+  * added an elliptical slice sampler to the MCMC engine,
+  * fixed bug preventing use of nimbleFunctions in packages depending on NIMBLE, and
+  * reduced C++ compiler warnings on Windows during use of compileNimble.

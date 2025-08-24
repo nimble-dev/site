@@ -8,8 +8,6 @@ categories: ['release', 'announcement']
 
 We’ve just released the newest version of NIMBLE on CRAN and on our website. Version 0.6-6 has some important new features, and more are on the way in the next few months.
 
-Эти артефакты не имели практической или коммерческой ценности. На самом деле их продажа была строго запрещена обычаем. А так как предметы всегда находились в движении, их владельцы редко носили их. Тем не менее, массимы совершали [модные подарки подруге](https://web.archive.org/web/20250427234654/https://1podarky.ru/podarky/modnye-podarki-podruge-na-noviy-god/) долгие путешествия, чтобы обменять их, рискуя жизнью и здоровьем, когда они путешествовали по коварным водам Тихого океана на своих шатких каноэ.
-
 New features include:
 
   * dynamic indexes are now allowed in BUGS code — indexes of a variable no longer need to be constants but can be other nodes or functions of other nodes; for this release this is a beta feature that needs to be enabled with nimbleOptions(allowDynamicIndexing = TRUE);

@@ -1,0 +1,23 @@
+---
+title: "Version 0.6-10 of NIMBLE released"
+date: "2018-03-29"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-10 primarily contains updates to the NIMBLE internals that may speed up building and compilation of models and algorithms, as well as a few bug fixes.
+
+Changes include:
+
+  * some steps of model and algorithm building and compilation are faster;
+  * compiled execution with multivariate distributions or function arguments may be faster;
+  * data can now be provided as a numeric data frame rather than a matrix;
+  * to run WAIC, a user now must set ‘enableWAIC’ to TRUE, either in NIMBLE’s options or as an argument to buildMCMC();
+  * if ‘enableWAIC’ is TRUE, buildMCMC() will now check to make sure that the nodes monitored by the MCMC algorithm will lead to a valid WAIC calculation; and
+  * the use of identityMatrix() is deprecated in favor of diag().
+
+Please see the NEWS file in the installed package for more details

@@ -1,0 +1,28 @@
+---
+title: "registration open for NIMBLE short course, June 3-4, 2020 at UC Berkeley"
+date: "2020-03-02"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+Registration is now open for a two-day training workshop on [NIMBLE](https://r-nimble.org/), June 3-4, 2020 in Berkeley, California. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+
+The workshop will cover:
+
+  * the basic concepts and workflows for using NIMBLE and converting BUGS or JAGS models to work in NIMBLE.
+  * overview of different MCMC sampling strategies and how to use them in NIMBLE.
+  * writing new distributions and functions for more flexible modeling and more efficient computation.
+  * tips and tricks for improving computational efficiency.
+  * using advanced model components, including Bayesian non-parametric distributions (based on Dirichlet process priors), conditional auto-regressive (CAR) models for spatially correlated random fields, and reversible jump samplers for variable selection.
+  * an introduction to programming new algorithms in NIMBLE.
+  * calling R and compiled C++ code from compiled NIMBLE models or functions.
+
+If participant interests vary sufficiently, the second half-day will be split into two tracks. One of these will likely focus on ecological models. The other will be chosen based on attendee interest from topics such as (a) advanced NIMBLE programming including writing new MCMC samplers, (b) advanced spatial or Bayesian non-parametric modeling, or (c) non-MCMC algorithms in NIMBLE such as sequential Monte Carlo. Prior to the workshop, we will survey attendee interests and adjust content to meet attendee interests.
+
+To register, please go here: [https://na.eventscloud.com/528790.](https://na.eventscloud.com/528790) Registration is $230 (regular) or $115 (student).
+
+We have also reserved a block of rooms on campus for $137 per night, including breakfast and lunch. To reserve a room, go here: <https://na.eventscloud.com/528792>.

@@ -1,0 +1,21 @@
+---
+title: "NIMBLE short course at March ENAR meeting in Nashville"
+date: "2020-01-04"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+We’ll be holding a half-day short course on NIMBLE on March 22 at the ENAR meeting in Nashville, Tennessee.
+
+The annual ENAR meeting is a major biostatistics conference, sponsored by the eastern North American region of the International Biometric Society.
+
+The short course will focus on usage of NIMBLE in applied statistics and is titled:
+
+“Programming with hierarchical statistical models:  
+Using the BUGS-compatible NIMBLE system for MCMC and more”
+
+More details on the conference and the short course are available at the [conference website](https://www.enar.org/meetings/spring2020/index.cfm).

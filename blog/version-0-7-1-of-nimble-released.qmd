@@ -1,0 +1,21 @@
+---
+title: "Version 0.7.1 of NIMBLE released"
+date: "2019-03-15"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+
+Version 0.7.1 is primarily a maintenance release with a couple important bug fixes and a few additional features. Users with large models and users of the dCRP Bayesian nonparametric distribution are strongly encouraged to update to this version to pick up the bug fixes related to these uses.
+
+New features include:
+
+  * recognition of normal-normal conjugacy in additional multivariate regression settings;
+  * handling of six-dimensional arrays in models.
+
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.

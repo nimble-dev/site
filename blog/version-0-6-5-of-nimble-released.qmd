@@ -1,0 +1,20 @@
+---
+title: "Version 0.6-5 of NIMBLE released!"
+date: "2017-06-07"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+We’ve just released the newest version of NIMBLE on CRAN and on our website. Version 0.6-5 is mostly devoted to bug fixes and packaging fixes for CRAN, but there is some new functionality:
+
+  * addition of the functions c(), seq(), rep(), `:`, diag() for use in BUGS code;
+  * addition of two improper distributions (dflat and dhalfflat) as well as the inverse-Wishart distribution;
+  * the ability to estimate the asymptotic covariance of the estimates in NIMBLE’s MCEM algorithm;
+  * the ability to use nimbleLists in any nimbleFunction, newly including nimbleFunctions without setup code;
+  * and a variety of bug fixes and better error trapping.
+
+Please see the NEWS file in the installed package for more details.

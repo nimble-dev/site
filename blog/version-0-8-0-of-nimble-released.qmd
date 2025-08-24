@@ -1,0 +1,21 @@
+---
+title: "Version 0.8.0 of NIMBLE released"
+date: "2019-06-07"
+author: "Chris Paciorek"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["NIMBLE", "R", "Statistics"]
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC). Version 0.8.0 provides some new features, speed improvements, and a variety of bug fixes and better error/warning messages.
+
+New features include:
+
+  * a reversible jump MCMC sampler for variable selection via configureRJ();
+  * greatly improved speed of MCMC sampling for Bayesian nonparametric models with a dCRP distribution by not sampling parameters for empty clusters;
+  * experimental faster MCMC configuration, available by setting nimbleOptions(oldConjugacyChecking = FALSE) and nimbleOptions(useNewConfigureMCMC = TRUE);
+  * and improved warning and error messages for MCEM and slice sampling.
+
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.
