@@ -6,16 +6,16 @@ date: "2020-05-27"
 categories: ['release', 'announcement']
 ---
 
-We’ve released the newest version of NIMBLE on CRAN and on our [website](https://web.archive.org/web/20250518093418/https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC). Version 0.9.1 is primarily a bug fix release but also provides some minor improvements in functionality.
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC). Version 0.9.1 is primarily a bug fix release but also provides some minor improvements in functionality.
 
 Users of NIMBLE in R 4.0 on Windows MUST upgrade to this release for NIMBLE to work.
 
 New features and bug fixes include:
 
-  * switched to use of system2() from system() to avoid an issue on Windows in R 4.0;
+  * switched to use of `system2()` from `system()` to avoid an issue on Windows in R 4.0;
   * modified various adaptive MCMC samplers so the exponent controlling the scale decay of the adaptation is adjustable by user;
-  * allowed pmin() and pmax() to be used in models;
-  * improved handling of NA values in the dCRP distribution; and
-  * improved handling of cases where indexing goes beyond the extent of a variable in expandNodeNames() and related queries of model structure.
+  * allowed `pmin()` and `pmax()` to be used in models;
+  * improved handling of `NA` values in the dCRP distribution; and
+  * improved handling of cases where indexing goes beyond the extent of a variable in `expandNodeNames()` and related queries of model structure.
 
-Please see the [release notes](https://web.archive.org/web/20250518093418/https://r-nimble.org/more/news) on our website for more details.
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.

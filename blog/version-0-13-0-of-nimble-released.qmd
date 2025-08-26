@@ -6,7 +6,7 @@ date: "2022-11-29"
 categories: ['release', 'announcement']
 ---
 
-We’ve released the newest version of NIMBLE on CRAN and on our [website](https://web.archive.org/web/20250518094037/https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
 
 Version 0.13.0 provides new functionality (in particular improved handling of predictive nodes in MCMC) and minor bug fixes, including: 
 
@@ -18,6 +18,6 @@ Version 0.13.0 provides new functionality (in particular improved handling of pr
   * Fixing a bug to prevent infinite recursion in particular cases in conjugacy checking.
   * Fixing a bug in simulating from dcar_normal nodes when multiple nodes passed to simulate.
 
-Please see the [release notes](https://web.archive.org/web/20250518094037/https://r-nimble.org/more/news) on our website for more details.
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.
 
-Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://web.archive.org/web/20250518094037/https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.
+Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.

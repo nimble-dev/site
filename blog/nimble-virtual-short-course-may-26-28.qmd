@@ -6,9 +6,9 @@ date: "2021-03-05"
 categories: ['education', 'announcement']
 ---
 
-We’ll be holding a virtual training workshop on [NIMBLE](https://web.archive.org/web/20250321210313/https://r-nimble.org/), May 26-28, from 8 am to 1 pm US Pacific (California) time each day. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+We’ll be holding a virtual training workshop on [NIMBLE](https://r-nimble.org/), May 26-28, from 8 am to 1 pm US Pacific (California) time each day. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
 
-The workshop will roughly follow the [material covered in our June 2020 virtual training](https://web.archive.org/web/20250321210313/http://github.com/nimble-training/nimble-virtual-2020), in particular:
+The workshop will roughly follow the [material covered in our June 2020 virtual training](http://github.com/nimble-training/nimble-virtual-2020), in particular:
 
   * the basic concepts and workflows for using NIMBLE and converting BUGS or JAGS models to work in NIMBLE.
   * overview of different MCMC sampling strategies and how to use them in NIMBLE.
@@ -20,6 +20,6 @@ The workshop will roughly follow the [material covered in our June 2020 virtual 
 
 If participant interests vary sufficiently, the third session will be split into two tracks. One of these will likely focus on ecological models. The other will be chosen based on attendee interest from topics such as (a) advanced NIMBLE programming including writing new MCMC samplers, (b) advanced spatial or Bayesian non-parametric modeling, or (c) non-MCMC algorithms in NIMBLE, such as sequential Monte Carlo. 
 
-If you are interested in attending, please pre-register at [https://forms.gle/6AtNgfdUdvhni32Q6](https://web.archive.org/web/20250321210313/https://forms.gle/qcpL6xaVh6ZMhBK9A). This will hold a spot for you and allow us to learn about your specific interests. No payment is necessary to pre-register. Fees to finalize registration will be $100 (regular) or $50 (student). We will offer a process for students to request a fee waiver.
+If you are interested in attending, please pre-register at [https://forms.gle/6AtNgfdUdvhni32Q6](https://forms.gle/qcpL6xaVh6ZMhBK9A). This will hold a spot for you and allow us to learn about your specific interests. No payment is necessary to pre-register. Fees to finalize registration will be $100 (regular) or $50 (student). We will offer a process for students to request a fee waiver.
 
 The workshop will assume attendees have a basic understanding of hierarchical/Bayesian models and MCMC, the BUGS (or JAGS) model language, and some familiarity with R.

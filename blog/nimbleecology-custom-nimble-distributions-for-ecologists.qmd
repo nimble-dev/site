@@ -148,4 +148,4 @@ Documentation is available for each distribution family using the R syntax `?dis
     ?dHMM
     
 
-For more detail on marginalization in these distributions, see the paper “One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE” [(Ponisio et al. 2020)](https://web.archive.org/web/20250616215252/https://doi.org/10.1002/ece3.6053).
+For more detail on marginalization in these distributions, see the paper “One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE” [(Ponisio et al. 2020)](https://doi.org/10.1002/ece3.6053).

@@ -6,7 +6,7 @@ date: "2021-04-24"
 categories: ['release', 'announcement']
 ---
 
-We’ve released the newest version of NIMBLE on CRAN and on our [website](https://web.archive.org/web/20250321194931/https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
 
 Version 0.11.0 provides a variety of new functionality, improved error trapping, and bug fixes, including:
 
@@ -17,4 +17,4 @@ Version 0.11.0 provides a variety of new functionality, improved error trapping,
   * allowed model definition using if-then-else without an else clause, and
   * fixed a bug giving incorrect node names and potentially affecting algorithm behavior for models with more than 100,000 elements in a vector node or any dimension of a multi-dimensional node.
 
-Please see the [release notes](https://web.archive.org/web/20250321194931/https://r-nimble.org/more/news) on our website for more details.
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.

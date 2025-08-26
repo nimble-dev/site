@@ -33,5 +33,5 @@ Other changes in this release include:
   * Fixing a bug preventing use of `nimbleExternalCall` with a constant expression.
   * Fixing a bug preventing use of recursion in nimbleFunctions without setup code.
 
-Please see the [release notes](https://web.archive.org/web/20250427222659/https://r-nimble.org/more/news) on our website for more details.
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.
 
