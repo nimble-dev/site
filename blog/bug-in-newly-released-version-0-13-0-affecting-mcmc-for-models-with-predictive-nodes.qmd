@@ -3,7 +3,7 @@ title: "Bug in newly-released version 0.13.0 affecting MCMC for models with pred
 description: ""
 author: "NIMBLE Development Team"
 date: "2022-12-08"
-categories: ['release', 'announcement']
+categories: ['announcement']
 ---
 
 We recently released version 0.13.0, which has some improvements in how we handle predictive nodes in NIMBLE’s MCMC engine.
@@ -14,8 +14,10 @@ If you haven’t upgraded to version 0.13.0, simply wait to upgrade until we rel
 
 If you have upgraded to version 0.13.0 and if you have run an MCMC on a model that both (1) has predictive nodes and (2) has multivariate nodes, then the bug might affect your results. Please set:
     
-    
-      nimbleOptions(MCMCusePredictiveDependenciesInCalculations = TRUE)
+```{r}
+#| eval: false
+nimbleOptions(MCMCusePredictiveDependenciesInCalculations = TRUE)
+```
 
 and then reconfigure/rebuild and rerun your MCMC. The option above will ensure that the MCMC behaves as it would in previous versions of NIMBLE.
 

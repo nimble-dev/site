@@ -1,12 +1,12 @@
 ---
 title: "Building Particle Filters and Particle MCMC in NIMBLE"
 date: "2017-01-09"
-author: "nimble-admin"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["tutorial"]
 ---
 
 An Example of Using `nimble`‘s Particle Filtering Algorithms  

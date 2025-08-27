@@ -1,12 +1,12 @@
 ---
 title: "New NIMBLE code examples"
 date: "2019-12-19"
-author: "Chris Paciorek"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["announcement"]
 ---
 
 We’ve posted a variety of new code examples for NIMBLE at <https://r-nimble.org/examples>.

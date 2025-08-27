@@ -1,14 +1,14 @@
 ---
 title: "NIMBLE’s sequential Monte Carlo (SMC) algorithms are now in the nimbleSMC package"
 date: "2020-11-29"
-author: "Chris Paciorek"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["announcement", "release"]
 ---
 
-We’ve moved NIMBLE’s various sequential Monte Carlo (SMC) algorithms (bootstrap particle filter, auxiliary particle filter, ensemble Kalman filter, iterated filter2, and particle MCMC algorithms) to the new nimbleSMC package. So if you want to use any of these methods as of nimble version 0.10.0, please make sure to install the nimbleSMC package. Any existing code you have that uses any SMC functionality should continue to work as is.
+We’ve moved NIMBLE’s various sequential Monte Carlo (SMC) algorithms (bootstrap particle filter, auxiliary particle filter, ensemble Kalman filter, iterated filter2, and particle MCMC algorithms) to the new `nimbleSMC` package. So if you want to use any of these methods as of nimble version 0.10.0, please make sure to install the nimbleSMC package. Any existing code you have that uses any SMC functionality should continue to work as is.
 
 As development work on NIMBLE has proceeded over the years, we’ve added additional functionality to the core nimble package, so we’ve reached the stage where it makes sense to break off some of the functionality into separate packages. Our goal is to make the overall NIMBLE platform more modular and therefore easier to maintain and use.

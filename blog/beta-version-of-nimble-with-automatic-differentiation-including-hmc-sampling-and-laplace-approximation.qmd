@@ -3,7 +3,7 @@ title: "Beta version of NIMBLE with automatic differentiation, including HMC sam
 description: ""
 author: "NIMBLE Development Team"
 date: "2022-07-15"
-categories: ['announcement']
+categories: ['announcement','release']
 ---
 
 We’re excited to announce that NIMBLE now supports automatic differentiation (AD), also known as algorithmic differentiation, in a [beta version available on our website](https://r-nimble.org/ad-beta). In this beta version, NIMBLE now provides:

@@ -1,12 +1,12 @@
 ---
 title: "NIMBLE: A new way to do MCMC (and more) from BUGS code in R"
 date: "2016-04-08"
-author: "nimble-admin"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["announcement", "release"]
 ---
 
 Yesterday we released version 0.5 of NIMBLE on our web site, r-nimble.org. (We’ll get it onto CRAN soon, but it has some special needs to work out.) NIMBLE tries to fill a gap in what R programmers and analysts can do with general hierarchical models. Packages like WinBUGS, OpenBUGS, JAGS and Stan provide a language for writing a model flexibly, and then they provide one flavor of MCMC. These have been workhorses of the Bayesian revolution, but they don’t provide much control over how the MCMC works (what samplers are used) or let one do anything else with the model (though Stan provides some additional fitting methods).
@@ -21,38 +21,32 @@ NIMBLE also extends BUGS in a bunch of ways that I won’t go into here. And it 
 
 Here is a toy example of what it looks like to set up and run an MCMC using NIMBLE.
     
-    
-    library(nimble)
-    
-    myBUGScode <- nimbleCode({
-        mu ~ dnorm(0, sd = 100) ## uninformative prior
-        sigma ~ dunif(0, 100)
-        for(i in 1:10) y[i] ~ dnorm(mu, sd = sigma)
-    })
-    
-    myModel <- nimbleModel(myBUGScode)
-    
-    
-    
-    myData <- rnorm(10, mean = 2, sd = 5)
-    myModel$setData(list(y = myData))
-    myModel$setInits(list(mu = 0, sigma = 1))
-    
-    myMCMC <- buildMCMC(myModel)
-    compiled <- compileNimble(myModel, myMCMC)
-    
-    compiled$myMCMC$run(10000)
-    
-    
-    
-    samples <- as.matrix(compiled$myMCMC$mvSamples)
-    plot(density(samples[,'mu']))
-    
+```{r}
+#| output: false
+library(nimble)
 
-![plot of chunk minimal-example](https://web.archive.org/web/20250427232125im_/http://r-nimble.org/wp-content/uploads/2016/04/minimal-example-1-300x300.png)
-    
-    
-    plot(density(samples[,'sigma']))
-    
+myBUGScode <- nimbleCode({
+    mu ~ dnorm(0, sd = 100) ## uninformative prior
+    sigma ~ dunif(0, 100)
+    for(i in 1:10) y[i] ~ dnorm(mu, sd = sigma)
+})
 
-![plot of chunk minimal-example](https://web.archive.org/web/20250427232125im_/http://r-nimble.org/wp-content/uploads/2016/04/minimal-example-2-300x300.png)
+myModel <- nimbleModel(myBUGScode)
+
+
+
+myData <- rnorm(10, mean = 2, sd = 5)
+myModel$setData(list(y = myData))
+myModel$setInits(list(mu = 0, sigma = 1))
+
+myMCMC <- buildMCMC(myModel)
+compiled <- compileNimble(myModel, myMCMC)
+
+compiled$myMCMC$run(10000)
+
+samples <- as.matrix(compiled$myMCMC$mvSamples)
+```
+```{r}
+plot(density(samples[,'mu']))
+plot(density(samples[,'sigma']))
+```    

@@ -1,12 +1,12 @@
 ---
 title: "NIMBLE package for hierarchical modeling (MCMC and more) faster and more flexible in version 0.6-1"
 date: "2016-10-31"
-author: "nimble-admin"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["announcement", "release"]
 ---
 
 NIMBLE version 0.6-1 has been released on CRAN and at [r-nimble.org](http://r-nimble.org/). 

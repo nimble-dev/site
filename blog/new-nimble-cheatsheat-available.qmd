@@ -1,12 +1,12 @@
 ---
 title: "New NIMBLE cheatsheat available"
 date: "2020-06-14"
-author: "Chris Paciorek"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["announcement"]
 ---
 
 We have prepared a cheatsheet that summarizes NIMBLE’s functionality and syntax in a two-page format that follows the RStudio collection of cheatsheets. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).

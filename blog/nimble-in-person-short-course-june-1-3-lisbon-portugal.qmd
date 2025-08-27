@@ -1,7 +1,7 @@
 ---
 title: "NIMBLE in-person short course, June 1-3, Lisbon, Portugal"
 description: ""
-author: "NIMBLE Development Team"
+author: "Chris Paciorek"
 date: "2022-03-02"
 categories: ['education', 'announcement']
 ---
@@ -12,4 +12,3 @@ NIMBLE is a system for building and sharing analysis methods for statistical mod
 
 More details and registration are available at the [workshop website](https://nimbleworkshop.weebly.com/). No previous NIMBLE experience is required, but the workshop will assume some familiarity with hierarchical models, Markov chain Monte Carlo (MCMC), and R.
 
-Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.

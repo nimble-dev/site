@@ -2,7 +2,7 @@
 title: "announcing the nimbleMacros package and the use of macros in NIMBLE models"
 author: "NIMBLE Development Team"
 date: "2025-03-19"
-categories: ['announcement']
+categories: ['announcement','release']
 ---
 
 Recent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).
