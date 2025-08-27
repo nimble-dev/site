@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["announcement","education"]
 ---
 
 We’ll be presenting a webinar on NIMBLE, hosted by the Eastern North America Region of the International Biometric Society. Details are as follows.
@@ -25,6 +25,8 @@ While analysts can use NIMBLE as a drop-in replacement for WinBUGS or JAGS, NIMB
 
 **Presenter:**
 
-Chris Paciorek  
-Adjunct Professor, Statistical Computing Consultant  
+Chris Paciorek
+
+Adjunct Professor, Statistical Computing Consultant
+
 Department of Statistics, University of California, Berkeley

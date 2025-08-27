@@ -1,14 +1,14 @@
 ---
 title: "Version 0.6-3 released."
 date: "2016-12-15"
-author: "Chris Paciorek"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ['release', 'announcement']
 ---
 
-Version 0.6-3 is a very minor release primarily intended to address some CRAN packaging issues that do not affect users. We also fixed a bug involving MCEM functionality and a bug that prevented use of the sd() and var() functions in BUGS code.
+Version 0.6-3 is a very minor release primarily intended to address some CRAN packaging issues that do not affect users. We also fixed a bug involving MCEM functionality and a bug that prevented use of the `sd()` and `var()` functions in BUGS code.
 
 For most users, there is probably no need to upgrade from version 0.6-2.

@@ -11,13 +11,12 @@ We’ve released the newest version of NIMBLE on CRAN and on our [website](https
 Version 0.13.0 provides new functionality (in particular improved handling of predictive nodes in MCMC) and minor bug fixes, including: 
 
   * Thoroughly revamping handling of posterior predictive nodes in the MCMC system, in particular that MCMC samplers, by default, will now exclude predictive dependencies from internal sampler calculations. This should improve MCMC mixing for models with predictive nodes. Posterior predictive nodes are now sampled conditional on all other model nodes at the end of each MCMC iteration.
-  * Adding functionality to the MCMC configuration system, including a new replaceSamplers method and updates to the arguments for the addSamplers method.
+  * Adding functionality to the MCMC configuration system, including a new `replaceSamplers` method and updates to the arguments for the `addSamplers` method.
   * Adding an option to the WAIC system to allow additional burnin (in addition to standard MCMC burnin) before calculating online WAIC, thereby allowing inspection of initial samples without forcing them to be used for WAIC.
   * Warning users of unused constants during model building.
-  * Fixing bugs that prevented use of variables starting with ‘logProb’ or named ‘i’ in model code.
+  * Fixing bugs that prevented use of variables starting with "logProb" or named "i" in model code.
   * Fixing a bug to prevent infinite recursion in particular cases in conjugacy checking.
-  * Fixing a bug in simulating from dcar_normal nodes when multiple nodes passed to simulate.
+  * Fixing a bug in simulating from `dcar_normal` nodes when multiple nodes passed to simulate.
 
 Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.
 
-Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.

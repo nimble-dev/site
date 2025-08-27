@@ -1,12 +1,8 @@
 ---
 title: "registration open for NIMBLE short course, June 3-4, 2020 at UC Berkeley"
 date: "2020-03-02"
-author: "Chris Paciorek"
-format:
-  html:
-    toc: true
-    toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+author: "NIMBLE Development Team"
+categories: ['education', 'announcement']
 ---
 
 Registration is now open for a two-day training workshop on [NIMBLE](https://r-nimble.org/), June 3-4, 2020 in Berkeley, California. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).

@@ -10,11 +10,11 @@ We’ve released the newest version of NIMBLE on CRAN and on our [website](https
 
 Version 0.11.0 provides a variety of new functionality, improved error trapping, and bug fixes, including:
 
-  * added the ‘posterior_predictive_branch’ MCMC sampler, which samples jointly from the predictive distribution of networks of entirely non-data nodes, to improve MCMC mixing,
-  * added a model method to find parent nodes, called getParents(), analogous to getDependencies(),
+  * added the `posterior_predictive_branch` MCMC sampler, which samples jointly from the predictive distribution of networks of entirely non-data nodes, to improve MCMC mixing,
+  * added a model method to find parent nodes, called `getParents()`, analogous to getDependencies(),
   * improved efficiency of conjugate samplers,
   * allowed use of the elliptical slice sampler for univariate nodes, which can be useful for posteriors with multiple modes,
-  * allowed model definition using if-then-else without an else clause, and
+  * allowed model definition using if-then-else without an `else` clause, and
   * fixed a bug giving incorrect node names and potentially affecting algorithm behavior for models with more than 100,000 elements in a vector node or any dimension of a multi-dimensional node.
 
 Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.

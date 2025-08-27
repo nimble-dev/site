@@ -1,12 +1,12 @@
 ---
 title: "Version 0.5-1 of NIMBLE released!"
 date: "2016-05-27"
-author: "Chris Paciorek"
+author: "NIMBLE Development Team"
 format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ['release', 'announcement']
 ---
 
 Version 0.5-1 is officially a minor release, but it actually has quite a bit in it, in particular the addition/improvement of a number of our algorithms. In addition there are some more improvements in our speed in building and compiling models and algorithms.
@@ -15,11 +15,11 @@ Changes as of Version 0.5-1 include:
 
   * the addition of a variety of sequential Monte Carlo (aka particle filtering) algorithms, including particle MCMC samplers for use within an MCMC,
   * a greatly improved MCEM algorithm with an automated convergence and stopping criterion,
-  * new syntax for declaring multivariate variables in the NIMBLE DSL, namely numeric(), integer(), matrix(), and array(), with declare() now deprecated,
+  * new syntax for declaring multivariate variables in the NIMBLE DSL, namely `numeric()`, `integer()`, `matrix()`, and `array()`, with `declare()` now deprecated,
   * addition of the multivariate-t distribution for use in BUGS and DSL code,
   * a new binary MCMC sampler for discrete 0/1 nodes,
   * addition of functionality to our random walk sampler to allow sampling on the log scale and use of reflection,
-  * more flexible use of forwardsolve(), backsolve(), and solve(), including use in BUGS code, and
+  * more flexible use of `forwardsolve()`, `backsolve()`, and `solve()`, including use in BUGS code, and
   * a variety of other items.
 
 Please see the NEWS file in the source package.
