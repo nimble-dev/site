@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="NIMBLE Development Team">
+<meta name="author" content="Ben Goldstein">
 <meta name="dcterms.date" content="2020-04-18">
 
 <title>nimbleEcology: custom NIMBLE distributions for ecologists – NIMBLE</title>
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -143,22 +178,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +294,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -339,7 +357,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>NIMBLE Development Team </p>
+             <p>Ben Goldstein </p>
           </div>
   </div>
     
@@ -358,10 +376,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Prepared by Ben Goldstein.</p>
 <section id="what-is-nimbleecology" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-nimbleecology">What is nimbleEcology?</h2>
-<p><strong>nimbleEcology</strong> is an auxiliary nimble package for ecologists.</p>
+<p><code>nimbleEcology</code> is an auxiliary nimble package for ecologists.</p>
 <p>nimbleEcology contains a set of distributions corresponding to some common ecological models. When the package is loaded, these distributions are registered to NIMBLE and can be used directly in models.</p>
 <p>nimbleEcology contains distributions often used in modeling abundance, occupancy and capture-recapture studies.</p>
 </section>
@@ -377,36 +394,39 @@ ul.task-list li input[type="checkbox"] {
 <section id="how-to-use" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use">How to use</h2>
 <p>nimbleEcology can be installed directly from CRAN as follows.</p>
-<pre><code>install.packages("nimbleEcology")</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimbleEcology"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Once nimbleEcology is installed, load it using <code>library</code>. It will also load <code>nimble</code>.</p>
-<pre><code>library(nimbleEcology)
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimbleEcology)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: nimble</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>nimble version 1.3.0 is loaded.
+For more information on NIMBLE and a User Manual,
+please visit https://R-nimble.org.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'nimble'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
 
+    simulate</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
 
-
-## Loading required package: nimble
-
-
-
-## nimble version 0.10.0 is loaded.
-## For more information on NIMBLE and a User Manual,
-## please visit http://R-nimble.org.
-
-
-
-## 
-## Attaching package: 'nimble'
-
-
-
-## The following object is masked from 'package:stats':
-## 
-##     simulate
-
-
-
-## Loading nimbleEcology. 
-## Registering the following user-defined functions: 
-## dOcc, dDynOcc, dCJS, dHMM, dDHMM</code></pre>
+    declare</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading nimbleEcology. Registering multiple variants of the following distributions:
+ dOcc, dDynOcc, dCJS, dHMM, dDHMM, dNmixture.</code></pre>
+</div>
+</div>
 <p>Note the message indicating which distribution families have been loaded.</p>
 </section>
 <section id="which-distributions-are-available" class="level2">
@@ -416,74 +436,75 @@ ul.task-list li input[type="checkbox"] {
 <li><code>dOcc</code> (occupancy model)</li>
 <li><code>dDynOcc</code> (dynamic occupancy model)</li>
 <li><code>dHMM</code> (hidden Markov model)</li>
-<li><code>dDHMM</code> (dynamic hidden Markov model)</li>
+<li>`dDHMM (dynamic hidden Markov model)</li>
 <li><code>dCJS</code> (Cormack-Jolly-Seber or mark-recapture model)</li>
-<li><code>dNmixture</code> (N-mixture model)</li>
+<li>`dNmixture (N-mixture model)</li>
 <li><code>dYourNewDistribution</code> Do you have a custom distribution that would fit the package? Are we missing a distribution you need? Let us know! We actively encourage contributions through GitHub or direct communication.</li>
 </ul>
 </section>
 <section id="example-code" class="level2">
 <h2 class="anchored" data-anchor-id="example-code">Example code</h2>
 <p>The following code illustrates a NIMBLE model definition for an occupancy model using nimbleEcology. The model is specified, built, and used to simulate some data according to the occupancy distribution.</p>
-<pre><code>library(nimbleEcology)
-
-occ_code &lt;- nimbleCode({
-  psi ~ dunif(0, 1)
-  p ~ dunif(0, 1)
-  for (s in 1:nsite) {
-    x[s, 1:nvisit] ~ dOcc_s(probOcc = psi, probDetect = p,
-                            len = nvisit)
-  }
-})
-
-occ_model &lt;- nimbleModel(occ_code,
-               constants = list(nsite = 10, nvisit = 5),
-               inits = list(psi = 0.5, p = 0.5))
-
-
-
-## defining model...
-
-
-
-## building model...
-
-
-
-## setting data and initial values...
-
-
-
-## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
-## checking model sizes and dimensions... This model is not fully initialized. This is not an error. To see which variables are not initialized, use model$initializeInfo(). For more information on model initialization, see help(modelInitialization).
-## model building finished.
-
-
-
-set.seed(94)
-occ_model$simulate("x")
-occ_model$x
-
-
-
-##       [,1] [,2] [,3] [,4] [,5]
-##  [1,]    0    0    0    0    0
-##  [2,]    0    0    0    0    0
-##  [3,]    0    0    0    0    0
-##  [4,]    0    0    0    0    0
-##  [5,]    1    1    1    0    1
-##  [6,]    0    0    0    1    0
-##  [7,]    0    0    0    0    0
-##  [8,]    0    0    0    0    1
-##  [9,]    1    1    1    0    0
-## [10,]    0    1    0    0    0</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>occ_code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  psi <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsite) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    x[s, <span class="dv">1</span><span class="sc">:</span>nvisit] <span class="sc">~</span> <span class="fu">dOcc_s</span>(<span class="at">probOcc =</span> psi, <span class="at">probDetect =</span> p,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">len =</span> nvisit)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>occ_model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(occ_code,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">nsite =</span> <span class="dv">10</span>, <span class="at">nvisit =</span> <span class="dv">5</span>),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">inits =</span> <span class="fu">list</span>(<span class="at">psi =</span> <span class="fl">0.5</span>, <span class="at">p =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  [Note] This model is not fully initialized. This is not an error.
+         To see which variables are not initialized, use model$initializeInfo().
+         For more information on model initialization, see help(modelInitialization).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">94</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>occ_model<span class="sc">$</span><span class="fu">simulate</span>(<span class="st">"x"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>occ_model<span class="sc">$</span>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1] [,2] [,3] [,4] [,5]
+ [1,]    0    0    0    0    0
+ [2,]    0    0    0    0    0
+ [3,]    0    0    0    0    0
+ [4,]    0    0    0    0    0
+ [5,]    1    1    1    0    1
+ [6,]    0    0    0    1    0
+ [7,]    0    0    0    0    0
+ [8,]    0    0    0    0    1
+ [9,]    1    1    1    0    0
+[10,]    0    1    0    0    0</code></pre>
+</div>
+</div>
 </section>
 <section id="how-to-learn-more" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-learn-more">How to learn more</h2>
-<p>Once the package is installed, you can check out the package vignette with <code>vignette(“nimbleEcology”)</code>.</p>
+<p>Once the package is installed, you can check out the package vignette with <code>vignette("nimbleEcology")</code>.</p>
 <p>Documentation is available for each distribution family using the R syntax <code>?distribution</code>, for example</p>
-<pre><code>?dHMM</code></pre>
-<p>For more detail on marginalization in these distributions, see the paper “One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE” <a href="https://web.archive.org/web/20250616215252/https://doi.org/10.1002/ece3.6053">(Ponisio et al.&nbsp;2020)</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>?dHMM</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For more detail on marginalization in these distributions, see the paper “One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE” <a href="https://doi.org/10.1002/ece3.6053">(Ponisio et al.&nbsp;2020)</a>.</p>
 
 
 </section>

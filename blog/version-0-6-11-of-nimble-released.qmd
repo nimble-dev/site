@@ -1,0 +1,27 @@
+---
+title: "Version 0.6-11 of NIMBLE released"
+date: "2018-06-16"
+author: "NIMBLE Development Team"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ['release', 'announcement']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our website.
+
+Version 0.6-11 has important new features, notably support for Bayesian nonparametric mixture modeling, and more are on the way in the next few months.
+
+New features include:
+
+  * support for Bayesian nonparametric mixture modeling using Dirichlet process mixtures, with specialized MCMC samplers automatically assigned in NIMBLE’s default MCMC (See Chapter 10 of the manual for details);
+  * additional resampling methods available with the auxiliary and bootstrap particle filters;
+  * user-defined filtering algorithms can be used with NIMBLE's particle MCMC samplers;
+  * MCMC thinning intervals can be modified at MCMC run-time;
+  * both `runMCMC()` and `nimbleMCMC()` now drop burn-in samples before thinning, making their behavior consistent with each other;
+  * increased functionality for the `setSeed` argument in `nimbleMCMC()` and `runMCMC()`;
+  * new functionality for specifying the order in which sampler functions are executed in an MCMC; and
+  * invalid dynamic indexes now result in a warning and `NaN` values but do not cause execution to error out, allowing MCMC sampling to continue.
+
+Please see the NEWS file in the installed package for more details

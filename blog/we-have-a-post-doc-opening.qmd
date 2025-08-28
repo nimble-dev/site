@@ -1,0 +1,56 @@
+---
+title: "We have a post-doc opening"
+date: "2015-09-24"
+author: "NIMBLE Development Team"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["announcement"]
+---
+
+We have a 1-year opening for a post-doc interested in developing statistical methods in NIMBLE.
+
+Here is the official, approved job advertisement:
+
+POSTDOCTORAL SCHOLAR POSITION AVAILABLE IN COMPUTATIONAL STATISTICS – UNIVERSITY OF CALIFORNIA, BERKELEY
+
+The Departments of Statistics and Environmental Science Policy, and Management have an opening for a Postdoctoral Scholar – Employee to develop and apply statistical algorithms as part of the NIMBLE software development team. NIMBLE is a NSF-funded framework for programming computational methods for general hierarchical models such as Markov chain Monte Carlo, sequential Monte Carlo, and numerical integration and approximation. More information is available at R-nimble.org. The post- doc will be supervised by co-PIs Perry de Valpine and Chris Paciorek. We seek a candidate who will build out NIMBLE’s algorithm library, which includes using it as a platform for methodological and applied research. The successful candidate will be expected to author peer-reviewed publications and contribute to software development.
+
+BASIC QUALIFICATIONS
+
+Candidates must have completed all degree requirements except the dissertation or be enrolled in an accredited PhD or equivalent degree in a statistical field such as Statistics or Computer Science or a field of statistical application at the time of application.
+
+ADDITIONAL QUALIFICATIONS
+
+Candidates must have a PhD or equivalent degree in a statistical field such as Statistics or Computer Science or in a field of statistical application such as biology, ecology, environmental science, political science, psychology, education, public health or related field by appointment start date.
+
+PREFERRED QUALIFICATIONS
+
+Demonstrated experience programming complex scientific computing applications using R and/or C++, Python or others. Demonstrated experience advancing computational statistical methodology by appointment start date.
+
+APPOINTMENT
+
+The position is available to start immediately but we seek the best candidate even if they cannot start until a later date. The initial appointment is for one-year, with renewal based on performance and funding. This is a full-time appointment.
+
+SALARY AND BENEFITS
+
+Salary will be commensurate with qualifications and experience. Generous benefits are included (http://vspa.berkeley.edu/postdocs)
+
+TO APPLY
+
+Visit: https://aprecruit.berkeley.edu/apply/JPF00860
+
+Interested individuals should include a 1-2 page cover letter describing their research experience and publications along with a current CV and the names and contact information of three references. Letters of reference may be requested for finalists. It is optional to include a statement addressing past and/or potential contributions to diversity through research, teaching, and/or service.
+
+This position will remain open until filled.
+
+Questions regarding this recruitment can be directed to Maria P. Aranas, aranas4@berkeley.edu.
+
+All letters will be treated as confidential per University of California policy and California state law. Please refer potential referees, including when letters are provided via a third party (i.e. dossier service or career center) to the UC Berkeley Statement of Confidentiality (http://apo.berkeley.edu/evalltr.html ) prior to submitting their letters.
+
+The University of California is an Equal Opportunity/Affirmative Action Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age or protected veteran status. For the complete University of California nondiscrimination and affirmative action policy see: http://policy.ucop.edu/doc/4000376/NondiscrimAffirmAct
+
+The Department is interested in candidates who will contribute to diversity and equal opportunity in higher education through their research or teaching.
+
+The University of California, Berkeley has an excellent benefits package as well as a number of policies and programs in place to support employees as they balance work and family.

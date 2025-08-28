@@ -1,0 +1,23 @@
+{
+  "a-close-look-at-some-linear-model-mcmc-comparisons.qmd": {
+    "a-close-look-at-some-linear-model-mcmc-comparisons.html": "32aa4253"
+  },
+  "version-1-2-0-of-nimble-released.qmd": {
+    "version-1-2-0-of-nimble-released.html": "c3d1af27"
+  },
+  "variable-selection-in-nimble-using-reversible-jump-mcmc.qmd": {
+    "variable-selection-in-nimble-using-reversible-jump-mcmc.html": "a19064de"
+  },
+  "quick-guide-for-converting-from-jags-or-bugs-to-nimble.qmd": {
+    "quick-guide-for-converting-from-jags-or-bugs-to-nimble.html": "f4eb8abe"
+  },
+  "posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.qmd": {
+    "posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html": "6cfb95a7"
+  },
+  "nimbleecology-custom-nimble-distributions-for-ecologists.qmd": {
+    "nimbleecology-custom-nimble-distributions-for-ecologists.html": "7e47aef1"
+  },
+  "nimble-a-new-way-to-do-mcmc-and-more-from-bugs-code-in-r-3.qmd": {
+    "nimble-a-new-way-to-do-mcmc-and-more-from-bugs-code-in-r-3.html": "255d0772"
+  }
+}

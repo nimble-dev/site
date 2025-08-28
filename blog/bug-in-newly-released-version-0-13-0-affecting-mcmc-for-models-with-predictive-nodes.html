@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -143,22 +178,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +294,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -317,7 +335,6 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title">
 <h1 class="title">Bug in newly-released version 0.13.0 affecting MCMC for models with predictive nodes</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">release</div>
     <div class="quarto-category">announcement</div>
   </div>
   </div>
@@ -352,9 +369,10 @@ ul.task-list li input[type="checkbox"] {
 <p>Unfortunately, we realized (thanks to a user post from a couple days ago) that there is a bug in this new approach to predictive nodes.</p>
 <p>If you haven’t upgraded to version 0.13.0, simply wait to upgrade until we release a bug fix in 0.13.1 in the next couple weeks.</p>
 <p>If you have upgraded to version 0.13.0 and if you have run an MCMC on a model that both (1) has predictive nodes and (2) has multivariate nodes, then the bug might affect your results. Please set:</p>
-<pre><code>&nbsp; nimbleOptions(MCMCusePredictiveDependenciesInCalculations = TRUE)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nimbleOptions</span>(<span class="at">MCMCusePredictiveDependenciesInCalculations =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>and then reconfigure/rebuild and rerun your MCMC. The option above will ensure that the MCMC behaves as it would in previous versions of NIMBLE.</p>
-<p>Keep everything organized in <a href="https://web.archive.org/web/20250427235403/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
 
 
 

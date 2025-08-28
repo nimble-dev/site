@@ -8,6 +8,6 @@ categories: ['release', 'announcement']
 
 We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
 
-Version 0.11.1 is a bug fix release, fixing a bug that was introduced in Version 0.11.0 (which was released on April 17, 2021) that affected MCMC sampling in MCMCs using the “posterior_predictive_branch” sampler introduced in version 0.11.0. This sampler would be listed by name when the MCMC configuration object is created and would be assigned to any set of multiple nodes that (as a group of nodes) have no data dependencies and are therefore sampled as a group from their predictive distributions.
+Version 0.11.1 is a bug fix release, fixing a bug that was introduced in Version 0.11.0 (which was released on April 17, 2021) that affected MCMC sampling in MCMCs using the `posterior_predictive_branch` sampler introduced in version 0.11.0. This sampler would be listed by name when the MCMC configuration object is created and would be assigned to any set of multiple nodes that (as a group of nodes) have no data dependencies and are therefore sampled as a group from their predictive distributions.
 
 For those currently using version 0.11.0, please update your version of NIMBLE. For users currently using other versions, this release won’t directly affect you, but we generally encourage you to update as we release new versions.

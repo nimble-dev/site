@@ -1,0 +1,22 @@
+---
+title: "Version 0.6-9 of NIMBLE released"
+date: "2018-02-09"
+author: "NIMBLE Development Team"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ['release', 'announcement']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-9 is primarily a maintenance release with various bug fixes and fixes for CRAN packaging issues.
+
+New features include:
+
+  * dimensions in a model will now be determined from either `inits` or `data` if not otherwise available;
+  * one can now specify `nBootReps = NA` in the `runCrossValidate()` function, which will prevent the Monte Carlo error from being calculated;
+  * `runCrossValidate()` now returns the averaged loss over all k folds, instead of the summed loss;
+  * We’ve added the `besselK` function to the NIMBLE language;
+  * and a variety of bug fixes.
+
+Please see the NEWS file in the installed package for more details

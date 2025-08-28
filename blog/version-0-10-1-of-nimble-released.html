@@ -143,22 +143,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +259,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -348,11 +331,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250518092605/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
 <p>We’ve released version 0.10.1. Version 0.10.1 is primarily a bug fix release:</p>
-<p>– In particular, it fixes a bug in retrieving parameter values from distributions that was introduced in version 0.10.0. The bug can cause incorrect behavior of conjugate MCMC samplers under certain model structures (such as particular state-space models), so we strongly encourage users to upgrade to 0.10.1.<br>
-– In addition, version 0.10.1 restricts use of WAIC to the conditional version of WAIC (conditioning on all parameters directly involved in the likelihood). Previous versions of nimble gave incorrect results when not conditioning on all parameters directly involved in the likelihood (i.e., when not monitoring all such parameters). In a future version of nimble we plan to make a number of improvements to WAIC, including allowing use of marginal versions of WAIC, where the WAIC calculation integrates over random effects.</p>
-<p>Please see the <a href="https://web.archive.org/web/20250518092605/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+<ul>
+<li>In particular, it fixes a bug in retrieving parameter values from distributions that was introduced in version 0.10.0. The bug can cause incorrect behavior of conjugate MCMC samplers under certain model structures (such as particular state-space models), so we strongly encourage users to upgrade to 0.10.1.<br>
+</li>
+<li>In addition, version 0.10.1 restricts use of WAIC to the conditional version of WAIC (conditioning on all parameters directly involved in the likelihood). Previous versions of NIMBLE gave incorrect results when not conditioning on all parameters directly involved in the likelihood (i.e., when not monitoring all such parameters). In a future version of NIMBLE we plan to make a number of improvements to WAIC, including allowing use of marginal versions of WAIC, where the WAIC calculation integrates over random effects.</li>
+</ul>
+<p>Please see the <a href="https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
 
 
 

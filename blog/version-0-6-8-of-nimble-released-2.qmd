@@ -1,0 +1,22 @@
+---
+title: "Version 0.6-8 of NIMBLE released"
+date: "2017-12-04"
+author: "NIMBLE Development Team"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ['release', 'announcement']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our website a week ago. Version 0.6-8 has a few new features, and more are on the way in the next few months.
+
+New features include:
+
+  * the proper Gaussian CAR (conditional autoregressive) model can now be used in BUGS code as `dcar_proper`, which behaves similarly to BUGS' `car.proper` distribution;
+  * a new `nimbleMCMC` function that provides one-line invocation of NIMBLE’s MCMC engine, akin to usage of JAGS and WinBUGS through R;
+  * a new `runCrossValidate` function that will conduct k-fold cross-validation of NIMBLE models fit by MCMC;
+  * dynamic indexing in BUGS code is now allowed by default;
+  * and a variety of bug fixes and efficiency improvements.
+
+Please see the NEWS file in the installed package for more details.

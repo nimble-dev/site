@@ -6,15 +6,15 @@ date: "2020-10-14"
 categories: ['release', 'announcement']
 ---
 
-We’ve released the newest version of NIMBLE on CRAN and on our [website](https://web.archive.org/web/20250427232935/https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).
 
 Version 0.10.0 provides new features, improvements in speed of building models and algorithms, bug fixes, and various improvements.
 
 New features and bug fixes include:
 
   * greatly extended NIMBLE’s Chinese Restaurant Process (CRP)-based Bayesian nonparametrics functionality by allowing multiple observations to be grouped together;
-  * fixed a bug giving incorrect results in our cross-validation function, runCrossValidate();
-  * moved NIMBLE’s sequential Monte Carlo (SMC, aka particle filtering) methods into the nimbleSMC package; and
+  * fixed a bug giving incorrect results in our cross-validation function, `runCrossValidate()`;
+  * moved NIMBLE’s sequential Monte Carlo (SMC, aka particle filtering) methods into the `nimbleSMC` package; and
   * improved the efficiency of model and MCMC building and compilation.
 
-Please see the [release notes](https://web.archive.org/web/20250427232935/https://r-nimble.org/more/news) on our website for more details.
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.

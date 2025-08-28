@@ -1,16 +1,14 @@
 ---
 title: "NIMBLE online tutorial, November 18, 2021"
 description: ""
-author: "NIMBLE Development Team"
+author: "Chris Paciorek"
 date: "2021-10-20"
 categories: ['education', 'announcement']
 ---
 
 We’ll be giving a two-hour tutorial on NIMBLE, sponsored by the environmental Bayes (enviBayes) section of ISBA (The International Society for Bayesian Analysis), on Thursday November 18, from 11 am to 1 pm US Eastern time.
 
-NIMBLE ([r-nimble.org](https://web.archive.org/web/20250427234837/http://r-nimble.org/)) is a system for fitting and programming with hierarchical models in R that builds on (a new implementation of) the BUGS language for declaring models. NIMBLE provides analysts with a flexible system for using MCMC, sequential Monte Carlo, MCEM, and other techniques on user-specified models. It provides developers and methodologists with the ability to write algorithms in an R-like syntax that can be easily disseminated to users. C++ versions of models and algorithms are created for speed, but these are manipulated from R without any need for analysts or algorithm developers to program in C++. While analysts can use NIMBLE as a nearly drop-in replacement for WinBUGS or JAGS, NIMBLE provides enhanced functionality in a number of ways.
-
-Your avatar is your business card. Take high-quality, and better professional photos. Think over your style, add accessories [hooksexup](https://web.archive.org/web/20250427234837/https://hooksexup.com/). In short, show yourself on the back side. 
+NIMBLE ([r-nimble.org](http://r-nimble.org/)) is a system for fitting and programming with hierarchical models in R that builds on (a new implementation of) the BUGS language for declaring models. NIMBLE provides analysts with a flexible system for using MCMC, sequential Monte Carlo, MCEM, and other techniques on user-specified models. It provides developers and methodologists with the ability to write algorithms in an R-like syntax that can be easily disseminated to users. C++ versions of models and algorithms are created for speed, but these are manipulated from R without any need for analysts or algorithm developers to program in C++. While analysts can use NIMBLE as a nearly drop-in replacement for WinBUGS or JAGS, NIMBLE provides enhanced functionality in a number of ways.
 
 This workshop will demonstrate how one can use NIMBLE to:
 
@@ -22,4 +20,4 @@ This workshop will demonstrate how one can use NIMBLE to:
 
 The tutorial will assume working knowledge of hierarchical models and some familiarity with MCMC. Given the two-hour time frame, we’ll focus on demonstrating some of the key features of NIMBLE, without going into a lot of detail on any given topic.
 
-To attend, please register [here](https://web.archive.org/web/20250427234837/https://uci.zoom.us/meeting/register/tJwkf-CvrzsoG9YNWKAJvkTzgYPUaYzPChef).
+To attend, please register [here](https://uci.zoom.us/meeting/register/tJwkf-CvrzsoG9YNWKAJvkTzgYPUaYzPChef).

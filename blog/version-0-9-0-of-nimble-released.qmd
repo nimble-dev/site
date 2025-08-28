@@ -1,0 +1,22 @@
+---
+title: "Version 0.9.0 of NIMBLE released"
+date: "2019-12-21"
+author: "NIMBLE Development Team"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ['release', 'announcement']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC). Version 0.9.0 provides some new features as well as providing a variety of speed improvements, better output handling, and bug fixes.
+
+New features and bug fixes include:
+
+  * added an iterated filtering 2 (IF2) algorithm (a sequential Monte Carlo (SMC) method) for parameter estimation via maximum likelihood;
+  * fixed several bugs in our SMC algorithms;
+  * improved the speed of MCMC configuration;
+  * improved the user interface for interacting with the MCMC configuration; and
+  * improved our conjugacy checking system to detect some additional cases of conjugacy.
+
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.

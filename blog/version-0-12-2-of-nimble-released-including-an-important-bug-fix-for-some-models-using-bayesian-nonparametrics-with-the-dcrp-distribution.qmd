@@ -10,15 +10,16 @@ We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE
 
 Version 0.12.2 is a bug fix release. In particular, this release fixes a bug in our Bayesian nonparametric distribution (BNP) functionality that gives incorrect MCMC results for some models, specifically when using the dCRP distribution when the parameters of the mixture components (i.e., the clusters) have hyperparameters (i.e., the base measure parameters) that are unknown and sampled during the MCMC. Here is an example basic model structure that is affected by the bug:
     
+```
+k[1:n] ~ dCRP(alpha, n)
+for(i in 1:n) {
+    y[i] ~ dnorm(mu[k[i]], 1)
+    mu[i] ~ dnorm(mu0, 1) ## mixture component parameters with hyperparameter
+}
+mu0 ~ dnorm(0, 1) ## unknown cluster hyperparameter
+    ```
     
-    k[1:n] ~ dCRP(alpha, n)
-    for(i in 1:n) {
-      y[i] ~ dnorm(mu[k[i]], 1)
-      mu[i] ~ dnorm(mu0, 1) ## mixture component parameters with hyperparameter
-    }
-    mu0 ~ dnorm(0, 1) ## unknown cluster hyperparameter
-
-(There is no problem without the hyperparameter layer – i.e., if mu0 is a fixed value – which is the situation in many models.)
+(There is no problem without the hyperparameter layer - i.e., if `mu0` is a fixed value – which is the situation in many models.)
 
 We strongly encourage users using models with this type of structure to rerun their analyses, and we apologize for this issue.
 
@@ -33,6 +34,5 @@ Other changes in this release include:
   * Fixing a bug preventing use of `nimbleExternalCall` with a constant expression.
   * Fixing a bug preventing use of recursion in nimbleFunctions without setup code.
 
-Please see the [release notes](https://web.archive.org/web/20250427222659/https://r-nimble.org/more/news) on our website for more details.
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.
 
-Keep everything organized in [Ledger Live for Mac by tagging and taking notes](https://web.archive.org/web/20250427222659/https://ledgerlive-us.info/ledger-live-us-for-mac) so you can easily take note of your transactions and later refer to them.

@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="NIMBLE Development Team">
+<meta name="dcterms.date" content="2018-05-30">
+
+<title>Quick guide for converting from JAGS or BUGS to NIMBLE – NIMBLE</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../what-is-nimble.html"> 
+<span class="menu-text">What is NIMBLE?</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../examples.html"> 
+<span class="menu-text">Examples</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../documentation.html"> 
+<span class="menu-text">Documentation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../download.html"> 
+<span class="menu-text">Download</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-blog" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Blog</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-blog">    
+        <li>
+    <a class="dropdown-item" href="../blog/index.html">
+ <span class="dropdown-text">All Posts</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Recent Posts</li>
+        <li>
+    <a class="dropdown-item" href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">
+ <span class="dropdown-text">nimbleMacros Package</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-3-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.3.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-2-1-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.2.1 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-2-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.2.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-1-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.1.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
+ <span class="dropdown-text">Version 1.0.0 Released</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../contributing.html">
+ <span class="dropdown-text">How to Contribute</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../release-notes.html">
+ <span class="dropdown-text">Release Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../groups-and-issues.html">
+ <span class="dropdown-text">Groups and Issues</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../license-and-citation.html">
+ <span class="dropdown-text">License and Citation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../about-us.html">
+ <span class="dropdown-text">About Us</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools tools-wide">
+    <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="../blog/index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Quick guide for converting from JAGS or BUGS to NIMBLE</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Blog Posts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All Posts</span></a>
+  </div>
+</li>
+          <li class="px-0"><hr class="sidebar-divider hi "></li>
+          <li class="sidebar-item">
+ <span class="menu-text">Recent Posts</span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-3-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.3.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-2-1-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.2.1 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-2-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.2.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-1-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.1.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
+          <li class="px-0"><hr class="sidebar-divider hi "></li>
+          <li class="sidebar-item">
+ <span class="menu-text">Feature Posts</span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nimbleEcology: custom NIMBLE distributions for ecologists</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Posterior predictive sampling and other post-MCMC use of samples in NIMBLE</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#converting-to-nimble-from-jags-openbugs-or-winbugs" id="toc-converting-to-nimble-from-jags-openbugs-or-winbugs" class="nav-link active" data-scroll-target="#converting-to-nimble-from-jags-openbugs-or-winbugs">Converting to NIMBLE from JAGS, OpenBUGS or WinBUGS</a>
+  <ul class="collapse">
+  <li><a href="#main-steps-for-converting-existing-code" id="toc-main-steps-for-converting-existing-code" class="nav-link" data-scroll-target="#main-steps-for-converting-existing-code">Main steps for converting existing code</a></li>
+  <li><a href="#example-an-animal-abundance-model" id="toc-example-an-animal-abundance-model" class="nav-link" data-scroll-target="#example-an-animal-abundance-model">Example: An animal abundance model</a></li>
+  <li><a href="#nimble-version-of-the-model-code" id="toc-nimble-version-of-the-model-code" class="nav-link" data-scroll-target="#nimble-version-of-the-model-code">NIMBLE version of the model code</a></li>
+  <li><a href="#simulated-data" id="toc-simulated-data" class="nav-link" data-scroll-target="#simulated-data">Simulated data</a></li>
+  <li><a href="#initial-values" id="toc-initial-values" class="nav-link" data-scroll-target="#initial-values">Initial values</a></li>
+  <li><a href="#run-mcmc-with-nimblemcmc" id="toc-run-mcmc-with-nimblemcmc" class="nav-link" data-scroll-target="#run-mcmc-with-nimblemcmc">Run MCMC with <code>nimbleMCMC</code></a></li>
+  <li><a href="#work-with-the-samples" id="toc-work-with-the-samples" class="nav-link" data-scroll-target="#work-with-the-samples">Work with the samples</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a>
+  <ul class="collapse">
+  <li><a href="#smaller-steps-you-may-need-for-converting-existing-code" id="toc-smaller-steps-you-may-need-for-converting-existing-code" class="nav-link" data-scroll-target="#smaller-steps-you-may-need-for-converting-existing-code">Smaller steps you may need for converting existing code</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Quick guide for converting from JAGS or BUGS to NIMBLE</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">tutorial</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>NIMBLE Development Team </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 30, 2018</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Converting to NIMBLE from JAGS, OpenBUGS or WinBUGS</p>
+<section id="converting-to-nimble-from-jags-openbugs-or-winbugs" class="level1">
+<h1>Converting to NIMBLE from JAGS, OpenBUGS or WinBUGS</h1>
+<p>NIMBLE is a hierarchical modeling package that uses nearly the same modeling language as the popular MCMC packages WinBUGS, OpenBUGS and JAGS. NIMBLE makes the modeling language extensible — you can add distributions and functions — and also allows customization of MCMC or other algorithms that use models. Here is a quick summary of steps to convert existing code from WinBUGS, OpenBUGS or JAGS to NIMBLE. For more information, see examples on <a href="http://r-nimble.org/">r-nimble.org</a> or the <a href="https://r-nimble.org/manuals/NimbleUserManual.pdf">NIMBLE User Manual</a>.</p>
+<section id="main-steps-for-converting-existing-code" class="level2">
+<h2 class="anchored" data-anchor-id="main-steps-for-converting-existing-code">Main steps for converting existing code</h2>
+<p>These steps assume you are familiar with running WinBUGS, OpenBUGS or JAGS through an R package such as <code>R2WinBUGS</code>, <code>R2jags</code>, <code>rjags</code>, or <code>jagsUI</code>.</p>
+<ol type="1">
+<li>Wrap your model code in <code>nimbleCode({})</code>, directly in R.
+<ul>
+<li>This replaces the step of writing or generating a separate file containing the model code.</li>
+<li>Alternatively, you can read standard JAGS- and BUGS-formatted code and data files using<br>
+<code>readBUGSmodel</code>.</li>
+</ul></li>
+<li>Provide information about missing or empty indices
+<ul>
+<li>Example: If <code>x</code> is a matrix, you must write at least <code>x[,]</code> to show it has two dimensions.</li>
+<li>If other declarations make the size of <code>x</code> clear, <code>x[,]</code> will work in some circumstances.</li>
+<li>If not, either provide index ranges (e.g.&nbsp;<code>x[1:n, 1:m]</code>) or use the <code>dimensions</code> argument to <code>nimbleModel</code> to provide the sizes in each dimension.</li>
+</ul></li>
+<li>Choose how you want to run MCMC.
+<ul>
+<li>Use <code>nimbleMCMC()</code> as the just-do-it way to run an MCMC. This will take all steps to<br>
+set up and run an MCMC using NIMBLE’s default configuration.</li>
+<li>To use NIMBLE’s full flexibility: build the model, configure and build the MCMC, and compile both the model and MCMC. Then run the MCMC via <code>runMCMC</code> or by calling the <code>run</code> function of the compiled MCMC. See the NIMBLE User Manual to learn more about what you can do.</li>
+</ul></li>
+</ol>
+<p>See below for a list of some more nitty-gritty additional steps you may need to consider for some models.</p>
+</section>
+<section id="example-an-animal-abundance-model" class="level2">
+<h2 class="anchored" data-anchor-id="example-an-animal-abundance-model">Example: An animal abundance model</h2>
+<p>This example is adapted from Chapter 6, Section 6.4 of <a href="https://www.elsevier.com/books/applied-hierarchical-modeling-in-ecology-analysis-of-distribution-abundance-and-species-richness-in-r-and-bugs/kery/978-0-12-801378-6">Applied Hierarchical Modeling in Ecology: Analysis of distribution, abundance and species richness in R and BUGS. Volume I: Prelude and Static Models</a> by Marc Kéry and J. Andrew Royle (2015, Academic Press). The <a href="https://www.mbr-pwrc.usgs.gov/pubanalysis/keryroylebook/">book’s web site</a> provides code for its examples.</p>
+<section id="original-code" class="level3">
+<h3 class="anchored" data-anchor-id="original-code">Original code</h3>
+<p>The original model code looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="at">file =</span> <span class="st">"model2.txt"</span>,<span class="st">"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="st"># Priors</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">for(k in 1:3){                # Loop over 3 levels of hab or time factors</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">   alpha0[k] ~ dunif(-10, 10) # Detection intercepts</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">   alpha1[k] ~ dunif(-10, 10) # Detection slopes</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">   beta0[k] ~ dunif(-10, 10)  # Abundance intercepts</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">   beta1[k] ~ dunif(-10, 10)  # Abundance slopes</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st"># Likelihood</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st"># Ecological model for true abundance</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">for (i in 1:M){</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st">   N[i] ~ dpois(lambda[i])</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">   log(lambda[i]) &lt;- beta0[hab[i]] + beta1[hab[i]] * vegHt[i]</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">   # Some intermediate derived quantities</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">   critical[i] &lt;- step(2-N[i])# yields 1 whenever N is 2 or less</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">   z[i] &lt;- step(N[i]-0.5)     # Indicator for occupied site</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">   # Observation model for replicated counts</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">   for (j in 1:J){</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">      C[i,j] ~ dbin(p[i,j], N[i])</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="st">      logit(p[i,j]) &lt;- alpha0[j] + alpha1[j] * wind[i,j]</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="st">   }</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="st"># Derived quantities</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="st">Nocc &lt;- sum(z[])         # Number of occupied sites among sample of M</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">Ntotal &lt;- sum(N[])       # Total population size at M sites combined</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="st">Nhab[1] &lt;- sum(N[1:33])  # Total abundance for sites in hab A</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">Nhab[2] &lt;- sum(N[34:66]) # Total abundance for sites in hab B</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="st">Nhab[3] &lt;- sum(N[67:100])# Total abundance for sites in hab C</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="st">for(k in 1:100){         # Predictions of lambda and p ...</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="st">   for(level in 1:3){    #    ... for each level of hab and time factors</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="st">      lam.pred[k, level] &lt;- exp(beta0[level] + beta1[level] * XvegHt[k])</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="st">      logit(p.pred[k, level]) &lt;- alpha0[level] + alpha1[level] * Xwind[k]</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="st">   }</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="st">N.critical &lt;- sum(critical[]) # Number of populations with critical size</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="brief-summary-of-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="brief-summary-of-the-model">Brief summary of the model</h3>
+<p>This is known as an “N-mixture” model in ecology. The details aren’t really important for illustrating the mechanics of converting this model to NIMBLE, but here is a brief summary anyway. The latent abundances <code>N[i]</code> at sites <code>i = 1...M</code> are assumed to follow a Poisson. The j-th count at the i-th site, <code>C[i, j]</code>, is assumed to follow a binomial with detection probability <code>p[i, j]</code>. The abundance at each site depends on a habitat-specific intercept and coefficient for vegetation height, with a log link. The detection probability for each sampling occasion depends on a date-specific intercept and coefficient for wind speed. Kéry and Royle concocted this as a simulated example to illustrate the hierarchical modeling approaches for estimating abundance from count data on repeated visits to multiple sites.</p>
+</section>
+</section>
+<section id="nimble-version-of-the-model-code" class="level2">
+<h2 class="anchored" data-anchor-id="nimble-version-of-the-model-code">NIMBLE version of the model code</h2>
+<p>Here is the model converted for use in NIMBLE. In this case, the only changes to the code are to insert some missing index ranges (see comments).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Section6p4_code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Priors</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {                <span class="co"># Loop over 3 levels of hab or time factors</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    alpha0[k] <span class="sc">~</span> <span class="fu">dunif</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>) <span class="co"># Detection intercepts</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    alpha1[k] <span class="sc">~</span> <span class="fu">dunif</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>) <span class="co"># Detection slopes</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    beta0[k] <span class="sc">~</span> <span class="fu">dunif</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)  <span class="co"># Abundance intercepts</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    beta1[k] <span class="sc">~</span> <span class="fu">dunif</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)  <span class="co"># Abundance slopes</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Likelihood</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ecological model for true abundance</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>M){</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    N[i] <span class="sc">~</span> <span class="fu">dpois</span>(lambda[i])</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(lambda[i]) <span class="ot">&lt;-</span> beta0[hab[i]] <span class="sc">+</span> beta1[hab[i]] <span class="sc">*</span> vegHt[i]</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Some intermediate derived quantities</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    critical[i] <span class="ot">&lt;-</span> <span class="fu">step</span>(<span class="dv">2</span><span class="sc">-</span>N[i])<span class="co"># yields 1 whenever N is 2 or less</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    z[i] <span class="ot">&lt;-</span> <span class="fu">step</span>(N[i]<span class="sc">-</span><span class="fl">0.5</span>)     <span class="co"># Indicator for occupied site</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Observation model for replicated counts</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      C[i,j] <span class="sc">~</span> <span class="fu">dbin</span>(p[i,j], N[i])</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">logit</span>(p[i,j]) <span class="ot">&lt;-</span> alpha0[j] <span class="sc">+</span> alpha1[j] <span class="sc">*</span> wind[i,j]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Derived quantities; unnececssary when running for inference purpose</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># NIMBLE: We have filled in indices in the next two lines.</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  Nocc <span class="ot">&lt;-</span> <span class="fu">sum</span>(z[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])         <span class="co"># Number of occupied sites among sample of M</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  Ntotal <span class="ot">&lt;-</span> <span class="fu">sum</span>(N[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])       <span class="co"># Total population size at M sites combined</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  Nhab[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(N[<span class="dv">1</span><span class="sc">:</span><span class="dv">33</span>])  <span class="co"># Total abundance for sites in hab A</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  Nhab[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(N[<span class="dv">34</span><span class="sc">:</span><span class="dv">66</span>]) <span class="co"># Total abundance for sites in hab B</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  Nhab[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(N[<span class="dv">67</span><span class="sc">:</span><span class="dv">100</span>])<span class="co"># Total abundance for sites in hab C</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){         <span class="co"># Predictions of lambda and p ...</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(level <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){    <span class="co">#    ... for each level of hab and time factors</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>      lam.pred[k, level] <span class="ot">&lt;-</span> <span class="fu">exp</span>(beta0[level] <span class="sc">+</span> beta1[level] <span class="sc">*</span> XvegHt[k])</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">logit</span>(p.pred[k, level]) <span class="ot">&lt;-</span> alpha0[level] <span class="sc">+</span> alpha1[level] <span class="sc">*</span> Xwind[k]</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># NIMBLE: We have filled in indices in the next line. </span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  N.critical <span class="ot">&lt;-</span> <span class="fu">sum</span>(critical[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>]) <span class="co"># Number of populations with critical size</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="simulated-data" class="level2">
+<h2 class="anchored" data-anchor-id="simulated-data">Simulated data</h2>
+<p>To carry this example further, we need some simulated data. Kéry and Royle provide separate code to do this. With NIMBLE we could use the model itself to simulate data rather than writing separate simulation code. But for our goals here, we simply copy Kéry and Royle’s simulation code, and we compact it somewhat:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Code from Kery and Royle (2015)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose sample sizes and prepare obs. data array y</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)                   <span class="co"># So we all get same data set</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">100</span>                      <span class="co"># Number of sites</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">3</span>                        <span class="co"># Number of repeated abundance measurements</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> M, <span class="at">ncol =</span> J) <span class="co"># to contain the observed data</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a covariate called vegHt</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>vegHt <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">runif</span>(M, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="co"># sort for graphical convenience</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose parameter values for abundance model and compute lambda</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">0</span>                    <span class="co"># Log-scale intercept</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="dv">2</span>                    <span class="co"># Log-scale slope for vegHt</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fu">exp</span>(beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> vegHt) <span class="co"># Expected abundance</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw local abundance</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">rpois</span>(M, lambda)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a covariate called wind</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>wind <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">runif</span>(M <span class="sc">*</span> J, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">dim =</span> <span class="fu">c</span>(M, J))</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose parameter values for measurement error model and compute detectability</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>alpha0 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span>                        <span class="co"># Logit-scale intercept</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>alpha1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span>                        <span class="co"># Logit-scale slope for wind</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plogis</span>(alpha0 <span class="sc">+</span> alpha1 <span class="sc">*</span> wind) <span class="co"># Detection probability</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Take J = 3 abundance measurements at each site</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J) {</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  C[,j] <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(M, N, p[,j])</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Create factors</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>time <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span>J), M), <span class="at">ncol =</span> J, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>hab <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"A"</span>, <span class="dv">33</span>), <span class="fu">rep</span>(<span class="st">"B"</span>, <span class="dv">33</span>), <span class="fu">rep</span>(<span class="st">"C"</span>, <span class="dv">34</span>))  <span class="co"># assumes M = 100</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Bundle data</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co"># NIMBLE: For full flexibility, we could separate this list</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">#         into constants and data lists.  For simplicity we will keep</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#         it as one list to be provided as the "constants" argument.</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#         See comments about how we would split it if desired.</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>win.data <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="do">## NIMBLE: C is the actual data</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">C =</span> C,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="do">## NIMBLE: Covariates can be data or constants</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="do">##         If they are data, you could modify them after the model is built</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">wind =</span> wind,</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">vegHt =</span> vegHt,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">XvegHt =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>,, <span class="dv">100</span>), <span class="co"># Used only for derived quantities</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">Xwind =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>,,<span class="dv">100</span>),   <span class="co"># Used only for derived quantities</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    <span class="do">## NIMBLE: The rest of these are constants, needed for model definition</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    <span class="do">## We can provide them in the same list and NIMBLE will figure it out.</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">M =</span> <span class="fu">nrow</span>(C),</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">J =</span> <span class="fu">ncol</span>(C),</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">hab =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(hab))</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="initial-values" class="level2">
+<h2 class="anchored" data-anchor-id="initial-values">Initial values</h2>
+<p>Next we need to set up initial values and choose parameters to monitor in the MCMC output. To do so we will again directly use Kéry and Royle’s code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Nst <span class="ot">&lt;-</span> <span class="fu">apply</span>(C, <span class="dv">1</span>, max)<span class="sc">+</span><span class="dv">1</span>   <span class="co"># Important to give good inits for latent N</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="cf">function</span>() <span class="fu">list</span>(<span class="at">N =</span> Nst,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">alpha0 =</span> <span class="fu">rnorm</span>(<span class="dv">3</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">alpha1 =</span> <span class="fu">rnorm</span>(<span class="dv">3</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">beta0 =</span> <span class="fu">rnorm</span>(<span class="dv">3</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">beta1 =</span> <span class="fu">rnorm</span>(<span class="dv">3</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters monitored</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># could also estimate N, bayesian counterpart to BUPs before: simply add "N" to the list</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"alpha0"</span>, <span class="st">"alpha1"</span>, <span class="st">"beta0"</span>, <span class="st">"beta1"</span>, <span class="st">"Nocc"</span>, <span class="st">"Ntotal"</span>, <span class="st">"Nhab"</span>, <span class="st">"N.critical"</span>, <span class="st">"lam.pred"</span>, <span class="st">"p.pred"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="run-mcmc-with-nimblemcmc" class="level2">
+<h2 class="anchored" data-anchor-id="run-mcmc-with-nimblemcmc">Run MCMC with <code>nimbleMCMC</code></h2>
+<p>Now we are ready to run an MCMC in nimble. We will run only one chain, using the same settings as Kéry and Royle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">nimbleMCMC</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">code =</span> Section6p4_code,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">constants =</span> win.data, <span class="do">## provide the combined data &amp; constants as constants</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">inits =</span> inits,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">monitors =</span> params,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">niter =</span> <span class="dv">22000</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">nburnin =</span> <span class="dv">2000</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">thin =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  [Note] Using 'C' (given within 'constants') as data.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model calculations</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>running chain 1...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+</div>
+</section>
+<section id="work-with-the-samples" class="level2">
+<h2 class="anchored" data-anchor-id="work-with-the-samples">Work with the samples</h2>
+<p>Finally we want to look at our samples. NIMBLE returns samples as a simple matrix with named columns. There are numerous packages for processing MCMC output. If you want to use the <code>coda</code> package, you can convert a matrix to a coda mcmc object like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'coda'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked _by_ '.GlobalEnv':
+
+    densplot</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>coda.samples <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alternatively, if you call <code>nimbleMCMC</code> with the argument <code>samplesAsCodaMCMC = TRUE</code>, the samples will be returned as a coda object.</p>
+<p>To show that MCMC really happened, here is a plot of <code>N.critical</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">jitter</span>(samples[, <span class="st">"N.critical"</span>]), <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="st">"N.critical"</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Number of populations with critical size"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="quick-guide-for-converting-from-jags-or-bugs-to-nimble_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="next-steps" class="level1">
+<h1>Next steps</h1>
+<p>NIMBLE allows users to customize MCMC and other algorithms in many ways. See the NIMBLE User Manual and web site for more ideas.</p>
+<section id="smaller-steps-you-may-need-for-converting-existing-code" class="level2">
+<h2 class="anchored" data-anchor-id="smaller-steps-you-may-need-for-converting-existing-code">Smaller steps you may need for converting existing code</h2>
+<p>If the main steps above aren’t sufficient, consider these additional steps when converting from JAGS, WinBUGS or OpenBUGS to NIMBLE.</p>
+<ol start="4" type="1">
+<li>Convert any use of truncation syntax
+<ul>
+<li>e.g.&nbsp;<code>x ~ dnorm(0, tau) T(a, b)</code> should be re-written as <code>x ~ T(dnorm(0, tau), a, b)</code>.</li>
+<li>If reading model code from a file using <code>readBUGSmodel</code>, the <code>x ~ dnorm(0, tau) T(a, b)</code> syntax will work.</li>
+</ul></li>
+<li>Possibly split the <code>data</code> into <code>data</code> and <code>constants</code> for NIMBLE.
+<ul>
+<li>NIMBLE has a more general concept of data, so NIMBLE makes a distinction between data and constants.</li>
+<li>Constants are necessary to define the model, such as <code>nsite</code> in <code>for(i in 1:nsite) {...}</code> and constant vectors of factor indices (e.g.&nbsp;<code>block</code> in <code>mu[block[i]]</code>).</li>
+<li>Data are observed values of some variables.</li>
+<li>Alternatively, one can provide a list of both constants and data for the <code>constants</code> argument to <code>nimbleModel</code>, and NIMBLE will try to determine which is which. Usually this will work, but when in doubt, try separating them.</li>
+</ul></li>
+<li>Possibly update initial values (<code>inits</code>).
+<ul>
+<li>In some cases, NIMBLE likes to have more complete <code>inits</code> than the other packages.</li>
+<li>In a model with stochastic indices, those indices should have <code>inits</code> values.</li>
+<li>When using <code>nimbleMCMC</code> or <code>runMCMC</code>, <code>inits</code> can be a function, as in R packages for calling WinBUGS, OpenBUGS or JAGS. Alternatively, it can be a list.</li>
+<li>When you build a model with <code>nimbleModel</code> for more control than <code>nimbleMCMC</code>, you can provide <code>inits</code> as a list. This sets defaults that can be over-ridden with the <code>inits</code> argument to <code>runMCMC</code>.</li>
+</ul></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/nimble-dev\.github\.io\/site");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

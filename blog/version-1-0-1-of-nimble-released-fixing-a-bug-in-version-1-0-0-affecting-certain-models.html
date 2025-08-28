@@ -143,22 +143,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +259,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -350,10 +333,10 @@ ul.task-list li input[type="checkbox"] {
 
 <p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
 <p>Version 1.0.1 follows shortly after 1.0.0 and fixes an issue and a bug introduced in version 1.0.0 causing data to be set incorrectly in certain models.</p>
-<p>Both cases occur only when a variable (e.g., “x”) contains both stochastic nodes (e.g.&nbsp;“x[2] ~ <some distribution="">”) and <em>either</em> deterministic nodes (e.g.&nbsp;“x[3] &lt;- <some calculation="">”) or right-hand-side-only nodes (e.g.&nbsp;“x[4]” appears only on the right-hand-side, like an explanatory value).</some></some></p>
+<p>Both cases occur only when a variable (e.g., <code>x</code>) contains both stochastic nodes (e.g.&nbsp;<code>x[2] ~ &lt;some distribution&gt;</code>) and <em>either</em> deterministic nodes (e.g.&nbsp;<code>x[3] &lt;- &lt;some calculation&gt;</code>) or right-hand-side-only nodes (e.g.&nbsp;<code>x[4]</code> appears only on the right-hand-side, like an explanatory value).</p>
 <p>The issue involves a change of behavior (relative to previous nimble versions) when both setting data values for some nodes and initial values for other nodes within the same variable (that satisfies the previous condition). Data values for right-hand-side-only nodes were replaced by initial values (inits) if both were provided. Version 1.0.1 reverts to previous behavior that data values are not replaced by initial values in that situation.</p>
 <p>The bug involves models where (for a variable satisfying the previous condition) not every scalar element within the variable is used as a node and some of the nodes in the variable are data. In that situation, data values may be set incorrectly. This could typically occur in models with autoregressive structure directly on some data nodes (such as may be the case for capture-recapture models involving many individual capture histories within the same variable, indexed by individual and time, with some individuals not present for the entire time series, resulting in unused scalar elements of the variable).</p>
-<p>Please see the <a href="https://web.archive.org/web/20250427225827/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+<p>Please see the <a href="https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
 
 
 

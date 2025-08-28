@@ -143,22 +143,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +259,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -350,13 +333,8 @@ ul.task-list li input[type="checkbox"] {
 
 <p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
 <p>Version 0.12.2 is a bug fix release. In particular, this release fixes a bug in our Bayesian nonparametric distribution (BNP) functionality that gives incorrect MCMC results for some models, specifically when using the dCRP distribution when the parameters of the mixture components (i.e., the clusters) have hyperparameters (i.e., the base measure parameters) that are unknown and sampled during the MCMC. Here is an example basic model structure that is affected by the bug:</p>
-<pre><code>k[1:n] ~ dCRP(alpha, n)
-for(i in 1:n) {
-  y[i] ~ dnorm(mu[k[i]], 1)
-  mu[i] ~ dnorm(mu0, 1) ## mixture component parameters with hyperparameter
-}
-mu0 ~ dnorm(0, 1) ## unknown cluster hyperparameter</code></pre>
-<p>(There is no problem without the hyperparameter layer – i.e., if mu0 is a fixed value – which is the situation in many models.)</p>
+<p><code>k[1:n] ~ dCRP(alpha, n) for(i in 1:n) {     y[i] ~ dnorm(mu[k[i]], 1)     mu[i] ~ dnorm(mu0, 1) ## mixture component parameters with hyperparameter } mu0 ~ dnorm(0, 1) ## unknown cluster hyperparameter</code></p>
+<p>(There is no problem without the hyperparameter layer - i.e., if <code>mu0</code> is a fixed value – which is the situation in many models.)</p>
 <p>We strongly encourage users using models with this type of structure to rerun their analyses, and we apologize for this issue.</p>
 <p>Other changes in this release include:</p>
 <ul>
@@ -369,8 +347,7 @@ mu0 ~ dnorm(0, 1) ## unknown cluster hyperparameter</code></pre>
 <li>Fixing a bug preventing use of <code>nimbleExternalCall</code> with a constant expression.</li>
 <li>Fixing a bug preventing use of recursion in nimbleFunctions without setup code.</li>
 </ul>
-<p>Please see the <a href="https://web.archive.org/web/20250427222659/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
-<p>Keep everything organized in <a href="https://web.archive.org/web/20250427222659/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
+<p>Please see the <a href="https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
 
 
 

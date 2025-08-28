@@ -1,0 +1,12 @@
+---
+title: "NIMBLE paper in Journal of Computational and Graphical Statistics"
+date: "2016-04-07"
+author: "NIMBLE Development Team"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ["announcement"]
+---
+
+Our paper giving an overview on the rationale and design of NIMBLE has appeared online in accepted manuscript form at the Journal of Computational and Graphical Statistics. You can get it [here](http://www.tandfonline.com/doi/abs/10.1080/10618600.2016.1172487).

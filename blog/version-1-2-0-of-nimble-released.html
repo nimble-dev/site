@@ -143,22 +143,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +259,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -348,11 +331,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://web.archive.org/web/20250427222134/https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
 <p>This release provides provides extensive new functionality, including:</p>
 <ul>
 <li>A Pólya-gamma sampler, <code>sampler_polyagamma</code>, for conjugate sampling of linear predictor parameters in logistic regression model specifications, including handling zero inflation and stochastic design matrices. This sampler must be added to an MCMC configuration manually.</li>
-<li>A new sampler, <code>sampler_noncentered</code>, which samples the mean or standard deviation of a set of random effect values in a transformed space such that the random effects are deterministically shifted or scaled given new values of their hyperparameters. For random effects written in a centered parameterization, sampling is performed as if they had been written in a noncentered parameterization, thereby enabling a variant on the <a href="https://web.archive.org/web/20250427222134/https://doi.org/10.1198/jcgs.2011.203main">Yu and Meng (2011)</a> interweaving sampling strategy of sampling in both parameterizations.This sampler must be added to an MCMC configuration manually.</li>
+<li>A new sampler, <code>sampler_noncentered</code>, which samples the mean or standard deviation of a set of random effect values in a transformed space such that the random effects are deterministically shifted or scaled given new values of their hyperparameters. For random effects written in a centered parameterization, sampling is performed as if they had been written in a noncentered parameterization, thereby enabling a variant on the <a href="https://doi.org/10.1198/jcgs.2011.203main">Yu and Meng (2011)</a> interweaving sampling strategy of sampling in both parameterizations.This sampler must be added to an MCMC configuration manually.</li>
 <li>Adaptive Gauss-Hermite quadrature (AGHQ) for integrating over continuous latent effects, as an extension of NIMBLE’s Laplace approximation functionality. We also add user-friendly R functions, <code>runLaplace</code> and <code>runAGHQ</code>, for using Laplace and AGHQ approximation for maximum likelihood estimation.</li>
 <li>A more flexible optimization system via <code>nimOptim</code>, with support for <code>nlminb</code> built in as well as the capability for users to provide potentially arbitrary optimization functions in R.</li>
 <li>Allowing the use of nimbleFunctions with setup code in models, either for user-defined functions via <code>&lt;-</code> or for user-defined distributions via <code>~</code>. This supports holding large objects outside of model nodes for use in models.</li>
@@ -373,7 +356,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Removing deprecated <code>is.na.vec</code> and <code>is.nan.vec</code> functions.</li>
 <li>Improving some warnings and error messages.</li>
 </ul>
-<p>Please see the <a href="https://web.archive.org/web/20250427222134/https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
+<p>Please see the <a href="https://r-nimble.org/more/news">release notes</a> on our website for more details.</p>
 
 
 

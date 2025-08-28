@@ -143,22 +143,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +259,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -351,11 +334,11 @@ ul.task-list li input[type="checkbox"] {
 <p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
 <p>Version 0.12.1, in combination with version 0.12.0 (which was released just last week), provides a variety of new functionality (in particular enhanced WAIC functionality and adding the LKJ distribution) plus bug fixes affecting MCMC in specific narrow cases described below and that warrant upgrading for some users. The changes include:</p>
 <ul>
-<li>Completely revamping WAIC in NIMBLE, creating an online version that does not require any particular variable monitors. The new WAIC can calculate conditional or marginal WAIC and can group data nodes into joint likelihood terms if desired. In addition there is a new calculateWAIC() function that will calculate the basic conditional WAIC from MCMC output without having to enable the WAIC when creating the MCMC.</li>
+<li>Completely revamping WAIC in NIMBLE, creating an online version that does not require any particular variable monitors. The new WAIC can calculate conditional or marginal WAIC and can group data nodes into joint likelihood terms if desired. In addition there is a new <code>calculateWAIC()</code> function that will calculate the basic conditional WAIC from MCMC output without having to enable the WAIC when creating the MCMC.</li>
 <li>Adding the LKJ distribution, useful for prior distributions for correlation matrices, along with random walk samplers for them. These samplers operate in an unconstrained transformed parameter space and are assigned by default during MCMC configuration.</li>
-<li>Fixing a bug introduced in conjugacy processing in version 0.11.0 that causes incorrect MCMC sampling only in specific cases. The impacted cases have terms of the form “a[i] + x[i] * beta” (or more simply “x[i] * beta”), with beta subject to conjugate sampling and either (i) ‘x’ provided via NIMBLE’s constants argument and x[1] == 1 or (ii) ‘a’ provided via NIMBLE’s constants argument and a[1] == 0.</li>
-<li>Fixing an error in the sampler for the proper CAR distribution (dcar_proper) that gives incorrect MCMC results when the mean of the proper CAR is not the same value for all locations, e.g., when embedding covariate effects directly in the <code>mu</code> parameter of the <code>dcar_proper</code> distribution.</li>
-<li>Fixing isData(‘y’) to return TRUE whenever any elements of a multivariate data node (‘y’) are flagged as data. As a result, attempting to carry out MCMC on the non-data elements will now fail. Formerly if only some elements were flagged as data, <code>isData</code> would only check the first element, potentially leading to other elements that were flagged as data being overwritten.</li>
+<li>Fixing a bug introduced in conjugacy processing in version 0.11.0 that causes incorrect MCMC sampling only in specific cases. The impacted cases have terms of the form <code>a[i] + x[i] * beta</code> (or more simply <code>x[i] * beta</code>), with <code>beta</code> subject to conjugate sampling and either (i) <code>x</code> provided via NIMBLE’s <code>constants</code> argument and <code>x[1] == 1</code> or (ii) <code>a</code> provided via NIMBLE’s <code>constants</code> argument and <code>a[1] == 0</code>.</li>
+<li>Fixing an error in the sampler for the proper CAR distribution (<code>dcar_proper</code>) that gives incorrect MCMC results when the mean of the proper CAR is not the same value for all locations, e.g., when embedding covariate effects directly in the <code>mu</code> parameter of the <code>dcar_proper</code> distribution.</li>
+<li>Fixing <code>isData("y")</code> to return <code>TRUE</code> whenever any elements of a multivariate data node (<code>y</code>) are flagged as data. As a result, attempting to carry out MCMC on the non-data elements will now fail. Formerly if only some elements were flagged as data, <code>isData</code> would only check the first element, potentially leading to other elements that were flagged as data being overwritten.</li>
 <li>Error trapping cases where a BNP model has a differing number of dependent stochastic nodes (e.g., observations) or dependent deterministic nodes per group of elements clustered jointly (using functionality introduced in version 0.10.0). Previously we were not error trapping this, and incorrect MCMC results would be obtained.</li>
 <li>Improving the formatting of standard logging messages.</li>
 </ul>

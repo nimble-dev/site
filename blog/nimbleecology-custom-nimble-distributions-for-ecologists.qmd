@@ -1,16 +1,15 @@
 ---
 title: "nimbleEcology: custom NIMBLE distributions for ecologists"
 description: ""
-author: "NIMBLE Development Team"
+author: "Ben Goldstein"
 date: "2020-04-18"
 categories: ['announcement']
 ---
 
-Prepared by Ben Goldstein.
 
 ## What is nimbleEcology?
 
-**nimbleEcology** is an auxiliary nimble package for ecologists.
+`nimbleEcology` is an auxiliary nimble package for ecologists.
 
 nimbleEcology contains a set of distributions corresponding to some common ecological models. When the package is loaded, these distributions are registered to NIMBLE and can be used directly in models.
 
@@ -28,124 +27,65 @@ Ecological models for abundance, occupancy and capture-recapture often involve m
 
 nimbleEcology can be installed directly from CRAN as follows.
     
-    
-    install.packages("nimbleEcology")
-    
+```{r}
+#| eval: false
+install.packages("nimbleEcology")
+```    
 
 Once nimbleEcology is installed, load it using `library`. It will also load `nimble`.
     
+```{r}    
+library(nimbleEcology)
+```
     
-    library(nimbleEcology)
-    
-    
-    
-    ## Loading required package: nimble
-    
-    
-    
-    ## nimble version 0.10.0 is loaded.
-    ## For more information on NIMBLE and a User Manual,
-    ## please visit http://R-nimble.org.
-    
-    
-    
-    ## 
-    ## Attaching package: 'nimble'
-    
-    
-    
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     simulate
-    
-    
-    
-    ## Loading nimbleEcology. 
-    ## Registering the following user-defined functions: 
-    ## dOcc, dDynOcc, dCJS, dHMM, dDHMM
-    
-
 Note the message indicating which distribution families have been loaded.
 
 ## Which distributions are available?
 
 The following distributions are available in nimbleEcology.
 
-  * ` dOcc ` (occupancy model)
-  * ` dDynOcc ` (dynamic occupancy model)
-  * ` dHMM ` (hidden Markov model)
-  * ` dDHMM ` (dynamic hidden Markov model)
-  * ` dCJS ` (Cormack-Jolly-Seber or mark-recapture model)
-  * ` dNmixture ` (N-mixture model)
-  * ` dYourNewDistribution ` Do you have a custom distribution that would fit the package? Are we missing a distribution you need? Let us know! We actively encourage contributions through GitHub or direct communication.
+  * `dOcc` (occupancy model)
+  * `dDynOcc` (dynamic occupancy model)
+  * `dHMM` (hidden Markov model)
+  * `dDHMM  (dynamic hidden Markov model)
+  * `dCJS` (Cormack-Jolly-Seber or mark-recapture model)
+  * `dNmixture  (N-mixture model)
+  * `dYourNewDistribution` Do you have a custom distribution that would fit the package? Are we missing a distribution you need? Let us know! We actively encourage contributions through GitHub or direct communication.
 
 ## Example code
 
 The following code illustrates a NIMBLE model definition for an occupancy model using nimbleEcology. The model is specified, built, and used to simulate some data according to the occupancy distribution.
     
     
-    library(nimbleEcology)
-    
-    occ_code <- nimbleCode({
-      psi ~ dunif(0, 1)
-      p ~ dunif(0, 1)
-      for (s in 1:nsite) {
-        x[s, 1:nvisit] ~ dOcc_s(probOcc = psi, probDetect = p,
-                                len = nvisit)
-      }
-    })
-    
-    occ_model <- nimbleModel(occ_code,
-                   constants = list(nsite = 10, nvisit = 5),
-                   inits = list(psi = 0.5, p = 0.5))
-    
-    
-    
-    ## defining model...
-    
-    
-    
-    ## building model...
-    
-    
-    
-    ## setting data and initial values...
-    
-    
-    
-    ## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
-    ## checking model sizes and dimensions... This model is not fully initialized. This is not an error. To see which variables are not initialized, use model$initializeInfo(). For more information on model initialization, see help(modelInitialization).
-    ## model building finished.
-    
-    
-    
-    set.seed(94)
-    occ_model$simulate("x")
-    occ_model$x
-    
-    
-    
-    ##       [,1] [,2] [,3] [,4] [,5]
-    ##  [1,]    0    0    0    0    0
-    ##  [2,]    0    0    0    0    0
-    ##  [3,]    0    0    0    0    0
-    ##  [4,]    0    0    0    0    0
-    ##  [5,]    1    1    1    0    1
-    ##  [6,]    0    0    0    1    0
-    ##  [7,]    0    0    0    0    0
-    ##  [8,]    0    0    0    0    1
-    ##  [9,]    1    1    1    0    0
-    ## [10,]    0    1    0    0    0
+```{r}    
+occ_code <- nimbleCode({
+  psi ~ dunif(0, 1)
+  p ~ dunif(0, 1)
+  for (s in 1:nsite) {
+    x[s, 1:nvisit] ~ dOcc_s(probOcc = psi, probDetect = p,
+                            len = nvisit)
+  }
+})
+
+occ_model <- nimbleModel(occ_code,
+               constants = list(nsite = 10, nvisit = 5),
+               inits = list(psi = 0.5, p = 0.5))
+
+set.seed(94)
+occ_model$simulate("x")
+occ_model$x
+```
     
 
 ## How to learn more
 
-Once the package is installed, you can check out the package vignette with `vignette(“nimbleEcology”)`.
+Once the package is installed, you can check out the package vignette with `vignette("nimbleEcology")`.
 
 Documentation is available for each distribution family using the R syntax `?distribution`, for example
     
-    
-    ?dHMM
-    
+```{r}
+#| eval: false
+?dHMM
+```    
 
-For more detail on marginalization in these distributions, see the paper “One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE” [(Ponisio et al. 2020)](https://web.archive.org/web/20250616215252/https://doi.org/10.1002/ece3.6053).
+For more detail on marginalization in these distributions, see the paper “One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE” [(Ponisio et al. 2020)](https://doi.org/10.1002/ece3.6053).

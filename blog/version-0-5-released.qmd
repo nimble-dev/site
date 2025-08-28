@@ -1,0 +1,26 @@
+---
+title: "Version 0.5 released!"
+date: "2016-04-07"
+author: "NIMBLE Development Team"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ['release', 'announcement']
+---
+
+We’ve just released the next major version of NIMBLE.
+
+Changes include
+
+  * more efficient computations for conjugate sampling,
+  * additional automated checking of BUGS syntax to improve NIMBLE's warning/error messages,
+  * new API functionality to allow the use of syntax such as `model$calculate()`, etc. (syntax such as `calculate(model)` still works),
+  * new API functionality for MCMC sampler specification,
+  * improvements in speed and memory use in building models,
+  * addition of `forwardsolve`, `backsolve`, and `solve` to the NIMBLE DSL, and
+  * a variety of other items.
+
+More details in the NEWS file that accompanies the package.
+
+We anticipate being on CRAN in coming weeks and a next release soon that will include a full suite of sequential Monte Carlo (i.e., particle filtering) algorithms.

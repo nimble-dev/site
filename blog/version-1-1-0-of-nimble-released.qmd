@@ -6,7 +6,7 @@ date: "2024-02-04"
 categories: ['release', 'announcement']
 ---
 
-We’ve released the newest version of NIMBLE on CRAN and on our [website](https://web.archive.org/web/20250321205159/https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC,Laplace approximation, and SMC).
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC,Laplace approximation, and SMC).
 
 This release provides new functionality as well as various bug fixes and improved error trapping, including:
 
@@ -22,4 +22,4 @@ This release provides new functionality as well as various bug fixes and improve
   * Improving documentation of AD, nimbleHMC, and nimbleSMC in the manual.
   * Updating Eigen (the C++ linear algebra library used by nimble) to version 3.4.0.
 
-Please see the [release notes](https://web.archive.org/web/20250321205159/https://r-nimble.org/more/news) on our website for more details.
+Please see the [release notes](https://r-nimble.org/more/news) on our website for more details.

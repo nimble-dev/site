@@ -143,22 +143,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +259,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -349,7 +332,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
-<p>Version 0.11.1 is a bug fix release, fixing a bug that was introduced in Version 0.11.0 (which was released on April 17, 2021) that affected MCMC sampling in MCMCs using the “posterior_predictive_branch” sampler introduced in version 0.11.0. This sampler would be listed by name when the MCMC configuration object is created and would be assigned to any set of multiple nodes that (as a group of nodes) have no data dependencies and are therefore sampled as a group from their predictive distributions.</p>
+<p>Version 0.11.1 is a bug fix release, fixing a bug that was introduced in Version 0.11.0 (which was released on April 17, 2021) that affected MCMC sampling in MCMCs using the <code>posterior_predictive_branch</code> sampler introduced in version 0.11.0. This sampler would be listed by name when the MCMC configuration object is created and would be assigned to any set of multiple nodes that (as a group of nodes) have no data dependencies and are therefore sampled as a group from their predictive distributions.</p>
 <p>For those currently using version 0.11.0, please update your version of NIMBLE. For users currently using other versions, this release won’t directly affect you, but we generally encourage you to update as we release new versions.</p>
 
 

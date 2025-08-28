@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="NIMBLE Development Team">
+<meta name="author" content="Claudia Wehrhahn">
 <meta name="dcterms.date" content="2021-03-25">
 
 <title>Bayesian Nonparametric Models in NIMBLE: General Multivariate Models – NIMBLE</title>
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -143,22 +207,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +323,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -341,7 +388,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>NIMBLE Development Team </p>
+             <p>Claudia Wehrhahn </p>
           </div>
   </div>
     
@@ -360,7 +407,6 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>(Prepared by Claudia Wehrhahn)</p>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>NIMBLE is a hierarchical modeling package that uses nearly the same language for model specification as the popular MCMC packages WinBUGS, OpenBUGS and JAGS, while making the modeling language extensible — you can add distributions and functions — and also allowing customization of the algorithms used to estimate the parameters of the model.</p>
@@ -368,240 +414,235 @@ ul.task-list li input[type="checkbox"] {
 <p>In version 0.10.1, we’ve extended NIMBLE to be able to handle more general multivariate models when using the CRP prior. In particular, one can now easily use the CRP prior when multiple observations (or multiple latent variables) are being jointly clustered. For example, in a longitudinal study, one may want to cluster at the individual level, i.e., to jointly cluster all of the observations for each of the individuals in the study. (Formerly this was only possible in NIMBLE by specifying the observations for each individual as coming from a single multivariate distribution.)</p>
 <p>This allows one to specify a multivariate mixture kernel as the product of univariate ones. This is particularly useful when working with discrete data. In general, multivariate extensions of well-known univariate discrete distributions, such as the Bernoulli, Poisson and Gamma, are not straightforward. For example, for multivariate count data, a multivariate Poisson distribution might appear to be a good fit, yet its definition is not trivial, inference is cumbersome, and the model lacks flexibility to deal with overdispersion. See Inouye et al.&nbsp;(2017) for a review on multivariate distributions for count data based on the Poisson distribution.</p>
 <p>In this post, we illustrate NIMBLE’s new extended BNP capabilities by modelling multivariate discrete data. Specifically, we show how to model multivariate count data from a longitudinal study under a nonparametric framework. The modeling approach is simple and introduces correlation in the measurements within subjects.</p>
-<p>For more detailed information on NIMBLE and Bayesian nonparametrics in NIMBLE, see the <a href="https://web.archive.org/web/20250427222053/https://r-nimble.org/documentation">User Manual</a>.</p>
+<p>For more detailed information on NIMBLE and Bayesian nonparametrics in NIMBLE, see the <a href="https://r-nimble.org/documentation">User Manual</a>.</p>
 </section>
 <section id="bnp-analysis-of-epileptic-seizure-count-data" class="level2">
 <h2 class="anchored" data-anchor-id="bnp-analysis-of-epileptic-seizure-count-data">BNP analysis of epileptic seizure count data</h2>
 <p>We illustrate the use of nonparametric multivariate mixture models for modeling counts of epileptic seizures from a longitudinal study of the drug progabide as an adjuvant antiepileptic chemotherapy. The data, originally reported in Leppik et al.&nbsp;(1985), arise from a clinical trial of 59 people with epilepsy. At four clinic visits, subjects reported the number of seizures occurring over successive two-week periods. Additional data include the baseline seizure count and the age of the patient. Patients were randomized to receive either progabide or a placebo, in addition to standard chemotherapy.</p>
-<pre><code>load(url("https://r-nimble.org/nimbleExamples/seizures.Rda"))
-names(seizures)
-
-
-
-## [1] "id"    "seize" "visit" "trt"   "age"
-
-
-
-head(seizures)
-
-
-
-##    id seize visit trt age
-## 1 101    76     0   1  18
-## 2 101    11     1   1  18
-## 3 101    14     2   1  18
-## 4 101     9     3   1  18
-## 5 101     8     4   1  18
-## 6 102    38     0   1  32</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../nimbleExamples/seizures.Rda"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(seizures)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "id"    "seize" "visit" "trt"   "age"  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seizures)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   id seize visit trt age
+1 101    76     0   1  18
+2 101    11     1   1  18
+3 101    14     2   1  18
+4 101     9     3   1  18
+5 101     8     4   1  18
+6 102    38     0   1  32</code></pre>
+</div>
+</div>
 <section id="model-formulation" class="level3">
 <h3 class="anchored" data-anchor-id="model-formulation">Model formulation</h3>
-<p>We model the joint distribution of the baseline number of seizures and the counts from each of the two-week periods as a Dirichlet Process mixture (DPM) of products of Poisson distributions. Let <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%5Cboldsymbol%7By%7D_i%3D%28y_%7Bi%2C+1%7D%2C+%5Cldots%2C+y_%7Bi%2C5%7D%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, where <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=y_%7Bi%2Cj%7D&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> denotes the seizure count for patient <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=i&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> measured at visit <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=j&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, for <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=i%3D1%2C+%5Cldots%2C+59&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, and <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=j%3D1%2C+%5Cldots%2C+5&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">. The value for <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=j%3D1&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> is the baseline count. The model takes the form</p>
-<p><embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=++%5Cboldsymbol%7By%7D_i+%5Cmid+%5Cboldsymbol%7B%5Clambda%7D_%7Bi%7D+%5Csim+%5Cprod_%7Bj%3D1%7D%5E5+%5Cmbox%7BPoisson%7D%28%5Clambda_%7Bi%2C+j%7D%29%2C++%5Cquad%5Cquad++%5Cboldsymbol%7B%5Clambda%7D_%7Bi%7D+%5Cmid+G+%5Csim+G%2C++%5Cquad%5Cquad++G+%5Csim+DP%28%5Calpha%2C+H%29%2C++&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"><br>
-where <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%5Cboldsymbol%7B%5Clambda%7D_%7Bi%7D%3D%28%5Clambda_%7Bi%2C1%7D%2C+%5Cldots%5Clambda_%7Bi%2C5%7D%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> and <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=H&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> corresponds to a product of Gamma distributions.</p>
+<p>We model the joint distribution of the baseline number of seizures and the counts from each of the two-week periods as a Dirichlet Process mixture (DPM) of products of Poisson distributions. Let <span class="math inline">\(\boldsymbol{y}_i=(y_{i, 1}, \ldots, y_{i,5})\)</span>, where <span class="math inline">\(y_{i,j}\)</span> denotes the seizure count for patient <span class="math inline">\(i\)</span> measured at visit <span class="math inline">\(j\)</span>, for <span class="math inline">\(i=1, \ldots, 59\)</span>, and <span class="math inline">\(j=1, \ldots, 5\)</span>. The value for <span class="math inline">\(j=1\)</span> is the baseline count. The model takes the form</p>
+<p><span class="math display">\[  \boldsymbol{y}_i \mid \boldsymbol{\lambda}_{i} \sim \prod_{j=1}^5 \mbox{Poisson}(\lambda_{i, j}),  \quad\quad  \boldsymbol{\lambda}_{i} \mid G \sim G,  \quad\quad  G \sim DP(\alpha, H),  \]</span><br>
+where <span class="math inline">\(\boldsymbol{\lambda}_{i}=(\lambda_{i,1}, \ldots\lambda_{i,5})\)</span> and <span class="math inline">\(H\)</span> corresponds to a product of Gamma distributions.</p>
 <p>Our specification uses a product of Poisson distributions as the kernel in the DPM which, at first sight, would suggest independence of the repeated seizure count measurements. However, because we are mixing over the parameters, this specification in fact induces dependence within subjects, with the strength of the dependence being inferred from the data. In order to specify the model in NIMBLE, first we translate the information in <code>seize</code> into a matrix and then we write the NIMBLE code.</p>
 <p>We specify this model in NIMBLE with the following code in R. The vector <code>xi</code> contains the latent cluster IDs, one for each patient.</p>
-<pre><code>n &lt;- 59
-J &lt;- 5
-data &lt;- list(y = matrix(seizures$seize, ncol = J, nrow = n, byrow = TRUE))
-constants &lt;- list(n = n, J = J)
-
-code &lt;- nimbleCode({
-  for(i in 1:n) {
-    for(j in 1:J) {
-      y[i, j] ~ dpois(lambda[xi[i], j])
-    }
-  }
-  for(i in 1:n) {
-    for(j in 1:J) {
-      lambda[i, j] ~ dgamma(shape = 1, rate = 0.1)
-    }
-  }
-  xi[1:n] ~ dCRP(conc = alpha, size = n)
-  alpha ~ dgamma(shape = 1, rate = 1)
-})</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">59</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> <span class="fu">matrix</span>(seizures<span class="sc">$</span>seize, <span class="at">ncol =</span> J, <span class="at">nrow =</span> n, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>constants <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> n, <span class="at">J =</span> J)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J) {</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      y[i, j] <span class="sc">~</span> <span class="fu">dpois</span>(lambda[xi[i], j])</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J) {</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>      lambda[i, j] <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">rate =</span> <span class="fl">0.1</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  xi[<span class="dv">1</span><span class="sc">:</span>n] <span class="sc">~</span> <span class="fu">dCRP</span>(<span class="at">conc =</span> alpha, <span class="at">size =</span> n)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  alpha <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">rate =</span> <span class="dv">1</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="running-the-mcmc" class="level3">
 <h3 class="anchored" data-anchor-id="running-the-mcmc">Running the MCMC</h3>
 <p>The following code sets up the data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm. For speed, the MCMC runs using compiled C++ code, hence the calls to <code>compileNimble</code> to create compiled versions of the model and the MCMC algorithm.</p>
-<p>Because the specification is in terms of a Chinese restaurant process, the default sampler selected by NIMBLE is a collapsed Gibbs sampler. More specifically, because the baseline distribution <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=H&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> is conjugate to the product of Poisson kernels, Algorithm 2 from Neal (2000) is used.</p>
-<pre><code>set.seed(1)
-inits &lt;- list(xi = 1:n, alpha = 1,
-             lambda = matrix(rgamma(J*n, shape = 1, rate = 0.1), ncol = J, nrow = n))
-model &lt;- nimbleModel(code, data=data, inits = inits, constants = constants, dimensions = list(lambda = c(n, J)))
-
-
-
-## defining model...
-
-
-
-## building model...
-
-
-
-## setting data and initial values...
-
-
-
-## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
-## checking model sizes and dimensions...
-## model building finished.
-
-
-
-cmodel &lt;- compileNimble(model)
-
-
-
-## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
-## compilation finished.
-
-
-
-conf &lt;- configureMCMC(model, monitors = c('xi','lambda', 'alpha'), print = TRUE)
-
-
-
-## ===== Monitors =====
-## thin = 1: xi, lambda, alpha
-## ===== Samplers =====
-## CRP_concentration sampler (1)
-##   - alpha
-## CRP_cluster_wrapper sampler (295)
-##   - lambda[]  (295 elements)
-## CRP sampler (1)
-##   - xi[1:59]
-
-
-
-mcmc &lt;- buildMCMC(conf)
-cmcmc &lt;- compileNimble(mcmc, project = model)
-
-
-
-## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
-## compilation finished.
-
-
-
-samples &lt;- runMCMC(cmcmc,  niter=55000, nburnin = 5000, thin=10)
-
-
-
-## running chain 1...
-
-
-
-## |-------------|-------------|-------------|-------------|
-## |-------------------------------------------------------|</code></pre>
-<p>We can extract posterior samples for some parameters of interest. The following are trace plots of the posterior samples for the concentration parameter, <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%5Calpha&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, and the number of clusters.</p>
-<pre><code>xiSamples &lt;- samples[, grep('xi', colnames(samples))]    # samples of cluster IDs
-nGroups &lt;- apply(xiSamples, 1, function(x)  length(unique(x)))
-concSamples &lt;- samples[, grep('alpha', colnames(samples))]
-
-par(mfrow=c(1, 2))
-ts.plot(concSamples, xlab = "Iteration", ylab = expression(alpha), main = expression(paste('Traceplot for ', alpha)))
-ts.plot(nGroups,  xlab = "Iteration", ylab = "Number of components", main = "Number of clusters")</code></pre>
-<div class="quarto-figure quarto-figure-center">
+<p>Because the specification is in terms of a Chinese restaurant process, the default sampler selected by NIMBLE is a collapsed Gibbs sampler. More specifically, because the baseline distribution <span class="math inline">\(H\)</span> is conjugate to the product of Poisson kernels, Algorithm 2 from Neal (2000) is used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">xi =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">alpha =</span> <span class="dv">1</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">lambda =</span> <span class="fu">matrix</span>(<span class="fu">rgamma</span>(J<span class="sc">*</span>n, <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">rate =</span> <span class="fl">0.1</span>), <span class="at">ncol =</span> J, <span class="at">nrow =</span> n))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data=</span>data, <span class="at">inits =</span> inits, <span class="at">constants =</span> constants, <span class="at">dimensions =</span> <span class="fu">list</span>(<span class="at">lambda =</span> <span class="fu">c</span>(n, J)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cmodel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(model, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">'xi'</span>,<span class="st">'lambda'</span>, <span class="st">'alpha'</span>), <span class="at">print =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: alpha, lambda, xi
+===== Samplers =====
+CRP_concentration sampler (1)
+  - alpha
+CRP_cluster_wrapper sampler (295)
+  - lambda[]  (295 elements)
+CRP sampler (1)
+  - xi[1:59] </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(conf)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>cmcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc, <span class="at">project =</span> model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(cmcmc,  <span class="at">niter=</span><span class="dv">55000</span>, <span class="at">nburnin =</span> <span class="dv">5000</span>, <span class="at">thin=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>running chain 1...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+</div>
+<p>We can extract posterior samples for some parameters of interest. The following are trace plots of the posterior samples for the concentration parameter, <span class="math inline">\(\alpha\)</span> and the number of clusters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>xiSamples <span class="ot">&lt;-</span> samples[, <span class="fu">grep</span>(<span class="st">'xi'</span>, <span class="fu">colnames</span>(samples))]    <span class="co"># samples of cluster IDs</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>nGroups <span class="ot">&lt;-</span> <span class="fu">apply</span>(xiSamples, <span class="dv">1</span>, <span class="cf">function</span>(x)  <span class="fu">length</span>(<span class="fu">unique</span>(x)))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>concSamples <span class="ot">&lt;-</span> samples[, <span class="fu">grep</span>(<span class="st">'alpha'</span>, <span class="fu">colnames</span>(samples))]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(concSamples, <span class="at">xlab =</span> <span class="st">"Iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(alpha), <span class="at">main =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">'Traceplot for '</span>, alpha)))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(nGroups,  <span class="at">xlab =</span> <span class="st">"Iteration"</span>, <span class="at">ylab =</span> <span class="st">"Number of components"</span>, <span class="at">main =</span> <span class="st">"Number of clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
 <figure class="figure">
-<p><img src="https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-output-1.png" class="img-fluid figure-img"></p>
-<figcaption>plot of chunk longitudinalStudy-bnp-output</figcaption>
+<p><img src="bayesian-nonparametric-models-in-nimble-general-multivariate-models_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
+</div>
+</div>
 </div>
 </section>
 <section id="assessing-the-posterior" class="level3">
 <h3 class="anchored" data-anchor-id="assessing-the-posterior">Assessing the posterior</h3>
-<p>We can compute the posterior predictive distribution for a new observation <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%5Ctilde%7B%5Cboldsymbol%7By%7D%7D&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=p%28%5Ctilde%7B%5Cboldsymbol%7By%7D%7D%5Cmid+%5Cboldsymbol%7By%7D_1%2C+%5Cldots%2C+%5Cboldsymbol%7By%7D_n%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, which in turn allows us to obtain univariate or multivariate marginals or conditionals, or any other density estimate of interest. As an illustration, we compute the bivariate posterior predictive distribution for the number of seizures at baseline and at the 4th hospital visit. This is done in two steps. First, we compute posterior samples of the random measure <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, which can be done using the <code>getSamplesDPmeasure()</code> function. Based on the MCMC output, <code>getSamplesDPmeasure()</code> returns a list of matrices, each of them corresponding to a single posterior sample from <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, using its stick-breaking (SB) representation. The first column of each of these matrices contains the weights of the SB representation of <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> while the rest of the columns contain the atoms of the SB representation of <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, here <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=%28%5Clambda_1%2C+%5Clambda_2%2C+%5Cldots%2C+%5Clambda_5%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">. Second, we compute the bivariate posterior predictive distribution of the seizure counts at baseline and at the fourth visit, based on the posterior samples of <embed src="https://web.archive.org/web/20250427222053im_/https://s0.wp.com/latex.php?latex=G&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">. We use a compiled nimble function, called ‘bivariate’, to speed up the computations of the bivariate posterior predictive density.</p>
-<pre><code># samples from the random measure
-samplesG &lt;- getSamplesDPmeasure(cmcmc)
-
-
-
-## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
-
-
-
-## compilation finished.
-
-
-
-niter &lt;- length(samplesG)
-weightsIndex &lt;- grep('weights', colnames(samplesG[[1]]))
-lambdaIndex &lt;- grep('lambda', colnames(samplesG[[1]]))
-ygrid &lt;- 0:45
-
-# function used to compute bivariate posterior predictive
-bivariateFun &lt;- nimbleFunction(
-  run = function(w = double(1),
-               lambda1 = double(1),
-               lambda5 = double(1),
-               ytilde = double(1)) {
-    returnType(double(2))
-
-    ngrid &lt;- length(ytilde)
-    out &lt;- matrix(0, ncol = ngrid, nrow = ngrid)
-
-    for(i in 1:ngrid) {
-      for(j in 1:ngrid) {
-        out[i, j] &lt;- sum(w * dpois(ytilde[i], lambda1) * dpois(ytilde[j], lambda5))
-      }
-    }
-
-    return(out)
-  }
-)
-cbivariateFun &lt;- compileNimble(bivariateFun)
-
-
-
-## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
-## compilation finished.
-
-
-
-# computing bivariate posterior predictive of seizure counts are baseline and fourth visit
-bivariate &lt;- matrix(0, ncol = length(ygrid), nrow = length(ygrid))
-for(iter in 1:niter) {
-  weights &lt;- samplesG[[iter]][, weightsIndex] # posterior weights
-  lambdaBaseline &lt;- samplesG[[iter]][, lambdaIndex[1]] # posterior rate of baseline
-  lambdaVisit4 &lt;- samplesG[[iter]][, lambdaIndex[5]] # posterior rate at fourth visit
-  bivariate &lt;- bivariate + cbivariateFun(weights, lambdaBaseline, lambdaVisit4, ygrid)
-}
-bivariate &lt;- bivariate / niter</code></pre>
+<p>We can compute the posterior predictive distribution for a new observation <span class="math inline">\(\tilde{\boldsymbol{y}}\)</span>, <span class="math inline">\(p(\tilde{\boldsymbol{y}}\mid \boldsymbol{y}_1, \ldots, \boldsymbol{y}_n)\)</span>, which in turn allows us to obtain univariate or multivariate marginals or conditionals, or any other density estimate of interest. As an illustration, we compute the bivariate posterior predictive distribution for the number of seizures at baseline and at the 4th hospital visit. This is done in two steps. First, we compute posterior samples of the random measure <span class="math inline">\(G\)</span>, which can be done using the <code>getSamplesDPmeasure()</code> function. Based on the MCMC output, <code>getSamplesDPmeasure()</code> returns a list of matrices, each of them corresponding to a single posterior sample from <span class="math inline">\(G\)</span>, using its stick-breaking (SB) representation. The first column of each of these matrices contains the weights of the SB representation of <span class="math inline">\(G\)</span> while the rest of the columns contain the atoms of the SB representation of <span class="math inline">\(G\)</span>, here <span class="math inline">\((\lambda_1, \lambda_2, \ldots, \lambda_5)\)</span>. Second, we compute the bivariate posterior predictive distribution of the seizure counts at baseline and at the fourth visit, based on the posterior samples of <span class="math inline">\(G\)</span>. We use a compiled nimble function, called ‘bivariate’, to speed up the computations of the bivariate posterior predictive density.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># samples from the random measure</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>samplesG <span class="ot">&lt;-</span> <span class="fu">getSamplesDPmeasure</span>(cmcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(samplesG)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>weightsIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'weights'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>lambdaIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'lambda'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>ygrid <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">45</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># function used to compute bivariate posterior predictive</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>bivariateFun <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">run =</span> <span class="cf">function</span>(<span class="at">w =</span> <span class="fu">double</span>(<span class="dv">1</span>),</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">lambda1 =</span> <span class="fu">double</span>(<span class="dv">1</span>),</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">lambda5 =</span> <span class="fu">double</span>(<span class="dv">1</span>),</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">ytilde =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">returnType</span>(<span class="fu">double</span>(<span class="dv">2</span>))</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    ngrid <span class="ot">&lt;-</span> <span class="fu">length</span>(ytilde)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> ngrid, <span class="at">nrow =</span> ngrid)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ngrid) {</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ngrid) {</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>        out[i, j] <span class="ot">&lt;-</span> <span class="fu">sum</span>(w <span class="sc">*</span> <span class="fu">dpois</span>(ytilde[i], lambda1) <span class="sc">*</span> <span class="fu">dpois</span>(ytilde[j], lambda5))</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(out)</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>cbivariateFun <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(bivariateFun)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># computing bivariate posterior predictive of seizure counts are baseline and fourth visit</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>bivariate <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="fu">length</span>(ygrid), <span class="at">nrow =</span> <span class="fu">length</span>(ygrid))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(iter <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>niter) {</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  weights <span class="ot">&lt;-</span> samplesG[[iter]][, weightsIndex] <span class="co"># posterior weights</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  lambdaBaseline <span class="ot">&lt;-</span> samplesG[[iter]][, lambdaIndex[<span class="dv">1</span>]] <span class="co"># posterior rate of baseline</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  lambdaVisit4 <span class="ot">&lt;-</span> samplesG[[iter]][, lambdaIndex[<span class="dv">5</span>]] <span class="co"># posterior rate at fourth visit</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  bivariate <span class="ot">&lt;-</span> bivariate <span class="sc">+</span> <span class="fu">cbivariateFun</span>(weights, lambdaBaseline, lambdaVisit4, ygrid)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>bivariate <span class="ot">&lt;-</span> bivariate <span class="sc">/</span> niter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>The following code creates a heatmap of the posterior predictive bivariate distribution of the number of seizures at baseline and at the fourth hospital visit, showing that there is a positive correlation between these two measurements.</p>
-<pre><code>collist &lt;- colorRampPalette(c('white', 'grey', 'black'))
-image.plot(ygrid, ygrid, bivariate, col = collist(6),
-           xlab = 'Baseline', ylab = '4th visit', ylim = c(0, 15), axes = TRUE)</code></pre>
-<div class="quarto-figure quarto-figure-center">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>collist <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">'white'</span>, <span class="st">'grey'</span>, <span class="st">'black'</span>))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">image.plot</span>(ygrid, ygrid, bivariate, <span class="at">col =</span> <span class="fu">collist</span>(<span class="dv">6</span>),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">xlab =</span> <span class="st">'Baseline'</span>, <span class="at">ylab =</span> <span class="st">'4th visit'</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
 <figure class="figure">
-<p><img src="https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-bivariate-heatmap-1.png" class="img-fluid figure-img"></p>
-<figcaption>plot of chunk longitudinalStudy-bnp-bivariate-heatmap</figcaption>
+<p><img src="bayesian-nonparametric-models-in-nimble-general-multivariate-models_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
+</div>
+</div>
 <p>In order to describe the uncertainty in the posterior clustering structure of the individuals in the study, we present a heat map of the posterior probability of two subjects belonging to the same cluster. To do this, first we compute the posterior pairwise clustering matrix that describes the probability of two individuals belonging to the same cluster, then we reorder the observations and finally plot the associated heatmap.</p>
-<pre><code>pairMatrix &lt;- apply(xiSamples, 2, function(focal) {
-                                   colSums(focal == xiSamples)
-                                  })
-pairMatrix &lt;- pairMatrix / niter
-
-
-newOrder &lt;- c(1, 35, 13, 16, 32, 33,  2, 29, 39, 26, 28, 52, 17, 15, 23,  8, 31,
-              38,  9, 46, 45, 11, 49, 44, 50, 41, 54, 21,  3, 40, 47, 48, 12,
-              6, 14,  7, 18, 22, 30, 55, 19, 34, 56, 57,  4,  5, 58, 10, 43, 25,
-              59, 20, 27, 24, 36, 37, 42, 51, 53)
-
-reordered_pairMatrix &lt;- pairMatrix[newOrder, newOrder]
-image.plot(1:n, 1:n, reordered_pairMatrix , col = collist(6),
-           xlab = 'Patient', ylab = 'Patient',  axes = TRUE)
-axis(1, at = 1:n, labels = FALSE, tck = -.02)
-axis(2, at = 1:n, labels = FALSE, tck = -.02)
-axis(3, at = 1:n, tck = 0, labels = FALSE)
-axis(4, at = 1:n, tck = 0, labels = FALSE)</code></pre>
-<div class="quarto-figure quarto-figure-center">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pairMatrix <span class="ot">&lt;-</span> <span class="fu">apply</span>(xiSamples, <span class="dv">2</span>, <span class="cf">function</span>(focal) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">colSums</span>(focal <span class="sc">==</span> xiSamples)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                                  })</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>pairMatrix <span class="ot">&lt;-</span> pairMatrix <span class="sc">/</span> niter</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>newOrder <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">35</span>, <span class="dv">13</span>, <span class="dv">16</span>, <span class="dv">32</span>, <span class="dv">33</span>,  <span class="dv">2</span>, <span class="dv">29</span>, <span class="dv">39</span>, <span class="dv">26</span>, <span class="dv">28</span>, <span class="dv">52</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">23</span>,  <span class="dv">8</span>, <span class="dv">31</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>              <span class="dv">38</span>,  <span class="dv">9</span>, <span class="dv">46</span>, <span class="dv">45</span>, <span class="dv">11</span>, <span class="dv">49</span>, <span class="dv">44</span>, <span class="dv">50</span>, <span class="dv">41</span>, <span class="dv">54</span>, <span class="dv">21</span>,  <span class="dv">3</span>, <span class="dv">40</span>, <span class="dv">47</span>, <span class="dv">48</span>, <span class="dv">12</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>              <span class="dv">6</span>, <span class="dv">14</span>,  <span class="dv">7</span>, <span class="dv">18</span>, <span class="dv">22</span>, <span class="dv">30</span>, <span class="dv">55</span>, <span class="dv">19</span>, <span class="dv">34</span>, <span class="dv">56</span>, <span class="dv">57</span>,  <span class="dv">4</span>,  <span class="dv">5</span>, <span class="dv">58</span>, <span class="dv">10</span>, <span class="dv">43</span>, <span class="dv">25</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>              <span class="dv">59</span>, <span class="dv">20</span>, <span class="dv">27</span>, <span class="dv">24</span>, <span class="dv">36</span>, <span class="dv">37</span>, <span class="dv">42</span>, <span class="dv">51</span>, <span class="dv">53</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>reordered_pairMatrix <span class="ot">&lt;-</span> pairMatrix[newOrder, newOrder]</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">image.plot</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="dv">1</span><span class="sc">:</span>n, reordered_pairMatrix , <span class="at">col =</span> <span class="fu">collist</span>(<span class="dv">6</span>),</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">xlab =</span> <span class="st">'Patient'</span>, <span class="at">ylab =</span> <span class="st">'Patient'</span>,  <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">labels =</span> <span class="cn">FALSE</span>, <span class="at">tck =</span> <span class="sc">-</span>.<span class="dv">02</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">labels =</span> <span class="cn">FALSE</span>, <span class="at">tck =</span> <span class="sc">-</span>.<span class="dv">02</span>)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">tck =</span> <span class="dv">0</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">4</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">tck =</span> <span class="dv">0</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
 <figure class="figure">
-<p><img src="https://web.archive.org/web/20250427222053im_/https://r-nimble.org/wp-content/uploads/2021/03/longitudinalStudy-bnp-pairwise-1.png" class="img-fluid figure-img"></p>
-<figcaption>plot of chunk longitudinalStudy-bnp-pairwise</figcaption>
+<p><img src="bayesian-nonparametric-models-in-nimble-general-multivariate-models_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
+</div>
+</div>
 </div>
 </section>
 </section>

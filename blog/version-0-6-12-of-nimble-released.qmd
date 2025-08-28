@@ -1,0 +1,21 @@
+---
+title: "Version 0.6-12 of NIMBLE released"
+date: "2018-07-29"
+author: "NIMBLE Development Team"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+categories: ['release', 'announcement']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-12 is primarily a maintenance release with various bug fixes.
+
+Changes include:
+
+  * a fix for the bootstrap particle filter to correctly calculate weights when particles are not resampled (the filter had been omitting the previous weights when calculating the new weights);
+  * addition of an option to print MCMC samplers of a particular type;
+  * avoiding an overly-aggressive check for ragged arrays when building models; and
+  * avoiding assigning a sampler to non-conjugacy inverse-Wishart nodes (thereby matching our handling of Wishart nodes).
+
+Please see the NEWS file in the installed package for more details.

@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -143,22 +178,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +294,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -318,6 +336,7 @@ ul.task-list li input[type="checkbox"] {
 <h1 class="title">announcing the nimbleMacros package and the use of macros in NIMBLE models</h1>
   <div class="quarto-categories">
     <div class="quarto-category">announcement</div>
+    <div class="quarto-category">release</div>
   </div>
   </div>
 
@@ -349,14 +368,15 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Recent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
 <p>A NIMBLE macro is a succinct syntax that expands to create the NIMBLE model code for part or all of a model.</p>
-<p>We recently released the first version of the <a href="https://web.archive.org/web/20250427235758/https://cran.r-project.org/web/packages/nimbleMacros/index.html"><code>nimbleMacros</code> package on CRAN</a>, which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the <code>LM</code> (“linear model”) macro like this:</p>
-<pre><code>library(nimbleMacros)
-
-code &lt;- nimbleCode({
-&nbsp; LM(weight[1:N] ~ Time + (1|Chick))
-})</code></pre>
+<p>We recently released the first version of the <a href="https://cran.r-project.org/web/packages/nimbleMacros/index.html"><code>nimbleMacros</code> package on CRAN</a>, which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the <code>LM</code> (“linear model”) macro like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimbleMacros)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">LM</span>(weight[<span class="dv">1</span><span class="sc">:</span>N] <span class="sc">~</span> Time <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Chick))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>with the formula syntax mimicking that of the lme4 package. After building the model based on the <code>code</code> object, you can see the model code produced after the macro is expanded with <code>model$getCode()</code>. The nimbleMacros package also includes macros for creating linear predictors and for loops, and we plan to add additional macros in the future.</p>
-<p>Developers can use the tools in <code>nimble</code> itself to create their own macros. See <a href="https://web.archive.org/web/20250427235758/https://r-nimble.org/html_manual/cha-user-defined.html#sec:user-macros">Section 12.4 of the NIMBLE user manual</a>, <a href="https://web.archive.org/web/20250427235758/https://cran.r-project.org/web/packages/nimbleMacros/vignettes/nimbleMacros.html">the <code>nimbleMacros</code> vignette</a>, or <code>help(buildMacro)</code> for more information.</p>
+<p>Developers can use the tools in <code>nimble</code> itself to create their own macros. See <a href="https://r-nimble.org/html_manual/cha-user-defined.html#sec:user-macros">Section 12.4 of the NIMBLE user manual</a>, <a href="https://cran.r-project.org/web/packages/nimbleMacros/vignettes/nimbleMacros.html">the <code>nimbleMacros</code> vignette</a>, or <code>help(buildMacro)</code> for more information.</p>
 
 
 

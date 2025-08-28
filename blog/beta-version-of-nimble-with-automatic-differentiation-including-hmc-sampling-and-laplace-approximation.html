@@ -143,22 +143,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Feature Posts</li>
-        <li>
-    <a class="dropdown-item" href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html">
- <span class="dropdown-text">nimbleEcology Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html">
- <span class="dropdown-text">Bayesian Nonparametrics</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html">
- <span class="dropdown-text">Posterior Predictive Sampling</span></a>
   </li>  
     </ul>
   </li>
@@ -273,11 +259,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
-  </div>
-</li>
+ <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
+  </li>
           <li class="px-0"><hr class="sidebar-divider hi "></li>
           <li class="sidebar-item">
  <span class="menu-text">Feature Posts</span>
@@ -318,6 +301,7 @@ ul.task-list li input[type="checkbox"] {
 <h1 class="title">Beta version of NIMBLE with automatic differentiation, including HMC sampling and Laplace approximation</h1>
   <div class="quarto-categories">
     <div class="quarto-category">announcement</div>
+    <div class="quarto-category">release</div>
   </div>
   </div>
 
@@ -347,16 +331,15 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We’re excited to announce that NIMBLE now supports automatic differentiation (AD), also known as algorithmic differentiation, in a <a href="https://web.archive.org/web/20250518100927/https://r-nimble.org/ad-beta">beta version available on our website</a>. In this beta version, NIMBLE now provides:</p>
+<p>We’re excited to announce that NIMBLE now supports automatic differentiation (AD), also known as algorithmic differentiation, in a <a href="https://r-nimble.org/ad-beta">beta version available on our website</a>. In this beta version, NIMBLE now provides:</p>
 <ul>
 <li>Hamiltonian Monte Carlo (HMC) sampling for an entire parameter vector or arbitrary subsets of the parameter vector (i.e., combined with other samplers for the remaining parameters).</li>
 <li>Laplace approximation for approximate integration over latent states in a model, allowing maximum likelihood estimation and MCMC based on the marginal likelihood (via the RW_llFunction samplers).</li>
 <li>The ability for users and algorithm developers to write nimbleFunctions that calculate derivatives of functions, including many but not all mathematical operations that are supported in the NIMBLE language.</li>
 </ul>
-<p>We’re making this beta release available to allow our users to test and evaluate the AD functionality and the new algorithms, but it is not recommended for production use at this stage. So please give it a try, and let us know of any problems or suggestions you have, either via the <a href="https://web.archive.org/web/20250518100927/https://groups.google.com/g/nimble-users">nimble-users list</a>, <a href="https://web.archive.org/web/20250518100927/https://github.com/nimble-dev/nimble/issues">bug reports to our GitHub repository</a>, or email to <a href="https://web.archive.org/web/20250518100927/mailto:nimble.stats@gmail.com">nimble.stats@gmail.com</a>.</p>
-<p>You can download the <a href="https://web.archive.org/web/20250518100927/https://r-nimble.org/ad-beta">beta version</a> and view an <a href="https://web.archive.org/web/20250518100927/https://r-nimble.org/ADuserManual_draft/chapter_AD.html">extensive draft manual</a> for the AD functionality.</p>
+<p>We’re making this beta release available to allow our users to test and evaluate the AD functionality and the new algorithms, but it is not recommended for production use at this stage. So please give it a try, and let us know of any problems or suggestions you have, either via the <a href="https://groups.google.com/g/nimble-users">nimble-users list</a>, <a href="https://github.com/nimble-dev/nimble/issues">bug reports to our GitHub repository</a>, or email to <a href="mailto:nimble.stats@gmail.com">nimble.stats@gmail.com</a>.</p>
+<p>You can download the <a href="https://r-nimble.org/ad-beta">beta version</a> and view an [extensive draft manual]https://r-nimble.org/ADuserManual_draft/chapter_AD.html) for the AD functionality.</p>
 <p>We plan to release this functionality in the next NIMBLE release on CRAN in the coming months.</p>
-<p>Keep everything organized in <a href="https://web.archive.org/web/20250518100927/https://ledgerlive-us.info/ledger-live-us-for-mac">Ledger Live for Mac by tagging and taking notes</a> so you can easily take note of your transactions and later refer to them.</p>
 
 
 
