@@ -18,41 +18,43 @@ Valpine, Paciorek, Anderson-Bergman, and others (2017)`.
 
 # Model Creation
 
-Assume ![x_{i}](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=x_%7Bi%7D&bg=ffffff&fg=000000&s=0) is the latent state and ![y_{i}](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=y_%7Bi%7D&bg=ffffff&fg=000000&s=0) is the observation at time ![i](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=i&bg=ffffff&fg=000000&s=0) for ![i=1,\\ldots,100](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=i%3D1%2C%5Cldots%2C100&bg=ffffff&fg=000000&s=0). We define the state space model as
+Assume $x_{i}$ is the latent state and $y_{i}$ is the observation at time $i$ for $i=1,\ldots,100$. We define the state space model as
 
-![ x_{i} \\sim N\(a \\cdot x_{i-1} + b, \\sigma_{PN}\) ](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=+x_%7Bi%7D+%5Csim+N%28a+%5Ccdot+x_%7Bi-1%7D+%2B+b%2C+%5Csigma_%7BPN%7D%29+&bg=ffffff&fg=000000&s=0)  
-![ y_{i} \\sim N\(x_{i}, \\sigma_{OE}\) ](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=+y_%7Bi%7D+%5Csim+N%28x_%7Bi%7D%2C+%5Csigma_%7BOE%7D%29+&bg=ffffff&fg=000000&s=0)
+$$ x_{i} \sim N(a \cdot x_{i-1} + b, \sigma_{PN}) $$
+$$ y_{i} \sim N(x_{i}, \sigma_{OE}) $$
 
-for ![i = 2, \\ldots, 100](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=i+%3D+2%2C+%5Cldots%2C+100&bg=ffffff&fg=000000&s=0), with initial states
+for $i = 2, \ldots, 100$, with initial states
 
-![ x_{1} \\sim N\(\\frac{b}{1-a}, \\frac{\\sigma_{PN}}{\\sqrt{1-a^2}}\)](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=+x_%7B1%7D+%5Csim+N%28%5Cfrac%7Bb%7D%7B1-a%7D%2C+%5Cfrac%7B%5Csigma_%7BPN%7D%7D%7B%5Csqrt%7B1-a%5E2%7D%7D%29&bg=ffffff&fg=000000&s=0)  
-![ y_{1} \\sim N\(x_{1}, \\sigma_{OE}\)](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=+y_%7B1%7D+%5Csim+N%28x_%7B1%7D%2C+%5Csigma_%7BOE%7D%29&bg=ffffff&fg=000000&s=0)
+$$ x_{1} \sim N\left(\frac{b}{1-a}, \frac{\sigma_{PN}}{\sqrt{1-a^2}}\right) $$
+$$ y_{1} \sim N(x_{1}, \sigma_{OE}) $$
 
 and prior distributions
 
-![ a \\sim Unif\(-0.999, 0.999\)](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=+a+%5Csim+Unif%28-0.999%2C+0.999%29&bg=ffffff&fg=000000&s=0)  
-![ b \\sim N\(0, 1000\) ](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=+b+%5Csim+N%280%2C+1000%29+&bg=ffffff&fg=000000&s=0)  
-![ \\sigma_{PN} \\sim Unif\(0, 1\) ](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=+%5Csigma_%7BPN%7D+%5Csim+Unif%280%2C+1%29+&bg=ffffff&fg=000000&s=0)  
-![ \\sigma_{OE} \\sim Unif\(0, 1\) ](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=+%5Csigma_%7BOE%7D+%5Csim+Unif%280%2C+1%29+&bg=ffffff&fg=000000&s=0)
+$$ a \sim \text{Unif}(-0.999, 0.999) $$
+$$ b \sim N(0, 1000) $$
+$$ \sigma_{PN} \sim \text{Unif}(0, 1) $$
+$$ \sigma_{OE} \sim \text{Unif}(0, 1) $$
 
-where ![N\(\\mu, \\sigma\)](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=N%28%5Cmu%2C+%5Csigma%29&bg=ffffff&fg=000000&s=0) denotes a normal distribution with mean ![\\mu](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=%5Cmu&bg=ffffff&fg=000000&s=0) and standard deviation ![\\sigma](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=%5Csigma&bg=ffffff&fg=000000&s=0).
+where $N(\mu, \sigma)$ denotes a normal distribution with mean $\mu$ and standard deviation $\sigma$.
 
 A file named `model_SSMcorrelated.RData` with the BUGS model code, data, constants, and initial values for our model can be downloaded [here](https://github.com/danielturek/automated-blocking-examples/blob/master/data/model_SSMcorrelated.RData).
     
-    
-    ## load the nimble library and set seed
-    library('nimble')
-    set.seed(1)
-    load('model_SSMcorrelated.RData')
-    ## build and compile the model
-    stateSpaceModel <- nimbleModel(code = code,
-                                  data = data,
-                                  constants = constants,
-                                  inits = inits,
-                                  check = FALSE)
-    
-    C_stateSpaceModel <- compileNimble(stateSpaceModel)
-    
+```{r}
+#| output: false
+library('nimble')
+```
+```{r}
+set.seed(1)
+load('model_SSMcorrelated.RData')
+## build and compile the model
+stateSpaceModel <- nimbleModel(code = code,
+                              data = data,
+                              constants = constants,
+                              inits = inits,
+                              check = FALSE)
+
+C_stateSpaceModel <- compileNimble(stateSpaceModel)
+```
 
 # Comparing two MCMC Samplers
 
@@ -60,97 +62,80 @@ We next compare the performance of two MCMC samplers on the state space model de
 
 We first build and compile the MCMC algorithm.
     
-    
-    RW_mcmcConfig <- configureMCMC(stateSpaceModel)
-    RW_mcmcConfig$removeSamplers(c('a', 'b', 'sigOE', 'sigPN'))
-    RW_mcmcConfig$addSampler(target = c('a', 'b', 'sigOE', 'sigPN'), type = 'RW_block')
-    RW_mcmc <- buildMCMC(RW_mcmcConfig)
-    C_RW_mcmc <- compileNimble(RW_mcmc, project = stateSpaceModel)
-    
+```{r}    
+RW_mcmcConfig <- configureMCMC(stateSpaceModel)
+RW_mcmcConfig$removeSamplers(c('a', 'b', 'sigOE', 'sigPN'))
+RW_mcmcConfig$addSampler(target = c('a', 'b', 'sigOE', 'sigPN'), type = 'RW_block')
+RW_mcmc <- buildMCMC(RW_mcmcConfig)
+C_RW_mcmc <- compileNimble(RW_mcmc, project = stateSpaceModel)
+```
 
-We next run the compiled MCMC algorithm for 10,000 iterations, recording the overall MCMC efficiency from the posterior output. The overall efficiency here is defined as ![min\(\\frac{ESS}{T}\)](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=min%28%5Cfrac%7BESS%7D%7BT%7D%29&bg=ffffff&fg=000000&s=0), where ESS denotes the effective sample size, and ![T](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=T&bg=ffffff&fg=000000&s=0) the total run-time of the sampling algorithm. The minimum is taken over all parameters that were sampled. We repeat this process 5 times to get a very rough idea of the average minimum efficiency for this combination of model and sampler.
+We next run the compiled MCMC algorithm for 10,000 iterations, recording the overall MCMC efficiency from the posterior output. The overall efficiency here is defined as $\min(\frac{ESS}{T})$, where ESS denotes the effective sample size, and $T$ the total run-time of the sampling algorithm. The minimum is taken over all parameters that were sampled. We repeat this process 5 times to get a very rough idea of the average minimum efficiency for this combination of model and sampler.
     
-    
-    RW_minEfficiency <- numeric(5)
-    for(i in 1:5){
-      runTime <- system.time(C_RW_mcmc$run(50000, progressBar = FALSE))['elapsed']
-      RW_mcmcOutput <- as.mcmc(as.matrix(C_RW_mcmc$mvSamples))
-      RW_minEfficiency[i] <- min(effectiveSize(RW_mcmcOutput)/runTime)
-    }
-    summary(RW_minEfficiency)
-    
-    
-    
-    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##  0.3323  0.4800  0.5505  0.7567  0.7341  1.6869
+```{r}    
+library(coda)
+RW_minEfficiency <- numeric(5)
+for(i in 1:5){
+  runTime <- system.time(C_RW_mcmc$run(50000, progressBar = FALSE))['elapsed']
+  RW_mcmcOutput <- as.mcmc(as.matrix(C_RW_mcmc$mvSamples))
+  RW_minEfficiency[i] <- min(effectiveSize(RW_mcmcOutput)/runTime)
+}
+summary(RW_minEfficiency)
+```    
     
 
 Examining a trace plot of the output below, we see that the $a$ and $b$ parameters are mixing especially poorly.
     
-    
-    plot(RW_mcmcOutput, density = FALSE)
-    
+```{r}    
+plot(RW_mcmcOutput, density = FALSE)
+```
 
-![plot of chunk plot-mcmc](https://web.archive.org/web/20250427225731im_/https://r-nimble.org/wp-content/uploads/2017/05/plot-mcmc-1.png)
 
-Plotting the posterior samples of ![a](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=a&bg=ffffff&fg=000000&s=0) against those of ![b](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=b&bg=ffffff&fg=000000&s=0) reveals a strong negative correlation. This presents a problem for the Metropolis-Hastings sampler — we have found that adaptive algorithms used to tune the proposal covariance are often slow to reach a covariance that performs well for blocks of strongly correlated parameters.
+Plotting the posterior samples of $a$ against those of $b$ reveals a strong negative correlation. This presents a problem for the Metropolis-Hastings sampler — we have found that adaptive algorithms used to tune the proposal covariance are often slow to reach a covariance that performs well for blocks of strongly correlated parameters.
     
-    
-    plot.default(RW_mcmcOutput[,'a'], RW_mcmcOutput[,'b'])
-    
+```{r}    
+plot.default(RW_mcmcOutput[,'a'], RW_mcmcOutput[,'b'])
+```
 
-![plot of chunk plot-corr](https://web.archive.org/web/20250427225731im_/https://r-nimble.org/wp-content/uploads/2017/05/plot-corr-1.png)
     
-    
-    cor(RW_mcmcOutput[,'a'], RW_mcmcOutput[,'b'])
-    
-    
-    
-    ## [1] -0.9201277
-    
+```{r}
+cor(RW_mcmcOutput[,'a'], RW_mcmcOutput[,'b'])
+``` 
 
 In such situations with strong posterior correlation, we’ve found the AFSS to often run much more efficiently, so we next build and compile an MCMC algorithm using the AFSS sampler. Our hope is that the AFSS sampler will be better able to to produce efficient samples in the face of high posterior correlation.
     
-    
-    AFSS_mcmcConfig <- configureMCMC(stateSpaceModel)
-    AFSS_mcmcConfig$removeSamplers(c('a', 'b', 'sigOE', 'sigPN'))
-    AFSS_mcmcConfig$addSampler(target = c('a', 'b', 'sigOE', 'sigPN'), type = 'AF_slice')
-    AFSS_mcmc<- buildMCMC(AFSS_mcmcConfig)
-    C_AFSS_mcmc <- compileNimble(AFSS_mcmc, project = stateSpaceModel, resetFunctions = TRUE)
-    
+```{r}   
+AFSS_mcmcConfig <- configureMCMC(stateSpaceModel)
+AFSS_mcmcConfig$removeSamplers(c('a', 'b', 'sigOE', 'sigPN'))
+AFSS_mcmcConfig$addSampler(target = c('a', 'b', 'sigOE', 'sigPN'), type = 'AF_slice')
+AFSS_mcmc<- buildMCMC(AFSS_mcmcConfig)
+C_AFSS_mcmc <- compileNimble(AFSS_mcmc, project = stateSpaceModel, resetFunctions = TRUE)
+```   
 
 We again run the AFSS MCMC algorithm 5 times, each with 10,000 MCMC iterations.
     
-    
-    AFSS_minEfficiency <- numeric(5)
-    for(i in 1:5){
-      runTime <- system.time(C_AFSS_mcmc$run(50000, progressBar = FALSE))['elapsed']
-      AFSS_mcmcOutput <- as.mcmc(as.matrix(C_AFSS_mcmc$mvSamples))
-      AFSS_minEfficiency[i] <- min(effectiveSize(AFSS_mcmcOutput)/runTime)
-    }
-    summary(AFSS_minEfficiency)
-    
-    
-    
-    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##   9.467   9.686  10.549  10.889  10.724  14.020
-    
+```{r}    
+AFSS_minEfficiency <- numeric(5)
+for(i in 1:5){
+  runTime <- system.time(C_AFSS_mcmc$run(50000, progressBar = FALSE))['elapsed']
+  AFSS_mcmcOutput <- as.mcmc(as.matrix(C_AFSS_mcmc$mvSamples))
+  AFSS_minEfficiency[i] <- min(effectiveSize(AFSS_mcmcOutput)/runTime)
+}
+summary(AFSS_minEfficiency)
+```    
+   
 
-Note that the minimum overall efficiency of the AFSS sampler is approximately `28` times that of the `RW_block` sampler. Additionally, trace plots from the output of the AFSS sampler show that the ![a](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=a&bg=ffffff&fg=000000&s=0) and ![b](https://web.archive.org/web/20250427225731im_/https://s0.wp.com/latex.php?latex=b&bg=ffffff&fg=000000&s=0) parameters are mixing much more effectively than they were under the `RW_block` sampler.
+Note that the minimum overall efficiency of the AFSS sampler is approximately `28` times that of the `RW_block` sampler. Additionally, trace plots from the output of the AFSS sampler show that the $a$ and $b$ parameters are mixing much more effectively than they were under the `RW_block` sampler.
     
-    
-    plot(AFSS_mcmcOutput, density = FALSE)
-    
+```{r}
+plot(AFSS_mcmcOutput, density = FALSE)
+```
 
-![plot of chunk plot-mcmc-2](https://web.archive.org/web/20250427225731im_/https://r-nimble.org/wp-content/uploads/2017/05/plot-mcmc-2-1.png)
 
-Tibbits, M. M, C. Groendyke, M. Haran, et al.  
-(2014).  
-“Automated factor slice sampling”.  
+
+Tibbits, M. M, C. Groendyke, M. Haran, et al. (2014). “Automated factor slice sampling”.  
 In: _Journal of Computational and Graphical Statistics_ 23.2, pp. 543–563.
 
-Turek, D, P. de  
-Valpine, C. J. Paciorek, et al.  
-(2017).  
+Turek, D, P. de Valpine, C. J. Paciorek, et al. (2017).  
 “Automated parameter blocking for efficient Markov chain Monte Carlo sampling”.  
 In: _Bayesian Analysis_ 12.2, pp. 465–490.

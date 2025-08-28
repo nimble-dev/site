@@ -45,14 +45,6 @@ website:
             href: blog/version-1-1-0-of-nimble-released.qmd
           - text: "Version 1.0.0 Released"
             href: blog/version-1-0-0-of-nimble-released.qmd
-          - text: "---"
-          - text: "Feature Posts"
-          - text: "nimbleEcology Package"
-            href: blog/nimbleecology-custom-nimble-distributions-for-ecologists.qmd
-          - text: "Bayesian Nonparametrics"
-            href: blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.qmd
-          - text: "Posterior Predictive Sampling"
-            href: blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.qmd
       - text: "More"
         menu:
           - text: "How to Contribute"
