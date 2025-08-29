@@ -81,12 +81,8 @@ website:
           - blog/version-1-2-1-of-nimble-released.qmd
           - blog/version-1-2-0-of-nimble-released.qmd
           - blog/version-1-1-0-of-nimble-released.qmd
-          - blog/version-1-0-0-of-nimble-released.qmd
-          - text: "---"
-          - text: "Feature Posts"
-          - blog/nimbleecology-custom-nimble-distributions-for-ecologists.qmd
-          - blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.qmd
-          - blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.qmd
+          - blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.qmd
+
 
 format:
   html:
