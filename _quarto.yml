@@ -9,7 +9,7 @@ project:
 website:
   title: "NIMBLE"
   description: "An R package for programming with BUGS models and compiling parts of R"
-  site-url: "https://nimble-dev.github.io/site"
+  site-url: "https://r-nimble.org"
   repo-url: "https://github.com/nimble-dev/nimble"
   
   navbar:
