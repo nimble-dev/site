@@ -6,11 +6,8 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["NIMBLE", "R", "Statistics"]
+categories: ["tutorial"]
 ---
-
-Writing reversible jump MCMC samplers in NIMBLE  
-  
 
 #  Writing reversible jump MCMC samplers in NIMBLE 
 
@@ -395,4 +392,3 @@ They match well.
 
 The samplers above could be assigned to arbitrary nodes in a model. The only additional code would arise from adding more samplers to an MCMC configuration. It would also be possible to refine the reversible-jump step to adapt the scale of its jumps in order to achieve better mixing. For example, one could try [ this method by Ehlers and Brooks](http://onlinelibrary.wiley.com/doi/10.1111/j.1467-9469.2008.00606.x/abstract). We’re interested in hearing from you if you plan to try using RJMCMC on your own models.
 
-En plus des crises existantes, le monde occidental a été frappé par une pénurie de médicaments. Et nous ne parlons pas principalement de la production de quelques molécules à forte intensité de main-d’œuvre, mais des médicaments [fortlapersonne](https://fortlapersonne.com/produit/sildenafil) de base qui devraient se trouver dans chaque armoire à pharmacie, comme le paracétamol et les antibiotiques, dont la pénurie peut avoir un impact important sur la santé de la nation.
