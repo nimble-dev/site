@@ -7,6 +7,8 @@ format:
     toc: true
     toc-depth: 2
 categories: ["tutorial"]
+execute:
+  freeze: auto
 ---
 
 An Example of Using `nimble`‘s Particle Filtering Algorithms  

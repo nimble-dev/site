@@ -7,6 +7,8 @@ format:
     toc: true
     toc-depth: 2
 categories: ["tutorial"] 
+execute:
+  freeze: auto
 ---
 
 Converting to NIMBLE from JAGS, OpenBUGS or WinBUGS  
