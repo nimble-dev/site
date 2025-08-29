@@ -207,7 +207,7 @@ window.Quarto = {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
   </li>  
     </ul>
@@ -508,7 +508,7 @@ Attaching package: 'coda'</code></pre>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RW_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.2473  0.3174  0.4514  0.5228  0.4991  1.0988 </code></pre>
+ 0.2562  0.3358  0.4494  0.5424  0.5458  1.1247 </code></pre>
 </div>
 </div>
 <p>Examining a trace plot of the output below, we see that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing especially poorly.</p>
@@ -575,7 +575,7 @@ conjugate sampler (101)
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AFSS_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  23.60   26.16   30.08   29.68   30.60   37.95 </code></pre>
+  21.59   24.91   29.33   28.46   30.60   35.85 </code></pre>
 </div>
 </div>
 <p>Note that the minimum overall efficiency of the AFSS sampler is approximately <code>28</code> times that of the <code>RW_block</code> sampler. Additionally, trace plots from the output of the AFSS sampler show that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing much more effectively than they were under the <code>RW_block</code> sampler.</p>

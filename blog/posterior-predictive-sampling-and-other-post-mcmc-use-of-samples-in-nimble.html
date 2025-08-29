@@ -178,7 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
   </li>  
     </ul>
@@ -504,7 +504,7 @@ conjugate sampler (2)
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  4.532   0.002   4.535 </code></pre>
+  4.153   0.002   4.155 </code></pre>
 </div>
 </div>
 <p>Side note: For large models, it might be faster to use the variable names as the second argument to <code>values()</code> rather than the names of all the elements of the variables. If one chooses to do this, it’s important to check that the ordering of variables in the ‘flattened’ values in <code>samples</code> is the same as the ordering of variables in the second argument to <code>values</code> so that the first line of the for loop assigns the values from <code>samples</code> correctly into the model.</p>
@@ -593,7 +593,7 @@ Using posterior samples of: mu,sigma .</code></pre>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(ppSamples_via_nf <span class="ot">&lt;-</span> cppSampler<span class="sc">$</span><span class="fu">run</span>(samples))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.002   0.000   0.002 </code></pre>
+  0.002   0.000   0.003 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(ppSamples, ppSamples_via_nf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

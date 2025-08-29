@@ -172,7 +172,7 @@ window.Quarto = {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
   </li>  
     </ul>
@@ -384,56 +384,407 @@ window.Quarto = {
 <p>We took all of <a href="https://github.com/daniele-falco/software_comparison/tree/main/linear_models">BFG’s source code</a> and <a href="https://github.com/nimble-dev/nimble-demos/tree/master/blog_posts/LM_comparisons_Beraha_etal">organized it to be more fully reproducible</a>. After our previous blog post, set.seed calls were added to their source code, so we use those. We also organize the code into functions and sets of runs to save and process together. We think we interpreted their code correctly, but we can’t be sure. For ESS estimation, we used <code>coda::effectiveSize</code>, but Stan and mcmcse are examples of packages with other methods, and we aren’t sure what BFG used. They thin by 2 and give average results for beta[i]s. We want to compare to their results, so we take those steps too.</p>
 <p>Here are the results:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>BFG</th>
-<th>Better code</th>
-<th>Improvement</th>
 <th></th>
+<th></th>
+<th style="text-align: right;">BFG</th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;">Better code</th>
+<th style="text-align: right;"></th>
+<th style="text-align: right;">Improvement</th>
+<th style="text-align: right;"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td></td>
 <td>ESS/Ns</td>
-<td>Nit/t</td>
-<td>ESS/t</td>
-<td>ESS/Ns</td>
+<td style="text-align: right;">Nit/t</td>
+<td style="text-align: right;">ESS/t</td>
+<td style="text-align: right;">ESS/Ns</td>
+<td style="text-align: right;">Nit/t</td>
+<td style="text-align: right;">ESS/t</td>
+<td style="text-align: right;">Better by</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td><strong>LM-C</strong></td>
+<td></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=100, p=4</td>
+<td>0.15</td>
+<td style="text-align: right;">56122.45</td>
+<td style="text-align: right;">3738.90</td>
+<td style="text-align: right;">1.03</td>
+<td style="text-align: right;">23060.80</td>
+<td style="text-align: right;">10842.00</td>
+<td style="text-align: right;">2.90</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=1000, p=4</td>
+<td>0.14</td>
+<td style="text-align: right;">9401.71</td>
+<td style="text-align: right;">609.97</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2866.82</td>
+<td style="text-align: right;">1303.10</td>
+<td style="text-align: right;">2.14</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=100, p=16</td>
+<td>0.04</td>
+<td style="text-align: right;">25345.62</td>
+<td style="text-align: right;">428.45</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">5555.56</td>
+<td style="text-align: right;">2396.00</td>
+<td style="text-align: right;">5.59</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=1000, p=16</td>
+<td>0.03</td>
+<td style="text-align: right;">3471.13</td>
+<td style="text-align: right;">54.06</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">613.98</td>
+<td style="text-align: right;">278.53</td>
+<td style="text-align: right;">5.15</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=2000, p=30</td>
+<td>0.01</td>
+<td style="text-align: right;">863.83</td>
+<td style="text-align: right;">5.52</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">137.60</td>
+<td style="text-align: right;">62.67</td>
+<td style="text-align: right;">11.35</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=30, p=50</td>
+<td>0.00</td>
+<td style="text-align: right;">11470.28</td>
+<td style="text-align: right;">24.49</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">3869.15</td>
+<td style="text-align: right;">114.62</td>
+<td style="text-align: right;">4.68</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td><strong>LM-C Bin</strong></td>
+<td></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=100, p=4</td>
+<td>0.12</td>
+<td style="text-align: right;">61452.51</td>
+<td style="text-align: right;">3303.31</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">22916.67</td>
+<td style="text-align: right;">5384.40</td>
+<td style="text-align: right;">1.63</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=1000, p=4</td>
+<td>0.10</td>
+<td style="text-align: right;">9945.75</td>
+<td style="text-align: right;">441.07</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">2857.14</td>
+<td style="text-align: right;">606.16</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=100, p=16</td>
+<td>0.04</td>
+<td style="text-align: right;">26699.03</td>
+<td style="text-align: right;">430.92</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">5530.42</td>
+<td style="text-align: right;">1223.25</td>
+<td style="text-align: right;">2.84</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=1000, p=16</td>
+<td>0.03</td>
+<td style="text-align: right;">3505.42</td>
+<td style="text-align: right;">41.68</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">655.46</td>
+<td style="text-align: right;">163.59</td>
+<td style="text-align: right;">3.92</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=30, p=50</td>
+<td>0.01</td>
+<td style="text-align: right;">11815.25</td>
+<td style="text-align: right;">44.01</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">3941.24</td>
+<td style="text-align: right;">211.66</td>
+<td style="text-align: right;">4.81</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td><strong>LM-WI</strong></td>
+<td></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=100, p=4</td>
+<td>0.38</td>
+<td style="text-align: right;">44117.65</td>
+<td style="text-align: right;">5595.82</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">22865.85</td>
+<td style="text-align: right;">7545.97</td>
+<td style="text-align: right;">1.35</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=1000, p=4</td>
+<td>0.44</td>
+<td style="text-align: right;">4874.88</td>
+<td style="text-align: right;">709.03</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">2834.47</td>
+<td style="text-align: right;">929.87</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=100, p=16</td>
+<td>0.32</td>
+<td style="text-align: right;">11441.65</td>
+<td style="text-align: right;">1233.59</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">5845.67</td>
+<td style="text-align: right;">1837.45</td>
+<td style="text-align: right;">1.49</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=1000, p=16</td>
+<td>0.42</td>
+<td style="text-align: right;">1269.14</td>
+<td style="text-align: right;">179.09</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">653.62</td>
+<td style="text-align: right;">217.22</td>
+<td style="text-align: right;">1.21</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td><strong>LM-NI</strong></td>
+<td></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=100, p=4</td>
+<td>0.37</td>
+<td style="text-align: right;">43604.65</td>
+<td style="text-align: right;">5415.31</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">22935.78</td>
+<td style="text-align: right;">7749.15</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=1000, p=4</td>
+<td>0.43</td>
+<td style="text-align: right;">5613.77</td>
+<td style="text-align: right;">804.61</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">2751.28</td>
+<td style="text-align: right;">974.50</td>
+<td style="text-align: right;">1.21</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=100, p=16</td>
+<td>0.31</td>
+<td style="text-align: right;">12386.46</td>
+<td style="text-align: right;">1298.40</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">6134.97</td>
+<td style="text-align: right;">1932.29</td>
+<td style="text-align: right;">1.49</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=1000, p=16</td>
+<td>0.43</td>
+<td style="text-align: right;">1271.83</td>
+<td style="text-align: right;">182.56</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">625.94</td>
+<td style="text-align: right;">212.29</td>
+<td style="text-align: right;">1.16</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=30, p=50</td>
+<td>0.01</td>
+<td style="text-align: right;">8581.24</td>
+<td style="text-align: right;">14.45</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">3755.63</td>
+<td style="text-align: right;">13.80</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td><strong>LM-Lasso</strong></td>
+<td></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=100, p=16, z=0</td>
+<td>0.33</td>
+<td style="text-align: right;">10881.39</td>
+<td style="text-align: right;">905.68</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">17730.50</td>
+<td style="text-align: right;">1475.74</td>
+<td style="text-align: right;">1.63</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=1000, p=16, z=0</td>
+<td>0.44</td>
+<td style="text-align: right;">1219.59</td>
+<td style="text-align: right;">132.65</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">2129.02</td>
+<td style="text-align: right;">231.57</td>
+<td style="text-align: right;">1.75</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=1000, p=30, z=2</td>
+<td>0.41</td>
+<td style="text-align: right;">552.30</td>
+<td style="text-align: right;">56.81</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">942.42</td>
+<td style="text-align: right;">96.94</td>
+<td style="text-align: right;">1.71</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=1000, p=30, z=15</td>
+<td>0.42</td>
+<td style="text-align: right;">540.51</td>
+<td style="text-align: right;">56.91</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">941.97</td>
+<td style="text-align: right;">99.17</td>
+<td style="text-align: right;">1.74</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=1000, p=30, z=28</td>
+<td>0.42</td>
+<td style="text-align: right;">541.01</td>
+<td style="text-align: right;">56.27</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">970.73</td>
+<td style="text-align: right;">100.97</td>
+<td style="text-align: right;">1.79</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=1000, p=100, z=2</td>
+<td>0.36</td>
+<td style="text-align: right;">77.75</td>
+<td style="text-align: right;">7.06</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">141.22</td>
+<td style="text-align: right;">12.83</td>
+<td style="text-align: right;">1.82</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>N=1000, p=100, z=50</td>
+<td>0.37</td>
+<td style="text-align: right;">74.89</td>
+<td style="text-align: right;">6.89</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">141.32</td>
+<td style="text-align: right;">13.01</td>
+<td style="text-align: right;">1.89</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>N=1000, p=100, z=98</td>
+<td>0.39</td>
+<td style="text-align: right;">74.78</td>
+<td style="text-align: right;">7.37</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">142.60</td>
+<td style="text-align: right;">14.05</td>
+<td style="text-align: right;">1.91</td>
+<td style="text-align: right;"></td>
 </tr>
 </tbody>
 </table>
-<p><strong>LM-C</strong><br>
-N=100, p=4 | 0.15 | 56122.45 | 3738.90 | 1.03 | 23060.80 | 10842.00 | 2.90<br>
-N=1000, p=4 | 0.14 | 9401.71 | 609.97 | 1.00 | 2866.82 | 1303.10 | 2.14<br>
-N=100, p=16 | 0.04 | 25345.62 | 428.45 | 0.95 | 5555.56 | 2396.00 | 5.59<br>
-N=1000, p=16 | 0.03 | 3471.13 | 54.06 | 1.00 | 613.98 | 278.53 | 5.15<br>
-N=2000, p=30 | 0.01 | 863.83 | 5.52 | 1.00 | 137.60 | 62.67 | 11.35<br>
-N=30, p=50 | 0.00 | 11470.28 | 24.49 | 0.07 | 3869.15 | 114.62 | 4.68<br>
-<strong>LM-C Bin</strong><br>
-N=100, p=4 | 0.12 | 61452.51 | 3303.31 | 0.52 | 22916.67 | 5384.40 | 1.63<br>
-N=1000, p=4 | 0.10 | 9945.75 | 441.07 | 0.47 | 2857.14 | 606.16 | 1.37<br>
-N=100, p=16 | 0.04 | 26699.03 | 430.92 | 0.49 | 5530.42 | 1223.25 | 2.84<br>
-N=1000, p=16 | 0.03 | 3505.42 | 41.68 | 0.55 | 655.46 | 163.59 | 3.92<br>
-N=30, p=50 | 0.01 | 11815.25 | 44.01 | 0.12 | 3941.24 | 211.66 | 4.81<br>
-<strong>LM-WI</strong><br>
-N=100, p=4 | 0.38 | 44117.65 | 5595.82 | 0.99 | 22865.85 | 7545.97 | 1.35<br>
-N=1000, p=4 | 0.44 | 4874.88 | 709.03 | 0.98 | 2834.47 | 929.87 | 1.31<br>
-N=100, p=16 | 0.32 | 11441.65 | 1233.59 | 0.94 | 5845.67 | 1837.45 | 1.49<br>
-N=1000, p=16 | 0.42 | 1269.14 | 179.09 | 1.00 | 653.62 | 217.22 | 1.21<br>
-<strong>LM-NI</strong><br>
-N=100, p=4 | 0.37 | 43604.65 | 5415.31 | 1.01 | 22935.78 | 7749.15 | 1.43<br>
-N=1000, p=4 | 0.43 | 5613.77 | 804.61 | 1.06 | 2751.28 | 974.50 | 1.21<br>
-N=100, p=16 | 0.31 | 12386.46 | 1298.40 | 0.94 | 6134.97 | 1932.29 | 1.49<br>
-N=1000, p=16 | 0.43 | 1271.83 | 182.56 | 1.02 | 625.94 | 212.29 | 1.16<br>
-N=30, p=50 | 0.01 | 8581.24 | 14.45 | 0.01 | 3755.63 | 13.80 | 0.96<br>
-<strong>LM-Lasso</strong><br>
-N=100, p=16, z=0 | 0.33 | 10881.39 | 905.68 | 0.33 | 17730.50 | 1475.74 | 1.63<br>
-N=1000, p=16, z=0 | 0.44 | 1219.59 | 132.65 | 0.44 | 2129.02 | 231.57 | 1.75<br>
-N=1000, p=30, z=2 | 0.41 | 552.30 | 56.81 | 0.41 | 942.42 | 96.94 | 1.71<br>
-N=1000, p=30, z=15 | 0.42 | 540.51 | 56.91 | 0.42 | 941.97 | 99.17 | 1.74<br>
-N=1000, p=30, z=28 | 0.42 | 541.01 | 56.27 | 0.42 | 970.73 | 100.97 | 1.79<br>
-N=1000, p=100, z=2 | 0.36 | 77.75 | 7.06 | 0.36 | 141.22 | 12.83 | 1.82<br>
-N=1000, p=100, z=50 | 0.37 | 74.89 | 6.89 | 0.37 | 141.32 | 13.01 | 1.89<br>
-N=1000, p=100, z=98 | 0.39 | 74.78 | 7.37 | 0.39 | 142.60 | 14.05 | 1.91</p>
 <p>The “BFG” columns gives results from the same way BFG ran the cases, we think. The “ESS/Ns” is the same as their <span class="math inline">\(\varepsilon_{\eta}\)</span>. ESS is averaged for the beta parameters. Ns is the number of saved samples, after burn-in and thinning. Their code gives different choices of burn-in and saved iterations for the different cases, and we used their settings. The “Nit/t” is the total number of iterations (including burn-in) divided by total computation time. The final column, which BFG don’t give, is “ESS/t”, what we call MCMC efficiency. Choice of time in the denominator includes burn-in time (the same as for “Nit/t”).</p>
 <p>The “Better code” columns give results when we write the code with matrix multiplication and, for “LM-C” and “LM-C Bin”, univariate priors. It is almost as efficient to write the code using an inner product for each mu[i] instead of matrix multiplication for all mu[i] together. Matrix multiplication makes sense when all of the inputs that might changes (in this case, beta[i]s updated by MCMC) require all of the same likelihood contributions to be calculated from the result (in this case, all y[i]s from all mu[i]s). Either way of coding the model makes it easier for NIMBLE to sample the beta[i]s with conjugate samplers and avoids the inefficiency of putting every scalar step into the model code.</p>
 <p>The “Better by” column gives the ratio of “ESS/t” for the “Better code” to “ESS/t” for the BFG code. This is the factor by which the “Better code” version improves upon the “BFG” version.</p>

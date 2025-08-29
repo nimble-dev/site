@@ -7,7 +7,10 @@ format:
     toc: true
     toc-depth: 2
 categories: ["announcement", "release"]
+execute:
+  freeze: auto
 ---
+
 
 Yesterday we released version 0.5 of NIMBLE on our web site, r-nimble.org. (We’ll get it onto CRAN soon, but it has some special needs to work out.) NIMBLE tries to fill a gap in what R programmers and analysts can do with general hierarchical models. Packages like WinBUGS, OpenBUGS, JAGS and Stan provide a language for writing a model flexibly, and then they provide one flavor of MCMC. These have been workhorses of the Bayesian revolution, but they don’t provide much control over how the MCMC works (what samplers are used) or let one do anything else with the model (though Stan provides some additional fitting methods).
 

@@ -7,6 +7,8 @@ format:
     toc: true
     toc-depth: 2
 categories: ["announcement", "tutorial"]
+execute:
+  freeze: auto
 ---
 
 One nice feature of NIMBLE’s MCMC system is that a user can easily write new samplers from R, combine them with NIMBLE’s samplers, and have them automatically compiled to C++ via the NIMBLE compiler. We’ve observed that block sampling using a simple adaptive multivariate random walk Metropolis-Hastings sampler doesn’t always work well in practice, so we decided to implement the Automated Factor Slice sampler (AFSS) of `Tibbits, Groendyke, Haran, and Liechty (2014)` and see how it does on a (somewhat artificial) example with severe posterior correlation problems.

@@ -5,6 +5,9 @@ format:
   html:
     toc: true
     toc-depth: 2
+categories: ["tutorial"]
+execute:
+  freeze: auto
 ---
 
 # Bayesian nonparametrics in NIMBLE: Nonparametric random effects
