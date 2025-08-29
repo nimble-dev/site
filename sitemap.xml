@@ -1,347 +1,347 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nimble-dev.github.io/site/contributing.html</loc>
+    <loc>https://r-nimble.org/contributing.html</loc>
     <lastmod>2025-08-17T18:17:59.241Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/index.html</loc>
+    <loc>https://r-nimble.org/index.html</loc>
     <lastmod>2025-08-17T18:17:59.330Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/documentation.html</loc>
+    <loc>https://r-nimble.org/documentation.html</loc>
     <lastmod>2025-08-17T18:17:59.241Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/groups-and-issues.html</loc>
+    <loc>https://r-nimble.org/groups-and-issues.html</loc>
     <lastmod>2025-08-17T18:17:59.325Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/download.html</loc>
+    <loc>https://r-nimble.org/download.html</loc>
     <lastmod>2025-08-17T18:17:59.241Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/archived-versions-of-nimble-and-the-user-manual.html</loc>
+    <loc>https://r-nimble.org/archived-versions-of-nimble-and-the-user-manual.html</loc>
     <lastmod>2025-08-17T18:17:59.240Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimbles-sequential-monte-carlo-smc-algorithms-are-now-in-the-nimblesmc-package.html</loc>
-    <lastmod>2025-08-27T15:52:10.685Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimbles-sequential-monte-carlo-smc-algorithms-are-now-in-the-nimblesmc-package.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-short-course-june-3-4-2020-at-uc-berkeley.html</loc>
-    <lastmod>2025-08-27T15:53:10.391Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-short-course-june-3-4-2020-at-uc-berkeley.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-12-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:22:41.885Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-12-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html</loc>
-    <lastmod>2025-08-27T16:42:07.111Z</lastmod>
+    <loc>https://r-nimble.org/blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-5-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:26:21.112Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-5-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/writing-reversible-jump-mcmc-in-nimble.html</loc>
-    <lastmod>2025-08-26T00:40:41.259Z</lastmod>
+    <loc>https://r-nimble.org/blog/writing-reversible-jump-mcmc-in-nimble.html</loc>
+    <lastmod>2025-08-29T01:05:54.707Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-10-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:42:35.775Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-10-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-webinar-friday-april-13.html</loc>
-    <lastmod>2025-08-27T14:24:34.006Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-webinar-friday-april-13.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-7-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:07:30.275Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-7-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/we-have-a-post-doc-opening.html</loc>
-    <lastmod>2025-08-26T00:40:41.258Z</lastmod>
+    <loc>https://r-nimble.org/blog/we-have-a-post-doc-opening.html</loc>
+    <lastmod>2025-08-29T01:05:54.707Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-5-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:14:52.928Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-5-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-online-tutorial-november-18-2021.html</loc>
-    <lastmod>2025-08-27T16:24:23.429Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-online-tutorial-november-18-2021.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/index.html</loc>
+    <loc>https://r-nimble.org/blog/index.html</loc>
     <lastmod>2025-08-26T00:40:41.249Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-10-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:24:29.357Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-10-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/were-looking-for-a-programmer.html</loc>
+    <loc>https://r-nimble.org/blog/were-looking-for-a-programmer.html</loc>
     <lastmod>2025-08-26T00:40:41.258Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimbleecology-custom-nimble-distributions-for-ecologists.html</loc>
-    <lastmod>2025-08-29T00:58:54.666Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimbleecology-custom-nimble-distributions-for-ecologists.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-package-for-hierarchical-modeling-mcmc-and-more-faster-and-more-flexible-in-version-0-6-1.html</loc>
-    <lastmod>2025-08-27T16:23:51.325Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-package-for-hierarchical-modeling-mcmc-and-more-faster-and-more-flexible-in-version-0-6-1.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/registration-open-for-online-nimble-short-course-june-3-5-2020.html</loc>
-    <lastmod>2025-08-26T00:40:41.253Z</lastmod>
+    <loc>https://r-nimble.org/blog/registration-open-for-online-nimble-short-course-june-3-5-2020.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-1-2-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T00:40:41.258Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-1-2-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.707Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-11-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:41:23.582Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-11-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-7-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:08:25.496Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-7-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/registration-open-for-nimble-short-course-june-3-4-2020-at-uc-berkeley.html</loc>
-    <lastmod>2025-08-26T17:07:16.928Z</lastmod>
+    <loc>https://r-nimble.org/blog/registration-open-for-nimble-short-course-june-3-4-2020-at-uc-berkeley.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/better-block-sampling-in-mcmc-with-the-automated-factor-slice-sampler.html</loc>
-    <lastmod>2025-08-29T00:57:55.787Z</lastmod>
+    <loc>https://r-nimble.org/blog/better-block-sampling-in-mcmc-with-the-automated-factor-slice-sampler.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-short-course-at-bayes-comp-2020-conference.html</loc>
-    <lastmod>2025-08-27T15:54:19.250Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-short-course-at-bayes-comp-2020-conference.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-has-a-post-doc-or-software-developer-position-open.html</loc>
-    <lastmod>2025-08-27T16:27:05.274Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-has-a-post-doc-or-software-developer-position-open.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-8-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:06:45.540Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-8-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/spread-the-word-nimble-is-looking-for-a-post-doc.html</loc>
-    <lastmod>2025-08-26T17:05:44.319Z</lastmod>
+    <loc>https://r-nimble.org/blog/spread-the-word-nimble-is-looking-for-a-post-doc.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-13-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T00:40:41.255Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-13-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</loc>
+    <loc>https://r-nimble.org/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</loc>
     <lastmod>2025-08-26T00:40:41.250Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-1-2-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T00:40:41.258Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-1-2-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.707Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-virtual-short-course-may-26-28.html</loc>
-    <lastmod>2025-08-26T00:40:41.252Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-virtual-short-course-may-26-28.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</loc>
-    <lastmod>2025-08-29T00:51:03.319Z</lastmod>
+    <loc>https://r-nimble.org/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</loc>
+    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects.html</loc>
-    <lastmod>2025-08-29T00:57:03.049Z</lastmod>
+    <loc>https://r-nimble.org/blog/bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects.html</loc>
+    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</loc>
-    <lastmod>2025-08-26T16:36:45.842Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-4-released.html</loc>
-    <lastmod>2025-08-26T16:27:10.059Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-4-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-4-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:17:47.831Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-4-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-8-of-nimble-released-2.html</loc>
-    <lastmod>2025-08-26T16:11:25.666Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-8-of-nimble-released-2.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/release-notes.html</loc>
+    <loc>https://r-nimble.org/release-notes.html</loc>
     <lastmod>2025-08-17T18:17:59.354Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-9-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:10:28.860Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-9-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/variable-selection-in-nimble-using-reversible-jump-mcmc.html</loc>
-    <lastmod>2025-08-26T16:56:57.918Z</lastmod>
+    <loc>https://r-nimble.org/blog/variable-selection-in-nimble-using-reversible-jump-mcmc.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-6-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:13:30.524Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-6-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html</loc>
-    <lastmod>2025-08-27T23:59:54.972Z</lastmod>
+    <loc>https://r-nimble.org/blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html</loc>
+    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-workshop-in-switzerland-23-25-april.html</loc>
-    <lastmod>2025-08-27T00:20:06.244Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-workshop-in-switzerland-23-25-april.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-11-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:23:43.353Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-11-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-2-released.html</loc>
-    <lastmod>2025-08-26T16:19:56.046Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-2-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-9-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T15:49:03.040Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-9-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html</loc>
-    <lastmod>2025-08-29T00:57:24.684Z</lastmod>
+    <loc>https://r-nimble.org/blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-6-3-released.html</loc>
-    <lastmod>2025-08-26T16:19:04.672Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-3-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-13-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:29:20.252Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-13-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/building-particle-filters-and-particle-mcmc-in-nimble-2.html</loc>
-    <lastmod>2025-08-29T00:57:41.304Z</lastmod>
+    <loc>https://r-nimble.org/blog/building-particle-filters-and-particle-mcmc-in-nimble-2.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-11-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:40:45.649Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-11-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html</loc>
-    <lastmod>2025-08-26T15:39:35.844Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-10-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:42:09.123Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-10-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-5-released.html</loc>
-    <lastmod>2025-08-26T16:25:13.638Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-5-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-virtual-short-course-january-4-6-2023.html</loc>
-    <lastmod>2025-08-26T00:40:41.252Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-virtual-short-course-january-4-6-2023.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-paper-in-journal-of-computational-and-graphical-statistics.html</loc>
-    <lastmod>2025-08-27T15:54:46.978Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-paper-in-journal-of-computational-and-graphical-statistics.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-is-hiring-a-programmer.html</loc>
-    <lastmod>2025-08-27T16:25:32.127Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-is-hiring-a-programmer.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html</loc>
-    <lastmod>2025-08-27T16:43:06.264Z</lastmod>
+    <loc>https://r-nimble.org/blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html</loc>
+    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-short-course-at-march-enar-meeting-in-nashville.html</loc>
-    <lastmod>2025-08-27T15:53:51.073Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-short-course-at-march-enar-meeting-in-nashville.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-9-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-27T16:49:04.673Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-9-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/two-day-workshop-flexible-programming-of-mcmc-and-other-methods-for-hierarchical-and-bayesian-models.html</loc>
-    <lastmod>2025-08-26T16:59:22.741Z</lastmod>
+    <loc>https://r-nimble.org/blog/two-day-workshop-flexible-programming-of-mcmc-and-other-methods-for-hierarchical-and-bayesian-models.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-4-1-released.html</loc>
-    <lastmod>2025-08-26T16:28:02.197Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-4-1-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html</loc>
-    <lastmod>2025-08-27T16:25:52.774Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/quick-guide-for-converting-from-jags-or-bugs-to-nimble.html</loc>
-    <lastmod>2025-08-29T00:59:09.131Z</lastmod>
+    <loc>https://r-nimble.org/blog/quick-guide-for-converting-from-jags-or-bugs-to-nimble.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/new-nimble-cheatsheat-available.html</loc>
-    <lastmod>2025-08-27T16:38:38.016Z</lastmod>
+    <loc>https://r-nimble.org/blog/new-nimble-cheatsheat-available.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/new-nimble-code-examples.html</loc>
-    <lastmod>2025-08-27T16:38:12.419Z</lastmod>
+    <loc>https://r-nimble.org/blog/new-nimble-code-examples.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html</loc>
-    <lastmod>2025-08-26T15:41:20.714Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</loc>
-    <lastmod>2025-08-29T00:00:04.937Z</lastmod>
+    <loc>https://r-nimble.org/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</loc>
+    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-0-12-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T16:39:29.976Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-12-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-is-hiring-a-programmer-2.html</loc>
-    <lastmod>2025-08-26T00:40:41.250Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-is-hiring-a-programmer-2.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-1-3-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T00:40:41.258Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-1-3-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.707Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/nimble-a-new-way-to-do-mcmc-and-more-from-bugs-code-in-r-3.html</loc>
-    <lastmod>2025-08-29T01:00:15.488Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-a-new-way-to-do-mcmc-and-more-from-bugs-code-in-r-3.html</loc>
+    <lastmod>2025-08-29T01:05:54.701Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/version-1-1-0-of-nimble-released.html</loc>
-    <lastmod>2025-08-26T00:40:41.258Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-1-1-0-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html</loc>
-    <lastmod>2025-08-27T16:43:31.496Z</lastmod>
+    <loc>https://r-nimble.org/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html</loc>
+    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/recent-posts.html</loc>
+    <loc>https://r-nimble.org/recent-posts.html</loc>
     <lastmod>2025-08-17T18:17:59.354Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/examples.html</loc>
+    <loc>https://r-nimble.org/examples.html</loc>
     <lastmod>2025-08-17T18:17:59.241Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/license-and-citation.html</loc>
+    <loc>https://r-nimble.org/license-and-citation.html</loc>
     <lastmod>2025-08-17T18:17:59.330Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/CONVERSION_NOTES.html</loc>
+    <loc>https://r-nimble.org/CONVERSION_NOTES.html</loc>
     <lastmod>2025-08-17T18:17:59.237Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/about-us.html</loc>
+    <loc>https://r-nimble.org/about-us.html</loc>
     <lastmod>2025-08-17T18:17:59.240Z</lastmod>
   </url>
   <url>
-    <loc>https://nimble-dev.github.io/site/what-is-nimble.html</loc>
-    <lastmod>2025-08-23T20:37:23.082Z</lastmod>
+    <loc>https://r-nimble.org/what-is-nimble.html</loc>
+    <lastmod>2025-08-29T01:05:54.729Z</lastmod>
   </url>
 </urlset>

@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>NIMBLE</title>
-<link>https://nimble-dev.github.io/site/blog/</link>
-<atom:link href="https://nimble-dev.github.io/site/blog/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://r-nimble.org/blog/</link>
+<atom:link href="https://r-nimble.org/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>An R package for programming with BUGS models and compiling parts of R</description>
 <generator>quarto-1.7.31</generator>
 <lastBuildDate>Wed, 19 Mar 2025 07:00:00 GMT</lastBuildDate>
 <item>
   <title>announcing the nimbleMacros package and the use of macros in NIMBLE models</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html</link>
+  <link>https://r-nimble.org/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html</link>
   <description><![CDATA[ 
 
 
@@ -57,13 +57,13 @@ font-style: inherit;">|</span>Chick))</span>
  ]]></description>
   <category>announcement</category>
   <category>release</category>
-  <guid>https://nimble-dev.github.io/site/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html</guid>
+  <guid>https://r-nimble.org/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html</guid>
   <pubDate>Wed, 19 Mar 2025 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 1.3.0 of NIMBLE released</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-1-3-0-of-nimble-released.html</link>
+  <link>https://r-nimble.org/blog/version-1-3-0-of-nimble-released.html</link>
   <description><![CDATA[ 
 
 
@@ -100,13 +100,13 @@ better mixing when parameters are on different scales or the initialproposal sca
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-1-3-0-of-nimble-released.html</guid>
+  <guid>https://r-nimble.org/blog/version-1-3-0-of-nimble-released.html</guid>
   <pubDate>Sat, 21 Dec 2024 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 1.2.1 of NIMBLE released</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-1-2-1-of-nimble-released.html</link>
+  <link>https://r-nimble.org/blog/version-1-2-1-of-nimble-released.html</link>
   <description><![CDATA[ 
 
 
@@ -125,13 +125,13 @@ better mixing when parameters are on different scales or the initialproposal sca
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-1-2-1-of-nimble-released.html</guid>
+  <guid>https://r-nimble.org/blog/version-1-2-1-of-nimble-released.html</guid>
   <pubDate>Wed, 31 Jul 2024 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 1.2.0 of NIMBLE released</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-1-2-0-of-nimble-released.html</link>
+  <link>https://r-nimble.org/blog/version-1-2-0-of-nimble-released.html</link>
   <description><![CDATA[ 
 
 
@@ -169,13 +169,13 @@ better mixing when parameters are on different scales or the initialproposal sca
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-1-2-0-of-nimble-released.html</guid>
+  <guid>https://r-nimble.org/blog/version-1-2-0-of-nimble-released.html</guid>
   <pubDate>Fri, 14 Jun 2024 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 1.1.0 of NIMBLE released</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-1-1-0-of-nimble-released.html</link>
+  <link>https://r-nimble.org/blog/version-1-1-0-of-nimble-released.html</link>
   <description><![CDATA[ 
 
 
@@ -203,13 +203,13 @@ better mixing when parameters are on different scales or the initialproposal sca
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-1-1-0-of-nimble-released.html</guid>
+  <guid>https://r-nimble.org/blog/version-1-1-0-of-nimble-released.html</guid>
   <pubDate>Sun, 04 Feb 2024 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>nimbleHMC version 0.2.0 released, providing improved HMC performance</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</link>
+  <link>https://r-nimble.org/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</link>
   <description><![CDATA[ 
 
 
@@ -223,13 +223,13 @@ better mixing when parameters are on different scales or the initialproposal sca
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</guid>
+  <guid>https://r-nimble.org/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</guid>
   <pubDate>Wed, 20 Sep 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 1.0.1 of NIMBLE released, fixing a bug in version 1.0.0 affecting certain models</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html</link>
+  <link>https://r-nimble.org/blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html</link>
   <description><![CDATA[ 
 
 
@@ -247,13 +247,13 @@ better mixing when parameters are on different scales or the initialproposal sca
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html</guid>
+  <guid>https://r-nimble.org/blog/version-1-0-1-of-nimble-released-fixing-a-bug-in-version-1-0-0-affecting-certain-models.html</guid>
   <pubDate>Wed, 21 Jun 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html</link>
+  <link>https://r-nimble.org/blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html</link>
   <description><![CDATA[ 
 
 
@@ -283,13 +283,13 @@ better mixing when parameters are on different scales or the initialproposal sca
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html</guid>
+  <guid>https://r-nimble.org/blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html</guid>
   <pubDate>Wed, 31 May 2023 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 0.13.1 of NIMBLE released</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-0-13-1-of-nimble-released.html</link>
+  <link>https://r-nimble.org/blog/version-0-13-1-of-nimble-released.html</link>
   <description><![CDATA[ 
 
 
@@ -302,13 +302,13 @@ better mixing when parameters are on different scales or the initialproposal sca
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-0-13-1-of-nimble-released.html</guid>
+  <guid>https://r-nimble.org/blog/version-0-13-1-of-nimble-released.html</guid>
   <pubDate>Mon, 19 Dec 2022 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Bug in newly-released version 0.13.0 affecting MCMC for models with predictive nodes</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html</link>
+  <link>https://r-nimble.org/blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html</link>
   <description><![CDATA[ 
 
 
@@ -333,13 +333,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 
  ]]></description>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html</guid>
+  <guid>https://r-nimble.org/blog/bug-in-newly-released-version-0-13-0-affecting-mcmc-for-models-with-predictive-nodes.html</guid>
   <pubDate>Thu, 08 Dec 2022 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 0.13.0 of NIMBLE released</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-0-13-0-of-nimble-released.html</link>
+  <link>https://r-nimble.org/blog/version-0-13-0-of-nimble-released.html</link>
   <description><![CDATA[ 
 
 
@@ -363,13 +363,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-0-13-0-of-nimble-released.html</guid>
+  <guid>https://r-nimble.org/blog/version-0-13-0-of-nimble-released.html</guid>
   <pubDate>Tue, 29 Nov 2022 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>We’re looking for a programmer</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/were-looking-for-a-programmer.html</link>
+  <link>https://r-nimble.org/blog/were-looking-for-a-programmer.html</link>
   <description><![CDATA[ 
 
 
@@ -381,13 +381,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 
  ]]></description>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/were-looking-for-a-programmer.html</guid>
+  <guid>https://r-nimble.org/blog/were-looking-for-a-programmer.html</guid>
   <pubDate>Fri, 07 Oct 2022 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>NIMBLE virtual short course, January 4-6, 2023</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/nimble-virtual-short-course-january-4-6-2023.html</link>
+  <link>https://r-nimble.org/blog/nimble-virtual-short-course-january-4-6-2023.html</link>
   <description><![CDATA[ 
 
 
@@ -414,13 +414,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
  ]]></description>
   <category>education</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/nimble-virtual-short-course-january-4-6-2023.html</guid>
+  <guid>https://r-nimble.org/blog/nimble-virtual-short-course-january-4-6-2023.html</guid>
   <pubDate>Thu, 08 Sep 2022 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Beta version of NIMBLE with automatic differentiation, including HMC sampling and Laplace approximation</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html</link>
+  <link>https://r-nimble.org/blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html</link>
   <description><![CDATA[ 
 
 
@@ -441,13 +441,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
  ]]></description>
   <category>announcement</category>
   <category>release</category>
-  <guid>https://nimble-dev.github.io/site/blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html</guid>
+  <guid>https://r-nimble.org/blog/beta-version-of-nimble-with-automatic-differentiation-including-hmc-sampling-and-laplace-approximation.html</guid>
   <pubDate>Fri, 15 Jul 2022 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 0.12.2 of NIMBLE released, including an important bug fix for some models using Bayesian nonparametrics with the dCRP distribution</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</link>
+  <link>https://r-nimble.org/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</link>
   <description><![CDATA[ 
 
 
@@ -476,13 +476,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</guid>
+  <guid>https://r-nimble.org/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</guid>
   <pubDate>Fri, 04 Mar 2022 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>NIMBLE in-person short course, June 1-3, Lisbon, Portugal</title>
   <dc:creator>Chris Paciorek</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html</link>
+  <link>https://r-nimble.org/blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html</link>
   <description><![CDATA[ 
 
 
@@ -497,13 +497,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
  ]]></description>
   <category>education</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html</guid>
+  <guid>https://r-nimble.org/blog/nimble-in-person-short-course-june-1-3-lisbon-portugal.html</guid>
   <pubDate>Wed, 02 Mar 2022 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>A close look at some linear model MCMC comparisons</title>
   <dc:creator>Perry de Valpine</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</link>
+  <link>https://r-nimble.org/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</link>
   <description><![CDATA[ 
 
 
@@ -952,13 +952,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 
 
  ]]></description>
-  <guid>https://nimble-dev.github.io/site/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</guid>
+  <guid>https://r-nimble.org/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</guid>
   <pubDate>Thu, 11 Nov 2021 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>A close look at some posted trials of nimble for accelerated failure time models</title>
   <dc:creator>Perry de Valpine</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</link>
+  <link>https://r-nimble.org/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</link>
   <description><![CDATA[ 
 
 
@@ -1345,13 +1345,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 </section>
 
  ]]></description>
-  <guid>https://nimble-dev.github.io/site/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</guid>
+  <guid>https://r-nimble.org/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</guid>
   <pubDate>Fri, 29 Oct 2021 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>NIMBLE online tutorial, November 18, 2021</title>
   <dc:creator>Chris Paciorek</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/nimble-online-tutorial-november-18-2021.html</link>
+  <link>https://r-nimble.org/blog/nimble-online-tutorial-november-18-2021.html</link>
   <description><![CDATA[ 
 
 
@@ -1375,13 +1375,13 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
  ]]></description>
   <category>education</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/nimble-online-tutorial-november-18-2021.html</guid>
+  <guid>https://r-nimble.org/blog/nimble-online-tutorial-november-18-2021.html</guid>
   <pubDate>Wed, 20 Oct 2021 07:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Version 0.12.1 of NIMBLE released</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://nimble-dev.github.io/site/blog/version-0-12-1-of-nimble-released.html</link>
+  <link>https://r-nimble.org/blog/version-0-12-1-of-nimble-released.html</link>
   <description><![CDATA[ 
 
 
@@ -1404,7 +1404,7 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
  ]]></description>
   <category>release</category>
   <category>announcement</category>
-  <guid>https://nimble-dev.github.io/site/blog/version-0-12-1-of-nimble-released.html</guid>
+  <guid>https://r-nimble.org/blog/version-0-12-1-of-nimble-released.html</guid>
   <pubDate>Wed, 13 Oct 2021 07:00:00 GMT</pubDate>
 </item>
 </channel>

@@ -1,1 +1,1 @@
-Sitemap: https://nimble-dev.github.io/site/sitemap.xml
+Sitemap: https://r-nimble.org/sitemap.xml

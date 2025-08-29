@@ -323,28 +323,9 @@ window.Quarto = {
   </div>
 </li>
           <li class="sidebar-item">
- <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
-  </li>
-          <li class="px-0"><hr class="sidebar-divider hi "></li>
-          <li class="sidebar-item">
- <span class="menu-text">Feature Posts</span>
-  </li>
-          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">nimbleEcology: custom NIMBLE distributions for ecologists</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Posterior predictive sampling and other post-MCMC use of samples in NIMBLE</span></a>
+  <a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
       </ul>
@@ -508,7 +489,7 @@ Attaching package: 'coda'</code></pre>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RW_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.2562  0.3358  0.4494  0.5424  0.5458  1.1247 </code></pre>
+ 0.2490  0.3129  0.4415  0.5301  0.5466  1.1003 </code></pre>
 </div>
 </div>
 <p>Examining a trace plot of the output below, we see that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing especially poorly.</p>
@@ -575,7 +556,7 @@ conjugate sampler (101)
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AFSS_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  21.59   24.91   29.33   28.46   30.60   35.85 </code></pre>
+  21.50   23.42   29.11   27.83   29.15   35.95 </code></pre>
 </div>
 </div>
 <p>Note that the minimum overall efficiency of the AFSS sampler is approximately <code>28</code> times that of the <code>RW_block</code> sampler. Additionally, trace plots from the output of the AFSS sampler show that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing much more effectively than they were under the <code>RW_block</code> sampler.</p>
@@ -671,7 +652,7 @@ In: <em>Bayesian Analysis</em> 12.2, pp.&nbsp;465–490.</p>
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/nimble-dev\.github\.io\/site");
+        var filterRegex = new RegExp("https:\/\/r-nimble\.org");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

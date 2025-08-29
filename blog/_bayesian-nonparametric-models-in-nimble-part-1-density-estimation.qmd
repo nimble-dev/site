@@ -7,6 +7,8 @@ format:
     toc: true
     toc-depth: 2
 categories: ["announcement"]
+execute:
+  freeze: auto
 ---
 
 Bayesian Nonparametric Models in NIMBLE, Part 1: Density Estimation  

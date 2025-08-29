@@ -1,12 +1,9 @@
-add freeze:auto to all ones with code (see variable-selection-in-nimble-using-reversible-jump-mcmc.qmd)
-
 bayesian-nonparametric-models-in-nimble-part-1-density-estimation.qmd
 # samplesG stuff is messed up; use older nimble?
 bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects.qmd
 
-
-
-
+index.xml
+blog/index.qmd?
 
 
 
