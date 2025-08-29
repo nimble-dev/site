@@ -24,7 +24,7 @@ For more detailed information on NIMBLE and Bayesian nonparametrics in NIMBLE, s
 We will illustrate the use of nonparametric mixture models for modeling random effects distributions in the context of a meta-analysis of the side effects of a formerly very popular drug for diabetes called Avandia. The data we analyze played a role in raising serious questions about the safety of this drug. The question is whether Avandia use increases the risk of myocardial infarction (heart attack). There are 48 studies (the 49th study in the data file is different in some ways and excluded here), each with treatment and control arms.
     
 ```{r}  
-    dat <- read.csv('https://rawgit.com/nimble-dev/nimble-demos/master/intro_bnp/avandia.csv')
+    dat <- read.csv('../nimbleExamples/avandia.csv')
     head(dat)
     dat <- dat[-49, ]
 ```    
@@ -38,7 +38,11 @@ We begin with a standard generalized linear mixed model (GLMM)-based meta analys
 where the random effects, ![\\gamma_i](https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Cgamma_i&bg=ffffff&fg=000000&s=0), follow a common normal distribution, ![\\gamma_i \\sim \\mbox{N}\(0, \\tau^2\)](https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Cgamma_i+%5Csim+%5Cmbox%7BN%7D%280%2C+%5Ctau%5E2%29&bg=ffffff&fg=000000&s=0), and the ![\\theta](https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Ctheta&bg=ffffff&fg=000000&s=0) and ![\\tau^2](https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Ctau%5E2&bg=ffffff&fg=000000&s=0) are given reasonably non-informative priors. The parameter ![\\theta](https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Ctheta&bg=ffffff&fg=000000&s=0) quantifies the difference in risk between the control and treatment arms, while the ![\\gamma_i](https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Cgamma_i&bg=ffffff&fg=000000&s=0) quantify study-specific variation.
 
 This model can be specified in NIMBLE using the following code:
-    
+
+```{r}
+#| output: false
+library(nimble)
+```
 ```{r}    
     x <- dat$controlMI
     n <- dat$nControl

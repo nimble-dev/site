@@ -61,7 +61,11 @@ where
 ![K\(\\xi\) \\le n](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=K%28%5Cxi%29+%5Cle+n&bg=ffffff&fg=000000&s=0) is the number of unique values in the vector ![\\xi](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=%5Cxi&bg=ffffff&fg=000000&s=0), and ![m_k\(\\xi\)](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=m_k%28%5Cxi%29&bg=ffffff&fg=000000&s=0) is the number of times the ![k](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=k&bg=ffffff&fg=000000&s=0)-th unique value appears in ![\\xi](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=%5Cxi&bg=ffffff&fg=000000&s=0). This specification makes it clear that each observation belongs to any of _at most_ ![n](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=n&bg=ffffff&fg=000000&s=0) normally distributed clusters, and that the CRP distribution corresponds to the prior distribution on the partition structure. 
 
 NIMBLE’s specification of this model is given by
-    
+
+```{r}
+#| output: false
+library(nimble)
+```
 ```{r}    
     code <- nimbleCode({
       for(i in 1:n) {
@@ -190,24 +194,21 @@ While samples from the posterior distribution of linear functionals of the mixin
 The following code generates posterior samples from the random measure ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0). The `cMCMC` object includes the model and posterior samples from the parameters. The `getSamplesDPmeasure` function estimates a truncation level of ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0), namely `truncG`. The posterior samples are in a matrix with ![\(\\mbox{truncG} \\cdot \(p+1\)\)](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=%28%5Cmbox%7BtruncG%7D+%5Ccdot+%28p%2B1%29%29&bg=ffffff&fg=000000&s=0) columns, where ![p](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=p&bg=ffffff&fg=000000&s=0) is the dimension of the vector of parameters with distribution ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0) (in this example ![p=2](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=p%3D2&bg=ffffff&fg=000000&s=0)).
     
 ```{r}    
-    outputG <- getSamplesDPmeasure(cmcmc)
-    samplesG <- outputG else samplesG <- outputG$samples
+    samplesG <- getSamplesDPmeasure(cmcmc)
 ```    
 
 The following code computes posterior samples of ![P\(\\tilde{y} > 70\)](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=P%28%5Ctilde%7By%7D+%3E+70%29&bg=ffffff&fg=000000&s=0) using the posterior samples from the random measure ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0). Note that these samples are computed based on the transformed model and a value larger than 70 corresponds to a value larger than 0.03557236 on the above defined grid.
 
 ```{r}
-    truncG <- outputG$trunc # truncation level for G
-    
-    weightIndex <- grep('weight', colnames(samplesG))
-    muTildeIndex <- grep('muTilde', colnames(samplesG))
-    s2TildeIndex <- grep('s2Tilde', colnames(samplesG))
+    weightIndex <- grep('weight', colnames(samplesG[[1]]))
+    muTildeIndex <- grep('muTilde', colnames(samplesG[[1]]))
+    s2TildeIndex <- grep('s2Tilde', colnames(samplesG[[1]]))
     
     probY70 <- rep(0, nrow(samples))  # posterior samples of P(y.tilde > 70)
     for(i in seq_len(nrow(samples))) {
-      probY70[i] <- sum(samplesG[i, weightIndex] *
-                        pnorm(0.03557236, mean = samplesG[i, muTildeIndex],
-                          sd = sqrt(samplesG[i, s2TildeIndex]), lower.tail = FALSE))
+      probY70[i] <- sum(samplesG[[i]][, weightIndex] *
+                        pnorm(0.03557236, mean = samplesG[[i]][, muTildeIndex],
+                          sd = sqrt(samplesG[[i]][, s2TildeIndex]), lower.tail = FALSE))
     }
     
     hist(probY70,  xlab = "Probability", ylab = "P(yTilde > 70 | data)" , main = "" )
@@ -276,15 +277,13 @@ In this case we use the posterior samples of the parameters to construct a trace
 As before, we obtain samples from the posterior distribution of ![G](https://web.archive.org/web/20250518100700im_/https://s0.wp.com/latex.php?latex=G&bg=ffffff&fg=000000&s=0) using the `getSamplesDPmeasure` function. 
     
 ```{r}    
-    outputG <- getSamplesDPmeasure(cmcmc)
+    samlesG <- getSamplesDPmeasure(cmcmc)
     ## sampleDPmeasure: Approximating the random measure by a finite stick-breaking representation with and error smaller than 1e-10, leads to a truncation level of 28.
-    samplesG <- outputG else samplesG <- outputG$samples
 ```    
 
 We use these samples to create an estimate of the density of the data along with a pointwise 95% credible band:
     
 ```{r}
-    truncG <- outputG$trunc # truncation level for G
     grid <- seq(40, 100, len = 200)
     
     weightSamples <- samplesG[ , grep('weight', colnames(samplesG))]

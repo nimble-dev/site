@@ -44,7 +44,7 @@ website:
           - text: "Version 1.1.0 Released"
             href: blog/version-1-1-0-of-nimble-released.qmd
           - text: "Version 1.0.0 Released"
-            href: blog/version-1-0-0-of-nimble-released.qmd
+            href: blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.qmd
       - text: "More"
         menu:
           - text: "How to Contribute"
