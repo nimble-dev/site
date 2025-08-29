@@ -104,6 +104,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -364,8 +393,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="parametric-meta-analysis-of-avandia-myocardial-infarctions-mis">Parametric meta analysis of Avandia myocardial infarctions (MIs)</h2>
 <p>We will illustrate the use of nonparametric mixture models for modeling random effects distributions in the context of a meta-analysis of the side effects of a formerly very popular drug for diabetes called Avandia. The data we analyze played a role in raising serious questions about the safety of this drug. The question is whether Avandia use increases the risk of myocardial infarction (heart attack). There are 48 studies (the 49th study in the data file is different in some ways and excluded here), each with treatment and control arms.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../nimbleExamples/avandia.csv'</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../nimbleExamples/avandia.csv'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  trial nAvandia avandiaMI nControl controlMI
 1     1      357         2      176         0
@@ -375,57 +404,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5     5      232         1      116         0
 6     6       43         0       47         1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    dat <span class="ot">&lt;-</span> dat[<span class="sc">-</span><span class="dv">49</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat[<span class="sc">-</span><span class="dv">49</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="model-formulation" class="level3">
 <h3 class="anchored" data-anchor-id="model-formulation">Model formulation</h3>
-<p>We begin with a standard generalized linear mixed model (GLMM)-based meta analysis. The vectors <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=n&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> and <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=x&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> contain the total number of patients in the control and the number of patients suffering from myocardial infarctions in the control group of each study, respectively. Similarly, the vectors <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=m&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> and <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=y&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> contain similar information for patients receiving the drug Avandia. The model takes the form</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=++x_%7Bi%7D+%5Cmid+%5Ctheta%2C+%5Cgamma_i+%5Csim+%5Cmbox%7BBin%7D+%5Cleft%28n_i%2C+%5Cfrac%7B%5Cexp%5Cleft%5C%7B+%5Cgamma_i+%5Cright%5C%7D%7D%7B1+%2B+%5Cexp%5Cleft%5C%7B+%5Cgamma_i+%5Cright%5C%7D%7D+%5Cright%29+%2C+%5Cquad%5Cquad+y_%7Bi%7D+%5Cmid+%5Ctheta%2C+%5Cgamma_i+%5Csim+%5Cmbox%7BBin%7D+%5Cleft%28m_i%2C+%5Cfrac%7B%5Cexp%5Cleft%5C%7B+%5Ctheta+%2B+%5Cgamma_i+%5Cright%5C%7D%7D%7B1+%2B+%5Cexp%5Cleft%5C%7B+%5Ctheta+%2B+%5Cgamma_i+%5Cright%5C%7D%7D+%5Cright%29++&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"></p>
-<figcaption>x_{i} \mid \theta, \gamma_i \sim \mbox{Bin} \left(n_i, \frac{\exp\left\{ \gamma_i \right\}}{1 + \exp\left\{ \gamma_i \right\}} \right) , \quad\quad y_{i} \mid \theta, \gamma_i \sim \mbox{Bin} \left(m_i, \frac{\exp\left\{ \theta + \gamma_i \right\}}{1 + \exp\left\{ \theta + \gamma_i \right\}} \right)</figcaption>
-</figure>
-</div>
-<p>where the random effects, <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Cgamma_i&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, follow a common normal distribution, <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Cgamma_i+%5Csim+%5Cmbox%7BN%7D%280%2C+%5Ctau%5E2%29&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">, and the <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Ctheta&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> and <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Ctau%5E2&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> are given reasonably non-informative priors. The parameter <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Ctheta&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> quantifies the difference in risk between the control and treatment arms, while the <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Cgamma_i&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> quantify study-specific variation.</p>
+<p>We begin with a standard generalized linear mixed model (GLMM)-based meta analysis. The vectors <span class="math inline">\(n\)</span> and <span class="math inline">\(x\)</span> contain the total number of patients in the control and the number of patients suffering from myocardial infarctions in the control group of each study, respectively. Similarly, the vectors <span class="math inline">\(m\)</span> and <span class="math inline">\(y\)</span> contain similar information for patients receiving the drug Avandia. The model takes the form</p>
+<p><span class="math display">\[x_{i} \mid \theta, \gamma_i \sim \text{Bin} \left(n_i, \frac{\exp\left\{ \gamma_i \right\}}{1 + \exp\left\{ \gamma_i \right\}} \right) , \quad\quad y_{i} \mid \theta, \gamma_i \sim \text{Bin} \left(m_i, \frac{\exp\left\{ \theta + \gamma_i \right\}}{1 + \exp\left\{ \theta + \gamma_i \right\}} \right)\]</span></p>
+<p>where the random effects, <span class="math inline">\(\gamma_i\)</span>, follow a common normal distribution, <span class="math inline">\(\gamma_i \sim \text{N}(0, \tau^2)\)</span>, and the <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\tau^2\)</span> are given reasonably non-informative priors. The parameter <span class="math inline">\(\theta\)</span> quantifies the difference in risk between the control and treatment arms, while the <span class="math inline">\(\gamma_i\)</span> quantify study-specific variation.</p>
 <p>This model can be specified in NIMBLE using the following code:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> dat<span class="sc">$</span>controlMI</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> dat<span class="sc">$</span>nControl</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> dat<span class="sc">$</span>avandiaMI</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    m <span class="ot">&lt;-</span> dat<span class="sc">$</span>nAvandia</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    nStudies <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dat)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    constants <span class="ot">=</span> <span class="fu">list</span>(<span class="at">n =</span> n, <span class="at">m =</span> m, <span class="at">nStudies =</span> nStudies)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    codeParam <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nStudies) {</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            y[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> m[i], <span class="at">prob =</span> q[i]) <span class="co"># avandia MIs</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            x[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> n[i], <span class="at">prob =</span> p[i]) <span class="co"># control MIs</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            q[i] <span class="ot">&lt;-</span> <span class="fu">expit</span>(theta <span class="sc">+</span> gamma[i])       <span class="co"># Avandia log-odds</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> <span class="fu">expit</span>(gamma[i])               <span class="co"># control log-odds</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            gamma[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu, <span class="at">var =</span> tau2)      <span class="co"># study effects</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        theta <span class="sc">~</span> <span class="fu">dflat</span>()        <span class="co"># effect of Avandia</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># random effects hyperparameters</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        mu <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        tau2 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dat<span class="sc">$</span>controlMI</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> dat<span class="sc">$</span>nControl</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> dat<span class="sc">$</span>avandiaMI</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> dat<span class="sc">$</span>nAvandia</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>nStudies <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dat)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>constants <span class="ot">=</span> <span class="fu">list</span>(<span class="at">n =</span> n, <span class="at">m =</span> m, <span class="at">nStudies =</span> nStudies)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>codeParam <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nStudies) {</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        y[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> m[i], <span class="at">prob =</span> q[i]) <span class="co"># avandia MIs</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        x[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> n[i], <span class="at">prob =</span> p[i]) <span class="co"># control MIs</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        q[i] <span class="ot">&lt;-</span> <span class="fu">expit</span>(theta <span class="sc">+</span> gamma[i])       <span class="co"># Avandia log-odds</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        p[i] <span class="ot">&lt;-</span> <span class="fu">expit</span>(gamma[i])               <span class="co"># control log-odds</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        gamma[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu, <span class="at">var =</span> tau2)      <span class="co"># study effects</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    theta <span class="sc">~</span> <span class="fu">dflat</span>()        <span class="co"># effect of Avandia</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># random effects hyperparameters</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    mu <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    tau2 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="running-the-mcmc" class="level3">
 <h3 class="anchored" data-anchor-id="running-the-mcmc">Running the MCMC</h3>
 <p>Let’s run a basic MCMC.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    inits <span class="ot">=</span> <span class="fu">list</span>(<span class="at">theta =</span> <span class="dv">0</span>, <span class="at">mu =</span> <span class="dv">0</span>, <span class="at">tau2 =</span> <span class="dv">1</span>, <span class="at">gamma =</span> <span class="fu">rnorm</span>(nStudies))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    samples <span class="ot">&lt;-</span> <span class="fu">nimbleMCMC</span>(<span class="at">code =</span> codeParam, <span class="at">data =</span> data, <span class="at">inits =</span> inits,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">constants =</span> constants, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"tau2"</span>, <span class="st">"theta"</span>, <span class="st">"gamma"</span>),</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">niter =</span> <span class="dv">22000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">nchains =</span> <span class="dv">1</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">=</span> <span class="fu">list</span>(<span class="at">theta =</span> <span class="dv">0</span>, <span class="at">mu =</span> <span class="dv">0</span>, <span class="at">tau2 =</span> <span class="dv">1</span>, <span class="at">gamma =</span> <span class="fu">rnorm</span>(nStudies))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">nimbleMCMC</span>(<span class="at">code =</span> codeParam, <span class="at">data =</span> data, <span class="at">inits =</span> inits,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">constants =</span> constants, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"tau2"</span>, <span class="st">"theta"</span>, <span class="st">"gamma"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">niter =</span> <span class="dv">22000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">nchains =</span> <span class="dv">1</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -457,19 +481,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>|-------------|-------------|-------------|-------------|
 |-------------------------------------------------------|</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">cex =</span> <span class="fl">1.1</span>, <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.8</span>,.<span class="dv">7</span>,<span class="dv">0</span>))</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ts.plot</span>(samples[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="st">'iteration'</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(theta))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist</span>(samples[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">main =</span> <span class="st">'effect of Avandia'</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    gammaCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'gamma'</span>, <span class="fu">colnames</span>(samples))</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    gammaMn <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(samples[ , gammaCols])</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist</span>(gammaMn, <span class="at">xlab =</span> <span class="st">'posterior means'</span>, <span class="at">main =</span> <span class="st">'random effects distribution'</span>)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist</span>(samples[<span class="dv">1000</span>, gammaCols], <span class="at">xlab =</span> <span class="st">'single draw'</span>,</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">main =</span> <span class="st">'random effects distribution'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.8</span>,.<span class="dv">7</span>,<span class="dv">0</span>), <span class="at">mai =</span> <span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">5</span>,.<span class="dv">4</span>,.<span class="dv">1</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(samples[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="st">'iteration'</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(theta))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samples[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">main =</span> <span class="st">'effect of Avandia'</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>gammaCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'gamma'</span>, <span class="fu">colnames</span>(samples))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>gammaMn <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(samples[ , gammaCols])</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(gammaMn, <span class="at">xlab =</span> <span class="st">'posterior means'</span>, <span class="at">main =</span> <span class="st">'random effects distribution'</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samples[<span class="dv">1000</span>, gammaCols], <span class="at">xlab =</span> <span class="st">'single draw'</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main =</span> <span class="st">'random effects distribution'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -481,55 +505,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="dp-based-random-effects-modeling-for-meta-analysis">DP-based random effects modeling for meta analysis</h2>
 <section id="model-formulation-1" class="level3">
 <h3 class="anchored" data-anchor-id="model-formulation-1">Model formulation</h3>
-<p>Now, we use a nonparametric distribution for the <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Cgamma_i&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid">s. More specifically, we assume that each <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=%5Cgamma_i&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> is generated from a location-scale mixture of normal distributions:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=++%5Cgamma_i+%5Cmid+%5Cmu_i%2C+%5Ctau_i%5E2+%5Csim+%5Cmbox%7BN%7D%28%5Cmu_i%2C+%5Ctau_i%5E2%29%2C+%5Cquad%5Cquad+%28%5Cmu_i%2C+%5Ctau_i%5E2%29+%5Cmid+G+%5Csim+G%2C+%5Cquad%5Cquad+G+%5Csim+%5Cmbox%7BDP%7D%28%5Calpha%2C+H%29%2C++&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"></p>
-<figcaption>\gamma_i \mid \mu_i, \tau_i^2 \sim \mbox{N}(\mu_i, \tau_i^2), \quad\quad (\mu_i, \tau_i^2) \mid G \sim G, \quad\quad G \sim \mbox{DP}(\alpha, H),</figcaption>
-</figure>
-</div>
-<p>where <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=H&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> is a normal-inverse-gamma distribution.</p>
-<p>This specification induces clustering among the random effects. As in the case of density estimation problems, the DP prior allows the data to determine the number of components, from as few as one component (i.e., simplifying to the parametric model), to as many as <embed src="https://web.archive.org/web/20250518104016im_/https://s0.wp.com/latex.php?latex=n&amp;bg=ffffff&amp;fg=000000&amp;s=0" class="img-fluid"> components, i.e., one component for each observation. This allows the distribution of the random effects to be multimodal if the data supports such behavior, greatly increasing its flexibility. This model can be specified in NIMBLE using the following code:</p>
+<p>Now, we use a nonparametric distribution for the <span class="math inline">\(\gamma_i\)</span>s. More specifically, we assume that each <span class="math inline">\(\gamma_i\)</span> is generated from a location-scale mixture of normal distributions:</p>
+<p><span class="math display">\[\gamma_i \mid \mu_i, \tau_i^2 \sim \text{N}(\mu_i, \tau_i^2), \quad\quad (\mu_i, \tau_i^2) \mid G \sim G, \quad\quad G \sim \text{DP}(\alpha, H),\]</span></p>
+<p>where <span class="math inline">\(H\)</span> is a normal-inverse-gamma distribution.</p>
+<p>This specification induces clustering among the random effects. As in the case of density estimation problems, the DP prior allows the data to determine the number of components, from as few as one component (i.e., simplifying to the parametric model), to as many as <span class="math inline">\(n\)</span> components, i.e., one component for each observation. This allows the distribution of the random effects to be multimodal if the data supports such behavior, greatly increasing its flexibility. This model can be specified in NIMBLE using the following code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>    codeBNP <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nStudies) {</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>            y[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> m[i], <span class="at">prob =</span> q[i])   <span class="co"># avandia MIs</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>            x[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> n[i], <span class="at">prob =</span> p[i])   <span class="co"># control MIs</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>            q[i] <span class="ot">&lt;-</span> <span class="fu">expit</span>(theta <span class="sc">+</span> gamma[i])         <span class="co"># Avandia log-odds</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> <span class="fu">expit</span>(gamma[i])                 <span class="co"># control log-odds</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>            gamma[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu[i], <span class="at">var =</span> tau2[i])  <span class="co"># random effects from mixture dist.</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>            mu[i] <span class="ot">&lt;-</span> muTilde[xi[i]]                 <span class="co"># mean for random effect from cluster xi[i]</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>            tau2[i] <span class="ot">&lt;-</span> tau2Tilde[xi[i]]             <span class="co"># var for random effect from cluster xi[i]</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># mixture component parameters drawn from base measures</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nStudies) {</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>            muTilde[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu0, <span class="at">var =</span> var0)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>            tau2Tilde[i] <span class="sc">~</span> <span class="fu">dinvgamma</span>(a0, b0)</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># CRP for clustering studies to mixture components</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        xi[<span class="dv">1</span><span class="sc">:</span>nStudies] <span class="sc">~</span> <span class="fu">dCRP</span>(alpha, <span class="at">size =</span> nStudies)</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># hyperparameters</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        alpha <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        mu0 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        var0 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        a0 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>        b0 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>        theta <span class="sc">~</span> <span class="fu">dflat</span>()          <span class="co"># effect of Avandia</span></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>codeBNP <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nStudies) {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        y[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> m[i], <span class="at">prob =</span> q[i])   <span class="co"># avandia MIs</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        x[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> n[i], <span class="at">prob =</span> p[i])   <span class="co"># control MIs</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        q[i] <span class="ot">&lt;-</span> <span class="fu">expit</span>(theta <span class="sc">+</span> gamma[i])         <span class="co"># Avandia log-odds</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        p[i] <span class="ot">&lt;-</span> <span class="fu">expit</span>(gamma[i])                 <span class="co"># control log-odds</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        gamma[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu[i], <span class="at">var =</span> tau2[i])  <span class="co"># random effects from mixture dist.</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        mu[i] <span class="ot">&lt;-</span> muTilde[xi[i]]                 <span class="co"># mean for random effect from cluster xi[i]</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        tau2[i] <span class="ot">&lt;-</span> tau2Tilde[xi[i]]             <span class="co"># var for random effect from cluster xi[i]</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mixture component parameters drawn from base measures</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nStudies) {</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        muTilde[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu0, <span class="at">var =</span> var0)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        tau2Tilde[i] <span class="sc">~</span> <span class="fu">dinvgamma</span>(a0, b0)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># CRP for clustering studies to mixture components</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    xi[<span class="dv">1</span><span class="sc">:</span>nStudies] <span class="sc">~</span> <span class="fu">dCRP</span>(alpha, <span class="at">size =</span> nStudies)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># hyperparameters</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    alpha <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    mu0 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    var0 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    a0 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    b0 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    theta <span class="sc">~</span> <span class="fu">dflat</span>()          <span class="co"># effect of Avandia</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="running-the-mcmc-1" class="level3">
 <h3 class="anchored" data-anchor-id="running-the-mcmc-1">Running the MCMC</h3>
 <p>The following code compiles the model and runs a collapsed Gibbs sampler for the model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>    inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gamma =</span> <span class="fu">rnorm</span>(nStudies), <span class="at">xi =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, nStudies, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">mu0 =</span> <span class="dv">0</span>, <span class="at">var0 =</span> <span class="dv">1</span>, <span class="at">a0 =</span> <span class="dv">1</span>, <span class="at">b0 =</span> <span class="dv">1</span>, <span class="at">theta =</span> <span class="dv">0</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">muTilde =</span> <span class="fu">rnorm</span>(nStudies), <span class="at">tau2Tilde =</span> <span class="fu">rep</span>(<span class="dv">1</span>, nStudies))</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    samplesBNP <span class="ot">&lt;-</span> <span class="fu">nimbleMCMC</span>(<span class="at">code =</span> codeBNP, <span class="at">data =</span> data, <span class="at">inits =</span> inits,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">constants =</span> constants,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"theta"</span>, <span class="st">"gamma"</span>, <span class="st">"alpha"</span>, <span class="st">"xi"</span>, <span class="st">"mu0"</span>, <span class="st">"var0"</span>, <span class="st">"a0"</span>, <span class="st">"b0"</span>),</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">niter =</span> <span class="dv">22000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">nchains =</span> <span class="dv">1</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gamma =</span> <span class="fu">rnorm</span>(nStudies), <span class="at">xi =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, nStudies, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">mu0 =</span> <span class="dv">0</span>, <span class="at">var0 =</span> <span class="dv">1</span>, <span class="at">a0 =</span> <span class="dv">1</span>, <span class="at">b0 =</span> <span class="dv">1</span>, <span class="at">theta =</span> <span class="dv">0</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">muTilde =</span> <span class="fu">rnorm</span>(nStudies), <span class="at">tau2Tilde =</span> <span class="fu">rep</span>(<span class="dv">1</span>, nStudies))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>samplesBNP <span class="ot">&lt;-</span> <span class="fu">nimbleMCMC</span>(<span class="at">code =</span> codeBNP, <span class="at">data =</span> data, <span class="at">inits =</span> inits,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">constants =</span> constants,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"theta"</span>, <span class="st">"gamma"</span>, <span class="st">"alpha"</span>, <span class="st">"xi"</span>, <span class="st">"mu0"</span>, <span class="st">"var0"</span>, <span class="st">"a0"</span>, <span class="st">"b0"</span>),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">niter =</span> <span class="dv">22000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">nchains =</span> <span class="dv">1</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -561,28 +580,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>|-------------|-------------|-------------|-------------|
 |-------------------------------------------------------|</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>    gammaCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'gamma'</span>, <span class="fu">colnames</span>(samplesBNP))</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    gammaMn <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(samplesBNP[ , gammaCols])</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    xiCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'xi'</span>, <span class="fu">colnames</span>(samplesBNP))</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>), <span class="at">cex =</span> <span class="fl">1.1</span>, <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.8</span>,.<span class="dv">7</span>,<span class="dv">0</span>))</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ts.plot</span>(samplesBNP[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="st">'iteration'</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(theta),</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">'traceplot for '</span>, theta)))</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist</span>(samplesBNP[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">main =</span> <span class="st">'effect of Avandia'</span>)</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist</span>(gammaMn, <span class="at">xlab =</span> <span class="st">'posterior means'</span>,</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">main =</span> <span class="st">"random effects distrib'n"</span>)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist</span>(samplesBNP[<span class="dv">1000</span>, gammaCols], <span class="at">xlab =</span> <span class="st">'single draw'</span>,</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">main =</span> <span class="st">"random effects distrib'n"</span>)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># How many mixture components are inferred?</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    xiRes <span class="ot">&lt;-</span> samplesBNP[ , xiCols]</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    nGrps <span class="ot">&lt;-</span> <span class="fu">apply</span>(xiRes, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unique</span>(x)))</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ts.plot</span>(nGrps, <span class="at">xlab =</span> <span class="st">'iteration'</span>, <span class="at">ylab =</span> <span class="st">'number of components'</span>,</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> <span class="st">'number of components'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gammaCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'gamma'</span>, <span class="fu">colnames</span>(samplesBNP))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>gammaMn <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(samplesBNP[ , gammaCols])</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>xiCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'xi'</span>, <span class="fu">colnames</span>(samplesBNP))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>), <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.8</span>,.<span class="dv">7</span>,<span class="dv">0</span>), <span class="at">mai =</span> <span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">5</span>,.<span class="dv">4</span>,.<span class="dv">1</span>))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(samplesBNP[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="st">'iteration'</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(theta),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">main =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">'traceplot for '</span>, theta)))</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samplesBNP[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">main =</span> <span class="st">'effect of Avandia'</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(gammaMn, <span class="at">xlab =</span> <span class="st">'posterior means'</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">main =</span> <span class="st">"random effects distrib'n"</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samplesBNP[<span class="dv">1000</span>, gammaCols], <span class="at">xlab =</span> <span class="st">'single draw'</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main =</span> <span class="st">"random effects distrib'n"</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co"># How many mixture components are inferred?</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>xiRes <span class="ot">&lt;-</span> samplesBNP[ , xiCols]</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>nGrps <span class="ot">&lt;-</span> <span class="fu">apply</span>(xiRes, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unique</span>(x)))</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(nGrps, <span class="at">xlab =</span> <span class="st">'iteration'</span>, <span class="at">ylab =</span> <span class="st">'number of components'</span>,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>   <span class="at">main =</span> <span class="st">'number of components'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="1152"></p>
 </figure>
 </div>
 </div>

@@ -133,51 +133,35 @@
     <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/blog/version-0-13-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
+    <loc>https://r-nimble.org/blog/bayesian-nonparametric-models-in-nimble-part-1-density-estimation.html</loc>
+    <lastmod>2025-08-29T20:45:00.755Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</loc>
-    <lastmod>2025-08-26T00:40:41.250Z</lastmod>
+    <loc>https://r-nimble.org/blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/blog/version-1-2-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-29T01:05:54.707Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/nimble-virtual-short-course-may-26-28.html</loc>
-    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</loc>
-    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects.html</loc>
-    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</loc>
-    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/version-0-4-released.html</loc>
-    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/version-0-6-4-of-nimble-released.html</loc>
-    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/version-0-6-8-of-nimble-released-2.html</loc>
+    <loc>https://r-nimble.org/blog/version-0-9-1-of-nimble-released.html</loc>
     <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/release-notes.html</loc>
-    <lastmod>2025-08-17T18:17:59.354Z</lastmod>
+    <loc>https://r-nimble.org/blog/version-0-6-2-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/blog/version-0-6-9-of-nimble-released.html</loc>
+    <loc>https://r-nimble.org/blog/version-0-6-11-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/nimble-workshop-in-switzerland-23-25-april.html</loc>
+    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html</loc>
+    <lastmod>2025-08-29T01:05:54.700Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/version-0-6-6-of-nimble-released.html</loc>
     <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
@@ -185,32 +169,52 @@
     <lastmod>2025-08-29T01:05:54.704Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/blog/version-0-6-6-of-nimble-released.html</loc>
+    <loc>https://r-nimble.org/blog/version-0-6-9-of-nimble-released.html</loc>
     <lastmod>2025-08-29T01:05:54.706Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html</loc>
+    <loc>https://r-nimble.org/release-notes.html</loc>
+    <lastmod>2025-08-17T18:17:59.354Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/version-0-6-8-of-nimble-released-2.html</loc>
+    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/version-0-6-4-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/version-0-4-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/version-0-12-2-of-nimble-released-including-an-important-bug-fix-for-some-models-using-bayesian-nonparametrics-with-the-dcrp-distribution.html</loc>
+    <lastmod>2025-08-29T01:05:54.704Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects.html</loc>
+    <lastmod>2025-08-29T19:33:00.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</loc>
     <lastmod>2025-08-29T01:05:54.700Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/blog/nimble-workshop-in-switzerland-23-25-april.html</loc>
-    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
+    <loc>https://r-nimble.org/blog/nimble-virtual-short-course-may-26-28.html</loc>
+    <lastmod>2025-08-29T01:05:54.702Z</lastmod>
   </url>
   <url>
-    <loc>https://r-nimble.org/blog/version-0-6-11-of-nimble-released.html</loc>
+    <loc>https://r-nimble.org/blog/version-1-2-1-of-nimble-released.html</loc>
+    <lastmod>2025-08-29T01:05:54.707Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/nimblehmc-version-0-2-0-released-providing-improved-hmc-performance.html</loc>
+    <lastmod>2025-08-26T00:40:41.250Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-nimble.org/blog/version-0-13-1-of-nimble-released.html</loc>
     <lastmod>2025-08-29T01:05:54.705Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/version-0-6-2-released.html</loc>
-    <lastmod>2025-08-29T01:05:54.705Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/version-0-9-1-of-nimble-released.html</loc>
-    <lastmod>2025-08-29T01:05:54.706Z</lastmod>
-  </url>
-  <url>
-    <loc>https://r-nimble.org/blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html</loc>
-    <lastmod>2025-08-29T01:05:54.703Z</lastmod>
   </url>
   <url>
     <loc>https://r-nimble.org/blog/version-0-6-3-released.html</loc>

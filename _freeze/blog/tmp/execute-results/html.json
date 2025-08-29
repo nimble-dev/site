@@ -1,0 +1,17 @@
+{
+  "hash": "8291c5b9aedc9cbbd60fd7cf42ccef70",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Bayesian Nonparametric Models in NIMBLE, Part 2: Nonparametric Random Effects\"\ndate: \"2018-12-06\"\nformat:\n  html:\n    toc: true\n    toc-depth: 2\ncategories: [\"tutorial\"]\nexecute:\n  freeze: auto\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\npar(mfrow=c(1,5))\nhist(rnorm(10))\nhist(rnorm(10))\nhist(rnorm(10))\nhist(rnorm(10))\nhist(rnorm(10))\n```\n\n::: {.cell-output-display}\n![](tmp_files/figure-html/unnamed-chunk-1-1.png){width=960}\n:::\n:::\n",
+    "supporting": [
+      "tmp_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

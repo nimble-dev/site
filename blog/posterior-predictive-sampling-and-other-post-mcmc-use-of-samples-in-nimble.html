@@ -485,7 +485,7 @@ conjugate sampler (2)
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  4.386   0.004   4.390 </code></pre>
+  4.324   0.003   4.327 </code></pre>
 </div>
 </div>
 <p>Side note: For large models, it might be faster to use the variable names as the second argument to <code>values()</code> rather than the names of all the elements of the variables. If one chooses to do this, it’s important to check that the ordering of variables in the ‘flattened’ values in <code>samples</code> is the same as the ordering of variables in the second argument to <code>values</code> so that the first line of the for loop assigns the values from <code>samples</code> correctly into the model.</p>
@@ -574,7 +574,7 @@ Using posterior samples of: mu,sigma .</code></pre>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(ppSamples_via_nf <span class="ot">&lt;-</span> cppSampler<span class="sc">$</span><span class="fu">run</span>(samples))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.003   0.000   0.003 </code></pre>
+  0.002   0.000   0.002 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(ppSamples, ppSamples_via_nf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

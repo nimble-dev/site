@@ -6,10 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2015-09-24">
+<meta name="dcterms.date" content="2018-12-06">
 
-<title>We have a post-doc opening – NIMBLE</title>
+<title>Bayesian Nonparametric Models in NIMBLE, Part 2: Nonparametric Random Effects – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -143,7 +177,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released.qmd">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
   </li>  
     </ul>
@@ -189,7 +223,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">We have a post-doc opening</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Bayesian Nonparametric Models in NIMBLE, Part 2: Nonparametric Random Effects</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -259,28 +293,9 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
           <li class="sidebar-item">
- <span class="menu-text">blog/version-1-0-0-of-nimble-released.qmd</span>
-  </li>
-          <li class="px-0"><hr class="sidebar-divider hi "></li>
-          <li class="sidebar-item">
- <span class="menu-text">Feature Posts</span>
-  </li>
-          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../blog/nimbleecology-custom-nimble-distributions-for-ecologists.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">nimbleEcology: custom NIMBLE distributions for ecologists</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Bayesian Nonparametric Models in NIMBLE: General Multivariate Models</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Posterior predictive sampling and other post-MCMC use of samples in NIMBLE</span></a>
+  <a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
       </ul>
@@ -298,9 +313,9 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">We have a post-doc opening</h1>
+<h1 class="title">Bayesian Nonparametric Models in NIMBLE, Part 2: Nonparametric Random Effects</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">announcement</div>
+    <div class="quarto-category">tutorial</div>
   </div>
   </div>
 
@@ -308,17 +323,11 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>NIMBLE Development Team </p>
-          </div>
-  </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 24, 2015</p>
+      <p class="date">December 6, 2018</p>
     </div>
   </div>
   
@@ -330,29 +339,21 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>We have a 1-year opening for a post-doc interested in developing statistical methods in NIMBLE.</p>
-<p>Here is the official, approved job advertisement:</p>
-<p>POSTDOCTORAL SCHOLAR POSITION AVAILABLE IN COMPUTATIONAL STATISTICS – UNIVERSITY OF CALIFORNIA, BERKELEY</p>
-<p>The Departments of Statistics and Environmental Science Policy, and Management have an opening for a Postdoctoral Scholar – Employee to develop and apply statistical algorithms as part of the NIMBLE software development team. NIMBLE is a NSF-funded framework for programming computational methods for general hierarchical models such as Markov chain Monte Carlo, sequential Monte Carlo, and numerical integration and approximation. More information is available at R-nimble.org. The post- doc will be supervised by co-PIs Perry de Valpine and Chris Paciorek. We seek a candidate who will build out NIMBLE’s algorithm library, which includes using it as a platform for methodological and applied research. The successful candidate will be expected to author peer-reviewed publications and contribute to software development.</p>
-<p>BASIC QUALIFICATIONS</p>
-<p>Candidates must have completed all degree requirements except the dissertation or be enrolled in an accredited PhD or equivalent degree in a statistical field such as Statistics or Computer Science or a field of statistical application at the time of application.</p>
-<p>ADDITIONAL QUALIFICATIONS</p>
-<p>Candidates must have a PhD or equivalent degree in a statistical field such as Statistics or Computer Science or in a field of statistical application such as biology, ecology, environmental science, political science, psychology, education, public health or related field by appointment start date.</p>
-<p>PREFERRED QUALIFICATIONS</p>
-<p>Demonstrated experience programming complex scientific computing applications using R and/or C++, Python or others. Demonstrated experience advancing computational statistical methodology by appointment start date.</p>
-<p>APPOINTMENT</p>
-<p>The position is available to start immediately but we seek the best candidate even if they cannot start until a later date. The initial appointment is for one-year, with renewal based on performance and funding. This is a full-time appointment.</p>
-<p>SALARY AND BENEFITS</p>
-<p>Salary will be commensurate with qualifications and experience. Generous benefits are included (http://vspa.berkeley.edu/postdocs)</p>
-<p>TO APPLY</p>
-<p>Visit: https://aprecruit.berkeley.edu/apply/JPF00860</p>
-<p>Interested individuals should include a 1-2 page cover letter describing their research experience and publications along with a current CV and the names and contact information of three references. Letters of reference may be requested for finalists. It is optional to include a statement addressing past and/or potential contributions to diversity through research, teaching, and/or service.</p>
-<p>This position will remain open until filled.</p>
-<p>Questions regarding this recruitment can be directed to Maria P. Aranas, aranas4@berkeley.edu.</p>
-<p>All letters will be treated as confidential per University of California policy and California state law. Please refer potential referees, including when letters are provided via a third party (i.e.&nbsp;dossier service or career center) to the UC Berkeley Statement of Confidentiality (http://apo.berkeley.edu/evalltr.html ) prior to submitting their letters.</p>
-<p>The University of California is an Equal Opportunity/Affirmative Action Employer. All qualified applicants will receive consideration for employment without regard to race, color, religion, sex, sexual orientation, gender identity, national origin, disability, age or protected veteran status. For the complete University of California nondiscrimination and affirmative action policy see: http://policy.ucop.edu/doc/4000376/NondiscrimAffirmAct</p>
-<p>The Department is interested in candidates who will contribute to diversity and equal opportunity in higher education through their research or teaching.</p>
-<p>The University of California, Berkeley has an excellent benefits package as well as a number of policies and programs in place to support employees as they balance work and family.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tmp_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 
@@ -429,7 +430,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/nimble-dev\.github\.io\/site");
+        var filterRegex = new RegExp("https:\/\/r-nimble\.org");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

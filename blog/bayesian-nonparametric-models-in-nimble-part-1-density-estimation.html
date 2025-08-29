@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="NIMBLE Development Team">
+<meta name="dcterms.date" content="2018-12-04">
+
+<title>Bayesian Nonparametric Models in NIMBLE, Part 1: Density Estimation – NIMBLE</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../what-is-nimble.html"> 
+<span class="menu-text">What is NIMBLE?</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../examples.html"> 
+<span class="menu-text">Examples</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../documentation.html"> 
+<span class="menu-text">Documentation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../download.html"> 
+<span class="menu-text">Download</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-blog" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Blog</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-blog">    
+        <li>
+    <a class="dropdown-item" href="../blog/index.html">
+ <span class="dropdown-text">All Posts</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Recent Posts</li>
+        <li>
+    <a class="dropdown-item" href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">
+ <span class="dropdown-text">nimbleMacros Package</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-3-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.3.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-2-1-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.2.1 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-2-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.2.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-1-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.1.0 Released</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
+ <span class="dropdown-text">Version 1.0.0 Released</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../contributing.html">
+ <span class="dropdown-text">How to Contribute</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../release-notes.html">
+ <span class="dropdown-text">Release Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../groups-and-issues.html">
+ <span class="dropdown-text">Groups and Issues</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../license-and-citation.html">
+ <span class="dropdown-text">License and Citation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../about-us.html">
+ <span class="dropdown-text">About Us</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools tools-wide">
+    <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="../blog/index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Bayesian Nonparametric Models in NIMBLE, Part 1: Density Estimation</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Blog Posts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All Posts</span></a>
+  </div>
+</li>
+          <li class="px-0"><hr class="sidebar-divider hi "></li>
+          <li class="sidebar-item">
+ <span class="menu-text">Recent Posts</span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-3-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.3.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-2-1-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.2.1 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-2-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.2.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-1-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.1.0 of NIMBLE released</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#bayesian-nonparametrics-in-nimble-density-estimation" id="toc-bayesian-nonparametrics-in-nimble-density-estimation" class="nav-link active" data-scroll-target="#bayesian-nonparametrics-in-nimble-density-estimation">Bayesian nonparametrics in NIMBLE: Density estimation</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#basic-density-estimation-using-dirichlet-process-mixture-models" id="toc-basic-density-estimation-using-dirichlet-process-mixture-models" class="nav-link" data-scroll-target="#basic-density-estimation-using-dirichlet-process-mixture-models">Basic density estimation using Dirichlet Process Mixture models</a></li>
+  <li><a href="#fitting-a-location-scale-mixture-of-gaussian-distributions-using-the-crp-representation" id="toc-fitting-a-location-scale-mixture-of-gaussian-distributions-using-the-crp-representation" class="nav-link" data-scroll-target="#fitting-a-location-scale-mixture-of-gaussian-distributions-using-the-crp-representation">Fitting a location-scale mixture of Gaussian distributions using the CRP representation</a></li>
+  <li><a href="#fitting-a-mixture-of-gamma-distributions-using-the-crp-representation" id="toc-fitting-a-mixture-of-gamma-distributions-using-the-crp-representation" class="nav-link" data-scroll-target="#fitting-a-mixture-of-gamma-distributions-using-the-crp-representation">Fitting a mixture of gamma distributions using the CRP representation</a></li>
+  <li><a href="#fitting-a-dp-mixture-of-gammas-using-a-stick-breaking-representation" id="toc-fitting-a-dp-mixture-of-gammas-using-a-stick-breaking-representation" class="nav-link" data-scroll-target="#fitting-a-dp-mixture-of-gammas-using-a-stick-breaking-representation">Fitting a DP mixture of Gammas using a stick-breaking representation</a></li>
+  <li><a href="#more-information-and-future-development" id="toc-more-information-and-future-development" class="nav-link" data-scroll-target="#more-information-and-future-development">More information and future development</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Bayesian Nonparametric Models in NIMBLE, Part 1: Density Estimation</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">announcement</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>NIMBLE Development Team </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 4, 2018</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Bayesian Nonparametric Models in NIMBLE, Part 1: Density Estimation</p>
+<section id="bayesian-nonparametrics-in-nimble-density-estimation" class="level1">
+<h1>Bayesian nonparametrics in NIMBLE: Density estimation</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>NIMBLE is a hierarchical modeling package that uses nearly the same language for model specification as the popular MCMC packages WinBUGS, OpenBUGS and JAGS, while making the modeling language extensible — you can add distributions and functions — and also allowing customization of the algorithms used to estimate the parameters of the model.</p>
+<p>Recently, we added support for Markov chain Monte Carlo (MCMC) inference for Bayesian nonparametric (BNP) mixture models to NIMBLE. In particular, starting with version 0.6-11, NIMBLE provides functionality for fitting models involving Dirichlet process priors using either the Chinese Restaurant Process (CRP) or a truncated stick-breaking (SB) representation of the Dirichlet process prior.</p>
+<p>In this post we illustrate NIMBLE’s BNP capabilities by showing how to use nonparametric mixture models with different kernels for density estimation. In a later post, we will take a parametric generalized linear mixed model and show how to switch to a nonparametric representation of the random effects that avoids the assumption of normally-distributed random effects.</p>
+<p>For more detailed information on NIMBLE and Bayesian nonparametrics in NIMBLE, see the <a href="https://r-nimble.org/documentation">NIMBLE User Manual</a>.</p>
+</section>
+<section id="basic-density-estimation-using-dirichlet-process-mixture-models" class="level2">
+<h2 class="anchored" data-anchor-id="basic-density-estimation-using-dirichlet-process-mixture-models">Basic density estimation using Dirichlet Process Mixture models</h2>
+<p>NIMBLE provides the machinery for nonparametric density estimation by means of Dirichlet process mixture (DPM) models (Ferguson, 1974; Lo, 1984; Escobar, 1994; Escobar and West, 1995). For an independent and identically distributed sample <span class="math inline">\(y_1, \ldots, y_n\)</span>, the model takes the form</p>
+<p><span class="math display">\[y_i \mid \theta_i \sim p(y_i \mid \theta_i), \quad \theta_i \mid G \sim G, \quad G \mid  \alpha, H \sim \mbox{DP}(\alpha, H), \quad i=1,\ldots, n .\]</span></p>
+<p>The NIMBLE implementation of this model is flexible and allows for mixtures of arbitrary kernels, <span class="math inline">\(p(y_i \mid \theta)\)</span>, which can be either conjugate or non-conjugate to the (also arbitrary) base measure <span class="math inline">\(H\)</span>. In the case of conjugate kernel / base measure pairs, NIMBLE is able to detect the presence of the conjugacy and use it to improve the performance of the sampler.</p>
+<p>To illustrate these capabilities, we consider the estimation of the probability density function of the waiting time between eruptions of the Old Faithful volcano data set available in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The observations <span class="math inline">\(y_1, \ldots, y_n\)</span> correspond to the second column of the dataframe, and <span class="math inline">\(n = 272\)</span>.</p>
+</section>
+<section id="fitting-a-location-scale-mixture-of-gaussian-distributions-using-the-crp-representation" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-a-location-scale-mixture-of-gaussian-distributions-using-the-crp-representation">Fitting a location-scale mixture of Gaussian distributions using the CRP representation</h2>
+<section id="model-specification" class="level3">
+<h3 class="anchored" data-anchor-id="model-specification">Model specification</h3>
+<p>We first consider a location-scale Dirichlet process mixture of normal distributionss fitted to the transformed data <span class="math inline">\(y_i^{*} = \log (y_i)\)</span>:</p>
+<p><span class="math display">\[y^{*}_i \mid \mu_i, \sigma^2_i \sim \mbox{N}(\mu_i, \sigma^2_i), \quad (\mu_i, \sigma^2_i) \mid G \sim G, \quad G \mid \alpha, H \sim \mbox{DP}(\alpha, H), \quad i=1,\ldots, n,\]</span></p>
+<p>where <span class="math inline">\(H\)</span> corresponds to a normal-inverse-gamma distribution. This model can be interpreted as providing a Bayesian version of kernel density estimation for <span class="math inline">\(y^{*}_i\)</span> using Gaussian kernels and <em>adaptive bandwidths</em>. On the original scale of the data, this translates into an adaptive log-Gaussian kernel density estimate.</p>
+<p>Introducing auxiliary variables <span class="math inline">\(\xi_1, \ldots, \xi_n\)</span> that indicate which component of the mixture generates each observation, and integrating over the random measure <span class="math inline">\(G\)</span>, we obtain the CRP representation of the model (Blackwell and MacQueen, 1973):</p>
+<p><span class="math display">\[y_i^{*} \mid \{ \tilde{\mu}_k \}, \{ \tilde{\sigma}_k^{2} \} \sim \mbox{N}\left( \tilde{\mu}_{\xi_i}, \tilde{\sigma}^2_{\xi_i} \right), \quad\quad \xi \mid \alpha \sim \mbox{CRP}(\alpha), \quad\quad (\tilde{\mu}_k, \tilde{\sigma}_k^2) \mid H \sim H, \quad\quad i=1,\ldots, n ,\]</span></p>
+<p>where</p>
+<p><span class="math display">\[p(\xi \mid \alpha) = \frac{\Gamma(\alpha)}{\Gamma(\alpha + n)} \alpha^{K(\xi)} \prod_k  \Gamma\left(m_k(\xi)\right),\]</span></p>
+<p><span class="math inline">\(K(\xi) \le n\)</span> is the number of unique values in the vector <span class="math inline">\(\xi\)</span>, and <span class="math inline">\(m_k(\xi)\)</span> is the number of times the <span class="math inline">\(k\)</span>-th unique value appears in <span class="math inline">\(\xi\)</span>. This specification makes it clear that each observation belongs to any of <em>at most</em> <span class="math inline">\(n\)</span> normally distributed clusters, and that the CRP distribution corresponds to the prior distribution on the partition structure.</p>
+<p>NIMBLE’s specification of this model is given by</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu[i], <span class="at">var =</span> s2[i])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    mu[i] <span class="ot">&lt;-</span> muTilde[xi[i]]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    s2[i] <span class="ot">&lt;-</span> s2Tilde[xi[i]]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  xi[<span class="dv">1</span><span class="sc">:</span>n] <span class="sc">~</span> <span class="fu">dCRP</span>(alpha, <span class="at">size =</span> n)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    muTilde[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">var =</span> s2Tilde[i])</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    s2Tilde[i] <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  alpha <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that in the model code the length of the parameter vectors <code>muTilde</code> and <code>s2Tilde</code> has been set to <span class="math inline">\(n\)</span>. We do this because the current implementation of NIMBLE requires that the length of vector of parameters be set in advance and does not allow for their number to change between iterations. Hence, if we are to ensure that the algorithm always performs as intended we need to work with the worst case scenario, i.e., the case where there are as many components as observations. While this ensures that the algorithm always works as intended, it is also somewhat inefficient, both in terms of memory requirements (when <span class="math inline">\(n\)</span> is large a large number of unoccupied components need to be maintained) and in terms of computational burden (a large number of parameters that are not required for posterior inference need to be updated at every iteration). When we use a mixture of gamma distributions below, we will show a computational shortcut that improves the efficiency.</p>
+<p>Note also that the value of <span class="math inline">\(\alpha\)</span> controls the number of components we expect a priori, with larger values of <span class="math inline">\(\alpha\)</span> corresponding to a larger number of components occupied by the data. Hence, by assigning a prior to <span class="math inline">\(\alpha\)</span> we add flexibility to the model specification. The particular choice of a Gamma prior allows NIMBLE to use a data-augmentation scheme to efficiently sample from the corresponding full conditional distribution. Alternative prior specifications for <span class="math inline">\(\alpha\)</span> are possible, in which case the default sampler for this parameter is an adaptive random-walk Metropolis-Hastings algorithm.</p>
+</section>
+<section id="running-the-mcmc-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-mcmc-algorithm">Running the MCMC algorithm</h3>
+<p>The following code sets up the data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm. Because the specification is in terms of a Chinese restaurant process, the default sampler selected by NIMBLE is a collapsed Gibbs sampler (Neal, 2000).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Model Data</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>lFaithful <span class="ot">&lt;-</span> <span class="fu">log</span>(faithful<span class="sc">$</span>waiting)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>standlFaithful <span class="ot">&lt;-</span> (lFaithful <span class="sc">-</span> <span class="fu">mean</span>(lFaithful)) <span class="sc">/</span> <span class="fu">sd</span>(lFaithful)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> standlFaithful)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Model Constants</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>consts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">length</span>(standlFaithful))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter initialization</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">xi =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size=</span>consts<span class="sc">$</span>n, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">muTilde =</span> <span class="fu">rnorm</span>(consts<span class="sc">$</span>n, <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="dv">10</span>)),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">s2Tilde =</span> <span class="fu">rinvgamma</span>(consts<span class="sc">$</span>n, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Model creation and compilation</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>rModel <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data =</span> data, <span class="at">inits =</span> inits, <span class="at">constants =</span> consts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(rModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MCMC configuration, creation, and compilation</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(rModel, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"xi"</span>, <span class="st">"muTilde"</span>, <span class="st">"s2Tilde"</span>, <span class="st">"alpha"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: alpha, muTilde, s2Tilde, xi
+===== Samplers =====
+CRP_concentration sampler (1)
+  - alpha
+CRP_cluster_wrapper sampler (544)
+  - s2Tilde[]  (272 elements)
+  - muTilde[]  (272 elements)
+CRP sampler (1)
+  - xi[1:272] </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(conf)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cmcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc, <span class="at">project =</span> rModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(cmcmc, <span class="at">niter =</span> <span class="dv">7000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>running chain 1...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+</div>
+<p>We can extract the samples from the posterior distributions of the parameters and create trace plots, histograms, and any other summary of interest. For example, for the concentration parameter <span class="math inline">\(\alpha\)</span> we have:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trace plot for the concentration parameter</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(samples[ , <span class="st">"alpha"</span>], <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(alpha))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/plot1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior histogram</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samples[ , <span class="st">"alpha"</span>], <span class="at">xlab =</span> <span class="fu">expression</span>(alpha), <span class="at">main =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/plot1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples[ , <span class="st">"alpha"</span>], <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      50%      2.5%     97.5% 
+0.4230550 0.0580579 1.5608958 </code></pre>
+</div>
+</div>
+<p>Under this model, the posterior predictive distribution for a new observation <span class="math inline">\(\tilde{y}\)</span>, <span class="math inline">\(p(\tilde{y} \mid y_1, \ldots, y_n)\)</span>, is the optimal density estimator (under squared error loss). Samples for this estimator can be easily computed from the samples generated by our MCMC:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior samples of the concentration parameter</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>alphaSamples <span class="ot">&lt;-</span> samples[ , <span class="st">"alpha"</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior samples of the cluster means</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>muTildeSamples <span class="ot">&lt;-</span> samples[ , <span class="fu">grep</span>(<span class="st">'muTilde'</span>, <span class="fu">colnames</span>(samples))]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior samples of the cluster variances</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>s2TildeSamples <span class="ot">&lt;-</span> samples[ , <span class="fu">grep</span>(<span class="st">'s2Tilde'</span>, <span class="fu">colnames</span>(samples))]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior samples of the cluster memberships</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>xiSamples <span class="ot">&lt;-</span> samples [ , <span class="fu">grep</span>(<span class="st">'xi'</span>, <span class="fu">colnames</span>(samples))]</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>standlGrid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="at">len =</span> <span class="dv">200</span>) <span class="co"># standardized grid on log scale</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>densitySamplesStandl <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="fu">length</span>(standlGrid), <span class="at">nrow =</span> <span class="fu">nrow</span>(samples))</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(samples)){</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">unique</span>(xiSamples[i, ])</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  kNew <span class="ot">&lt;-</span> <span class="fu">max</span>(k) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  mk <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  li <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(k)) {</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    mk[li] <span class="ot">&lt;-</span> <span class="fu">sum</span>(xiSamples[i, ] <span class="sc">==</span> k[li])</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    li <span class="ot">&lt;-</span> li <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  alpha <span class="ot">&lt;-</span> alphaSamples[i]</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>  muK <span class="ot">&lt;-</span>  muTildeSamples[i, k]</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  s2K <span class="ot">&lt;-</span>  s2TildeSamples[i, k]</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>  muKnew <span class="ot">&lt;-</span>  muTildeSamples[i, kNew]</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>  s2Knew <span class="ot">&lt;-</span>  s2TildeSamples[i, kNew]</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>  densitySamplesStandl[i, ] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(standlGrid,</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>                <span class="cf">function</span>(x)(<span class="fu">sum</span>(mk <span class="sc">*</span> <span class="fu">dnorm</span>(x, muK, <span class="fu">sqrt</span>(s2K))) <span class="sc">+</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>                alpha <span class="sc">*</span> <span class="fu">dnorm</span>(x, muKnew, <span class="fu">sqrt</span>(s2Knew)) )<span class="sc">/</span>(alpha<span class="sc">+</span>consts<span class="sc">$</span>n))</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data<span class="sc">$</span>y, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.75</span>), <span class="at">main =</span> <span class="st">""</span>,</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Waiting times on standardized log scale"</span>)</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a><span class="do">## pointwise estimate of the density for standardized log grid</span></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(standlGrid, <span class="fu">apply</span>(densitySamplesStandl, <span class="dv">2</span>, mean), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(standlGrid, <span class="fu">apply</span>(densitySamplesStandl, <span class="dv">2</span>, quantile, <span class="fl">0.025</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(standlGrid, <span class="fu">apply</span>(densitySamplesStandl, <span class="dv">2</span>, quantile, <span class="fl">0.975</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/plot2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Recall, however, that this is the density estimate for the logarithm of the waiting time. To obtain the density on the original scale we need to apply the appropriate transformation to the kernel.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lgrid <span class="ot">&lt;-</span> standlGrid<span class="sc">*</span><span class="fu">sd</span>(lFaithful) <span class="sc">+</span> <span class="fu">mean</span>(lFaithful) <span class="co"># grid on log scale</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>densitySamplesl <span class="ot">&lt;-</span> densitySamplesStandl <span class="sc">/</span> <span class="fu">sd</span>(lFaithful) <span class="co"># density samples for grid on log scale</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(faithful<span class="sc">$</span>waiting, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">100</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.05</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"Waiting times"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">exp</span>(lgrid), <span class="fu">apply</span>(densitySamplesl, <span class="dv">2</span>, mean)<span class="sc">/</span><span class="fu">exp</span>(lgrid), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">exp</span>(lgrid), <span class="fu">apply</span>(densitySamplesl, <span class="dv">2</span>, quantile, <span class="fl">0.025</span>)<span class="sc">/</span><span class="fu">exp</span>(lgrid), <span class="at">lty =</span> <span class="dv">2</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> <span class="st">'black'</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">exp</span>(lgrid), <span class="fu">apply</span>(densitySamplesl, <span class="dv">2</span>, quantile, <span class="fl">0.975</span>)<span class="sc">/</span><span class="fu">exp</span>(lgrid), <span class="at">lty =</span> <span class="dv">2</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">col =</span> <span class="st">'black'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In either case, there is clear evidence that the data has two components for the waiting times.</p>
+</section>
+<section id="generating-samples-from-the-mixing-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="generating-samples-from-the-mixing-distribution">Generating samples from the mixing distribution</h3>
+<p>While samples from the posterior distribution of linear functionals of the mixing distribution <span class="math inline">\(G\)</span> (such as the predictive distribution above) can be computed directly from the realizations of the collapsed sampler, inference for non-linear functionals of <span class="math inline">\(G\)</span> requires that we first generate samples from the mixing distribution. In NIMBLE we can get posterior samples from the random measure <span class="math inline">\(G\)</span>, using the <code>getSamplesDPmeasure</code> function. Note that, in order to get posterior samples from <span class="math inline">\(G\)</span>, we need to monitor all the random variables involved in its computations, i.e., the membership variable, <code>xi</code>, the cluster parameters, <code>muTilde</code> and <code>s2Tilde</code>, and the concentration parameter, <code>alpha</code>.</p>
+<p>The following code generates posterior samples from the random measure <span class="math inline">\(G\)</span>. The <code>cMCMC</code> object includes the model and posterior samples from the parameters. The <code>getSamplesDPmeasure</code> returns posterior samples from the random measure as a list (of length equal to the number of samples) of matrices, where each matrix represents the mixture for that iteration, with <span class="math inline">\(p+1\)</span> columns, where <span class="math inline">\(p\)</span> is the dimension of the vector of parameters with distribution <span class="math inline">\(G\)</span> (in this example <span class="math inline">\(p=2\)</span>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>samplesG <span class="ot">&lt;-</span> <span class="fu">getSamplesDPmeasure</span>(cmcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+</div>
+<p>The following code computes posterior samples of <span class="math inline">\(P(\tilde{y} &gt; 70)\)</span> using the posterior samples from the random measure <span class="math inline">\(G\)</span>. Note that these samples are computed based on the transformed model and a value larger than 70 corresponds to a value larger than 0.03557236 on the above defined grid.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>weightIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'weight'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>muTildeIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'muTilde'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>s2TildeIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'s2Tilde'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>probY70 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(samples))  <span class="co"># posterior samples of P(y.tilde &gt; 70)</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(samples))) {</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  probY70[i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(samplesG[[i]][, weightIndex] <span class="sc">*</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">pnorm</span>(<span class="fl">0.03557236</span>, <span class="at">mean =</span> samplesG[[i]][, muTildeIndex],</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sd =</span> <span class="fu">sqrt</span>(samplesG[[i]][, s2TildeIndex]), <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(probY70,  <span class="at">xlab =</span> <span class="st">"Probability"</span>, <span class="at">ylab =</span> <span class="st">"P(yTilde &gt; 70 | data)"</span> , <span class="at">main =</span> <span class="st">""</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="fitting-a-mixture-of-gamma-distributions-using-the-crp-representation" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-a-mixture-of-gamma-distributions-using-the-crp-representation">Fitting a mixture of gamma distributions using the CRP representation</h2>
+<p>NIMBLE is not restricted to using Gaussian kernels in DPM models. In the case of the Old Faithful data, an alternative to the mixture of Gaussian kernels on the logarithmic scale that we presented in the previous section is a (scale-and-shape) mixture of Gamma distributions on the <em>original</em> scale of the data.</p>
+<section id="model-specification-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-specification-1">Model specification</h3>
+<p>In this case, the model takes the form</p>
+<p><span class="math display">\[y_i \mid \{ \tilde{\beta}_k \}, \{ \tilde{\lambda}_k \} \sim \mbox{Gamma}\left( \tilde{\beta}_{\xi_i}, \tilde{\lambda}_{\xi_i} \right), \quad\quad \xi \mid \alpha \sim \mbox{CRP}(\alpha), \quad\quad (\tilde{\beta}_k, \tilde{\lambda}_k) \mid H \sim H ,\]</span></p>
+<p>where <span class="math inline">\(H\)</span> corresponds to the product of two independent Gamma distributions. The following code provides the NIMBLE specification for the model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> beta[i], <span class="at">scale =</span> lambda[i])</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    beta[i] <span class="ot">&lt;-</span> betaTilde[xi[i]]</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    lambda[i] <span class="ot">&lt;-</span> lambdaTilde[xi[i]]</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  xi[<span class="dv">1</span><span class="sc">:</span>n] <span class="sc">~</span> <span class="fu">dCRP</span>(alpha, <span class="at">size =</span> n)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>) { <span class="co"># only 50 cluster parameters</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    betaTilde[i] <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> <span class="dv">71</span>, <span class="at">scale =</span> <span class="dv">2</span>)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    lambdaTilde[i] <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">2</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  alpha <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that in this case the vectors <code>betaTilde</code> and <code>lambdaTilde</code> have length <span class="math inline">\(50 \ll n = 272\)</span>. This is done to reduce the computational and storage burdens associated with the sampling algorithm. You could think about this approach as truncating the process, except that it can be thought of as an <em>exact</em> truncation. Indeed, under the CRP representation, using parameter vector(s) with a length that is shorter than the number of observations in the sample will lead to a proper algorithm as long as the number of components instatiated by the sampler is strictly lower than the length of the parameter vector(s) for every iteration of the sampler.</p>
+</section>
+<section id="running-the-mcmc-algorithm-1" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-mcmc-algorithm-1">Running the MCMC algorithm</h3>
+<p>The following code sets up the model data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm for the mixture of Gamma distributions. Note that, when building the MCMC, a warning message about the number of cluster parameters is generated. This is because the lengths of <code>betaTilde</code> and <code>lambdaTilde</code> are smaller than <span class="math inline">\(n\)</span>. Also, note that no error message is generated during execution, which indicates that the number of clusters required never exceeded the maximum of 50.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> faithful<span class="sc">$</span>waiting)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">xi =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size=</span>consts<span class="sc">$</span>n, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">betaTilde =</span> <span class="fu">rgamma</span>(<span class="dv">50</span>, <span class="at">shape =</span> <span class="dv">71</span>, <span class="at">scale =</span> <span class="dv">2</span>),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">lambdaTilde =</span> <span class="fu">rgamma</span>(<span class="dv">50</span>, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">2</span>),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>rModel <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data =</span> data, <span class="at">inits =</span> inits, <span class="at">constants =</span> consts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>cModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(rModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(rModel, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"xi"</span>, <span class="st">"betaTilde"</span>, <span class="st">"lambdaTilde"</span>, <span class="st">"alpha"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: alpha, betaTilde, lambdaTilde, xi
+===== Samplers =====
+CRP_concentration sampler (1)
+  - alpha
+CRP_cluster_wrapper sampler (100)
+  - betaTilde[]  (50 elements)
+  - lambdaTilde[]  (50 elements)
+CRP sampler (1)
+  - xi[1:272] </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(conf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  [Warning] sampler_CRP: The number of clusters based on the cluster parameters
+            is less than the number of potential clusters. The MCMC is not
+            strictly valid if it ever proposes more components than cluster
+            parameters exist; NIMBLE will warn you if this occurs.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>cmcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc, <span class="at">project =</span> rModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(cmcmc, <span class="at">niter =</span> <span class="dv">7000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>running chain 1...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+</div>
+<p>In this case we use the posterior samples of the parameters to construct a trace plot and estimate the posterior distribution of <span class="math inline">\(\alpha\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Trace plot of the posterior samples of the concentration parameter</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(samples[ , <span class="st">'alpha'</span>], <span class="at">xlab =</span> <span class="st">"iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(alpha))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of the posterior samples for the concentration parameter </span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samples[ , <span class="st">'alpha'</span>], <span class="at">xlab =</span> <span class="fu">expression</span>(alpha), <span class="at">ylab =</span> <span class="st">"Frequency"</span>, <span class="at">main =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="generating-samples-from-the-mixing-distribution-1" class="level3">
+<h3 class="anchored" data-anchor-id="generating-samples-from-the-mixing-distribution-1">Generating samples from the mixing distribution</h3>
+<p>As before, we obtain samples from the posterior distribution of <span class="math inline">\(G\)</span> using the <code>getSamplesDPmeasure</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>samplesG <span class="ot">&lt;-</span> <span class="fu">getSamplesDPmeasure</span>(cmcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="do">## sampleDPmeasure: Approximating the random measure by a finite stick-breaking representation with and error smaller than 1e-10, leads to a truncation level of 28.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We use these samples to create an estimate of the density of the data along with a pointwise 95% credible band:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">40</span>, <span class="dv">100</span>, <span class="at">len =</span> <span class="dv">200</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>weightIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'weight'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>betaTildeIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'betaTilde'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>lambdaTildeIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'lambdaTilde'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>densitySamples <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="fu">length</span>(grid), <span class="at">nrow =</span> <span class="fu">nrow</span>(samples))</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(iter <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(samples))) {</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  densitySamples[iter, ] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(grid, <span class="cf">function</span>(x)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(samplesG[[iter]][ , weightIndex] <span class="sc">*</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> samplesG[[iter]][ , betaTildeIndex],</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">scale =</span> samplesG[[iter]][ , lambdaTildeIndex])))</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(faithful<span class="sc">$</span>waiting, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">40</span>,<span class="dv">100</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">05</span>), <span class="at">main =</span> <span class="st">""</span>,</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>   <span class="at">ylab =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"Waiting times"</span>)</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(grid, <span class="fu">apply</span>(densitySamples, <span class="dv">2</span>, mean), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(grid, <span class="fu">apply</span>(densitySamples, <span class="dv">2</span>, quantile, <span class="fl">0.025</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(grid, <span class="fu">apply</span>(densitySamples, <span class="dv">2</span>, quantile, <span class="fl">0.975</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again, we see that the density of the data is bimodal, and looks very similar to the one we obtained before.</p>
+</section>
+</section>
+<section id="fitting-a-dp-mixture-of-gammas-using-a-stick-breaking-representation" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-a-dp-mixture-of-gammas-using-a-stick-breaking-representation">Fitting a DP mixture of Gammas using a stick-breaking representation</h2>
+<section id="model-specification-2" class="level3">
+<h3 class="anchored" data-anchor-id="model-specification-2">Model specification</h3>
+<p>An alternative representation of the Dirichlet process mixture uses the stick-breaking representation of the random distribution <span class="math inline">\(G\)</span> (Sethuraman, 1994). NIMBLE allows us to specify an approximation that involves a truncation of the Dirichlet process to a finite number of atoms, <span class="math inline">\(L\)</span>. The resulting model therefore reduces to a finite mixture with <span class="math inline">\(L\)</span> components and a very particular prior on the weights of the mixture components.</p>
+<p>Introducing auxiliary variables, <span class="math inline">\(z_1, \ldots, z_n\)</span>, that indicate which component generated each observation, the corresponding model for the mixture of Gamma densities discussed in the previous section takes the form</p>
+<p><span class="math display">\[y_i \mid \{ {\beta}_k^{\star} \}, \{ {\lambda}_k^{\star} \}, z_i \sim \mbox{Gamma}\left( {\beta}_{z_i}^{\star}, {\lambda}_{z_i}^{\star} \right), \quad\quad \boldsymbol{z} \mid \boldsymbol{w} \sim \mbox{Discrete}(\boldsymbol{w}), \quad\quad ({\beta}_k^{\star}, {\lambda}_k^{\star}) \mid H \sim H ,\]</span></p>
+<p>where <span class="math inline">\(H\)</span> is again the product of two independent Gamma distributions,</p>
+<p><span class="math display">\[w_1=v_1, \quad\quad w_l=v_l\prod_{m=1}^{l-1}(1-v_m), \quad l=2, \ldots, L-1,\quad\quad w_L=\prod_{m=1}^{L-1}(1-v_m)\]</span></p>
+<p>with <span class="math inline">\(v_l \mid \alpha\sim \mbox{Beta}(1, \alpha), l=1, \ldots, L-1\)</span>. The following code provides the NIMBLE specification for the model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>(</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>      y[i] <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> beta[i], <span class="at">scale =</span> lambda[i])</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>      beta[i] <span class="ot">&lt;-</span> betaStar[z[i]]</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>      lambda[i] <span class="ot">&lt;-</span> lambdaStar[z[i]]</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>      z[i] <span class="sc">~</span> <span class="fu">dcat</span>(w[<span class="dv">1</span><span class="sc">:</span>Trunc])</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(Trunc<span class="dv">-1</span>)) { <span class="co"># stick-breaking variables</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>      v[i] <span class="sc">~</span> <span class="fu">dbeta</span>(<span class="dv">1</span>, alpha)</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    w[<span class="dv">1</span><span class="sc">:</span>Trunc] <span class="ot">&lt;-</span> <span class="fu">stick_breaking</span>(v[<span class="dv">1</span><span class="sc">:</span>(Trunc<span class="dv">-1</span>)]) <span class="co"># stick-breaking weights</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>Trunc) {</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>      betaStar[i] <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> <span class="dv">71</span>, <span class="at">scale =</span> <span class="dv">2</span>)</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>      lambdaStar[i] <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">2</span>)</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>    alpha <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that the truncation level <span class="math inline">\(L\)</span> of <span class="math inline">\(G\)</span> has been set to a value <code>Trunc</code>, which is to be defined in the <code>constants</code> argument of the <code>nimbleModel</code> function.</p>
+</section>
+<section id="running-the-mcmc-algorithm-2" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-mcmc-algorithm-2">Running the MCMC algorithm</h3>
+<p>The following code sets up the model data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm for the mixture of Gamma distributions. When a stick-breaking representation is used, a blocked Gibbs sampler is assigned (Ishwaran, 2001; Ishwaran and James, 2002).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> faithful<span class="sc">$</span>waiting)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>consts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">length</span>(faithful<span class="sc">$</span>waiting), <span class="at">Trunc =</span> <span class="dv">50</span>)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">betaStar =</span> <span class="fu">rgamma</span>(consts<span class="sc">$</span>Trunc, <span class="at">shape =</span> <span class="dv">71</span>, <span class="at">scale =</span> <span class="dv">2</span>),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">lambdaStar =</span> <span class="fu">rgamma</span>(consts<span class="sc">$</span>Trunc, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">2</span>),</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">v =</span> <span class="fu">rbeta</span>(consts<span class="sc">$</span>Trunc<span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">z =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> consts<span class="sc">$</span>n, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>rModel <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data =</span> data, <span class="at">inits =</span> inits, <span class="at">constants =</span> consts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>cModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(rModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(rModel, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"w"</span>, <span class="st">"betaStar"</span>, <span class="st">"lambdaStar"</span>, <span class="st">'z'</span>, <span class="st">'alpha'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: alpha, betaStar, lambdaStar, w, z
+===== Samplers =====
+RW sampler (101)
+  - betaStar[]  (50 elements)
+  - lambdaStar[]  (50 elements)
+  - alpha
+conjugate sampler (49)
+  - v[]  (49 elements)
+categorical sampler (272)
+  - z[]  (272 elements)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(conf)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>cmcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc, <span class="at">project =</span> rModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(cmcmc, <span class="at">niter =</span> <span class="dv">24000</span>, <span class="at">nburnin =</span> <span class="dv">4000</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>running chain 1...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+</div>
+<p>Using the stick-breaking approximation automatically provides an approximation, <span class="math inline">\(G_L\)</span>, of the random distribution <span class="math inline">\(G\)</span>. The following code computes posterior samples of <span class="math inline">\(G_L\)</span> using posterior samples from the <code>samples</code> object, and from them, a density estimate for the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>betaStarSamples <span class="ot">&lt;-</span> samples[ , <span class="fu">grep</span>(<span class="st">'betaStar'</span>, <span class="fu">colnames</span>(samples))]</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>lambdaStarSamples <span class="ot">&lt;-</span> samples[ , <span class="fu">grep</span>(<span class="st">'lambdaStar'</span>, <span class="fu">colnames</span>(samples))]</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>weightSamples <span class="ot">&lt;-</span> samples[ , <span class="fu">grep</span>(<span class="st">'w'</span>, <span class="fu">colnames</span>(samples))]</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">40</span>, <span class="dv">100</span>, <span class="at">len =</span> <span class="dv">200</span>)</span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>densitySamples <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="fu">length</span>(grid), <span class="at">nrow =</span> <span class="fu">nrow</span>(samples))</span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(samples)) {</span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>  densitySamples[i, ] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(grid, <span class="cf">function</span>(x)</span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(weightSamples[i, ] <span class="sc">*</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> betaStarSamples[i, ],</span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">scale =</span> lambdaStarSamples[i, ])))</span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(faithful<span class="sc">$</span>waiting, <span class="at">freq =</span> <span class="cn">FALSE</span>,  <span class="at">xlab =</span> <span class="st">"Waiting times"</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.05</span>),</span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">''</span>)</span>
+<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(grid, <span class="fu">apply</span>(densitySamples, <span class="dv">2</span>, mean), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span>
+<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(grid, <span class="fu">apply</span>(densitySamples, <span class="dv">2</span>, quantile, <span class="fl">0.025</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span>
+<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(grid, <span class="fu">apply</span>(densitySamples, <span class="dv">2</span>, quantile, <span class="fl">0.975</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">'black'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As expected, this estimate looks identical to the one we obtained through the CRP representation of the process.</p>
+</section>
+</section>
+<section id="more-information-and-future-development" class="level2">
+<h2 class="anchored" data-anchor-id="more-information-and-future-development">More information and future development</h2>
+<p>Please see our <a href="https://r-nimble.org/documentation">User Manual</a> for more details.</p>
+<p>We’re in the midst of improvements to the existing BNP functionality as well as adding additional Bayesian nonparametric models, such as hierarchical Dirichlet processes and Pitman-Yor processes, so please add yourself to our <a href="https://groups.google.com/forum/#!forum/nimble-announce">announcement</a> or <a href="https://groups.google.com/forum/#!forum/nimble-users">user support/discussion</a> Google groups.</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<p>Blackwell, D. and MacQueen, J. 1973. Ferguson distributions via Polya urn schemes. The Annals of Statistics 1:353-355.</p>
+<p>Ferguson, T.S. 1974. Prior distribution on the spaces of probability measures. Annals of Statistics 2:615-629.</p>
+<p>Lo, A.Y. 1984. On a class of Bayesian nonparametric estimates I: Density estimates. The Annals of Statistics 12:351-357.</p>
+<p>Escobar, M.D.&nbsp;1994. Estimating normal means with a Dirichlet process prior. Journal of the American Statistical Association 89:268-277.</p>
+<p>Escobar, M.D.&nbsp;and West, M. 1995. Bayesian density estimation and inference using mixtures. Journal of the American Statistical Association 90:577-588.</p>
+<p>Ishwaran, H. and James, L.F. 2001. Gibbs sampling methods for stick-breaking priors. Journal of the American Statistical Association 96: 161-173.</p>
+<p>Ishwaran, H. and James, L.F. 2002. Approximate Dirichlet process computing in finite normal mixtures: smoothing and prior information. Journal of Computational and Graphical Statistics 11:508-532.</p>
+<p>Neal, R. 2000. Markov chain sampling methods for Dirichlet process mixture models. Journal of Computational and Graphical Statistics 9:249-265.</p>
+<p>Sethuraman, J. 1994. A constructive definition of Dirichlet prior. Statistica Sinica 2: 639-650.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/r-nimble\.org");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
