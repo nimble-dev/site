@@ -3,7 +3,7 @@ title: "Bayesian Nonparametric Models in NIMBLE: General Multivariate Models"
 description: ""
 author: "Claudia Wehrhahn"
 date: "2021-03-25"
-categories: ['announcement']
+categories: ['announcement', 'tutorial']
 execute:
   freeze: auto
 ---
