@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="nimble-admin">
+<meta name="author" content="Sally Paganin">
 <meta name="dcterms.date" content="2017-02-15">
 
 <title>Writing reversible jump MCMC in NIMBLE – NIMBLE</title>
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -304,7 +339,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>nimble-admin </p>
+             <p>Sally Paganin </p>
           </div>
   </div>
     
@@ -334,304 +369,423 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="example-model" class="level2">
 <h2 class="anchored" data-anchor-id="example-model">Example model</h2>
-<p>For illustration, I’ll use an extremely simple model: linear regression with two candidate explanatory variables. I’ll assume the first, x1, should definitely be included. But the analyst is not sure about the second, x2, and wants to use reversible jump to include it or exclude it from the model. I won’t deal with the issue of choosing the prior probability that it should be in the model. Instead I’ll just pick a simple choice and stay focused on the reversible jump aspect of the example. The methods below could be applied en masse to large models.</p>
+<p>For illustration, I’ll use an extremely simple model: linear regression with two candidate explanatory variables. I’ll assume the first, <code>x1</code>, should definitely be included. But the analyst is not sure about the second, <code>x2</code>, and wants to use reversible jump to include it or exclude it from the model. I won’t deal with the issue of choosing the prior probability that it should be in the model. Instead I’ll just pick a simple choice and stay focused on the reversible jump aspect of the example. The methods below could be applied en masse to large models.</p>
 <p>Here I’ll simulate data to use:</p>
-<pre><code>N &lt;- 20
-x1 &lt;- runif(N, -1, 1)
-x2 &lt;- runif(N, -1, 1)
-Y &lt;- rnorm(N, 1.5 + 0.5 * x1, sd = 1)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="fl">1.5</span> <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> x1, <span class="at">sd =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>I’ll take two approaches to implementing RJ sampling. In the first, I’ll use a traditional indicator variable and write the RJMCMC sampler to use it. In the second, I’ll write the RJMCMC sampler to incorporate the prior probability of inclusion for the coefficient it is sampling, so the indicator variable won’t be needed in the model.</p>
 <p>First we’ll need nimble:</p>
-<pre><code>library(nimble)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>nimble version 1.3.0 is loaded.
+For more information on NIMBLE and a User Manual,
+please visit https://R-nimble.org.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'nimble'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    simulate</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
+
+    declare</code></pre>
+</div>
+</div>
 </section>
 <section id="rjmcmc-implementation-1-with-indicator-variable-included" class="level2">
 <h2 class="anchored" data-anchor-id="rjmcmc-implementation-1-with-indicator-variable-included">RJMCMC implementation 1, with indicator variable included</h2>
 <p>Here is BUGS code for the first method, with an indicator variable written into the model, and the creation of a NIMBLE model object from it. Note that although RJMCMC technically jumps between models of different dimensions, we still start by creating the largest model so that changes of dimension can occur by setting some parameters to zero (or, in the second method, possibly another fixed value).</p>
-<pre><code>simpleCode1 &lt;- nimbleCode({
-    beta0 ~ dnorm(0, sd = 100)
-    beta1 ~ dnorm(0, sd = 100)
-    beta2 ~ dnorm(0, sd = 100)
-    sigma ~ dunif(0, 100)
-    z2 ~ dbern(0.8)  ## indicator variable for including beta2
-    beta2z2 &lt;- beta2 * z2
-    for(i in 1:N) {
-        Ypred[i] &lt;- beta0 + beta1 * x1[i] + beta2z2 * x2[i]
-        Y[i] ~ dnorm(Ypred[i], sd = sigma)
-    }
-})
-
-simpleModel1 &lt;- nimbleModel(simpleCode1,
-                            data = list(Y = Y, x1 = x1, x2 = x2),
-                            constants = list(N = N),
-                            inits = list(beta0 = 0, beta1 = 0, beta2 = 0, sigma = sd(Y), z2 = 1))</code></pre>
-<p>Now here are two custom samplers. The first one will sample beta2 <em>only</em> if the indicator variable z2 is 1 (meaning that beta2 is included in the model). It does this by containing a regular random walk sampler but only calling it when the indicator is 1 (we could perhaps set it up to contain <em>any</em> sampler to be used when z2 is 1, but for now it’s a random walk sampler). The second sampler makes reversible jump proposals to move beta2 in and out of the model. When it is out of the model, both beta2 and z2 are set to zero. Since beta2 will be zero every time z2 is zero, we don’t really need beta2z2, but it ensures correct behavior in other cases, like if someone runs default samplers on the model and expects the indicator variable to do its job correctly. For use in reversible jump, z2’s role is really to trigger the prior probability (set to 0.8 in this example) of being in the model.</p>
-<p><em>Don’t worry about the warning message emitted by NIMBLE.</em> They are there because when a nimbleFunction is defined it tries to make sure the user knows anything else that needs to be defined.</p>
-<pre><code>RW_sampler_nonzero_indicator &lt;- nimbleFunction(
-    contains = sampler_BASE,
-    setup = function(model, mvSaved, target, control) {
-        regular_RW_sampler &lt;- sampler_RW(model, mvSaved, target = target, control = control$RWcontrol)
-        indicatorNode &lt;- control$indicator
-    },
-    run = function() {
-        if(model[[indicatorNode]] == 1) regular_RW_sampler$run()
-    },
-    methods = list(
-        reset = function() {regular_RW_sampler$reset()}
-    ))
-
-
-
-## Warning in nf_checkDSLcode(code): For this nimbleFunction to compile, these
-## functions must be defined as nimbleFunctions or nimbleFunction methods:
-## reset.
-
-
-
-RJindicatorSampler &lt;- nimbleFunction(
-    contains = sampler_BASE,
-    setup = function( model, mvSaved, target, control ) {
-        ## target should be the name of the indicator node, 'z2' above
-        ## control should have an element called coef for the name of the corresponding coefficient, 'beta2' above.  
-        coefNode &lt;- control$coef
-        scale &lt;- control$scale
-        calcNodes &lt;- model$getDependencies(c(coefNode, target))
-    },
-    run = function( ) { ## The reversible-jump updates happen here.
-        currentIndicator &lt;- model[[target]]
-        currentLogProb &lt;- model$getLogProb(calcNodes)
-        if(currentIndicator == 1) {
-            ## propose removing it
-            currentCoef &lt;- model[[coefNode]]
-            logProbReverseProposal &lt;- dnorm(0, currentCoef, sd = scale, log = TRUE)
-            model[[target]] &lt;&lt;- 0
-            model[[coefNode]] &lt;&lt;- 0
-            proposalLogProb &lt;- model$calculate(calcNodes)
-            log_accept_prob &lt;- proposalLogProb - currentLogProb + logProbReverseProposal
-        } else {
-            ## propose adding it
-            proposalCoef &lt;- rnorm(1, 0, sd = scale)
-            model[[target]] &lt;&lt;- 1
-            model[[coefNode]] &lt;&lt;- proposalCoef
-            logProbForwardProposal &lt;- dnorm(0, proposalCoef, sd = scale, log = TRUE)
-            proposalLogProb &lt;- model$calculate(calcNodes)
-            log_accept_prob &lt;- proposalLogProb - currentLogProb - logProbForwardProposal
-        }
-        accept &lt;- decide(log_accept_prob)
-        if(accept) {
-            copy(from = model, to = mvSaved, row = 1, nodes = calcNodes, logProb = TRUE)
-        } else {
-            copy(from = mvSaved, to = model, row = 1, nodes = calcNodes, logProb = TRUE)
-        }
-    },
-    methods = list(reset = function() {
-    })
-    )</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>simpleCode1 <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    beta0 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    beta1 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    beta2 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    z2 <span class="sc">~</span> <span class="fu">dbern</span>(<span class="fl">0.8</span>)  <span class="do">## indicator variable for including beta2</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    beta2z2 <span class="ot">&lt;-</span> beta2 <span class="sc">*</span> z2</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        Ypred[i] <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x1[i] <span class="sc">+</span> beta2z2 <span class="sc">*</span> x2[i]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        Y[i] <span class="sc">~</span> <span class="fu">dnorm</span>(Ypred[i], <span class="at">sd =</span> sigma)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>simpleModel1 <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(simpleCode1,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                            <span class="at">data =</span> <span class="fu">list</span>(<span class="at">Y =</span> Y, <span class="at">x1 =</span> x1, <span class="at">x2 =</span> x2),</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                            <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">N =</span> N),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                            <span class="at">inits =</span> <span class="fu">list</span>(<span class="at">beta0 =</span> <span class="dv">0</span>, <span class="at">beta1 =</span> <span class="dv">0</span>, <span class="at">beta2 =</span> <span class="dv">0</span>, <span class="at">sigma =</span> <span class="fu">sd</span>(Y), <span class="at">z2 =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+</div>
+<p>Now here are two custom samplers. The first one will sample <code>beta2</code> <strong>only</strong> if the indicator variable <code>z2</code> is 1 (meaning that <code>beta2</code> is included in the model). It does this by containing a regular random walk sampler but only calling it when the indicator is 1 (we could perhaps set it up to contain <em>any</em> sampler to be used when <code>z2</code> is 1, but for now it’s a random walk sampler). The second sampler makes reversible jump proposals to move <code>beta2</code> in and out of the model. When it is out of the model, both <code>beta2</code> and <code>z2</code> are set to zero. Since <code>beta2</code> will be zero every time <code>z2</code> is zero, we don’t really need <code>beta2z2</code>, but it ensures correct behavior in other cases, like if someone runs default samplers on the model and expects the indicator variable to do its job correctly. For use in reversible jump, <code>z2</code>’s role is really to trigger the prior probability (set to 0.8 in this example) of being in the model.</p>
+<p>Don’t worry about the warning message emitted by NIMBLE. They are there because when a nimbleFunction is defined it tries to make sure the user knows anything else that needs to be defined.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>RW_sampler_nonzero_indicator <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">contains =</span> sampler_BASE,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">setup =</span> <span class="cf">function</span>(model, mvSaved, target, control) {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        regular_RW_sampler <span class="ot">&lt;-</span> <span class="fu">sampler_RW</span>(model, mvSaved, <span class="at">target =</span> target, <span class="at">control =</span> control<span class="sc">$</span>RWcontrol)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        indicatorNode <span class="ot">&lt;-</span> control<span class="sc">$</span>indicator</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">run =</span> <span class="cf">function</span>() {</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(model[[indicatorNode]] <span class="sc">==</span> <span class="dv">1</span>) regular_RW_sampler<span class="sc">$</span><span class="fu">run</span>()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">methods =</span> <span class="fu">list</span>(</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">reset =</span> <span class="cf">function</span>() {regular_RW_sampler<span class="sc">$</span><span class="fu">reset</span>()}</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>RJindicatorSampler <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">contains =</span> sampler_BASE,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">setup =</span> <span class="cf">function</span>( model, mvSaved, target, control ) {</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="do">## target should be the name of the indicator node, 'z2' above</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="do">## control should have an element called coef for the name of the corresponding coefficient, 'beta2' above.  </span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        coefNode <span class="ot">&lt;-</span> control<span class="sc">$</span>coef</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        scale <span class="ot">&lt;-</span> control<span class="sc">$</span>scale</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        calcNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getDependencies</span>(<span class="fu">c</span>(coefNode, target))</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">run =</span> <span class="cf">function</span>( ) { <span class="do">## The reversible-jump updates happen here.</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        currentIndicator <span class="ot">&lt;-</span> model[[target]]</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        currentLogProb <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getLogProb</span>(calcNodes)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(currentIndicator <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>            <span class="do">## propose removing it</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>            currentCoef <span class="ot">&lt;-</span> model[[coefNode]]</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>            logProbReverseProposal <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, currentCoef, <span class="at">sd =</span> scale, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>            model[[target]] <span class="ot">&lt;&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>            model[[coefNode]] <span class="ot">&lt;&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>            proposalLogProb <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">calculate</span>(calcNodes)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>            log_accept_prob <span class="ot">&lt;-</span> proposalLogProb <span class="sc">-</span> currentLogProb <span class="sc">+</span> logProbReverseProposal</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>            <span class="do">## propose adding it</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>            proposalCoef <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="at">sd =</span> scale)</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>            model[[target]] <span class="ot">&lt;&lt;-</span> <span class="dv">1</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>            model[[coefNode]] <span class="ot">&lt;&lt;-</span> proposalCoef</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>            logProbForwardProposal <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, proposalCoef, <span class="at">sd =</span> scale, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>            proposalLogProb <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">calculate</span>(calcNodes)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>            log_accept_prob <span class="ot">&lt;-</span> proposalLogProb <span class="sc">-</span> currentLogProb <span class="sc">-</span> logProbForwardProposal</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        accept <span class="ot">&lt;-</span> <span class="fu">decide</span>(log_accept_prob)</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(accept) {</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>            <span class="fu">copy</span>(<span class="at">from =</span> model, <span class="at">to =</span> mvSaved, <span class="at">row =</span> <span class="dv">1</span>, <span class="at">nodes =</span> calcNodes, <span class="at">logProb =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>            <span class="fu">copy</span>(<span class="at">from =</span> mvSaved, <span class="at">to =</span> model, <span class="at">row =</span> <span class="dv">1</span>, <span class="at">nodes =</span> calcNodes, <span class="at">logProb =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">methods =</span> <span class="fu">list</span>(<span class="at">reset =</span> <span class="cf">function</span>() {</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Now we’ll set up and run the samplers:</p>
-<pre><code>mcmcConf1 &lt;- configureMCMC(simpleModel1)
-mcmcConf1$removeSamplers('z2')
-mcmcConf1$addSampler(target = 'z2',
-                     type = RJindicatorSampler,
-                     control = list(scale = 1, coef = 'beta2'))
-mcmcConf1$removeSamplers('beta2')
-mcmcConf1$addSampler(target = 'beta2',
-                     type = 'RW_sampler_nonzero_indicator',
-                     control = list(indicator = 'z2',
-                                    RWcontrol = list(adaptive = TRUE,
-                                                   adaptInterval = 100,
-                                                   scale = 1,
-                                                   log = FALSE,
-                                                   reflective = FALSE)))
-
-mcmc1 &lt;- buildMCMC(mcmcConf1)
-compiled1 &lt;- compileNimble(simpleModel1, mcmc1)
-compiled1$mcmc1$run(10000)
-
-
-
-## |-------------|-------------|-------------|-------------|
-## |-------------------------------------------------------|
-
-
-
-## NULL
-
-
-
-samples1 &lt;- as.matrix(compiled1$mcmc1$mvSamples)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mcmcConf1 <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(simpleModel1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: beta0, beta1, beta2, sigma, z2
+===== Samplers =====
+RW sampler (1)
+  - sigma
+conjugate sampler (3)
+  - beta0
+  - beta1
+  - beta2
+binary sampler (1)
+  - z2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mcmcConf1<span class="sc">$</span><span class="fu">removeSamplers</span>(<span class="st">'z2'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mcmcConf1<span class="sc">$</span><span class="fu">addSampler</span>(<span class="at">target =</span> <span class="st">'z2'</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> RJindicatorSampler,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">control =</span> <span class="fu">list</span>(<span class="at">scale =</span> <span class="dv">1</span>, <span class="at">coef =</span> <span class="st">'beta2'</span>))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>mcmcConf1<span class="sc">$</span><span class="fu">removeSamplers</span>(<span class="st">'beta2'</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>mcmcConf1<span class="sc">$</span><span class="fu">addSampler</span>(<span class="at">target =</span> <span class="st">'beta2'</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">'RW_sampler_nonzero_indicator'</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">control =</span> <span class="fu">list</span>(<span class="at">indicator =</span> <span class="st">'z2'</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">RWcontrol =</span> <span class="fu">list</span>(<span class="at">adaptive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">adaptInterval =</span> <span class="dv">100</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">scale =</span> <span class="dv">1</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">log =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">reflective =</span> <span class="cn">FALSE</span>)))</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>mcmc1 <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(mcmcConf1)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>compiled1 <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(simpleModel1, mcmc1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>compiled1<span class="sc">$</span>mcmc1<span class="sc">$</span><span class="fu">run</span>(<span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>samples1 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(compiled1<span class="sc">$</span>mcmc1<span class="sc">$</span>mvSamples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Here is a trace plot of the beta2 (slope) samples. The thick line at zero corresponds to having beta2 removed from the model.</p>
-<pre><code>plot(samples1[,'beta2'])</code></pre>
-<p><a href="https://r-nimble.org/wp-content/uploads/2017/02/plot1-1.png"><img src="https://web.archive.org/web/20250518102746im_/https://r-nimble.org/wp-content/uploads/2017/02/plot1-1-300x180.png" class="img-fluid"></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samples1[,<span class="st">'beta2'</span>], <span class="at">type =</span> <span class="st">'l'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="writing-reversible-jump-mcmc-in-nimble_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>And here is a trace plot of the z2 (indicator variable) samples.</p>
-<pre><code>plot(samples1[,'z2'])</code></pre>
-<p><a href="https://r-nimble.org/wp-content/uploads/2017/02/plot2-1.png"><img src="https://web.archive.org/web/20250518102746im_/https://r-nimble.org/wp-content/uploads/2017/02/plot2-1-300x180.png" class="img-fluid"></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samples1[,<span class="st">'z2'</span>], <span class="at">type =</span> <span class="st">'l'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="writing-reversible-jump-mcmc-in-nimble_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>The chains look reasonable.</p>
-<p>As a quick check of reasonableness, let’s compare the beta2 samples to what we’d get if it was always included in the model. I’ll do that by setting up default samplers and then removing the sampler for z2 (and z2 should be 1).</p>
-<pre><code>mcmcConf1b &lt;- configureMCMC(simpleModel1)
-mcmcConf1b$removeSamplers('z2')
-mcmc1b &lt;- buildMCMC(mcmcConf1b)
-compiled1b &lt;- compileNimble(simpleModel1, mcmc1b)
-compiled1b$mcmc1b$run(10000)
-
-
-
-## |-------------|-------------|-------------|-------------|
-## |-------------------------------------------------------|
-
-
-
-## NULL
-
-
-
-samples1b &lt;- as.matrix(compiled1b$mcmc1b$mvSamples)
-plot(samples1b[,'beta2'])</code></pre>
-<p><a href="https://r-nimble.org/wp-content/uploads/2017/02/check-first-samplers-1.png"><img src="https://web.archive.org/web/20250518102746im_/https://r-nimble.org/wp-content/uploads/2017/02/check-first-samplers-1-300x180.png" class="img-fluid"></a></p>
-<pre><code>qqplot(samples1[ samples1[,'z2'] == 1, 'beta2'], samples1b[,'beta2'])
-abline(0,1)</code></pre>
-<p><a href="https://r-nimble.org/wp-content/uploads/2017/02/check-first-samplers-2.png"><img src="https://web.archive.org/web/20250518102746im_/https://r-nimble.org/wp-content/uploads/2017/02/check-first-samplers-2-300x180.png" class="img-fluid"></a></p>
-<p>That looks correct, in the sense that the distribution of beta2 given that it’s in the model (using reversible jump) should match the distribution of beta2 when it is<br>
+<p>As a quick check of reasonableness, let’s compare the <code>beta2</code> samples to what we’d get if it was always included in the model. I’ll do that by setting up default samplers and then removing the sampler for <code>z2</code> (and <code>z2</code> should be 1).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mcmcConf1b <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(simpleModel1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: beta0, beta1, beta2, sigma, z2
+===== Samplers =====
+RW sampler (1)
+  - sigma
+conjugate sampler (3)
+  - beta0
+  - beta1
+  - beta2
+binary sampler (1)
+  - z2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mcmcConf1b<span class="sc">$</span><span class="fu">removeSamplers</span>(<span class="st">'z2'</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mcmc1b <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(mcmcConf1b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  [Warning] No samplers assigned for 1 node, use conf$getUnsampledNodes() for node name.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>compiled1b <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(simpleModel1, mcmc1b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>compiled1b<span class="sc">$</span>mcmc1b<span class="sc">$</span><span class="fu">run</span>(<span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>samples1b <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(compiled1b<span class="sc">$</span>mcmc1b<span class="sc">$</span>mvSamples)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samples1b[,<span class="st">'beta2'</span>], <span class="at">type =</span> <span class="st">'l'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="writing-reversible-jump-mcmc-in-nimble_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(samples1[ samples1[,<span class="st">'z2'</span>] <span class="sc">==</span> <span class="dv">1</span>, <span class="st">'beta2'</span>], samples1b[,<span class="st">'beta2'</span>])</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="writing-reversible-jump-mcmc-in-nimble_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>That looks correct, in the sense that the distribution of <code>beta2</code> given that it’s in the model (using reversible jump) should match the distribution of <code>beta2</code> when it is<br>
 always in the model.</p>
 </section>
 <section id="rj-implementation-2-without-indicator-variables" class="level2">
 <h2 class="anchored" data-anchor-id="rj-implementation-2-without-indicator-variables">RJ implementation 2, without indicator variables</h2>
 <p>Now I’ll set up the second version of the model and samplers. I won’t include the indicator variable in the model but will instead include the prior probability for inclusion in the sampler. One added bit of generality is that being “out of the model” will be defined as taking some fixedValue, to be provided, which will typically but not necessarily be zero. These functions are very similar to the ones above.</p>
 <p>Here is the code to define and build a model without the indicator variable:</p>
-<pre><code>simpleCode2 &lt;- nimbleCode({
-    beta0 ~ dnorm(0, sd = 100)
-    beta1 ~ dnorm(0, sd = 100)
-    beta2 ~ dnorm(0, sd = 100)
-    sigma ~ dunif(0, 100)
-    for(i in 1:N) {
-        Ypred[i] &lt;- beta0 + beta1 * x1[i] + beta2 * x2[i]
-        Y[i] ~ dnorm(Ypred[i], sd = sigma)
-    }
-})
-
-simpleModel2 &lt;- nimbleModel(simpleCode2,
-                            data = list(Y = Y, x1 = x1, x2 = x2),
-                            constants = list(N = N),
-                            inits = list(beta0 = 0, beta1 = 0, beta2 = 0, sigma = sd(Y)))</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>simpleCode2 <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    beta0 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    beta1 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    beta2 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        Ypred[i] <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x1[i] <span class="sc">+</span> beta2 <span class="sc">*</span> x2[i]</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        Y[i] <span class="sc">~</span> <span class="fu">dnorm</span>(Ypred[i], <span class="at">sd =</span> sigma)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>simpleModel2 <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(simpleCode2,</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">data =</span> <span class="fu">list</span>(<span class="at">Y =</span> Y, <span class="at">x1 =</span> x1, <span class="at">x2 =</span> x2),</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>                            <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">N =</span> N),</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>                            <span class="at">inits =</span> <span class="fu">list</span>(<span class="at">beta0 =</span> <span class="dv">0</span>, <span class="at">beta1 =</span> <span class="dv">0</span>, <span class="at">beta2 =</span> <span class="dv">0</span>, <span class="at">sigma =</span> <span class="fu">sd</span>(Y)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+</div>
 <p>And here are the samplers (again, ignore the warning):</p>
-<pre><code>RW_sampler_nonzero &lt;- nimbleFunction(
-    ## "nonzero" is a misnomer because it can check whether it sits at any fixedValue, not just 0
-    contains = sampler_BASE,
-    setup = function(model, mvSaved, target, control) {
-        regular_RW_sampler &lt;- sampler_RW(model, mvSaved, target = target, control = control$RWcontrol)
-        fixedValue &lt;- control$fixedValue
-    },
-    run = function() { ## Now there is no indicator variable, so check if the target node is exactly
-                       ## equal to the fixedValue representing "not in the model".
-        if(model[[target]] != fixedValue) regular_RW_sampler$run()
-    },
-    methods = list(
-        reset = function() {regular_RW_sampler$reset()}
-    ))
-
-
-
-## Warning in nf_checkDSLcode(code): For this nimbleFunction to compile, these
-## functions must be defined as nimbleFunctions or nimbleFunction methods:
-## reset.
-
-
-
-RJsampler &lt;- nimbleFunction(
-    contains = sampler_BASE,
-    setup = function( model, mvSaved, target, control ) {
-        ## target should be a coefficient to be set to a fixed value (usually zero) or not
-        ## control should have an element called fixedValue (usually 0),
-        ##    a scale for jumps to and from the fixedValue,
-        ##    and a prior prob of taking its fixedValue
-        fixedValue &lt;- control$fixedValue
-        scale &lt;- control$scale
-        ## The control list contains the prior probability of inclusion, and we can pre-calculate
-        ## this log ratio because it's what we'll need later.
-        logRatioProbFixedOverProbNotFixed &lt;- log(control$prior) - log(1-control$prior)
-        calcNodes &lt;- model$getDependencies(target)
-    },
-    run = function( ) { ## The reversible-jump moves happen here
-        currentValue &lt;- model[[target]]
-        currentLogProb &lt;- model$getLogProb(calcNodes)
-        if(currentValue != fixedValue) { ## There is no indicator variable, so check if current value matches fixedValue
-            ## propose removing it (setting it to fixedValue)
-            logProbReverseProposal &lt;- dnorm(fixedValue, currentValue, sd = scale, log = TRUE)
-            model[[target]] &lt;&lt;- fixedValue
-            proposalLogProb &lt;- model$calculate(calcNodes)
-            log_accept_prob &lt;- proposalLogProb - currentLogProb - logRatioProbFixedOverProbNotFixed + logProbReverseProposal
-        } else {
-            ## propose adding it
-            proposalValue &lt;- rnorm(1, fixedValue, sd = scale)
-            model[[target]] &lt;&lt;- proposalValue
-            logProbForwardProposal &lt;- dnorm(fixedValue, proposalValue, sd = scale, log = TRUE)
-            proposalLogProb &lt;- model$calculate(calcNodes)
-            log_accept_prob &lt;- proposalLogProb - currentLogProb + logRatioProbFixedOverProbNotFixed - logProbForwardProposal
-        }
-        accept &lt;- decide(log_accept_prob)
-        if(accept) {
-            copy(from = model, to = mvSaved, row = 1, nodes = calcNodes, logProb = TRUE)
-        } else {
-            copy(from = mvSaved, to = model, row = 1, nodes = calcNodes, logProb = TRUE)
-        }
-    },
-    methods = list(reset = function() {
-    })
-    )</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>RW_sampler_nonzero <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## "nonzero" is a misnomer because it can check whether it sits at any fixedValue, not just 0</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">contains =</span> sampler_BASE,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">setup =</span> <span class="cf">function</span>(model, mvSaved, target, control) {</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>        regular_RW_sampler <span class="ot">&lt;-</span> <span class="fu">sampler_RW</span>(model, mvSaved, <span class="at">target =</span> target, <span class="at">control =</span> control<span class="sc">$</span>RWcontrol)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>        fixedValue <span class="ot">&lt;-</span> control<span class="sc">$</span>fixedValue</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">run =</span> <span class="cf">function</span>() { <span class="do">## Now there is no indicator variable, so check if the target node is exactly</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>                       <span class="do">## equal to the fixedValue representing "not in the model".</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(model[[target]] <span class="sc">!=</span> fixedValue) regular_RW_sampler<span class="sc">$</span><span class="fu">run</span>()</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">methods =</span> <span class="fu">list</span>(</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">reset =</span> <span class="cf">function</span>() {regular_RW_sampler<span class="sc">$</span><span class="fu">reset</span>()}</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>RJsampler <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">contains =</span> sampler_BASE,</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">setup =</span> <span class="cf">function</span>( model, mvSaved, target, control ) {</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>        <span class="do">## target should be a coefficient to be set to a fixed value (usually zero) or not</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>        <span class="do">## control should have an element called fixedValue (usually 0),</span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>        <span class="do">##    a scale for jumps to and from the fixedValue,</span></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>        <span class="do">##    and a prior prob of taking its fixedValue</span></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>        fixedValue <span class="ot">&lt;-</span> control<span class="sc">$</span>fixedValue</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>        scale <span class="ot">&lt;-</span> control<span class="sc">$</span>scale</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>        <span class="do">## The control list contains the prior probability of inclusion, and we can pre-calculate</span></span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>        <span class="do">## this log ratio because it's what we'll need later.</span></span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>        logRatioProbFixedOverProbNotFixed <span class="ot">&lt;-</span> <span class="fu">log</span>(control<span class="sc">$</span>prior) <span class="sc">-</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>control<span class="sc">$</span>prior)</span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>        calcNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getDependencies</span>(target)</span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">run =</span> <span class="cf">function</span>( ) { <span class="do">## The reversible-jump moves happen here</span></span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a>        currentValue <span class="ot">&lt;-</span> model[[target]]</span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a>        currentLogProb <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getLogProb</span>(calcNodes)</span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(currentValue <span class="sc">!=</span> fixedValue) { <span class="do">## There is no indicator variable, so check if current value matches fixedValue</span></span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>            <span class="do">## propose removing it (setting it to fixedValue)</span></span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>            logProbReverseProposal <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(fixedValue, currentValue, <span class="at">sd =</span> scale, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>            model[[target]] <span class="ot">&lt;&lt;-</span> fixedValue</span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a>            proposalLogProb <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">calculate</span>(calcNodes)</span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>            log_accept_prob <span class="ot">&lt;-</span> proposalLogProb <span class="sc">-</span> currentLogProb <span class="sc">-</span> logRatioProbFixedOverProbNotFixed <span class="sc">+</span> logProbReverseProposal</span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>            <span class="do">## propose adding it</span></span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>            proposalValue <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, fixedValue, <span class="at">sd =</span> scale)</span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>            model[[target]] <span class="ot">&lt;&lt;-</span> proposalValue</span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>            logProbForwardProposal <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(fixedValue, proposalValue, <span class="at">sd =</span> scale, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>            proposalLogProb <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">calculate</span>(calcNodes)</span>
+<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>            log_accept_prob <span class="ot">&lt;-</span> proposalLogProb <span class="sc">-</span> currentLogProb <span class="sc">+</span> logRatioProbFixedOverProbNotFixed <span class="sc">-</span> logProbForwardProposal</span>
+<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a>        accept <span class="ot">&lt;-</span> <span class="fu">decide</span>(log_accept_prob)</span>
+<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(accept) {</span>
+<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>            <span class="fu">copy</span>(<span class="at">from =</span> model, <span class="at">to =</span> mvSaved, <span class="at">row =</span> <span class="dv">1</span>, <span class="at">nodes =</span> calcNodes, <span class="at">logProb =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>            <span class="fu">copy</span>(<span class="at">from =</span> mvSaved, <span class="at">to =</span> model, <span class="at">row =</span> <span class="dv">1</span>, <span class="at">nodes =</span> calcNodes, <span class="at">logProb =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">methods =</span> <span class="fu">list</span>(<span class="at">reset =</span> <span class="cf">function</span>() {</span>
+<span id="cb39-55"><a href="#cb39-55" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb39-56"><a href="#cb39-56" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Now let’s set up and use the samplers</p>
-<pre><code>mcmcConf2 &lt;- configureMCMC(simpleModel2)
-mcmcConf2$removeSamplers('beta2')
-
-mcmcConf2$addSampler(target = 'beta2',
-                     type = 'RJsampler',
-                     control = list(fixedValue = 0, prior = 0.8, scale = 1))
-mcmcConf2$addSampler(target = 'beta2',
-                     type = 'RW_sampler_nonzero',
-                     control = list(fixedValue = 0,
-                                     RWcontrol = list(adaptive = TRUE,
-                                     adaptInterval = 100,
-                                     scale = 1,
-                                     log = FALSE,
-                                     reflective = FALSE)))
-
-mcmc2 &lt;- buildMCMC(mcmcConf2)
-compiled2 &lt;- compileNimble(simpleModel2, mcmc2)
-
-compiled2$mcmc2$run(10000)
-
-
-
-## |-------------|-------------|-------------|-------------|
-## |-------------------------------------------------------|
-
-
-
-## NULL
-
-
-
-samples2 &lt;- as.matrix(compiled2$mcmc2$mvSamples)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>mcmcConf2 <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(simpleModel2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: beta0, beta1, beta2, sigma
+===== Samplers =====
+RW sampler (1)
+  - sigma
+conjugate sampler (3)
+  - beta0
+  - beta1
+  - beta2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mcmcConf2<span class="sc">$</span><span class="fu">removeSamplers</span>(<span class="st">'beta2'</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>mcmcConf2<span class="sc">$</span><span class="fu">addSampler</span>(<span class="at">target =</span> <span class="st">'beta2'</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">'RJsampler'</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fixedValue =</span> <span class="dv">0</span>, <span class="at">prior =</span> <span class="fl">0.8</span>, <span class="at">scale =</span> <span class="dv">1</span>))</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>mcmcConf2<span class="sc">$</span><span class="fu">addSampler</span>(<span class="at">target =</span> <span class="st">'beta2'</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">type =</span> <span class="st">'RW_sampler_nonzero'</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fixedValue =</span> <span class="dv">0</span>,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">RWcontrol =</span> <span class="fu">list</span>(<span class="at">adaptive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">adaptInterval =</span> <span class="dv">100</span>,</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">scale =</span> <span class="dv">1</span>,</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">log =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">reflective =</span> <span class="cn">FALSE</span>)))</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>mcmc2 <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(mcmcConf2)</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>compiled2 <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(simpleModel2, mcmc2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>compiled2<span class="sc">$</span>mcmc2<span class="sc">$</span><span class="fu">run</span>(<span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>samples2 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(compiled2<span class="sc">$</span>mcmc2<span class="sc">$</span>mvSamples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>And again let’s look at the samples. As above, the horizontal line at 0 represents having beta2 removed from the model.</p>
-<pre><code>plot(samples2[,'beta2'])</code></pre>
-<p><a href="https://r-nimble.org/wp-content/uploads/2017/02/plot3-1.png"><img src="https://web.archive.org/web/20250518102746im_/https://r-nimble.org/wp-content/uploads/2017/02/plot3-1-300x180.png" class="img-fluid"></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samples2[,<span class="st">'beta2'</span>], <span class="at">type =</span> <span class="st">'l'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="writing-reversible-jump-mcmc-in-nimble_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Now let’s compare those results to results from the first method, above. They should match.</p>
-<pre><code>mean(samples1[,'beta2']==0)
-
-
-
-## [1] 0.12
-
-
-
-mean(samples2[,'beta2']==0)
-
-
-
-## [1] 0.1173
-
-
-
-qqplot(samples1[ samples1[,'beta2'] != 0,'beta2'], samples2[samples2[,'beta2'] != 0,'beta2'])
-abline(0,1)</code></pre>
-<p><a href="https://r-nimble.org/wp-content/uploads/2017/02/compare-two-methods-1.png"><img src="https://web.archive.org/web/20250518102746im_/https://r-nimble.org/wp-content/uploads/2017/02/compare-two-methods-1-300x180.png" class="img-fluid"></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(samples1[,<span class="st">'beta2'</span>]<span class="sc">==</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1005</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(samples2[,<span class="st">'beta2'</span>]<span class="sc">==</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0933</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(samples1[ samples1[,<span class="st">'beta2'</span>] <span class="sc">!=</span> <span class="dv">0</span>,<span class="st">'beta2'</span>], samples2[samples2[,<span class="st">'beta2'</span>] <span class="sc">!=</span> <span class="dv">0</span>,<span class="st">'beta2'</span>])</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="writing-reversible-jump-mcmc-in-nimble_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>They match well.</p>
 <section id="how-to-apply-this-for-larger-models." class="level3">
 <h3 class="anchored" data-anchor-id="how-to-apply-this-for-larger-models.">How to apply this for larger models.</h3>
