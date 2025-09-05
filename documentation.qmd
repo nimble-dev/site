@@ -4,8 +4,6 @@ title: "Documentation"
 
 ## Cheatsheet
 
-New as of version 0.9.1:
-
 - [The NIMBLE cheatsheet — a compact two-page overview and reference guide](NimbleCheatSheet.pdf).
 
 ## User Manual
@@ -17,7 +15,7 @@ The manual provides information for those wishing to use NIMBLE to work with the
 
 ## Training materials
 
-Please see our collection of [Github repositories with training materials](https://github.com/nimble-training) for materials from our various NIMBLE training workshops, including workshops developed for statisticans and workshops developed for ecologists.
+Please see our collection of [GitHub repositories with training materials](https://github.com/nimble-training) for materials from our various NIMBLE training workshops, including workshops developed for statisticans and workshops developed for ecologists.
 
 ## Other links
 
