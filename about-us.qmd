@@ -24,20 +24,22 @@ title: "About Us"
 :::
 :::
 
-- **[Duncan Temple Lang](http://www.stat.ucdavis.edu/~duncan/)** is in the Department of Statistics at the University of California, Davis.
+
 
 # Core team alums
 
+- **[Duncan Temple Lang](http://www.stat.ucdavis.edu/~duncan/)** is in the Department of Statistics at the University of California, Davis who provided guidance on package structure and the NIMBLE compiler.
 - **Nick Michaud** is a Statistician at Vertex Pharmaceuticals who contributed to various NIMBLE algorithms and NIMBLE internals as a postdoc.
-- **[Clifford Anderson-Bergman](http://cliffstats.weebly.com/)** is a Statistician at Lawrence Livermore National Lab.
+- **[Clifford Anderson-Bergman](http://cliffstats.weebly.com/)** is a Statistician at Lawrence Livermore National Lab who contributed to various NIMBLE algorithms and NIMBLE internals.
 - **Jagadish Babu** contributed to an early pre-release version of NIMBLE.
 
 # Collaborators
 
-- **Claudia Wehrhahn Cortes**, is a visiting assistant professor at the University of California, Santa Cruz, Department of Applied Mathematics & Statistics implementing Bayesian nonparametric methods in NIMBLE.
-- **[Abel Rodriguez](https://stat.uw.edu/about-us/people/abel-rodriguez)** is a faculty member at the University of Washington Department of Statistics
+- **[Paul van Dam-Bates](https://www.linkedin.com/in/paul-van-dam-bates-0a4988b1)** is a research scientist at Fisheries and Oceans Canada (DFO) who has contributed to NIMBLE's Laplace and nested approximation algorithms as well as various other pieces of NIMBLE. 
 - **[Wei Zhang](https://www.gla.ac.uk/schools/mathematicsstatistics/staff/weizhang/)** is a lecturer in the School of Mathematics and Statistics at the University of Glasgow who has contributed to NIMBLE methods and applications.
-- **[Sally Paganin](https://www.hsph.harvard.edu/profile/sally-paganin/)** is a postdoc at Harvard School of Public Health who has contributed to NIMBLE methods and applications.
+- **[Sally Paganin](https://www.hsph.harvard.edu/profile/sally-paganin/)** is a faculty member at Ohio State University who has contributed to NIMBLE methods and applications.
+- **Claudia Wehrhahn Cortes** was a visiting assistant professor at the University of California, Santa Cruz, Department of Applied Mathematics & Statistics who implemented Bayesian nonparametric methods in NIMBLE.
+- **[Abel Rodriguez](https://stat.uw.edu/about-us/people/abel-rodriguez)** is a faculty member at the University of Washington Department of Statistics who help lead our implementation of Bayesian nonparametric methods in NIMBLE.
 
 ::: {.team-grid}
 ::: {.team-member}
@@ -52,14 +54,9 @@ title: "About Us"
 **Dao Nguyen** is a faculty member at the University of Mississippi.
 :::
 
-::: {.team-member}
-[![](images/BenCropped2.png){width="68" height="76" fig-alt="Portrait photo of Ben Staton"}](http://www.personal.psu.edu/bas59/)
-
-**Ben Shaby** is a faculty member at Colorado State University, Department of Statistics
-:::
 :::
 
-- **[Ras Bodik](http://homes.cs.washington.edu/~bodik/)** is a faculty member at the University of Washington, Department of Computer Science and Engineering
+- **[Ras Bodik](http://homes.cs.washington.edu/~bodik/)** is a faculty member at the University of Washington, Department of Computer Science and Engineering.
 
 # Contributors
 
@@ -73,7 +70,7 @@ title: "About Us"
 ::: {.team-member}
 [![](images/DavidCropped2-1.png){width="72" height="72" fig-alt="Portrait photo of David Pleydell"}](https://sites.google.com/site/drjpleydell/)
 
-**David Pleydell** is in the French National Institute for Agricultural Research (INRA).
+**David Pleydell** is in the French National Institute for Agricultural Research (INRA) and contributed code to NIMBLE.
 :::
 
 ::: {.team-member}
