@@ -16,7 +16,7 @@ Other packages that use the BUGS language are only for Markov chain Monte Carlo 
 ::: {.feature-section}
 ## Use and customize NIMBLE's statistical algorithms 
 
-### NIMBLE provides MCMC, sequential Monte Carlo (particle filters), and more.
+### NIMBLE provides MCMC, sequential Monte Carlo (particle filters), Laplace and (INLA-like) deterministic nested approximation, and more.
 
 NIMBLE algorithms are written so they can adapt to different statistical models. For MCMC, NIMBLE can assign a default set of sampler choices, but you can customize the samplers from R. For example, you can choose what parameters to sample in a block, and you can easily write your own samplers and include them.
 

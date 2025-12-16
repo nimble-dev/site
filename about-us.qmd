@@ -54,7 +54,7 @@ title: "About Us"
 
 # Core team alums
 
-- **[Duncan Temple Lang](http://www.stat.ucdavis.edu/~duncan/)** is in the Department of Statistics at the University of California, Davis who provided guidance on package structure and the NIMBLE compiler.
+- **[Duncan Temple Lang](http://www.stat.ucdavis.edu/~duncan/)** is a faculty member in the Department of Statistics at the University of California, Davis who provided guidance on package structure and the NIMBLE compiler.
 - **Nick Michaud** is a Statistician at Vertex Pharmaceuticals who contributed to various NIMBLE algorithms and NIMBLE internals as a postdoc.
 - **[Clifford Anderson-Bergman](http://cliffstats.weebly.com/)** is a Statistician at Lawrence Livermore National Lab who contributed to various NIMBLE algorithms and NIMBLE internals.
 - **Jagadish Babu** contributed to an early pre-release version of NIMBLE.

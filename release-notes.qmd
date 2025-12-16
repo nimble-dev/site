@@ -2,7 +2,35 @@
 title: "Release notes"
 ---
 
-### December 19, 2024: We're released Version 1.3.0
+### December 13, 2025: We've released Version 1.4.0
+
+We've released the newest version of NIMBLE on CRAN and on our website.
+
+Version 1.4.0 provides important new and improved functionality, plus some bug fixes and improved error trapping.
+
+The new and improved functionality includes:
+
+- A new INLA-like deterministic nested posterior approximation whose methodology borrows from both INLA and the extended latent Gaussian models approach of the `aghq` package in R. This new approximation and NIMBLE’s existing Laplace and AGHQ approximation now live in a new package, `nimbleQuad`, rather than in the core `nimble` package.
+- A new system for computing and storing "derived quantities" during MCMC execution, allowing users to record additional quantities of interest at every saved MCMC iteration (i.e., following the thinning interval, or some other user-chosen interval). Derived quantities provided by NIMBLE include means, variances, model log-densities, and predictive nodes. Users can also define their own derived quantities.
+- Matrix exponential functionality via `expm` and `expAv`.
+- The ability to provide multiple code chunks to `nimbleCode` for greater flexibility in composing models.
+- Greatly improved efficiency and memory use of AD system and making efficiency improvements to Laplace/AGHQ approximation.
+
+In addition to the new and improved functionality above, other bug fixes, improved error trapping, and enhancements include:
+
+- Removing some documentation references to "BUGS" when referring to models.
+- Allowing users to turn off `model$checkBasics` via a new option.
+- Better handling inconsistencies between `inits` and `dimensions` when creating models.
+- Making minor improvements to the Pólya-gamma sampler.
+- Generalizing the system of dynamically generating conjugate MCMC samplers, to allow for multivariate parameters of dependent distributions to have distinct sizes from the dependent node itself .
+- Making MCEM append new samples when increasing sample size using the ascent-based method, rather than starting a new sample.
+- Various enhancements to error trapping and warning messages.
+- A variety of minor bug fixes.
+
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
+
+
+### December 19, 2024: We've released Version 1.3.0
 
 We've released the newest version of NIMBLE on CRAN and on our website.
 
@@ -29,7 +57,7 @@ In addition to the new and improved functionality above, other bug fixes, improv
 - Preventing an adaptation interval of one for various block samplers for which an interval of one leads to an error.
 - Allowing `runLaplace` to use an uncompiled Laplace object.
 
-Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
 
 ### July 31, 2024: We've released Version 1.2.1
 
@@ -39,7 +67,7 @@ We've released the newest version of NIMBLE on CRAN and on our website. This is 
 - Some enhancements to error trapping and warning messages.
 - A variety of minor bug fixes.
 
-Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
 
 ### June 9, 2024: We've released Version 1.2.0
 
@@ -85,7 +113,7 @@ We've released the newest version of NIMBLE on CRAN and on our website. This ver
 - Improving documentation of AD, nimbleHMC, and nimbleSMC in the manual.
 - Updating Eigen (the C++ linear algebra library used by nimble) to version 3.4.0.
 
-Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
 
 ### June 15, 2023: We've released Version 1.0.1
 
@@ -97,7 +125,7 @@ The issue involves a change of behavior (relative to previous nimble versions) w
 
 The bug involves models where (for a variable satisfying the previous condition) not every scalar element within the variable is used as a node and some of the nodes in the variable are data. In that situation, data values may be set incorrectly. This could typically occur in models with autoregressive structure directly on some data nodes (such as may be the case for capture-recapture models involving many individual capture histories within the same variable, indexed by individual and time, with some individuals not present for the entire time series, resulting in unused scalar elements of the variable).
 
-Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
 
 ### May 26, 2023: We've released Version 1.0.0
 
@@ -118,7 +146,7 @@ In addition to the new functionality above, other enhancements and bug fixes inc
 - Improving the WAIC system in a few small ways.
 - Enhancing error trapping and warning messages.
 
-Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.m) for more detailed information.
+Please see the NEWS file in the source package or the [nimble-dev GitHub site](https://github.com/nimble-dev/nimble/blob/master/packages/nimble/inst/NEWS.md) for more detailed information.
 
 ### May 15, 2023: We've released Version 0.13.2
 

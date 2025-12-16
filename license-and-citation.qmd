@@ -26,14 +26,14 @@ How to cite NIMBLE in general:
 
 How to cite the package:
 
-NIMBLE Development Team. 2024. NIMBLE: MCMC, Particle Filtering, and Programmable Hierarchical Modeling. doi: 10.5281/zenodo.1211190. R package version 1.3.0, https://cran.r-project.org/package=nimble.
+NIMBLE Development Team. 2025. NIMBLE: MCMC, Particle Filtering, and Programmable Hierarchical Modeling. doi: 10.5281/zenodo.1211190. R package version 1.4.0, https://cran.r-project.org/package=nimble.
 
 ```
-@misc{nimble-software:2024,
+@misc{nimble-software:2025,
   author = {{de Valpine}, P. and Paciorek, C. and Turek, D. and Michaud, N. and Anderson-Bergman, C. and Obermeyer, F. and Wehrhahn Cortes, C. and Rodr{\'i}guez, A. and {Temple Lang}, D. and Zhang, W. and Paganin, S. and Hug, J. and van Dam-Bates, P.}, 
-  year = {2024},
+  year = {2025},
   title = {NIMBLE: MCMC, Particle Filtering, and Programmable Hierarchical Modeling}
-  version = 1.3.0,
+  version = 1.4.0,
   doi = {10.5281/zenodo.1211190},
   url = {https://cran.r-project.org/package=nimble}
 }
@@ -41,14 +41,14 @@ NIMBLE Development Team. 2024. NIMBLE: MCMC, Particle Filtering, and Programmabl
 
 How to cite the manual:
 
-NIMBLE Development Team. 2024. NIMBLE User Manual. doi: 10.5281/zenodo.1211190. R package manual version 1.3.0. https://r-nimble.org.
+NIMBLE Development Team. 2025. NIMBLE User Manual. doi: 10.5281/zenodo.1211190. R package manual version 1.4.0. https://r-nimble.org.
 
 ```
-@manual{nimble-manual:2024,
+@manual{nimble-manual:2025,
   author = {{de Valpine}, P. and Paciorek, C. and Turek, D. and Michaud, N. and Anderson-Bergman, C. and Obermeyer, F. and Wehrhahn Cortes, C. and Rodr{\'i}guez, A. and {Temple Lang}, D. and Zhang, W. and Paganin, S. and Hug, J. and van Dam-Bates, P.}, 
-  year = {2024}, 
+  year = {2025}, 
   title = {NIMBLE User Manual}, 
-  version = 1.3.0, 
+  version = 1.4.0, 
   doi = {10.5281/zenodo.1211190}, 
   url = {https://r-nimble.org} 
 }
