@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["announcement", "education"]
+categories: ["announcement", "R", "education"]
 ---
 
 There will be a three-day NIMBLE workshop in Sempach, Switzerland, 23-25 April, hosted at the Swiss Ornithological Institute. More information can be found here: [http://www.phidot.org/forum/viewtopic.php?f=8&t=3586](http://www.phidot.org/forum/viewtopic.php?f=8&t=3586). Examples will be oriented towards ecological applications, but otherwise the workshop content will be general.

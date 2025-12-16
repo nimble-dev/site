@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["tutorial"]
+categories: ["tutorial", "R"]
 ---
 
 #  Writing reversible jump MCMC samplers in NIMBLE 

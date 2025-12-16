@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["announcement", "education"]
+categories: ["announcement", "R", "education"]
 ---
 
 We’ll be holding a two-day training workshop on [NIMBLE](https://r-nimble.org/), June 3-4, 2020 in Berkeley, California. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).

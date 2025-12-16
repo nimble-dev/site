@@ -3,7 +3,7 @@ title: "NIMBLE virtual short course, May 26-28"
 description: ""
 author: "NIMBLE Development Team"
 date: "2021-03-05"
-categories: ['education', 'announcement']
+categories: ['education', 'announcement','R']
 ---
 
 We’ll be holding a virtual training workshop on [NIMBLE](https://r-nimble.org/), May 26-28, from 8 am to 1 pm US Pacific (California) time each day. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).

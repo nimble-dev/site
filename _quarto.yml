@@ -5,6 +5,7 @@ project:
     - "manual/**"
     - "examples/**"
     - "blog/**"
+    - feed
 
 website:
   title: "NIMBLE"

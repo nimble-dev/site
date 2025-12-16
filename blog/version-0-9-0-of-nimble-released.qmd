@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ['release', 'announcement']
+categories: ['release', 'announcement', 'R']
 ---
 
 We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC). Version 0.9.0 provides some new features as well as providing a variety of speed improvements, better output handling, and bug fixes.

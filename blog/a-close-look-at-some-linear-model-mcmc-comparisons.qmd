@@ -3,6 +3,7 @@ title: "A close look at some linear model MCMC comparisons"
 description: ""
 author: "Perry de Valpine"
 date: "2021-11-11"
+categories: ["tutorial", "R"]
 ---
 
 This is our second blog post taking a careful look at some of the results posted in an [arXiv manuscript by Beraha, Falco, and Guglielmi (BFG)](https://arxiv.org/abs/2107.09357). They compare JAGS, Stan, and NIMBLE using four examples. In their results, each package performs best in at least one example.
