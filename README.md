@@ -64,5 +64,5 @@ To add content:
 ## Links
 
 - [NIMBLE GitHub Repository](https://github.com/nimble-dev/nimble)
-- [NIMBLE Documentation](https://r-nimble.org/html_manual/cha-welcome-nimble.html)
+- [NIMBLE Documentation](https://r-nimble.org/manual/cha-welcome-nimble.html)
 - [CRAN Package](https://cran.r-project.org/package=nimble)

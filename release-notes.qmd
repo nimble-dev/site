@@ -136,7 +136,7 @@ We're very pleased to announce the release of version 1.0.0 of NIMBLE. This vers
 - Support in NIMBLE's algorithm programming system to obtain derivatives of functions and arbitrary calculations within models.
 - A parameter transformation system allowing algorithms to work in unconstrained parameter spaces when model parameters have constrained domains.
 
-These are documented via the R help system and a [new section at the end of our User Manual](https://r-nimble.org/html_manual/cha-AD.html). We're excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the [nimble-users list](https://r-nimble.org/more/issues-and-groups).
+These are documented via the R help system and a [new section at the end of our User Manual](https://r-nimble.org/manual/cha-AD.html). We're excited for users to try out the new features and let us know of their experiences. In particular, given these major additions to the NIMBLE system, we anticipate the possibility of minor glitches. The best place to reach out for support is still the [nimble-users list](https://r-nimble.org/more/issues-and-groups).
 
 In addition to the new functionality above, other enhancements and bug fixes include:
 

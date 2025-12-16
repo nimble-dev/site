@@ -182,3 +182,11 @@ NIMBLE provides a rich collection of examples to help you get started with stati
 :::
 
 
+::: {.callout-note collapse="true"}
+## Using the Pólya-gamma sampler
+
+[Read this example on a new page.](examples/polya_gamma.html)
+
+<iframe src="examples/polya_gamma.html" width="100%" height="500" style="border: 1px solid #ccc;"></iframe>
+:::
+

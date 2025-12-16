@@ -10,7 +10,7 @@ On Windows you can get these by [installing Rtools.exe](http://cran.r-project.or
 
 On Mac OS X you can get these by installing the XCode command line tools. (The full XCode development environment is fine but not required.)
 
-More details and troubleshooting tips are provided in [Section 4 of the User Manual](https://r-nimble.org/html_manual/cha-installing-nimble.html).
+More details and troubleshooting tips are provided in [Section 4 of the User Manual](https://r-nimble.org/manual/cha-installing-nimble.html).
 
 If you install a new version of R, you will need to reinstall NIMBLE.
 
@@ -62,4 +62,4 @@ For a summary of changes in each version, please see the [News page](http://r-ni
 
 ## Beta testing of automatic differentiation features
 
-Automatic differentiation, including support for Hamiltonian Monte Carlo and Laplace (and AGHQ) approximation is part of NIMBLE as of the version 1.0.0 release. Instructions for using it are in our [User Manual](https://r-nimble.org/html_manual/cha-AD.html).
+Automatic differentiation, including support for Hamiltonian Monte Carlo and Laplace (and AGHQ) approximation is part of NIMBLE as of the version 1.0.0 release. Instructions for using it are in our [User Manual](https://r-nimble.org/manual/cha-AD.html).

@@ -5,16 +5,16 @@ title: "Archived Versions of NIMBLE and the User Manual"
 This page provides access to previous versions of NIMBLE and their corresponding documentation.
 
 ## Current Version
-- **NIMBLE 1.4.0** - [Download](download.qmd) | [User Manual](https://r-nimble.org/html_manual/cha-welcome-nimble.html)
+- **NIMBLE 1.4.0** - [Download](download.qmd) | [User Manual](https://r-nimble.org/manual/cha-welcome-nimble.html)
 
 ## Previous Versions
 
-- [NIMBLE 1.3.0 Source Package](https://r-nimble.org/src/nimble_1.3.0.tar.gz)
-- [NIMBLE 1.2.1 Source Package](https://r-nimble.org/src/nimble_1.2.1.tar.gz)
-- [NIMBLE 1.2.0 Source Package](https://r-nimble.org/src/nimble_1.2.0.tar.gz)
-- [NIMBLE 1.1.0 Source Package](https://r-nimble.org/src/nimble_1.1.0.tar.gz)
-- [NIMBLE 1.0.1 Source Package](https://r-nimble.org/src/nimble_1.0.1.tar.gz)
-- [NIMBLE 1.0.0 Source Package](https://r-nimble.org/src/nimble_1.0.0.tar.gz)
+- [NIMBLE 1.3.0 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.3.0.tar.gz)
+- [NIMBLE 1.2.1 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.2.1.tar.gz)
+- [NIMBLE 1.2.0 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.2.0.tar.gz)
+- [NIMBLE 1.1.0 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.1.0.tar.gz)
+- [NIMBLE 1.0.1 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.0.1.tar.gz)
+- [NIMBLE 1.0.0 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.0.0.tar.gz)
 
 
 ### Older Versions
@@ -35,7 +35,7 @@ install.packages("https://r-nimble.org/src/contrib/Archive/nimble/nimble_X.Y.Z.t
 
 ## User Manual Archives
 
-- Current User Manual: [HTML](https://r-nimble.org/html_manual/cha-welcome-nimble.html) | [PDF](https://r-nimble.org/manuals/NimbleUserManual.pdf)
+- Current User Manual: [HTML](https://r-nimble.org/manual/cha-welcome-nimble.html) | [PDF](https://r-nimble.org/manuals/NimbleUserManual.pdf)
 - Previous versions of the manual are included with each package release on [GitHub](https://github.com/nimble-dev/nimble/releases) and [Zenodo](http://doi.org/10.5281/zenodo.1211191).
 
 ## Release Notes
