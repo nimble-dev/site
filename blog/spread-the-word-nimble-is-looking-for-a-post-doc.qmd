@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["announcement"]
+categories: ["announcement", "R"]
 ---
 
 We have an opening for a post-doctoral scholar to work on methods for and applications of hierarchical statistical models using the NIMBLE software (https://r-nimble.org) at the University of California, Berkeley. NIMBLE is an R package that combines a new implementation of a model language similar to BUGS/JAGS, a system for writing new algorithms and MCMC samplers, and a compiler that generates C++ for each model and set of algorithms. The successful candidate will work with Chris Paciorek, Perry de Valpine, and potentially other NIMBLE collaborators to pursue a research program with a combination of building and applying methods in NIMBLE. Specific methods and application areas will be determined based on interests of the successful candidate. Applicants should have a Ph.D. in Statistics or a related discipline. We are open to non-Ph.D. candidates who can make a compelling case that they have relevant experience. The position is funded for two years, with an expected start date between October 2018 and June 2019. Applicants should send a cover letter, including a statement of how their interests relate to NIMBLE, the names of three references, and a CV to nimble.stats@gmail.com, with “NIMBLE post-doc application” in the subject. Applications will be considered on a rolling basis starting 15 October, 2018.

@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ['release', 'announcement']
+categories: ['release', 'announcement', 'R']
 ---
 
 We’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-12 is primarily a maintenance release with various bug fixes.

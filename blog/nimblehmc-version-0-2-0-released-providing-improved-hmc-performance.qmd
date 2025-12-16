@@ -3,7 +3,7 @@ title: "nimbleHMC version 0.2.0 released, providing improved HMC performance"
 description: ""
 author: "NIMBLE Development Team"
 date: "2023-09-20"
-categories: ['release', 'announcement']
+categories: ['release', 'announcement', 'R']
 ---
 
 nimbleHMC provides Hamiltonian Monte Carlo samplers for use with NIMBLE, in particular NUTS samplers. NIMBLE’s HMC samplers can be flexibly assigned to a subset of model parameters, allowing users to consider various sampling configurations.

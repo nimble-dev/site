@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["announcement", "education"]
+categories: ["announcement", "R", "education"]
 ---
 
 We’ll be giving a two day workshop at the 43rd Annual Summer Institute of Applied Statistics at Brigham Young University (BYU) in Utah, June 19-20, 2018.

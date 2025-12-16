@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["announcement","education"]
+categories: ["announcement","R","education"]
 ---
 
 We’ll be presenting a webinar on NIMBLE, hosted by the Eastern North America Region of the International Biometric Society. Details are as follows.

@@ -3,7 +3,7 @@ title: "registration open for online NIMBLE short course, June 3-5, 2020"
 description: ""
 author: "NIMBLE Development Team"
 date: "2020-04-06"
-categories: ['education', 'announcement']
+categories: ['education', 'announcement', 'R']
 ---
 
 Registration is now open for a three-day **online** training workshop on [NIMBLE](https://r-nimble.org/), June 3-5, 2020, 9 am – 2 pm California time (noon – 5 pm US EDT). This online workshop will be held in place of our previously planned in-person workshop.

@@ -354,6 +354,7 @@ window.Quarto = {
   <div class="quarto-categories">
     <div class="quarto-category">announcement</div>
     <div class="quarto-category">tutorial</div>
+    <div class="quarto-category">R</div>
   </div>
   </div>
 
@@ -489,7 +490,7 @@ Attaching package: 'coda'</code></pre>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RW_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.2490  0.3129  0.4415  0.5301  0.5466  1.1003 </code></pre>
+ 0.2482  0.3257  0.4583  0.5479  0.5867  1.1205 </code></pre>
 </div>
 </div>
 <p>Examining a trace plot of the output below, we see that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing especially poorly.</p>
@@ -556,7 +557,7 @@ conjugate sampler (101)
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AFSS_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  21.50   23.42   29.11   27.83   29.15   35.95 </code></pre>
+  21.16   21.75   27.19   26.27   27.94   33.32 </code></pre>
 </div>
 </div>
 <p>Note that the minimum overall efficiency of the AFSS sampler is approximately <code>28</code> times that of the <code>RW_block</code> sampler. Additionally, trace plots from the output of the AFSS sampler show that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing much more effectively than they were under the <code>RW_block</code> sampler.</p>

@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ['release', 'announcement']
+categories: ['release', 'announcement', 'R']
 ---
 
 We’ve just released the newest version of NIMBLE on CRAN and on our website. Version 0.6-4 has a bunch of new functionality for writing your own algorithms (using a natural R-like syntax) that can operate on user-provided models, specified using BUGS syntax. It also enhances the functionality of our built-in MCMC and other algorithms.

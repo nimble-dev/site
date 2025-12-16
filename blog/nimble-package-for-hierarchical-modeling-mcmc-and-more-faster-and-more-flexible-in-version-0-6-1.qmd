@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ["announcement", "release"]
+categories: ["announcement", "release", "R"]
 ---
 
 NIMBLE version 0.6-1 has been released on CRAN and at [r-nimble.org](http://r-nimble.org/). 

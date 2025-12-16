@@ -3,7 +3,7 @@ title: "NIMBLE online tutorial, November 18, 2021"
 description: ""
 author: "Chris Paciorek"
 date: "2021-10-20"
-categories: ['education', 'announcement']
+categories: ['education', 'announcement', 'R']
 ---
 
 We’ll be giving a two-hour tutorial on NIMBLE, sponsored by the environmental Bayes (enviBayes) section of ISBA (The International Society for Bayesian Analysis), on Thursday November 18, from 11 am to 1 pm US Eastern time.

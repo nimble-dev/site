@@ -3,7 +3,7 @@ title: "Version 0.12.1 of NIMBLE released"
 description: ""
 author: "NIMBLE Development Team"
 date: "2021-10-13"
-categories: ['release', 'announcement']
+categories: ['release', 'announcement', 'R']
 ---
 
 We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).

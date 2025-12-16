@@ -3,7 +3,7 @@ title: "Posterior predictive sampling and other post-MCMC use of samples in NIMB
 description: ""
 author: "Chris Paciorek and Sally Paganin"
 date: "2021-08-10"
-categories: ['announcement','tutorial']
+categories: ['announcement','R','tutorial']
 execute:
   freeze: auto
 ---

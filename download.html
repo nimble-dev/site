@@ -310,7 +310,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
-  <li><a href="#current-version-1.3.0" id="toc-current-version-1.3.0" class="nav-link" data-scroll-target="#current-version-1.3.0">Current version (1.3.0)</a>
+  <li><a href="#current-version-1.4.0" id="toc-current-version-1.4.0" class="nav-link" data-scroll-target="#current-version-1.4.0">Current version (1.4.0)</a>
   <ul class="collapse">
   <li><a href="#installing-from-cran" id="toc-installing-from-cran" class="nav-link" data-scroll-target="#installing-from-cran">Installing from CRAN</a></li>
   <li><a href="#installing-from-r-nimble.org" id="toc-installing-from-r-nimble.org" class="nav-link" data-scroll-target="#installing-from-r-nimble.org">Installing from R-nimble.org</a></li>
@@ -346,14 +346,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="prerequisites" class="level2">
 <h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
 <p>Before installing NIMBLE, you need a compiler and related tools such as <em>make</em> that R can use. You’ll need these anyway to use NIMBLE.</p>
-<p>On Windows you can get these by installing Rtools.exe from <a href="http://cran.r-project.org/bin/windows/Rtools">here</a>. <strong>Important</strong>: with R version 4.0 or newer, for which you need Rtools40, be sure to follow the instructions in the section “Putting Rtools on the PATH” to set the PATH after the installation is complete. For older versions of R, for which you would use Rtools35.exe, be sure to check the box that will modify your PATH during the installation process.</p>
+<p>On Windows you can get these by <a href="http://cran.r-project.org/bin/windows/Rtools">installing Rtools.exe</a>. <strong>Important</strong>: with R version 4.0 or newer, for which you need Rtools40, be sure to follow the instructions in the section “Putting Rtools on the PATH” to set the PATH after the installation is complete. For older versions of R, for which you would use Rtools35.exe, be sure to check the box that will modify your PATH during the installation process.</p>
 <p>On Mac OS X you can get these by installing the XCode command line tools. (The full XCode development environment is fine but not required.)</p>
 <p>More details and troubleshooting tips are provided in <a href="https://r-nimble.org/html_manual/cha-installing-nimble.html">Section 4 of the User Manual</a>.</p>
 <p>If you install a new version of R, you will need to reinstall NIMBLE.</p>
 </section>
-<section id="current-version-1.3.0" class="level2">
-<h2 class="anchored" data-anchor-id="current-version-1.3.0">Current version (1.3.0)</h2>
-<section id="installing-from-cran" class="level3 download-section">
+<section id="current-version-1.4.0" class="level2">
+<h2 class="anchored" data-anchor-id="current-version-1.4.0">Current version (1.4.0)</h2>
+<section id="installing-from-cran" class="level3">
 <h3 class="anchored" data-anchor-id="installing-from-cran">Installing from CRAN</h3>
 <p><a href="https://cran.r-project.org/package=nimble">NIMBLE is available from CRAN</a> as a source package and as a binary package for Windows and Mac OS. Please note that even if you install from CRAN, you still need to have a compiler and related tools installed as discussed above and in Section 4 of our User Manual.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimble"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -361,12 +361,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="installing-from-r-nimble.org" class="level3">
 <h3 class="anchored" data-anchor-id="installing-from-r-nimble.org">Installing from R-nimble.org</h3>
 <p>If you prefer, you can install the package directly from our repository as follows.</p>
-<p>If you install in this manner, please first install the igraph, R6, coda, numDeriv, and pracma R packages as these are dependencies and will not be automatically installed when installing from source.</p>
+<p>If you install in this manner, please first install the <code>igraph</code>, <code>R6</code>, <code>coda</code>, <code>numDeriv</code>, and <code>pracma</code> R packages as these are dependencies and will not be automatically installed when installing from source.</p>
 <p>Only the installation from source works when installing from our repository. Invoke the following at the R command line:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install from source for MacOS, Linux, or Windows:</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"nimble"</span>, <span class="at">repos =</span> <span class="st">"https://r-nimble.org"</span>, <span class="at">type =</span> <span class="st">"source"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the 'type = "source"' is unnecessary for Linux</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Or download the <a href="https://r-nimble.org/src/contrib/nimble_1.3.0.tar.gz">source package</a> for installation via R CMD INSTALL on Linux, Mac, or Windows</p>
+<p>Or download the <a href="https://r-nimble.org/src/contrib/nimble_1.4.0.tar.gz">source package</a> for installation via R CMD INSTALL on Linux, Mac, or Windows</p>
 <p>The NIMBLE source code can be viewed by unzipping the source package tarball or directly on our <a href="https://github.com/nimble-dev/nimble">GitHub repository</a>.</p>
 </section>
 </section>
@@ -381,7 +381,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="older-versions" class="level2">
 <h2 class="anchored" data-anchor-id="older-versions">Older versions</h2>
-<p>Previous releases of NIMBLE can be found <a href="./archived-versions-of-nimble-and-the-user-manual.html">here</a>.</p>
+<p>You can find <a href="./archived-versions-of-nimble-and-the-user-manual.html">previous releases of NIMBLE</a>.</p>
 <p>For a summary of changes in each version, please see the <a href="http://r-nimble.org/news">News page</a> or the NEWS file in the package.</p>
 </section>
 <section id="beta-testing-of-automatic-differentiation-features" class="level2">

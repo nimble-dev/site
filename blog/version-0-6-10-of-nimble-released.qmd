@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-categories: ['release', 'announcement']
+categories: ['release', 'announcement', 'R']
 ---
 
 We’ve released the newest version of NIMBLE on CRAN and on our website. Version 0.6-10 primarily contains updates to the NIMBLE internals that may speed up building and compilation of models and algorithms, as well as a few bug fixes.

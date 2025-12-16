@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Laplace, AGHQ, and nested approximations | NimbleUserManual.knit</title>
+  <meta name="description" content="This is the NIMBLE User Manual." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Laplace, AGHQ, and nested approximations | NimbleUserManual.knit" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/nimble-icon.png" />
+  <meta property="og:description" content="This is the NIMBLE User Manual." />
+  <meta name="github-repo" content="nimble-dev/nimble" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Laplace, AGHQ, and nested approximations | NimbleUserManual.knit" />
+  
+  <meta name="twitter:description" content="This is the NIMBLE User Manual." />
+  <meta name="twitter:image" content="/nimble-icon.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="cha-algos-provided.html"/>
+<link rel="next" href="cha-spatial.html"/>
+<script src="libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<img src="./nimble-icon.png"
+     width=100>
+<li><a href="./cha-welcome-nimble.html">NIMBLE User Manual, Version 1.4.0</a></li>
+<li><a href="https://github.com/nimble-dev/nimble">NIMBLE Development Team</a></li>
+<li><a href="https://R-nimble.org">https://R-nimble.org</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="1" data-path="cha-welcome-nimble.html"><a href="cha-welcome-nimble.html"><i class="fa fa-check"></i><b>1</b> Welcome to NIMBLE</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="cha-welcome-nimble.html"><a href="cha-welcome-nimble.html#sec:what-is-nimble"><i class="fa fa-check"></i><b>1.1</b> What does NIMBLE do?</a></li>
+<li class="chapter" data-level="1.2" data-path="cha-welcome-nimble.html"><a href="cha-welcome-nimble.html#how-to-use-this-manual"><i class="fa fa-check"></i><b>1.2</b> How to use this manual</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html"><i class="fa fa-check"></i><b>2</b> Lightning introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html#sec:brief-example"><i class="fa fa-check"></i><b>2.1</b> A brief example</a></li>
+<li class="chapter" data-level="2.2" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html#sec:creating-model"><i class="fa fa-check"></i><b>2.2</b> Creating a model</a></li>
+<li class="chapter" data-level="2.3" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html#sec:compiling-model"><i class="fa fa-check"></i><b>2.3</b> Compiling the model</a></li>
+<li class="chapter" data-level="2.4" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html#sec:intro-runMCMC"><i class="fa fa-check"></i><b>2.4</b> One-line invocation of MCMC</a></li>
+<li class="chapter" data-level="2.5" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html#sec:creating-mcmc"><i class="fa fa-check"></i><b>2.5</b> Creating, compiling and running a basic MCMC configuration</a></li>
+<li class="chapter" data-level="2.6" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html#sec:customizing-mcmc"><i class="fa fa-check"></i><b>2.6</b> Customizing the MCMC</a></li>
+<li class="chapter" data-level="2.7" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html#sec:running-mcem"><i class="fa fa-check"></i><b>2.7</b> Running MCEM</a></li>
+<li class="chapter" data-level="2.8" data-path="cha-lightning-intro.html"><a href="cha-lightning-intro.html#sec:creating-your-own"><i class="fa fa-check"></i><b>2.8</b> Creating your own functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="cha-more-introduction.html"><a href="cha-more-introduction.html"><i class="fa fa-check"></i><b>3</b> More introduction</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="cha-more-introduction.html"><a href="cha-more-introduction.html#nimble-adopts-and-extends-the-bugs-language-for-specifying-models"><i class="fa fa-check"></i><b>3.1</b> NIMBLE adopts and extends the BUGS language for specifying models</a></li>
+<li class="chapter" data-level="3.2" data-path="cha-more-introduction.html"><a href="cha-more-introduction.html#sec:nimble-lang-writ"><i class="fa fa-check"></i><b>3.2</b> nimbleFunctions for writing algorithms</a></li>
+<li class="chapter" data-level="3.3" data-path="cha-more-introduction.html"><a href="cha-more-introduction.html#sec:nimble-algor-libr"><i class="fa fa-check"></i><b>3.3</b> The NIMBLE algorithm library</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html"><i class="fa fa-check"></i><b>4</b> Installing NIMBLE</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#sec:requ-run-nimble"><i class="fa fa-check"></i><b>4.1</b> Requirements to run NIMBLE</a></li>
+<li class="chapter" data-level="4.2" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#sec:compiler"><i class="fa fa-check"></i><b>4.2</b> Installing a C++ compiler for NIMBLE to use</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#macos"><i class="fa fa-check"></i><b>4.2.1</b> MacOS</a></li>
+<li class="chapter" data-level="4.2.2" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#linux"><i class="fa fa-check"></i><b>4.2.2</b> Linux</a></li>
+<li class="chapter" data-level="4.2.3" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#windows"><i class="fa fa-check"></i><b>4.2.3</b> Windows</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#installing-the-nimble-package"><i class="fa fa-check"></i><b>4.3</b> Installing the NIMBLE package</a></li>
+<li class="chapter" data-level="4.4" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#troubleshooting-installation-problems"><i class="fa fa-check"></i><b>4.4</b> Troubleshooting installation problems</a></li>
+<li class="chapter" data-level="4.5" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#customizing-your-installation"><i class="fa fa-check"></i><b>4.5</b> Customizing your installation</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#using-your-own-copy-of-eigen"><i class="fa fa-check"></i><b>4.5.1</b> Using your own copy of Eigen</a></li>
+<li class="chapter" data-level="4.5.2" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#using-libnimble"><i class="fa fa-check"></i><b>4.5.2</b> Using libnimble</a></li>
+<li class="chapter" data-level="4.5.3" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#sec:blas"><i class="fa fa-check"></i><b>4.5.3</b> BLAS and LAPACK</a></li>
+<li class="chapter" data-level="4.5.4" data-path="cha-installing-nimble.html"><a href="cha-installing-nimble.html#customizing-compilation-of-the-nimble-generated-c"><i class="fa fa-check"></i><b>4.5.4</b> Customizing compilation of the NIMBLE-generated C++</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Models in NIMBLE</b></span></li>
+<li class="chapter" data-level="5" data-path="cha-writing-models.html"><a href="cha-writing-models.html"><i class="fa fa-check"></i><b>5</b> Writing models in NIMBLE’s dialect of BUGS</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cha-writing-models.html"><a href="cha-writing-models.html#sec:supp-feat-bugs"><i class="fa fa-check"></i><b>5.1</b> Comparison to BUGS dialects supported by WinBUGS, OpenBUGS and JAGS</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="cha-writing-models.html"><a href="cha-writing-models.html#supported-features-of-bugs-and-jags"><i class="fa fa-check"></i><b>5.1.1</b> Supported features of BUGS and JAGS</a></li>
+<li class="chapter" data-level="5.1.2" data-path="cha-writing-models.html"><a href="cha-writing-models.html#sec:extensions-bugs"><i class="fa fa-check"></i><b>5.1.2</b> NIMBLE’s Extensions to BUGS and JAGS</a></li>
+<li class="chapter" data-level="5.1.3" data-path="cha-writing-models.html"><a href="cha-writing-models.html#sec:not-yet-supported"><i class="fa fa-check"></i><b>5.1.3</b> Not-supported features of BUGS and JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="cha-writing-models.html"><a href="cha-writing-models.html#writing-models"><i class="fa fa-check"></i><b>5.2</b> Writing models</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="cha-writing-models.html"><a href="cha-writing-models.html#declaring-stochastic-and-deterministic-nodes"><i class="fa fa-check"></i><b>5.2.1</b> Declaring stochastic and deterministic nodes</a></li>
+<li class="chapter" data-level="5.2.2" data-path="cha-writing-models.html"><a href="cha-writing-models.html#sec:more-kinds-bugs"><i class="fa fa-check"></i><b>5.2.2</b> More kinds of BUGS declarations</a></li>
+<li class="chapter" data-level="5.2.3" data-path="cha-writing-models.html"><a href="cha-writing-models.html#subsec:vectorized-versus-scalar-declarations"><i class="fa fa-check"></i><b>5.2.3</b> Vectorized versus scalar declarations</a></li>
+<li class="chapter" data-level="5.2.4" data-path="cha-writing-models.html"><a href="cha-writing-models.html#subsec:dists-and-functions"><i class="fa fa-check"></i><b>5.2.4</b> Available distributions</a></li>
+<li class="chapter" data-level="5.2.5" data-path="cha-writing-models.html"><a href="cha-writing-models.html#subsec:BUGS-lang-fxns"><i class="fa fa-check"></i><b>5.2.5</b> Available BUGS language functions</a></li>
+<li class="chapter" data-level="5.2.6" data-path="cha-writing-models.html"><a href="cha-writing-models.html#subsec:BUGS-link"><i class="fa fa-check"></i><b>5.2.6</b> Available link functions</a></li>
+<li class="chapter" data-level="5.2.7" data-path="cha-writing-models.html"><a href="cha-writing-models.html#subsec:trunc"><i class="fa fa-check"></i><b>5.2.7</b> Truncation, censoring, and constraints</a></li>
+<li class="chapter" data-level="5.2.8" data-path="cha-writing-models.html"><a href="cha-writing-models.html#subsec:macros"><i class="fa fa-check"></i><b>5.2.8</b> Model macros</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="cha-building-models.html"><a href="cha-building-models.html"><i class="fa fa-check"></i><b>6</b> Building and using models</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="cha-building-models.html"><a href="cha-building-models.html#creating-model-objects"><i class="fa fa-check"></i><b>6.1</b> Creating model objects</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="cha-building-models.html"><a href="cha-building-models.html#using-nimblemodel-to-create-a-model"><i class="fa fa-check"></i><b>6.1.1</b> Using <em>nimbleModel</em> to create a model</a></li>
+<li class="chapter" data-level="6.1.2" data-path="cha-building-models.html"><a href="cha-building-models.html#sec:readBUGSmodel"><i class="fa fa-check"></i><b>6.1.2</b> Creating a model from standard BUGS and JAGS input files</a></li>
+<li class="chapter" data-level="6.1.3" data-path="cha-building-models.html"><a href="cha-building-models.html#sub:multiple-instances"><i class="fa fa-check"></i><b>6.1.3</b> Making multiple instances from the same model definition</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="cha-building-models.html"><a href="cha-building-models.html#sec:nodes-and-variables"><i class="fa fa-check"></i><b>6.2</b> NIMBLE models are objects you can query and manipulate</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="cha-building-models.html"><a href="cha-building-models.html#sec:what-are-nodes-and-variables"><i class="fa fa-check"></i><b>6.2.1</b> What are variables and nodes?</a></li>
+<li class="chapter" data-level="6.2.2" data-path="cha-building-models.html"><a href="cha-building-models.html#determining-the-nodes-and-variables-in-a-model"><i class="fa fa-check"></i><b>6.2.2</b> Determining the nodes and variables in a model</a></li>
+<li class="chapter" data-level="6.2.3" data-path="cha-building-models.html"><a href="cha-building-models.html#sec:accessing-nodes"><i class="fa fa-check"></i><b>6.2.3</b> Accessing nodes</a></li>
+<li class="chapter" data-level="6.2.4" data-path="cha-building-models.html"><a href="cha-building-models.html#sec:how-nodes-are"><i class="fa fa-check"></i><b>6.2.4</b> How nodes are named</a></li>
+<li class="chapter" data-level="6.2.5" data-path="cha-building-models.html"><a href="cha-building-models.html#sec:why-use-node"><i class="fa fa-check"></i><b>6.2.5</b> Why use node names?</a></li>
+<li class="chapter" data-level="6.2.6" data-path="cha-building-models.html"><a href="cha-building-models.html#sec:cdisdata"><i class="fa fa-check"></i><b>6.2.6</b> Checking if a node holds data</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="cha-building-models.html"><a href="cha-building-models.html#using-models-in-parallel"><i class="fa fa-check"></i><b>6.3</b> Using models in parallel</a></li>
+</ul></li>
+<li class="part"><span><b>III Algorithms in NIMBLE</b></span></li>
+<li class="chapter" data-level="7" data-path="cha-mcmc.html"><a href="cha-mcmc.html"><i class="fa fa-check"></i><b>7</b> MCMC</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:nimbleMCMC"><i class="fa fa-check"></i><b>7.1</b> One-line invocation of MCMC: <em>nimbleMCMC</em></a></li>
+<li class="chapter" data-level="7.2" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:mcmc-configuration"><i class="fa fa-check"></i><b>7.2</b> The MCMC configuration</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:default-mcmc-conf"><i class="fa fa-check"></i><b>7.2.1</b> Default MCMC configuration</a></li>
+<li class="chapter" data-level="7.2.2" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:customizing-mcmc-conf"><i class="fa fa-check"></i><b>7.2.2</b> Customizing the MCMC configuration</a></li>
+<li class="chapter" data-level="7.2.3" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:derived-quantities"><i class="fa fa-check"></i><b>7.2.3</b> Setting up derived quantities for additional quantities of interest</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:build-compile-mcmc"><i class="fa fa-check"></i><b>7.3</b> Building and compiling the MCMC</a></li>
+<li class="chapter" data-level="7.4" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:initMCMC"><i class="fa fa-check"></i><b>7.4</b> Initializing MCMC</a></li>
+<li class="chapter" data-level="7.5" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:runMCMC"><i class="fa fa-check"></i><b>7.5</b> User-friendly execution of MCMC algorithms: <em>runMCMC</em></a></li>
+<li class="chapter" data-level="7.6" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:executing-the-mcmc-algorithm"><i class="fa fa-check"></i><b>7.6</b> Running the MCMC</a>
+<ul>
+<li class="chapter" data-level="7.6.1" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:mcmc-rerun"><i class="fa fa-check"></i><b>7.6.1</b> Rerunning versus restarting an MCMC</a></li>
+<li class="chapter" data-level="7.6.2" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:sampler-time"><i class="fa fa-check"></i><b>7.6.2</b> Measuring sampler computation times: <em>getTimes</em></a></li>
+<li class="chapter" data-level="7.6.3" data-path="cha-mcmc.html"><a href="cha-mcmc.html#assessing-the-adaption-process-of-rw-and-rw_block-samplers"><i class="fa fa-check"></i><b>7.6.3</b> Assessing the adaption process of <em>RW</em> and <em>RW_block</em> samplers</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:extracting-samples"><i class="fa fa-check"></i><b>7.7</b> Extracting MCMC samples</a></li>
+<li class="chapter" data-level="7.8" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:WAIC"><i class="fa fa-check"></i><b>7.8</b> Calculating WAIC</a></li>
+<li class="chapter" data-level="7.9" data-path="cha-mcmc.html"><a href="cha-mcmc.html#k-fold-cross-validation"><i class="fa fa-check"></i><b>7.9</b> k-fold cross-validation</a></li>
+<li class="chapter" data-level="7.10" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:rjmcmc"><i class="fa fa-check"></i><b>7.10</b> Variable selection using Reversible Jump MCMC</a>
+<ul>
+<li class="chapter" data-level="7.10.1" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:rjmcmc-indicator"><i class="fa fa-check"></i><b>7.10.1</b> Using indicator variables</a></li>
+<li class="chapter" data-level="7.10.2" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:rjmcmc-no-indicator"><i class="fa fa-check"></i><b>7.10.2</b> Without indicator variables</a></li>
+</ul></li>
+<li class="chapter" data-level="7.11" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:samplers-provided"><i class="fa fa-check"></i><b>7.11</b> Samplers provided with NIMBLE</a>
+<ul>
+<li class="chapter" data-level="7.11.1" data-path="cha-mcmc.html"><a href="cha-mcmc.html#conjugate-gibbs-samplers"><i class="fa fa-check"></i><b>7.11.1</b> Conjugate (‘Gibbs’) samplers</a></li>
+<li class="chapter" data-level="7.11.2" data-path="cha-mcmc.html"><a href="cha-mcmc.html#subsec:HMC"><i class="fa fa-check"></i><b>7.11.2</b> Hamiltonian Monte Carlo (HMC)</a></li>
+<li class="chapter" data-level="7.11.3" data-path="cha-mcmc.html"><a href="cha-mcmc.html#particle-filter-samplers"><i class="fa fa-check"></i><b>7.11.3</b> Particle filter samplers</a></li>
+<li class="chapter" data-level="7.11.4" data-path="cha-mcmc.html"><a href="cha-mcmc.html#customized-log-likelihood-evaluations-rw_llfunction-sampler"><i class="fa fa-check"></i><b>7.11.4</b> Customized log-likelihood evaluations: <em>RW_llFunction sampler</em></a></li>
+</ul></li>
+<li class="chapter" data-level="7.12" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:mcmc-example-litters"><i class="fa fa-check"></i><b>7.12</b> Detailed MCMC example: <em>litters</em></a></li>
+<li class="chapter" data-level="7.13" data-path="cha-mcmc.html"><a href="cha-mcmc.html#mcmc-suite-compare-mcmcs"><i class="fa fa-check"></i><b>7.13</b> Comparing different MCMCs with <em>compareMCMCs</em></a></li>
+<li class="chapter" data-level="7.14" data-path="cha-mcmc.html"><a href="cha-mcmc.html#running-mcmc-chains-in-parallel"><i class="fa fa-check"></i><b>7.14</b> Running MCMC chains in parallel</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html"><i class="fa fa-check"></i><b>8</b> Particle Filters, PMCMC, and MCEM</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#particle-filters-sequential-monte-carlo-and-iterated-filtering"><i class="fa fa-check"></i><b>8.1</b> Particle filters / sequential Monte Carlo and iterated filtering</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#filtering-algorithms"><i class="fa fa-check"></i><b>8.1.1</b> Filtering algorithms</a></li>
+<li class="chapter" data-level="8.1.2" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#sec:particle-mcmc"><i class="fa fa-check"></i><b>8.1.2</b> Particle MCMC (PMCMC)</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#monte-carlo-expectation-maximization-mcem"><i class="fa fa-check"></i><b>8.2</b> Monte Carlo Expectation Maximization (MCEM)</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#sec:estimate-mcem-cov"><i class="fa fa-check"></i><b>8.2.1</b> Estimating the asymptotic covariance From MCEM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="cha-laplace.html"><a href="cha-laplace.html"><i class="fa fa-check"></i><b>9</b> Laplace, AGHQ, and nested approximations</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="cha-laplace.html"><a href="cha-laplace.html#sec:AD-laplace"><i class="fa fa-check"></i><b>9.1</b> Laplace approximation and adaptive Gauss-Hermite quadrature (AGHQ)</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="cha-laplace.html"><a href="cha-laplace.html#glmm-example"><i class="fa fa-check"></i><b>9.1.1</b> GLMM example</a></li>
+<li class="chapter" data-level="9.1.2" data-path="cha-laplace.html"><a href="cha-laplace.html#using-laplace-approximation"><i class="fa fa-check"></i><b>9.1.2</b> Using Laplace approximation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="cha-laplace.html"><a href="cha-laplace.html#using-the-laplace-approximation-methods-directly"><i class="fa fa-check"></i><b>9.1.3</b> Using the Laplace approximation methods directly</a></li>
+<li class="chapter" data-level="9.1.4" data-path="cha-laplace.html"><a href="cha-laplace.html#changing-the-optimization-methods"><i class="fa fa-check"></i><b>9.1.4</b> Changing the optimization methods</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="cha-laplace.html"><a href="cha-laplace.html#sec:nested-approx"><i class="fa fa-check"></i><b>9.2</b> Nested approximation (INLA-like) methods</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="cha-laplace.html"><a href="cha-laplace.html#overview-of-the-methodology"><i class="fa fa-check"></i><b>9.2.1</b> Overview of the methodology</a></li>
+<li class="chapter" data-level="9.2.2" data-path="cha-laplace.html"><a href="cha-laplace.html#using-nimbles-nested-approximation"><i class="fa fa-check"></i><b>9.2.2</b> Using NIMBLE’s nested approximation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="cha-spatial.html"><a href="cha-spatial.html"><i class="fa fa-check"></i><b>10</b> Spatial models</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="cha-spatial.html"><a href="cha-spatial.html#intrinsic-gaussian-car-model-dcar_normal"><i class="fa fa-check"></i><b>10.1</b> Intrinsic Gaussian CAR model: <em>dcar_normal</em></a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="cha-spatial.html"><a href="cha-spatial.html#specification-and-density"><i class="fa fa-check"></i><b>10.1.1</b> Specification and density</a></li>
+<li class="chapter" data-level="10.1.2" data-path="cha-spatial.html"><a href="cha-spatial.html#example"><i class="fa fa-check"></i><b>10.1.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="cha-spatial.html"><a href="cha-spatial.html#proper-gaussian-car-model-dcar_proper"><i class="fa fa-check"></i><b>10.2</b> Proper Gaussian CAR model: <em>dcar_proper</em></a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="cha-spatial.html"><a href="cha-spatial.html#specification-and-density-1"><i class="fa fa-check"></i><b>10.2.1</b> Specification and density</a></li>
+<li class="chapter" data-level="10.2.2" data-path="cha-spatial.html"><a href="cha-spatial.html#example-1"><i class="fa fa-check"></i><b>10.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="cha-spatial.html"><a href="cha-spatial.html#sec:spatial-mcmc-sampling-car"><i class="fa fa-check"></i><b>10.3</b> MCMC Sampling of CAR models</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="cha-spatial.html"><a href="cha-spatial.html#initial-values"><i class="fa fa-check"></i><b>10.3.1</b> Initial values</a></li>
+<li class="chapter" data-level="10.3.2" data-path="cha-spatial.html"><a href="cha-spatial.html#zero-neighbor-regions"><i class="fa fa-check"></i><b>10.3.2</b> Zero-neighbor regions</a></li>
+<li class="chapter" data-level="10.3.3" data-path="cha-spatial.html"><a href="cha-spatial.html#zero-mean-constraint"><i class="fa fa-check"></i><b>10.3.3</b> Zero-mean constraint</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="cha-bnp.html"><a href="cha-bnp.html"><i class="fa fa-check"></i><b>11</b> Bayesian nonparametric models</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:bnpmixtures"><i class="fa fa-check"></i><b>11.1</b> Bayesian nonparametric mixture models</a></li>
+<li class="chapter" data-level="11.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:crp"><i class="fa fa-check"></i><b>11.2</b> Chinese Restaurant Process model</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="cha-bnp.html"><a href="cha-bnp.html#specification-and-density-2"><i class="fa fa-check"></i><b>11.2.1</b> Specification and density</a></li>
+<li class="chapter" data-level="11.2.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:excrp"><i class="fa fa-check"></i><b>11.2.2</b> Example</a></li>
+<li class="chapter" data-level="11.2.3" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:extensionscrp"><i class="fa fa-check"></i><b>11.2.3</b> Extensions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:sb"><i class="fa fa-check"></i><b>11.3</b> Stick-breaking model</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="cha-bnp.html"><a href="cha-bnp.html#specification-and-function"><i class="fa fa-check"></i><b>11.3.1</b> Specification and function</a></li>
+<li class="chapter" data-level="11.3.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:exsb"><i class="fa fa-check"></i><b>11.3.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="cha-bnp.html"><a href="cha-bnp.html#mcmc-sampling-of-bnp-models"><i class="fa fa-check"></i><b>11.4</b> MCMC sampling of BNP models</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:mcmcdcrp"><i class="fa fa-check"></i><b>11.4.1</b> Sampling CRP models</a></li>
+<li class="chapter" data-level="11.4.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:mcmcsb"><i class="fa fa-check"></i><b>11.4.2</b> Sampling stick-breaking models</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Programming with NIMBLE</b></span></li>
+<li class="chapter" data-level="" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="12" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html"><i class="fa fa-check"></i><b>12</b> Writing simple nimbleFunctions</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:RC-intro"><i class="fa fa-check"></i><b>12.1</b> Introduction to simple nimbleFunctions</a></li>
+<li class="chapter" data-level="12.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:r-fiunctions-implemented"><i class="fa fa-check"></i><b>12.2</b> R functions (or variants) implemented in NIMBLE</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#finding-help-for-nimbles-versions-of-r-functions"><i class="fa fa-check"></i><b>12.2.1</b> Finding help for NIMBLE’s versions of R functions</a></li>
+<li class="chapter" data-level="12.2.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#basic-operations"><i class="fa fa-check"></i><b>12.2.2</b> Basic operations</a></li>
+<li class="chapter" data-level="12.2.3" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:basic-math-linear"><i class="fa fa-check"></i><b>12.2.3</b> Math and linear algebra</a></li>
+<li class="chapter" data-level="12.2.4" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:nimble-dist-funs"><i class="fa fa-check"></i><b>12.2.4</b> Distribution functions</a></li>
+<li class="chapter" data-level="12.2.5" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:basic-flow-control"><i class="fa fa-check"></i><b>12.2.5</b> Flow control: <em>if-then-else</em>, <em>for</em>, <em>while</em>, and <em>stop</em></a></li>
+<li class="chapter" data-level="12.2.6" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:print"><i class="fa fa-check"></i><b>12.2.6</b> <em>print</em> and <em>cat</em></a></li>
+<li class="chapter" data-level="12.2.7" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:check-user-interr"><i class="fa fa-check"></i><b>12.2.7</b> Checking for user interrupts: <em>checkInterrupt</em></a></li>
+<li class="chapter" data-level="12.2.8" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#optimization-optim-and-nimoptim"><i class="fa fa-check"></i><b>12.2.8</b> Optimization: <em>optim</em> and <em>nimOptim</em></a></li>
+<li class="chapter" data-level="12.2.9" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#integration-integrate-and-nimintegrate"><i class="fa fa-check"></i><b>12.2.9</b> Integration: <em>integrate</em> and <em>nimIntegrate</em></a></li>
+<li class="chapter" data-level="12.2.10" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:altern-keyw-some"><i class="fa fa-check"></i><b>12.2.10</b> ‘nim’ synonyms for some functions</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:how-nimble-handles"><i class="fa fa-check"></i><b>12.3</b> How NIMBLE handles types of variables</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:nimbleList-RCFuns"><i class="fa fa-check"></i><b>12.3.1</b> nimbleList data structures</a></li>
+<li class="chapter" data-level="12.3.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:how-types-work"><i class="fa fa-check"></i><b>12.3.2</b> How numeric types work</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:decl-argum-return"><i class="fa fa-check"></i><b>12.4</b> Declaring argument and return types</a></li>
+<li class="chapter" data-level="12.5" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:comp-nimbl-pass"><i class="fa fa-check"></i><b>12.5</b> Compiled nimbleFunctions pass arguments by reference</a></li>
+<li class="chapter" data-level="12.6" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:calling-external-code"><i class="fa fa-check"></i><b>12.6</b> Calling external compiled code</a></li>
+<li class="chapter" data-level="12.7" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:calling-R-code"><i class="fa fa-check"></i><b>12.7</b> Calling uncompiled R functions from compiled nimbleFunctions</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="cha-user-defined.html"><a href="cha-user-defined.html"><i class="fa fa-check"></i><b>13</b> Creating user-defined distributions and functions for models</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-functions"><i class="fa fa-check"></i><b>13.1</b> User-defined functions</a></li>
+<li class="chapter" data-level="13.2" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-distributions"><i class="fa fa-check"></i><b>13.2</b> User-defined distributions</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:registerDistributions"><i class="fa fa-check"></i><b>13.2.1</b> Using <em>registerDistributions</em> for alternative parameterizations and providing other information</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:adv-user-def"><i class="fa fa-check"></i><b>13.3</b> Advanced user-defined functions and distributions</a></li>
+<li class="chapter" data-level="13.4" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-macros"><i class="fa fa-check"></i><b>13.4</b> User-defined model macros</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="cha-using-models.html"><a href="cha-using-models.html"><i class="fa fa-check"></i><b>14</b> Working with NIMBLE models</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:accessing-variables"><i class="fa fa-check"></i><b>14.1</b> The variables and nodes in a NIMBLE model</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:get-nodes"><i class="fa fa-check"></i><b>14.1.1</b> Determining the nodes in a model</a></li>
+<li class="chapter" data-level="14.1.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:introduced-nodes"><i class="fa fa-check"></i><b>14.1.2</b> Understanding lifted nodes</a></li>
+<li class="chapter" data-level="14.1.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdgetdependencies"><i class="fa fa-check"></i><b>14.1.3</b> Determining dependencies in a model</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:nodeInfo"><i class="fa fa-check"></i><b>14.2</b> Accessing information about nodes and variables</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="cha-using-models.html"><a href="cha-using-models.html#getting-distributional-information-about-a-node"><i class="fa fa-check"></i><b>14.2.1</b> Getting distributional information about a node</a></li>
+<li class="chapter" data-level="14.2.2" data-path="cha-using-models.html"><a href="cha-using-models.html#getting-information-about-a-distribution"><i class="fa fa-check"></i><b>14.2.2</b> Getting information about a distribution</a></li>
+<li class="chapter" data-level="14.2.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:getParam"><i class="fa fa-check"></i><b>14.2.3</b> Getting distribution parameter values for a node</a></li>
+<li class="chapter" data-level="14.2.4" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:getBound"><i class="fa fa-check"></i><b>14.2.4</b> Getting distribution bounds for a node</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdcalc-cdsim-cdgetl"><i class="fa fa-check"></i><b>14.3</b> Carrying out model calculations</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="cha-using-models.html"><a href="cha-using-models.html#core-model-operations-calculation-and-simulation"><i class="fa fa-check"></i><b>14.3.1</b> Core model operations: calculation and simulation</a></li>
+<li class="chapter" data-level="14.3.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdsimn-cdcalcn-cdget"><i class="fa fa-check"></i><b>14.3.2</b> Pre-defined nimbleFunctions for operating on model nodes: <em>simNodes</em>, <em>calcNodes</em>, and <em>getLogProbNodes</em></a></li>
+<li class="chapter" data-level="14.3.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:access-log-prob"><i class="fa fa-check"></i><b>14.3.3</b> Accessing log probabilities via <em>logProb</em> variables</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="cha-data-structures.html"><a href="cha-data-structures.html"><i class="fa fa-check"></i><b>15</b> Data structures in NIMBLE</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:modelValues-struct"><i class="fa fa-check"></i><b>15.1</b> The modelValues data structure</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#creating-modelvalues-objects"><i class="fa fa-check"></i><b>15.1.1</b> Creating modelValues objects</a></li>
+<li class="chapter" data-level="15.1.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:access-cont-modelv"><i class="fa fa-check"></i><b>15.1.2</b> Accessing contents of modelValues</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:nimbleLists"><i class="fa fa-check"></i><b>15.2</b> The nimbleList data structure</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:predef-nimbleLists"><i class="fa fa-check"></i><b>15.2.1</b> Pre-defined nimbleList types</a></li>
+<li class="chapter" data-level="15.2.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:eigen-nimFunctions"><i class="fa fa-check"></i><b>15.2.2</b> Using <em>eigen</em> and <em>svd</em> in nimbleFunctions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html"><i class="fa fa-check"></i><b>16</b> Writing nimbleFunctions to interact with models</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:writ-nimble-funct"><i class="fa fa-check"></i><b>16.1</b> Overview</a></li>
+<li class="chapter" data-level="16.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-comp-nimbl"><i class="fa fa-check"></i><b>16.2</b> Using and compiling nimbleFunctions</a></li>
+<li class="chapter" data-level="16.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#writing-setup-code"><i class="fa fa-check"></i><b>16.3</b> Writing setup code</a>
+<ul>
+<li class="chapter" data-level="16.3.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#useful-tools-for-setup-functions"><i class="fa fa-check"></i><b>16.3.1</b> Useful tools for setup functions</a></li>
+<li class="chapter" data-level="16.3.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:access-modify-numer"><i class="fa fa-check"></i><b>16.3.2</b> Accessing and modifying numeric values from setup</a></li>
+<li class="chapter" data-level="16.3.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#determining-numeric-types-in-nimblefunctions"><i class="fa fa-check"></i><b>16.3.3</b> Determining numeric types in nimbleFunctions</a></li>
+<li class="chapter" data-level="16.3.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:determ-pers-texttts"><i class="fa fa-check"></i><b>16.3.4</b> Control of setup outputs</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:nimble-lang-comp"><i class="fa fa-check"></i><b>16.4</b> Writing run code</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:driv-models:-calc"><i class="fa fa-check"></i><b>16.4.1</b> Driving models: <em>calculate</em>, <em>calculateDiff</em>, <em>simulate</em>, <em>getLogProb</em></a></li>
+<li class="chapter" data-level="16.4.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#getting-and-setting-variable-and-node-values"><i class="fa fa-check"></i><b>16.4.2</b> Getting and setting variable and node values</a></li>
+<li class="chapter" data-level="16.4.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#getting-parameter-values-and-node-bounds"><i class="fa fa-check"></i><b>16.4.3</b> Getting parameter values and node bounds</a></li>
+<li class="chapter" data-level="16.4.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:access-model-modelv"><i class="fa fa-check"></i><b>16.4.4</b> Using modelValues objects</a></li>
+<li class="chapter" data-level="16.4.5" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-model-variable"><i class="fa fa-check"></i><b>16.4.5</b> Using model variables and modelValues in expressions</a></li>
+<li class="chapter" data-level="16.4.6" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:incl-other-meth"><i class="fa fa-check"></i><b>16.4.6</b> Including other methods in a nimbleFunction</a></li>
+<li class="chapter" data-level="16.4.7" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-other-nimbl"><i class="fa fa-check"></i><b>16.4.7</b> Using other nimbleFunctions</a></li>
+<li class="chapter" data-level="16.4.8" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:virt-nimbl-nimbl"><i class="fa fa-check"></i><b>16.4.8</b> Virtual nimbleFunctions and nimbleFunctionLists</a></li>
+<li class="chapter" data-level="16.4.9" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#character-objects"><i class="fa fa-check"></i><b>16.4.9</b> Character objects</a></li>
+<li class="chapter" data-level="16.4.10" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:user-defined-data"><i class="fa fa-check"></i><b>16.4.10</b> User-defined data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:user-samplers"><i class="fa fa-check"></i><b>16.5</b> Example: writing user-defined samplers to extend NIMBLE’s MCMC engine</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#user-defined-samplers-and-posterior-predictive-nodes"><i class="fa fa-check"></i><b>16.5.1</b> User-defined samplers and posterior predictive nodes</a></li>
+</ul></li>
+<li class="chapter" data-level="16.6" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#copying-nimblefunctions-and-nimble-models"><i class="fa fa-check"></i><b>16.6</b> Copying nimbleFunctions (and NIMBLE models)</a></li>
+<li class="chapter" data-level="16.7" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:debugging"><i class="fa fa-check"></i><b>16.7</b> Debugging nimbleFunctions</a></li>
+<li class="chapter" data-level="16.8" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#timing-nimblefunctions-with-run.time"><i class="fa fa-check"></i><b>16.8</b> Timing nimbleFunctions with <em>run.time</em></a></li>
+<li class="chapter" data-level="16.9" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#clearing-and-unloading-compiled-objects"><i class="fa fa-check"></i><b>16.9</b> Clearing and unloading compiled objects</a></li>
+<li class="chapter" data-level="16.10" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#reducing-memory-usage"><i class="fa fa-check"></i><b>16.10</b> Reducing memory usage</a></li>
+</ul></li>
+<li class="part"><span><b>V Automatic Derivatives in NIMBLE</b></span></li>
+<li class="chapter" data-level="17" data-path="cha-AD.html"><a href="cha-AD.html"><i class="fa fa-check"></i><b>17</b> Automatic Derivatives</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="cha-AD.html"><a href="cha-AD.html#sec:use-derivs"><i class="fa fa-check"></i><b>17.1</b> How to turn on derivatives in a model</a></li>
+<li class="chapter" data-level="17.2" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-user-def"><i class="fa fa-check"></i><b>17.2</b> How to support derivatives in user-defined functions and distributions</a></li>
+<li class="chapter" data-level="17.3" data-path="cha-AD.html"><a href="cha-AD.html#what-operations-are-and-arent-supported-for-ad"><i class="fa fa-check"></i><b>17.3</b> What operations are and aren’t supported for AD</a></li>
+<li class="chapter" data-level="17.4" data-path="cha-AD.html"><a href="cha-AD.html#basics-of-obtaining-derivatives-in-nimblefunctions"><i class="fa fa-check"></i><b>17.4</b> Basics of obtaining derivatives in <code>nimbleFunctions</code></a>
+<ul>
+<li class="chapter" data-level="17.4.1" data-path="cha-AD.html"><a href="cha-AD.html#checking-derivatives-with-uncompiled-execution"><i class="fa fa-check"></i><b>17.4.1</b> Checking derivatives with uncompiled execution</a></li>
+<li class="chapter" data-level="17.4.2" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-holding-out"><i class="fa fa-check"></i><b>17.4.2</b> Holding some local variables out of derivative tracking</a></li>
+<li class="chapter" data-level="17.4.3" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-multiple-NF"><i class="fa fa-check"></i><b>17.4.3</b> Using AD with multiple nimbleFunctions</a></li>
+<li class="chapter" data-level="17.4.4" data-path="cha-AD.html"><a href="cha-AD.html#sec:understanding-more-AD"><i class="fa fa-check"></i><b>17.4.4</b> Understanding more about how AD works: <em>taping</em> of operations</a></li>
+<li class="chapter" data-level="17.4.5" data-path="cha-AD.html"><a href="cha-AD.html#resetting-a-nimderivs-call"><i class="fa fa-check"></i><b>17.4.5</b> Resetting a <code>nimDerivs</code> call</a></li>
+<li class="chapter" data-level="17.4.6" data-path="cha-AD.html"><a href="cha-AD.html#a-note-on-performance-benchmarking"><i class="fa fa-check"></i><b>17.4.6</b> A note on performance benchmarking</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="cha-AD.html"><a href="cha-AD.html#advanced-uses-double-taping"><i class="fa fa-check"></i><b>17.5</b> Advanced uses: double taping</a></li>
+<li class="chapter" data-level="17.6" data-path="cha-AD.html"><a href="cha-AD.html#derivatives-involving-model-calculations"><i class="fa fa-check"></i><b>17.6</b> Derivatives involving model calculations</a>
+<ul>
+<li class="chapter" data-level="17.6.1" data-path="cha-AD.html"><a href="cha-AD.html#method-1-nimderivs-of-modelcalculate"><i class="fa fa-check"></i><b>17.6.1</b> Method 1: <code>nimDerivs</code> of <code>model$calculate</code></a></li>
+<li class="chapter" data-level="17.6.2" data-path="cha-AD.html"><a href="cha-AD.html#method-2-nimderivs-of-a-method-that-calls-modelcalculate"><i class="fa fa-check"></i><b>17.6.2</b> Method 2: <code>nimDerivs</code> of a method that calls <code>model$calculate</code></a></li>
+</ul></li>
+<li class="chapter" data-level="17.7" data-path="cha-AD.html"><a href="cha-AD.html#sec:parameter-transform"><i class="fa fa-check"></i><b>17.7</b> Parameter transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html"><i class="fa fa-check"></i><b>18</b> Example: maximum likelihood estimation using <code>optim</code> with gradients from <code>nimDerivs</code>.</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="cha-laplace" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Laplace, AGHQ, and nested approximations<a href="cha-laplace.html#cha-laplace" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The NIMBLE algorithm library includes a growing set of non-MCMC algorithms including likelihood-based algorithms.</p>
+<p>In this chapter we discuss Laplace approximation and the closely related adaptive Gauss-Hermite quadrature (AGHQ) approximation for maximum likelihood estimation, as well as INLA-like nested approximations that use Laplace/AGHQ methods for approximate marginalization for deterministic Bayesian estimation.</p>
+<div id="sec:AD-laplace" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Laplace approximation and adaptive Gauss-Hermite quadrature (AGHQ)<a href="cha-laplace.html#sec:AD-laplace" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As of NIMBLE version 1.4.0, NIMBLE’s Laplace and AGHQ approximation live in the <code>nimbleQuad</code> package. Please load that package before trying to use these algorithms.</p>
+<p>Many hierarchical models include continuous random effects that must be
+integrated over to obtain the (marginal) likelihood of the parameters given the
+data. Laplace approximation and adaptive Gauss-Hermite quadrature (AGHQ) are
+often accurate and fast approximations for doing so. Laplace is simply AGHQ with
+a single quadrature point (the conditional mode of the random effects).</p>
+<p>NIMBLE provides these algorithms via <code>buildLaplace</code> and <code>buildAGHQuad</code> (the
+former simply calls the latter), which take advantage of the automatic
+differentiation features introduced in version 1.0.0.</p>
+<p>Next we will show how to use NIMBLE’s Laplace approximation, which uses derivatives internally, to get maximum (approximate) likelihood estimates for a GLMM model.
+Additional details on Laplace and on AGHQ can be found by running <code>help(buildLaplace)</code>.</p>
+<p>Laplace approximation is equivalent to first-order adaptive Gauss-Hermite quadrature, which is also available (via <code>buildAGHQ</code> and <code>runAGHQ</code>), although here we will focus on Laplace approximation only. In this context, Laplace approximation approximates the integral over continuous random effects needed to calculate the likelihood. Hence, it gives an approximate likelihood (often quite accurate) that can be used for maximum likelihood estimation. Note that the Laplace approximation uses second derivatives, and the gradient of the Laplace approximation (used for finding the MLE efficiently) uses third derivatives. These are described in detail by <span class="citation">Skaug and Fournier (<a href="references.html#ref-skaug-fournier-06">2006</a>)</span> and <span class="citation">Fournier et al. (<a href="references.html#ref-fournier-etal-12">2012</a>)</span>.</p>
+<div id="glmm-example" class="section level3 hasAnchor" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> GLMM example<a href="cha-laplace.html#glmm-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We’ll re-introduce the simple Poisson Generalized Linear Mixed Model (GLMM) example model from Section <a href="cha-mcmc.html#subsec:HMC-example">7.11.2.1</a> and use Laplace approximation on it. There will be 10 groups (<code>i</code>) of 5 observations (<code>j</code>) each. Each observation has a covariate, <code>X</code>, and each group has a random effect <code>ran_eff</code>. Here is the model code:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="cha-laplace.html#cb273-1" tabindex="-1"></a>model_code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb273-2"><a href="cha-laplace.html#cb273-2" tabindex="-1"></a>  <span class="co"># priors </span></span>
+<span id="cb273-3"><a href="cha-laplace.html#cb273-3" tabindex="-1"></a>  intercept <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb273-4"><a href="cha-laplace.html#cb273-4" tabindex="-1"></a>  beta <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb273-5"><a href="cha-laplace.html#cb273-5" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dhalfflat</span>()</span>
+<span id="cb273-6"><a href="cha-laplace.html#cb273-6" tabindex="-1"></a>  <span class="co"># random effects and data  </span></span>
+<span id="cb273-7"><a href="cha-laplace.html#cb273-7" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb273-8"><a href="cha-laplace.html#cb273-8" tabindex="-1"></a>    <span class="co"># random effects</span></span>
+<span id="cb273-9"><a href="cha-laplace.html#cb273-9" tabindex="-1"></a>    ran_eff[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb273-10"><a href="cha-laplace.html#cb273-10" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb273-11"><a href="cha-laplace.html#cb273-11" tabindex="-1"></a>      <span class="co"># data</span></span>
+<span id="cb273-12"><a href="cha-laplace.html#cb273-12" tabindex="-1"></a>      y[i,j] <span class="sc">~</span> <span class="fu">dpois</span>(<span class="fu">exp</span>(intercept <span class="sc">+</span> beta<span class="sc">*</span>X[i,j] <span class="sc">+</span> ran_eff[i]))</span>
+<span id="cb273-13"><a href="cha-laplace.html#cb273-13" tabindex="-1"></a>    }</span>
+<span id="cb273-14"><a href="cha-laplace.html#cb273-14" tabindex="-1"></a>  }</span>
+<span id="cb273-15"><a href="cha-laplace.html#cb273-15" tabindex="-1"></a>})</span></code></pre></div>
+<p>Note that we changed the prior on <code>sigma</code> to avoid having an upper bound. Prior distributions are not included in maximum likelihood using the Laplace approximation but do indicate the range of valid values. We recommend caution in using priors for variance component parameters (standard deviations, variances, precisions) that have a finite upper bound (e.g., <code>sigma ~ dunif(0, 100)</code>), because the probit transformation applied in that case may result in poor optimization performance.</p>
+<p>We’ll simulate some values for <code>X</code>.</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="cha-laplace.html#cb274-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb274-2"><a href="cha-laplace.html#cb274-2" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">50</span>), <span class="at">nrow =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p>Next, we build the model, including <code>buildDerivs=TRUE</code>, which is needed to use derivatives with a model. Internally Laplace/AGHQ approximation use derivatives from NIMBLE’s automatic differentiation (AD) system to build the approximation to the marginal likelihood.</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="cha-laplace.html#cb275-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(model_code, <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">X =</span> X), <span class="at">calculate =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb275-2"><a href="cha-laplace.html#cb275-2" tabindex="-1"></a>                     <span class="at">buildDerivs =</span> <span class="cn">TRUE</span>) <span class="co"># Here is the argument needed for AD.</span></span></code></pre></div>
+<p>As preparation for the Laplace examples below, we need to finish setting up the GLMM. We could have provided data in the call to <code>nimbleModel</code>, but instead we will simulate it using the model itself. Specifically, we will set parameter values, simulate data values, and then set those as the data to use.</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="cha-laplace.html#cb276-1" tabindex="-1"></a>model<span class="sc">$</span>intercept <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb276-2"><a href="cha-laplace.html#cb276-2" tabindex="-1"></a>model<span class="sc">$</span>beta <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb276-3"><a href="cha-laplace.html#cb276-3" tabindex="-1"></a>model<span class="sc">$</span>sigma <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb276-4"><a href="cha-laplace.html#cb276-4" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">calculate</span>() <span class="co"># This will return NA because the model is not fully initialized.</span></span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="cha-laplace.html#cb278-1" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">simulate</span>(model<span class="sc">$</span><span class="fu">getDependencies</span>(<span class="st">&#39;ran_eff&#39;</span>))</span>
+<span id="cb278-2"><a href="cha-laplace.html#cb278-2" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">calculate</span>() <span class="co"># Now the model is fully initialized: all nodes have valid values.</span></span></code></pre></div>
+<pre><code>## [1] -78.44085</code></pre>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="cha-laplace.html#cb280-1" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">setData</span>(<span class="st">&#39;y&#39;</span>) <span class="co"># Now the model has y marked as data, with values from simulation.</span></span></code></pre></div>
+<p>Finally, we will make a compiled version of the model.</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="cha-laplace.html#cb281-1" tabindex="-1"></a>Cmodel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(model)</span></code></pre></div>
+</div>
+<div id="using-laplace-approximation" class="section level3 hasAnchor" number="9.1.2">
+<h3><span class="header-section-number">9.1.2</span> Using Laplace approximation<a href="cha-laplace.html#using-laplace-approximation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To create a Laplace approximation specialized to the parameters of interest for this model, we use the nimbleFunction <code>buildLaplace</code>. For many models, the setup code in <code>buildLaplace</code> will automatically determine the random effects to be integrated over and the associated nodes to calculate. In fact, if you omit the parameter nodes, it will assume that all top-level nodes in the model should be treated as parameters. If fine-grained control is needed, these various sets of nodes can be input directly into <code>buildLaplace</code>. To see what default handling of nodes is being done for your model, use <code>setupMargNodes</code> with the same node inputs as <code>buildLaplace</code>.</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="cha-laplace.html#cb282-1" tabindex="-1"></a><span class="fu">library</span>(nimbleQuad)</span>
+<span id="cb282-2"><a href="cha-laplace.html#cb282-2" tabindex="-1"></a></span>
+<span id="cb282-3"><a href="cha-laplace.html#cb282-3" tabindex="-1"></a>glmm_laplace <span class="ot">&lt;-</span> <span class="fu">buildLaplace</span>(model, <span class="at">paramNodes =</span> <span class="fu">c</span>(<span class="st">&#39;intercept&#39;</span>,<span class="st">&#39;beta&#39;</span>,<span class="st">&#39;sigma&#39;</span>))</span>
+<span id="cb282-4"><a href="cha-laplace.html#cb282-4" tabindex="-1"></a>Cglmm_laplace <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(glmm_laplace, <span class="at">project =</span> model)</span></code></pre></div>
+<p>With the compiled Laplace approximation, we can now find the MLE and related information such as standard errors.</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="cha-laplace.html#cb283-1" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">runLaplace</span>(Cglmm_laplace)</span>
+<span id="cb283-2"><a href="cha-laplace.html#cb283-2" tabindex="-1"></a>results<span class="sc">$</span>summary</span></code></pre></div>
+<pre><code>## $params
+##             estimate  stdError
+## intercept -0.1491944 0.2464880
+## beta       0.1935212 0.1467230
+## sigma      0.5703362 0.2066515
+## 
+## $randomEffects
+##                estimate  stdError
+## ran_eff[1]  -0.33711373 0.4305830
+## ran_eff[2]  -0.02964535 0.3987838
+## ran_eff[3]   0.40575212 0.3858675
+## ran_eff[4]   1.04768889 0.3779772
+## ran_eff[5]  -0.36731650 0.4290567
+## ran_eff[6]   0.26907207 0.3863272
+## ran_eff[7]  -0.54950702 0.4654195
+## ran_eff[8]  -0.11864461 0.4175452
+## ran_eff[9]   0.10006643 0.3926128
+## ran_eff[10] -0.04411292 0.3971147
+## 
+## $vcov
+##              intercept         beta        sigma
+## intercept  0.060756334 -0.002691102 -0.014082732
+## beta      -0.002691102  0.021527634 -0.005098509
+## sigma     -0.014082732 -0.005098509  0.042704860
+## 
+## $logLik
+## [1] -63.44875
+## 
+## $df
+## [1] 3
+## 
+## $originalScale
+## [1] TRUE</code></pre>
+<p>One of output elements is the maximized log likelihood (<code>logLik</code>), which is useful for model comparison.</p>
+<p>Finally, let’s confirm that it worked by comparing to results from package <code>glmmTMB</code>. In this case, NIMBLE’s Laplace approximation is faster than <code>glmmTMB</code> (on the machine used here), but that is not the point of this example. Here our interest is in checking that NIMBLE’s Laplace approximation worked correctly in a case where we have an established tool such as <code>glmmTMB</code>.</p>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="cha-laplace.html#cb285-1" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb285-2"><a href="cha-laplace.html#cb285-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(model<span class="sc">$</span>y) <span class="co"># Re-arrange inputs for call to glmmTMB</span></span>
+<span id="cb285-3"><a href="cha-laplace.html#cb285-3" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(X)</span>
+<span id="cb285-4"><a href="cha-laplace.html#cb285-4" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">5</span>)</span>
+<span id="cb285-5"><a href="cha-laplace.html#cb285-5" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(X,y,group))</span>
+<span id="cb285-6"><a href="cha-laplace.html#cb285-6" tabindex="-1"></a>tmb_fit <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> X <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">family =</span> poisson, <span class="at">data =</span> data)</span>
+<span id="cb285-7"><a href="cha-laplace.html#cb285-7" tabindex="-1"></a><span class="fu">summary</span>(tmb_fit)</span></code></pre></div>
+<pre><code>##  Family: poisson  ( log )
+## Formula:          y ~ X + (1 | group)
+## Data: data
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    132.9    138.6    -63.4    126.9       47 
+## 
+## Random effects:
+## 
+## Conditional model:
+##  Groups Name        Variance Std.Dev.
+##  group  (Intercept) 0.3253   0.5703  
+## Number of obs: 50, groups:  group, 10
+## 
+## Conditional model:
+##             Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)  -0.1492     0.2465  -0.605    0.545
+## X             0.1935     0.1467   1.319    0.187</code></pre>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="cha-laplace.html#cb287-1" tabindex="-1"></a><span class="fu">logLik</span>(tmb_fit)</span></code></pre></div>
+<pre><code>## &#39;log Lik.&#39; -63.44875 (df=3)</code></pre>
+<p>The results match within numerical tolerance typical of optimization problems. Specifically, the coefficients for <code>(Intercept)</code> and <code>X</code> match NIMBLE’s <code>Intercept</code> and <code>beta</code>, the random effects standard deviation for <code>group</code> matches NIMBLE’s <code>sigma</code>, and the standard errors match.</p>
+</div>
+<div id="using-the-laplace-approximation-methods-directly" class="section level3 hasAnchor" number="9.1.3">
+<h3><span class="header-section-number">9.1.3</span> Using the Laplace approximation methods directly<a href="cha-laplace.html#using-the-laplace-approximation-methods-directly" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If one wants finer grain control over using the approximation, one can use the methods provided by <code>buildLaplace</code>. These include calculating the Laplace approximation for some input parameter values, calculating its gradient, and maximizing the Laplace-approximated likelihood. Here we’ll show some of these steps.</p>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="cha-laplace.html#cb289-1" tabindex="-1"></a><span class="co"># Get the Laplace approximation for one set of parameter values.</span></span>
+<span id="cb289-2"><a href="cha-laplace.html#cb289-2" tabindex="-1"></a>Cglmm_laplace<span class="sc">$</span><span class="fu">calcLaplace</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)) </span></code></pre></div>
+<pre><code>## [1] -65.57246</code></pre>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="cha-laplace.html#cb291-1" tabindex="-1"></a>Cglmm_laplace<span class="sc">$</span><span class="fu">gr_Laplace</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="co"># Get the corresponding gradient.</span></span></code></pre></div>
+<pre><code>## [1] -1.866840  8.001648 -4.059555</code></pre>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="cha-laplace.html#cb293-1" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> Cglmm_laplace<span class="sc">$</span><span class="fu">findMLE</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="co"># Find the (approximate) MLE.</span></span>
+<span id="cb293-2"><a href="cha-laplace.html#cb293-2" tabindex="-1"></a>MLE<span class="sc">$</span>par     <span class="co"># MLE parameter values</span></span></code></pre></div>
+<pre><code>## [1] -0.1491982  0.1935269  0.5703413</code></pre>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="cha-laplace.html#cb295-1" tabindex="-1"></a>MLE<span class="sc">$</span>value   <span class="co"># MLE log likelihood value</span></span></code></pre></div>
+<pre><code>## [1] -63.44875</code></pre>
+<p>The final outputs show the MLE for <code>intercept</code>, <code>beta</code>, and <code>sigma</code>, followed by the maximum (approximate) likelihood.</p>
+<p>More information about the MLE can be obtained in two ways. The <code>summary</code> method
+can give estimated random effects and standard errors as well as the variance-covariance matrix
+for the parameters and/or the random effects. The <code>summaryLaplace</code> function
+returns similar information but with names included in a more useful way. Here is some example code:</p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="cha-laplace.html#cb297-1" tabindex="-1"></a>Cglmm_laplace<span class="sc">$</span><span class="fu">summary</span>(MLE)<span class="sc">$</span>randomEffects<span class="sc">$</span>estimate</span></code></pre></div>
+<pre><code>##  [1] -0.33711487 -0.02964301  0.40575572  1.04769223 -0.36731868  0.26907375
+##  [7] -0.54951161 -0.11864177  0.10006955 -0.04411124</code></pre>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="cha-laplace.html#cb299-1" tabindex="-1"></a><span class="fu">summaryLaplace</span>(Cglmm_laplace, MLE)<span class="sc">$</span>params</span></code></pre></div>
+<pre><code>##             estimate  stdError
+## intercept -0.1491982 0.2464895
+## beta       0.1935269 0.1467230
+## sigma      0.5703413 0.2066531</code></pre>
+<p>To find the posterior mode (maximum a posteriori estimate), one can call <code>findMAP</code> instead of <code>findMLE</code>.</p>
+<p>To run a regularized regression that uses the prior as a penalty but excludes the Jacobian of the transformation, one can run <code>Cglmm_laplace$optimize</code> with <code>includePrior = TRUE</code> and <code>includeJacobian = FALSE</code>, e.g., <code>estimate &lt;- Cglmm_laplace$optimize(c(0, 0, 1), includePrior = TRUE, includeJacobian = FALSE)</code>. (Note that <code>findMLE</code> and <code>findMAP</code> are equivalent to running <code>optimize</code> with <code>includePrior</code> and <code>includeJacobian</code> set appropriately.)</p>
+</div>
+<div id="changing-the-optimization-methods" class="section level3 hasAnchor" number="9.1.4">
+<h3><span class="header-section-number">9.1.4</span> Changing the optimization methods<a href="cha-laplace.html#changing-the-optimization-methods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When finding the MLE via Laplace approximation or adaptive Gauss-Hermite quadrature (AGHQ), there are two numerical optimizations: (1) maximizing the joint log-likelihood of random effects and data given a set of parameter values to construct the approximation to the marginal log-likelihood at the given parameter values, and (2) maximizing the approximation to the marginal log-likelihood over the parameter values. Optimization (1) is the “inner” optimization and optimization (2) is the “outer” optimization.</p>
+<p>Finding the MLE via Laplace approximation may be sensitive to the optimization methods used, in particular the choice of optimizer for the inner optimization, and the “BFGS” optimizer available through <code>optim()</code> may not perform well for inner optimization.</p>
+<p>As of version 1.3.0, the default choices for both the inner and outer optimization use R’s <code>nlminb</code> optimizer.
+Users can choose a different optimizer for both of the optimizations.</p>
+<p>To change the inner or outer optimizers, one can use the <code>innerOptimMethod</code> and <code>outerOptimMethod</code> elements of the <code>control</code> list argument to <code>buildLaplace</code>. One can modify various settings that control the behavior of the inner and outer optimizers via <code>control</code> as well. See <code>help(buildLaplace)</code> for more details.</p>
+<p>Once a Laplace approximation is built, one can use <code>updateSettings</code> to modify the choices of optimizers and various settings that control the behavior of the inner and outer optimizers (see <code>help(buildLaplace)</code> for details).</p>
+<p>By default, NIMBLE provides various optimization methods available through R’s <code>optim()</code> as well as R’s <code>nlminb</code> method and the BOBYQA method from the <code>nloptr</code> package (by specifying <code>'bobyqa'</code>). Users can also provide their own optimization function in R that they can then use with Laplace approximation. User optimization functions must have a particular set and order of arguments and must first be registered with NIMBLE via <code>nimOptimMethod</code>. See <code>help(nimOptim)</code> for more details.</p>
+<p>Here’s an example of setting up the Newton method optimizer from the <code>TMB</code> package as the inner optimizer for use with NIMBLE’s Laplace approximation. (Note that NIMBLE and TMB have distinct AD systems and Laplace approximation implementations; here we simply use the <code>TMB::newton</code> optimization function.)</p>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="cha-laplace.html#cb301-1" tabindex="-1"></a><span class="fu">library</span>(TMB)</span>
+<span id="cb301-2"><a href="cha-laplace.html#cb301-2" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
+<span id="cb301-3"><a href="cha-laplace.html#cb301-3" tabindex="-1"></a></span>
+<span id="cb301-4"><a href="cha-laplace.html#cb301-4" tabindex="-1"></a><span class="do">## Create an R wrapper function that has the interface needed for NIMBLE</span></span>
+<span id="cb301-5"><a href="cha-laplace.html#cb301-5" tabindex="-1"></a><span class="do">## and wraps the optimizer of interest.</span></span>
+<span id="cb301-6"><a href="cha-laplace.html#cb301-6" tabindex="-1"></a>nimbleTMBnewton <span class="ot">&lt;-</span> <span class="cf">function</span>(par, fn, gr, he, lower, upper, control, hessian) {</span>
+<span id="cb301-7"><a href="cha-laplace.html#cb301-7" tabindex="-1"></a>  <span class="do">## Wrap `he` as return value needs to be of class `dsCMatrix`.</span></span>
+<span id="cb301-8"><a href="cha-laplace.html#cb301-8" tabindex="-1"></a>  he_matrix <span class="ot">&lt;-</span> <span class="cf">function</span>(p) <span class="fu">Matrix</span>(<span class="fu">he</span>(p), <span class="at">doDiag =</span> <span class="cn">FALSE</span>, <span class="at">sparse =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb301-9"><a href="cha-laplace.html#cb301-9" tabindex="-1"></a>  invalid <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">is.null</span>(x) <span class="sc">||</span> <span class="fu">is.na</span>(x) <span class="sc">||</span> <span class="fu">is.infinite</span>(x)</span>
+<span id="cb301-10"><a href="cha-laplace.html#cb301-10" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">invalid</span>(control<span class="sc">$</span>trace)) control<span class="sc">$</span>trace <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb301-11"><a href="cha-laplace.html#cb301-11" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">invalid</span>(control<span class="sc">$</span>maxit)) control<span class="sc">$</span>maxit <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb301-12"><a href="cha-laplace.html#cb301-12" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">invalid</span>(control<span class="sc">$</span>reltol)) control<span class="sc">$</span>reltol <span class="ot">&lt;-</span> <span class="fl">1e-8</span></span>
+<span id="cb301-13"><a href="cha-laplace.html#cb301-13" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">newton</span>(par, fn, gr, he_matrix,</span>
+<span id="cb301-14"><a href="cha-laplace.html#cb301-14" tabindex="-1"></a>                <span class="at">trace =</span> control<span class="sc">$</span>trace, <span class="at">maxit =</span> control<span class="sc">$</span>maxit, <span class="at">tol =</span> control<span class="sc">$</span>reltol)</span>
+<span id="cb301-15"><a href="cha-laplace.html#cb301-15" tabindex="-1"></a>  <span class="do">## Additional arguments (e.g., `alpha` and `tol10`) can be hard-coded in `newton()` call.</span></span>
+<span id="cb301-16"><a href="cha-laplace.html#cb301-16" tabindex="-1"></a>  ans <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb301-17"><a href="cha-laplace.html#cb301-17" tabindex="-1"></a>    <span class="do">## What is handled in the return is fairly particular, so often needs conversion</span></span>
+<span id="cb301-18"><a href="cha-laplace.html#cb301-18" tabindex="-1"></a>    <span class="do">## from a given method such as TMB::newton.</span></span>
+<span id="cb301-19"><a href="cha-laplace.html#cb301-19" tabindex="-1"></a>    <span class="at">par =</span> res<span class="sc">$</span>par,</span>
+<span id="cb301-20"><a href="cha-laplace.html#cb301-20" tabindex="-1"></a>    <span class="at">value =</span> res<span class="sc">$</span>value,</span>
+<span id="cb301-21"><a href="cha-laplace.html#cb301-21" tabindex="-1"></a>    <span class="at">counts =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="co"># Counts of fn/gr/he calls, but these are not counted by TMB::newton.</span></span>
+<span id="cb301-22"><a href="cha-laplace.html#cb301-22" tabindex="-1"></a>    <span class="at">evaluations =</span> res<span class="sc">$</span>iterations,</span>
+<span id="cb301-23"><a href="cha-laplace.html#cb301-23" tabindex="-1"></a>    <span class="at">hessian =</span> <span class="cn">NULL</span>, <span class="co"># TMB::newton gives a `dsCMatrix` but we need a base R matrix.</span></span>
+<span id="cb301-24"><a href="cha-laplace.html#cb301-24" tabindex="-1"></a>    <span class="at">message =</span> <span class="st">&quot;ran by TMB::newton&quot;</span>,</span>
+<span id="cb301-25"><a href="cha-laplace.html#cb301-25" tabindex="-1"></a>    <span class="at">convergence =</span> <span class="dv">0</span> <span class="co"># TMB::newton does not return a convergence code so give 0 (converged).</span></span>
+<span id="cb301-26"><a href="cha-laplace.html#cb301-26" tabindex="-1"></a>  )</span>
+<span id="cb301-27"><a href="cha-laplace.html#cb301-27" tabindex="-1"></a>  <span class="fu">return</span>(ans)</span>
+<span id="cb301-28"><a href="cha-laplace.html#cb301-28" tabindex="-1"></a>}</span>
+<span id="cb301-29"><a href="cha-laplace.html#cb301-29" tabindex="-1"></a><span class="do">## Register the optimizer with NIMBLE.</span></span>
+<span id="cb301-30"><a href="cha-laplace.html#cb301-30" tabindex="-1"></a><span class="fu">nimOptimMethod</span>(<span class="st">&quot;nimbleTMBnewton&quot;</span>, nimbleTMBnewton)</span>
+<span id="cb301-31"><a href="cha-laplace.html#cb301-31" tabindex="-1"></a></span>
+<span id="cb301-32"><a href="cha-laplace.html#cb301-32" tabindex="-1"></a><span class="do">## Use the optimizer for the inner optimization when finding the Laplace MLE.</span></span>
+<span id="cb301-33"><a href="cha-laplace.html#cb301-33" tabindex="-1"></a>glmm_laplace <span class="ot">&lt;-</span> <span class="fu">buildLaplace</span>(model, <span class="fu">c</span>(<span class="st">&#39;intercept&#39;</span>,<span class="st">&#39;beta&#39;</span>,<span class="st">&#39;sigma&#39;</span>),</span>
+<span id="cb301-34"><a href="cha-laplace.html#cb301-34" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">innerOptimMethod =</span> <span class="st">&quot;nimbleTMBnewton&quot;</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="sec:nested-approx" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Nested approximation (INLA-like) methods<a href="cha-laplace.html#sec:nested-approx" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>NIMBLE version 1.4.0 introduces a nested approximation method that provides approximate posterior inference using methodology similar to the well-known INLA approach <span class="citation">(<a href="references.html#ref-rue2009approximate">Rue et al. 2009</a>; <a href="references.html#ref-martins2013bayesian">Martins et al. 2013</a>)</span>, implemented in the R-INLA package and to the related methods for extended Gaussian latent models (EGLMs) of <span class="citation">Stringer et al. (<a href="references.html#ref-stringer2023fast">2023</a>)</span>, implemented in the <code>aghq</code> R package.</p>
+<p>In general, such nested approximations build on Laplace approximation, which provides an approximate marginal posterior for model (hyper)parameters, integrating (marginalizing) over latent nodes. Then instead of maximizing the approximation, one approximates the marginal posterior of the (hyper)parameters on a carefully-chosen set of points. Inference for individual (hyper)parameters is done by numerical approximation, numerical integration, or sampling from an approximation to the marginal posterior. Inference for the latent nodes is done via numerical integration or via sampling from a mixture (over the hyperparameter points) of multivariate normal distributions.</p>
+<p>Our implementation in NIMBLE borrows heavily from the INLA and EGLM approaches.</p>
+<p>Here we list some of the similarities and differences from INLA and the EGLM approach (<code>aghq</code> package):</p>
+<ul>
+<li>Like EGLM, we use automatic differentiation to calculate the Laplace-approximated marginal likelihood.</li>
+<li>Like EGLM, we take the latent nodes to be only the latent stochastic parameters in the model, without including the additive predictor values as done in INLA.</li>
+<li>For marginal inference on a chosen univariate (hyper)parameter we provide the univariate asymmetric Gaussian approximation used by INLA and also (for increased accuracy at additional computational expense) numerical integration via AGHQ as in EGLM.</li>
+<li>For joint inference on the (hyper)parameters we provide simulation from the joint asymmetric Gaussian approximation as done in INLA.</li>
+<li>For inference on the latent nodes, we provide joint simulation from a multivariate normal mixture over the (hyper)parameter grid points as done in EGLM and also available in INLA. Unlike in INLA, we do not provide univariate latent inference using deterministic nested Laplace approximation. The simulation-based approach may not be as accurate, but it allows for joint inference, including inference on quantities that depend on more than one latent node.</li>
+<li>Unlike either EGLM or INLA, latent nodes are not required to have a joint normal distribution, though accuracy may be less when the latent nodes have other distributions.</li>
+<li>For latent nodes whose conditional distributions factor into univariate conditionally independent sets, the Laplace approximation is a product of univariate approximations, and one can instead use NIMBLE’s AGHQ approximation for higher accuracy.</li>
+<li>We allow the user to choose the grid used for the (hyper)parameters. By default for <span class="math inline">\(d&gt;2\)</span> parameters, we use the CCD grid used by INLA, but one can choose to use the AGHQ grid as used in EGLM or provide one’s own grid.</li>
+</ul>
+<div id="overview-of-the-methodology" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Overview of the methodology<a href="cha-laplace.html#overview-of-the-methodology" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>NIMBLE’s nested approximation consists of several pieces, with different options that allow a user to choose how the approximation is done. We briefly describe the pieces here. For simplicity, we refer to the (hyper)parameters simply as “parameters”.</p>
+<div id="marginalization-over-the-latent-nodes" class="section level4 hasAnchor" number="9.2.1.1">
+<h4><span class="header-section-number">9.2.1.1</span> Marginalization over the latent nodes<a href="cha-laplace.html#marginalization-over-the-latent-nodes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We approximately marginalize (integrate) over the latent nodes to approximate the marginal joint distribution of the parameters. This uses Laplace approximation and is sometimes referred to as the “inner” marginalization. The Laplace approximation is computed using the gradient and Hessian with respect to the latent nodes for a given set of parameter values.</p>
+<p>In the case that the conditional distributions of the latent nodes factor into univariate conditionally-independent sets of nodes (conditional on the parameters), this approximation by default uses the product of univariate Laplace approximations and in NIMBLE can be made more accurate by using AGHQ with more than one quadrature point.</p>
+</div>
+<div id="approximating-the-marginal-parameter-density-on-a-grid" class="section level4 hasAnchor" number="9.2.1.2">
+<h4><span class="header-section-number">9.2.1.2</span> Approximating the marginal parameter density on a grid<a href="cha-laplace.html#approximating-the-marginal-parameter-density-on-a-grid" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>In order to simulate from the posterior distribution for the latent nodes (or to estimate the marginal likelihood), one needs to evaluate the joint parameter posterior density on a grid of points.</p>
+<p>NIMBLE primarily offers the options of using a CCD grid (as used by INLA) or an AGHQ grid (as used in the EGLM approach). While the AGHQ grid is expected to be more accurate, the CCD grid uses fewer points and is therefore less computationally intensive.</p>
+<p>For <span class="math inline">\(d &lt;= 2\)</span> NIMBLE defaults to the AGHQ grid and otherwise uses the CCD grid.</p>
+<p>NIMBLE also allows users to provide their own grid.</p>
+</div>
+<div id="joint-inference-for-latent-nodes" class="section level4 hasAnchor" number="9.2.1.3">
+<h4><span class="header-section-number">9.2.1.3</span> Joint inference for latent nodes<a href="cha-laplace.html#joint-inference-for-latent-nodes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>NIMBLE provides the ability to simulate the latent nodes from a mixture of multivariate Gaussian distributions, mixing over the parameter values at the grid points discussed above. The multivariate Gaussian distribution is based on the Laplace approximation for the latent nodes, which provides the mean and variance conditional on the parameter value at the grid point. The weights in the mixture are based on the Laplace-approximated marginal density (for the parameters and data, jointly), with stratified sampling to reduce variance.</p>
+<p>INLA adjusts the latent node marginals with a correction for the mean and skewness via a Gaussian copula to correspond with a univariate skew-normal approximation for each latent node. We have not implemented such an approximation so no adjustment is done in NIMBLE.</p>
+</div>
+<div id="univariate-inference-for-parameters" class="section level4 hasAnchor" number="9.2.1.4">
+<h4><span class="header-section-number">9.2.1.4</span> Univariate inference for parameters<a href="cha-laplace.html#univariate-inference-for-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>NIMBLE offers two approaches for univariate marginal inference for individual parameters. The first is a computationally-efficient integration-free method that mimics that used by INLA <span class="citation">(<a href="references.html#ref-martins2013bayesian">Martins et al. 2013</a>)</span>. This uses a joint asymmetric Gaussian distribution approximation as the marginal joint posterior of the parameters and allows one to calculate the density at individual evaluation points for the univariate marginals. NIMBLE calculates the univariate marginal density on a fine grid of evaluation points, from which one can build a spline-based approximation to the marginal density that can be used to compute moments and quantiles for univariate inference.</p>
+<p>The second, more accurate approach, is to use <span class="math inline">\(d-1\)</span>-dimensional AGHQ to integrate over the Laplace-approximated joint marginal distribution for the parameters. This can greatly improve accuracy, but can be computationally expensive unless <span class="math inline">\(d\)</span> is quite small (e.g., 2-4), or even if the number of latent node elements is quite large (which makes the Laplace approximation expensive). Because of the expense, we only take this approach if requested by the user, and we allow the user to choose the specific parameter(s) for which they want to estimate marginals with this approach.</p>
+<p>Note that in most cases this inference can be provided on the original scale of the parameters provided by the user in the NIMBLE model. However, all calculations are done in a transformed space in which the parameters are unconstrained. This reduces the dimension of the parameter space in the case of the Dirichlet, Wishart, and LKJ distributions and there is no way to analytically determine the univariate marginals on the original (user-defined) scale because of the multivariate transformation and change of dimension. For inference on the original scale in such cases, one needs to use simulations from the approximate joint distribution of the parameters, discussed next.</p>
+</div>
+<div id="joint-inference-for-parameters" class="section level4 hasAnchor" number="9.2.1.5">
+<h4><span class="header-section-number">9.2.1.5</span> Joint inference for parameters<a href="cha-laplace.html#joint-inference-for-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If one is interested in joint inference for the parameters (or inference on functions of more than one parameter), NIMBLE provides the ability to simulate from the asymmetric multivariate Gaussian distribution approximation to the marginal joint distribution of the parameters that is used by INLA <span class="citation">(<a href="references.html#ref-martins2013bayesian">Martins et al. 2013</a>)</span>. The approximation is done in a transformed space in which the parameters are unconstrained (this can sometimes reduce the dimension of the parameter vector such as with the Dirichlet, Wishart, and LKJ distributions). In the transformed space, a two-piece split normal distribution (which allows for skew in both directions) is used for each univariate component after rotating the transformed parameters based on the Hessian at the maximum to account for the correlation structure.</p>
+<p>As also done in INLA, we use a Gaussian copula to adjust the simulated parameter values, in a univariate fashion, to match the univariate marginal distributions estimated either from the integration-free or AGHQ approaches.</p>
+</div>
+<div id="approximate-marginal-likelihood" class="section level4 hasAnchor" number="9.2.1.6">
+<h4><span class="header-section-number">9.2.1.6</span> Approximate marginal likelihood<a href="cha-laplace.html#approximate-marginal-likelihood" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The marginal likelihood for a model integrates over all parameters (including both ‘parameters’ discussed above and latent nodes). This can be useful for model selection, but it is not well-defined if any prior distributions are improper and is not reliable for diffuse prior distributions.</p>
+<p>In NIMBLE’s nested approximation, the marginal likelihood is approximated either based on the approximate Gaussian distribution for the parameters used by INLA or via AGHQ using the AGHQ grid weights and associated Laplace-approximated parameter density values.</p>
+</div>
+<div id="determining-latent-nodes-and-parameters" class="section level4 hasAnchor" number="9.2.1.7">
+<h4><span class="header-section-number">9.2.1.7</span> Determining latent nodes and parameters<a href="cha-laplace.html#determining-latent-nodes-and-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>By default, NIMBLE’s nested approximation will try to automatically determine the node sets, selecting random effects and regression fixed effects (coefficients) as the “latent nodes” and other unknown quantities (e.g., variance components and parameters of random effects distributions) as “parameters” (also often referred to as “hyperparameters”).</p>
+<p>Given the computations involved, it is best to have the number of parameters be relatively small, such as fewer than 10.</p>
+<p>Note that the treatment of fixed effects differs between the nested approximation and NIMBLE’s Laplace approximation. In Laplace approximation, fixed effects are treated as parameters of interest and maximized with respect to, rather than being marginalized over. In the nested approximation, they are marginalized over and inference on them can be done based on simulated values. One advantage of grouping fixed effects with random effects is that one can make simulation-based inference on quantities that depend on both sets of effects, such a regression-style linear predictors.</p>
+<p>It is also possible to choose which nodes go in which set (Section <a href="cha-laplace.html#subsec:nested-node-determ">9.2.2.2</a>). One might choose to include fixed effects in the parameter set, akin to how Laplace approximation works. Another situation where one might configure this manually is if random effects in a model are specified in a “non-centered” parameterization such as:</p>
+<p><span class="math display">\[
+\eta_i = \mu + \sigma b_i
+\]</span>
+<span class="math display">\[
+b_i \sim \mathcal{N}(0, 1)
+\]</span></p>
+<p>In this parameterization, the random effects, <span class="math inline">\(b_i\)</span>, do not depend on any parameters because <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> are involved directly in the linear predictor, <span class="math inline">\(\eta_i\)</span>. This stands in contrast to the common centered parameterization, with <span class="math inline">\(b_i \sim \mathcal{N}(\mu, \sigma)\)</span>. Because each <span class="math inline">\(b_i\)</span> does not depend on any parameters, NIMBLE’s nested approximation node determination algorithm would by default put the <span class="math inline">\(b_i\)</span> nodes into the parameter set, which in general would result in very slow computation (because there would be a large number of parameters). (And in reality this would generally lead to a failure to build the algorithm because there would be no latent nodes found.)</p>
+<p>One further note is that it can be advantageous computationally to have fixed effects in the parameter set. This can sometimes allow NIMBLE to set up a product of lower-dimensional Laplace approximations instead of one higher-dimensional Laplace approximation. However, the benefit of having a product of Laplace approximations trades off with the higher-dimensionality of the parameter vector, which increases computation. How these trade off in a particular modeling context can be worth experimentation by the user.</p>
+</div>
+<div id="computational-bottlenecks" class="section level4 hasAnchor" number="9.2.1.8">
+<h4><span class="header-section-number">9.2.1.8</span> Computational bottlenecks<a href="cha-laplace.html#computational-bottlenecks" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>To sample the latent nodes, the algorithm needs to find the weights and the parameters of the multivariate normal approximation to the latent nodes at each point in the grid of parameter values. For a large number of parameters this can be expensive, because Laplace approximation is done at many grid points. For a large number of latent node elements, even a single Laplace approximation at a single set of parameter values can be expensive. Computing the parameters of this approximation involves optimization over a space whose dimension is the number of latent node elements, as well as computation of the Hessian at the maximum. Furthermore, for inference, one then needs to simulate from the high-dimensional multivariate normal.</p>
+<p>To approximate the univariate marginals for the parameters via AGHQ, this requires <span class="math inline">\(d-1\)</span>-dimensional AGHQ, which can be expensive, because the number of quadrature points grows as <span class="math inline">\((d-1)^k\)</span> where <span class="math inline">\(k\)</span> is the number of Gauss-Hermite quadrature grid points in one dimension. Often this would be chosen to be small, such as 3 or 5, but even then the computations increase rapidly in <span class="math inline">\(d\)</span>.</p>
+</div>
+</div>
+<div id="using-nimbles-nested-approximation" class="section level3 hasAnchor" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Using NIMBLE’s nested approximation<a href="cha-laplace.html#using-nimbles-nested-approximation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Next we’ll give example usage of NIMBLE’s nested approximation. Further details are available in the usual R help content for the various functions.</p>
+<p>The core functions are <code>buildNestedApprox</code> and <code>runNestedApprox</code>. These are analagous to the “build” and “run” functions for MCMC and for Laplace.</p>
+<ul>
+<li><code>buildNestedApprox</code> sets up the approximation for a model of interest and allows the user to control various aspects of how the approximation is done. It returns an uncompiled nested approximation algorithm.</li>
+<li><code>runNestedApprox</code> runs the basic steps of the approximation, giving initial univariate marginal parameter inference (and optionally allowing the user to request latent node or parameter samples). It returns a nested approximation (<code>nestedApprox</code>) object.</li>
+<li>Various additional functions can be applied to the nested approximation object to do further components of the approximation, including:
+<ul>
+<li><code>improveParamMarginals</code>: use AGHQ to improve marginal parameter inference relative to the default inference based on the asymmetric Gaussian approximation.</li>
+<li><code>sampleLatents</code>: sample from the approximate joint distribution of the latent nodes (the mixture over parameter grid points of multivariate normal distributions).</li>
+<li><code>sampleParams</code>: sample from the asymmetric Gaussian approximation for the parameters.</li>
+<li><code>calcMarginalLogLikImproved</code>: use AGHQ to improve estimation of the marginal likelihood relative to the default estimate based on the asymmetric Gaussian approximation.</li>
+<li><code>{d,e,q,r}marginal</code> and <code>plotMarginal</code>: estimate the density (<code>d</code>), expectations (<code>e</code>), and quantiles (<code>q</code>) for a univariate marginal; sample from the marginal (<code>r</code>); and plot the marginal density.</li>
+</ul></li>
+</ul>
+<div id="example-use" class="section level4 hasAnchor" number="9.2.2.1">
+<h4><span class="header-section-number">9.2.2.1</span> Example use<a href="cha-laplace.html#example-use" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We’ll use the penicillin example from the <code>faraway</code> package, which has data on penicillin production as a function of treatment (four levels) and blend (five levels). The treatment is considered as a fixed effect (note the constant, large variance/small precision for <code>b[i]</code>) while the blend/block is considered as a random effect. Note that because of the normal likelihood and normal priors for the latent nodes, the conditional distribution for the latent nodes given the data and hyperparameters is a multivariate normal, so the Laplace approximation in this case is exact (and one could also marginalize analytically before carrying out maximum likelihood estimation or MCMC). In many uses of nested approximation, the likelihood is not normal, but the latent node distribution is.</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="cha-laplace.html#cb302-1" tabindex="-1"></a><span class="fu">data</span>(penicillin, <span class="at">package=</span><span class="st">&quot;faraway&quot;</span>)</span>
+<span id="cb302-2"><a href="cha-laplace.html#cb302-2" tabindex="-1"></a></span>
+<span id="cb302-3"><a href="cha-laplace.html#cb302-3" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb302-4"><a href="cha-laplace.html#cb302-4" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb302-5"><a href="cha-laplace.html#cb302-5" tabindex="-1"></a>        mu[i] <span class="ot">&lt;-</span> <span class="fu">inprod</span>(b[<span class="dv">1</span><span class="sc">:</span>nTreat], x[i, <span class="dv">1</span><span class="sc">:</span>nTreat]) <span class="sc">+</span> re[blend[i]]</span>
+<span id="cb302-6"><a href="cha-laplace.html#cb302-6" tabindex="-1"></a>        y[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu[i], <span class="at">sd =</span> sigma)</span>
+<span id="cb302-7"><a href="cha-laplace.html#cb302-7" tabindex="-1"></a>    }</span>
+<span id="cb302-8"><a href="cha-laplace.html#cb302-8" tabindex="-1"></a>    sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb302-9"><a href="cha-laplace.html#cb302-9" tabindex="-1"></a>    tau <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb302-10"><a href="cha-laplace.html#cb302-10" tabindex="-1"></a>    <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nTreat ){ b[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1000</span>) }</span>
+<span id="cb302-11"><a href="cha-laplace.html#cb302-11" tabindex="-1"></a>    <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nBlend ){ re[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> tau) }</span>
+<span id="cb302-12"><a href="cha-laplace.html#cb302-12" tabindex="-1"></a>})</span>
+<span id="cb302-13"><a href="cha-laplace.html#cb302-13" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>treat, <span class="at">data =</span> penicillin)</span>
+<span id="cb302-14"><a href="cha-laplace.html#cb302-14" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">list</span>(<span class="at">y =</span> penicillin<span class="sc">$</span>yield)</span>
+<span id="cb302-15"><a href="cha-laplace.html#cb302-15" tabindex="-1"></a>constants <span class="ot">=</span> <span class="fu">list</span>(<span class="at">nTreat =</span> <span class="dv">4</span>, <span class="at">nBlend =</span> <span class="dv">5</span>, <span class="at">n =</span> <span class="fu">nrow</span>(penicillin),</span>
+<span id="cb302-16"><a href="cha-laplace.html#cb302-16" tabindex="-1"></a>                 <span class="at">x =</span> X, <span class="at">blend =</span> <span class="fu">as.numeric</span>(penicillin<span class="sc">$</span>blend))</span>
+<span id="cb302-17"><a href="cha-laplace.html#cb302-17" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">sigma =</span> <span class="dv">1</span>, <span class="at">tau =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="fu">c</span>(<span class="fu">mean</span>(data<span class="sc">$</span>y), <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">3</span>)), <span class="at">re =</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span>
+<span id="cb302-18"><a href="cha-laplace.html#cb302-18" tabindex="-1"></a></span>
+<span id="cb302-19"><a href="cha-laplace.html#cb302-19" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data =</span> data, <span class="at">constants =</span> constants,</span>
+<span id="cb302-20"><a href="cha-laplace.html#cb302-20" tabindex="-1"></a>                 <span class="at">inits =</span> inits, <span class="at">buildDerivs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb302-21"><a href="cha-laplace.html#cb302-21" tabindex="-1"></a>comp_model <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(model)</span></code></pre></div>
+<p>Given a NIMBLE model, we can build (and compile) our nested approximation.</p>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="cha-laplace.html#cb303-1" tabindex="-1"></a><span class="fu">library</span>(nimbleQuad)</span>
+<span id="cb303-2"><a href="cha-laplace.html#cb303-2" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">buildNestedApprox</span>(<span class="at">model =</span> model)</span></code></pre></div>
+<pre><code>## Building nested posterior approximation for the following node sets:
+##   - parameter nodes: sigma, tau
+##   - latent nodes: b (4 elements), re (5 elements)
+##   with AGHQ grid for the parameters and Laplace approximation for the latent nodes.</code></pre>
+<pre><code>## Building Laplace approximation.</code></pre>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="cha-laplace.html#cb306-1" tabindex="-1"></a>comp_approx <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(approx, <span class="at">project =</span> model)</span></code></pre></div>
+<pre><code>## Compiling
+##   [Note] This may take a minute.
+##   [Note] Use &#39;showCompilerOutput = TRUE&#39; to see C++ compilation details.</code></pre>
+<p>Note that NIMBLE has automatically put the two variance components into the parameters and the fixed and random effects into the latent nodes. As described below, one can change the node sets if desired by passing <code>paramNodes</code> and/or <code>latentNodes</code>.</p>
+<p>Because there are only two parameter nodes, an AGHQ grid for the parameters is used by default.</p>
+<p>Next we run our nested approximation, getting back initial inference on the parameters, which is based on the asymmetric Gaussian approximation.</p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="cha-laplace.html#cb308-1" tabindex="-1"></a><span class="co"># To prefer fixed rather than scientific notation for easier viewing.</span></span>
+<span id="cb308-2"><a href="cha-laplace.html#cb308-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">2</span>)  </span>
+<span id="cb308-3"><a href="cha-laplace.html#cb308-3" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">runNestedApprox</span>(comp_approx)</span></code></pre></div>
+<pre><code>## Finding posterior mode for parameter(s).</code></pre>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="cha-laplace.html#cb310-1" tabindex="-1"></a>result</span></code></pre></div>
+<pre><code>## Model (hyper)parameters: 
+##           mean        sd     2.5%      25%      50%      75%     97.5%
+## sigma 4.713701 0.9986374 3.116351 4.001788 4.586367 5.294832  7.006779
+## tau   5.092328 2.8820651 1.541987 3.077404 4.421835 6.363080 12.497136
+## 
+## Marginal log-likelihood (asymmetric Gaussian approximation): -89.95543(*)
+##   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
+<p>For small models this initial step generally won’t take too long, but even for large models or a large number of parameters, this step will generally be faster than the steps shown below because the asymmetric Gaussian distribution approximation for the parameters can be computed quickly, only requiring maximization and computation of the Hessian for the Laplace approximation (that said that could take some time when there is a large number of latent nodes) followed by some simple calculations.</p>
+<p>Note that given the vague priors for the parameters used here, the marginal likelihood is probably not useful.</p>
+<p>Now, let’s refine our estimation of the parameters by using AGHQ in place of the asymmetric Gaussian approximation. That does <span class="math inline">\(d-1\)</span> dimensional AGHQ (here simply 1-d AGHQ) for each parameter requested (by default all of the parameters).</p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="cha-laplace.html#cb312-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">improveParamMarginals</span>(<span class="at">nodes =</span> <span class="st">&#39;tau&#39;</span>)</span></code></pre></div>
+<pre><code>## Approximating 1 individual parameter marginal density via AGHQ:
+##   - calculating inner AGHQ/Laplace approximation at (5) marginal points
+##     with 3 quadrature grid points (one dot per grid point): (1)...(2)...(3)...(4)...(5)...</code></pre>
+<pre><code>## Model (hyper)parameters: 
+##           mean        sd     2.5%      25%      50%      75%     97.5%
+## sigma 4.713701 0.9986374 3.116351 4.001788 4.586367 5.294832  7.006779
+## tau   5.314975 4.1157021 0.883100 2.828764 4.339861 6.501641 16.098079
+## 
+## Marginal log-likelihood (asymmetric Gaussian approximation): -89.95543(*)
+##   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
+<p>We see that the inference for <code>tau</code> has changed somewhat, in particular the more extreme quantiles.</p>
+<p>There are two quantities that control the accuracy of the AGHQ marginal estimate. The first is the number of grid points in the AGHQ numerical integration where <span class="math inline">\(k\)</span> (<code>nQuad</code>) is the number of points in one dimension. More is better for accuracy but the computational cost grows as <span class="math inline">\((d-1)^k\)</span>. The marginal density is estimated at each of a set of evaluation points of values of the parameter (<code>nMarginalGrid</code> points), using AGHQ for each point, after which a spline is fit to estimate the full marginal density.</p>
+<p>By default we use three quadrature points in each dimension and five evaluation points.</p>
+<p>If we increase the number of evaluation points, we see it has some effect on the inference.</p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="cha-laplace.html#cb315-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">improveParamMarginals</span>(<span class="at">nodes =</span> <span class="st">&#39;tau&#39;</span>, <span class="at">nMarginalGrid =</span> <span class="dv">9</span>)</span></code></pre></div>
+<pre><code>## Approximating 1 individual parameter marginal density via AGHQ:
+##   - calculating inner AGHQ/Laplace approximation at (9) marginal points
+##     with 3 quadrature grid points (one dot per grid point): (1)...(2)...(3)...(4)...(5)...(6)...(7)...(8)...(9)...</code></pre>
+<pre><code>## Model (hyper)parameters: 
+##           mean        sd      2.5%      25%      50%      75%     97.5%
+## sigma 4.713701 0.9986374 3.1163510 4.001788 4.586367 5.294832  7.006779
+## tau   5.252378 4.3212129 0.5634483 2.756103 4.263204 6.441046 16.103280
+## 
+## Marginal log-likelihood (asymmetric Gaussian approximation): -89.95543(*)
+##   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
+<p>If we increase the accuracy of the AGHQ integration, there is little effect.</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="cha-laplace.html#cb318-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">improveParamMarginals</span>(<span class="at">nodes =</span> <span class="st">&#39;tau&#39;</span>, <span class="at">nMarginalGrid =</span> <span class="dv">9</span>, <span class="at">nQuad =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## Approximating 1 individual parameter marginal density via AGHQ:
+##   - calculating inner AGHQ/Laplace approximation at (9) marginal points
+##     with 5 quadrature grid points (one dot per grid point): (1).....(2).....(3).....(4).....(5).....(6).....(7).....(8).....(9).....</code></pre>
+<pre><code>## Model (hyper)parameters: 
+##           mean        sd      2.5%      25%      50%      75%     97.5%
+## sigma 4.713701 0.9986374 3.1163510 4.001788 4.586367 5.294832  7.006779
+## tau   5.257371 4.3245596 0.5635703 2.759811 4.267200 6.446377 16.118135
+## 
+## Marginal log-likelihood (asymmetric Gaussian approximation): -89.95543(*)
+##   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
+<p>We can estimate other expectations or quantiles than those reported and plot a density estimate:</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="cha-laplace.html#cb321-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">qmarginal</span>(<span class="st">&#39;tau&#39;</span>, <span class="at">quantiles =</span> <span class="fu">c</span>(.<span class="dv">05</span>, .<span class="dv">95</span>))</span></code></pre></div>
+<pre><code>##       0.05       0.95 
+##  0.9936585 12.5655362</code></pre>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="cha-laplace.html#cb323-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">plotMarginal</span>(<span class="st">&#39;tau&#39;</span>)</span></code></pre></div>
+<p><img src="NimbleUserManual_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="cha-laplace.html#cb324-1" tabindex="-1"></a><span class="do">## Compute the posterior mean of the random effects variance instead of standard deviation.</span></span>
+<span id="cb324-2"><a href="cha-laplace.html#cb324-2" tabindex="-1"></a>sd_to_var <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb324-3"><a href="cha-laplace.html#cb324-3" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">emarginal</span>(<span class="st">&#39;tau&#39;</span>, sd_to_var)</span></code></pre></div>
+<pre><code>## [1] 46.34177</code></pre>
+<p>Next, we turn to inference on the latent nodes. This is straightforward in principle but can be computationally costly because we sample from a mixture of multivariate normal distributions. This requires Laplace approximation at each of the parameter grid points, where the Laplace approximation can be costly if there are many latent nodes or many grid points. And it requires sampling from the multivariate normal distributions, which can be costly if there are many latent nodes.</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="cha-laplace.html#cb326-1" tabindex="-1"></a>latent_sample <span class="ot">&lt;-</span> result<span class="sc">$</span><span class="fu">sampleLatents</span>(<span class="at">n =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>## Calculating inner AGHQ/Laplace approximation at 9 parameter (outer)
+##   grid points (one dot per point): .........</code></pre>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="cha-laplace.html#cb328-1" tabindex="-1"></a><span class="fu">apply</span>(latent_sample, <span class="dv">2</span>, quantile, <span class="fu">c</span>(.<span class="dv">025</span>, .<span class="dv">25</span>, .<span class="dv">5</span>, .<span class="dv">75</span>, .<span class="dv">975</span>))</span></code></pre></div>
+<pre><code>##           b[1]       b[2]      b[3]      b[4]     re[1]       re[2]      re[3]
+## 2.5%  77.24456 -5.0298104 -1.434853 -4.022348 -1.746927 -9.13170443 -7.6572228
+## 25%   82.33378 -1.0430699  2.852784  0.199907  1.304434 -2.96253013 -1.8868507
+## 50%   84.00583  0.9031252  4.802415  2.004361  2.714600 -1.33773535 -0.5670391
+## 75%   85.95093  2.9338761  7.026147  3.879314  4.579600 -0.09835792  0.7859025
+## 97.5% 90.75579  7.3213421 10.938539  8.028614 12.327167  3.44971828  5.3069206
+##            re[4]      re[5]
+## 2.5%  -5.3956753 -9.7211118
+## 25%   -0.3513327 -3.3628782
+## 50%    0.9268844 -1.8183185
+## 75%    2.3636904 -0.4618667
+## 97.5%  8.4640110  3.1375223</code></pre>
+<p>As a side effect, in the <code>result</code> object, we now include a second estimate of the marginal likelihood based on the evaluation of the Laplace approximation on the parameter grid. As note above, with vague priors, the marginal likelihood is probably not useful.</p>
+<p>Note that one can optionally return the parameter values corresponding with each latent sample to see the explicit mixture being used, by specifying <code>includeParams=TRUE</code>. In this case, with a parameter grid of nine points (three quadrature points in each of two dimensions), there are nine unique sets of parameter values in the sample from the mixture of multivariate normal distributions.</p>
+<p>Finally, if one wants joint inference for multiple parameters (or a function of more than one parameter), one can sample from the approximate Gaussian approximation, with a copula-based adjustment so the univariate marginals of the sample match the (current) marginal estimates. This adjustment will use the initial estimate, if <code>improveParamMarginals</code> has not been run, or the improved marginal estimates for whichever parameters <code>improveParamMarginals</code> has been run for (only <code>tau</code> so far in this example).</p>
+<p>We’ll use the sample to compute a simple functional of multiple parameters, which is a main use case for having a sample rather than simply using the univariate marginals shown above. In this case, we look to see if the random effects standard deviation exceeds the observation standard deviation.</p>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="cha-laplace.html#cb330-1" tabindex="-1"></a>param_sample <span class="ot">&lt;-</span> result<span class="sc">$</span><span class="fu">sampleParams</span>(<span class="at">n =</span> <span class="dv">1000</span>)</span>
+<span id="cb330-2"><a href="cha-laplace.html#cb330-2" tabindex="-1"></a></span>
+<span id="cb330-3"><a href="cha-laplace.html#cb330-3" tabindex="-1"></a><span class="fu">mean</span>(param_sample[,<span class="st">&#39;tau&#39;</span>] <span class="sc">&gt;</span> param_sample[,<span class="st">&#39;sigma&#39;</span>])</span></code></pre></div>
+<pre><code>## [1] 0.447</code></pre>
+</div>
+<div id="subsec:nested-node-determ" class="section level4 hasAnchor" number="9.2.2.2">
+<h4><span class="header-section-number">9.2.2.2</span> Setting latent nodes and parameters<a href="cha-laplace.html#subsec:nested-node-determ" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>As discussed above, NIMBLE tries to automatically determine sets of latent nodes and parameters, with random and fixed effects generally included in the latent nodes. In some cases this automatic determination gives sets that are not natural choices because of the model structure and in other cases, a user might want to choose the sets themself.</p>
+<p>Here’s the NIMBLE code for a toy GLMM model for illustration.</p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="cha-laplace.html#cb332-1" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb332-2"><a href="cha-laplace.html#cb332-2" tabindex="-1"></a>   <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb332-3"><a href="cha-laplace.html#cb332-3" tabindex="-1"></a>     y[i] <span class="sc">~</span> <span class="fu">dbern</span>(p[i])</span>
+<span id="cb332-4"><a href="cha-laplace.html#cb332-4" tabindex="-1"></a>     <span class="fu">logit</span>(p[i]) <span class="ot">&lt;-</span> beta1 <span class="sc">*</span> x[i] <span class="sc">+</span> b[i]</span>
+<span id="cb332-5"><a href="cha-laplace.html#cb332-5" tabindex="-1"></a>     b[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb332-6"><a href="cha-laplace.html#cb332-6" tabindex="-1"></a>   }</span>
+<span id="cb332-7"><a href="cha-laplace.html#cb332-7" tabindex="-1"></a>   mu <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb332-8"><a href="cha-laplace.html#cb332-8" tabindex="-1"></a>   sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb332-9"><a href="cha-laplace.html#cb332-9" tabindex="-1"></a>   beta1 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb332-10"><a href="cha-laplace.html#cb332-10" tabindex="-1"></a>})</span>
+<span id="cb332-11"><a href="cha-laplace.html#cb332-11" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb332-12"><a href="cha-laplace.html#cb332-12" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb332-13"><a href="cha-laplace.html#cb332-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb332-14"><a href="cha-laplace.html#cb332-14" tabindex="-1"></a></span>
+<span id="cb332-15"><a href="cha-laplace.html#cb332-15" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">n =</span> n), <span class="at">data =</span> <span class="fu">list</span>(<span class="at">y =</span> y, <span class="at">x =</span> x))</span></code></pre></div>
+<pre><code>## Defining model</code></pre>
+<pre><code>## Building model</code></pre>
+<pre><code>## Setting data and initial values</code></pre>
+<pre><code>## Running calculate on model
+##   [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+<pre><code>## Checking model sizes and dimensions</code></pre>
+<pre><code>##   [Note] This model is not fully initialized. This is not an error.
+##          To see which variables are not initialized, use model$initializeInfo().
+##          For more information on model initialization, see help(modelInitialization).</code></pre>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="cha-laplace.html#cb339-1" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">buildNestedApprox</span>(model)</span></code></pre></div>
+<pre><code>## Building nested posterior approximation for the following node sets:
+##   - parameter nodes: mu, sigma
+##   - latent nodes: beta1, b (30 elements)
+##   with AGHQ grid for the parameters and Laplace approximation for the latent nodes.</code></pre>
+<pre><code>## Building Laplace approximation.</code></pre>
+<p>We see that NIMBLE has put the fixed effect (<code>beta1</code>) and random effects (<code>b[i]</code>) in the latent nodes and the random effects parameters, <code>mu</code> and <code>sigma</code>, into the parameter set.</p>
+<p>In the model above, the role of the overall intercept is played by the random effects mean. We could instead have centered the random effects on zero and introduced an explicit intercept.</p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="cha-laplace.html#cb342-1" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb342-2"><a href="cha-laplace.html#cb342-2" tabindex="-1"></a>   <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb342-3"><a href="cha-laplace.html#cb342-3" tabindex="-1"></a>     y[i] <span class="sc">~</span> <span class="fu">dbern</span>(p[i])</span>
+<span id="cb342-4"><a href="cha-laplace.html#cb342-4" tabindex="-1"></a>     <span class="fu">logit</span>(p[i]) <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x[i] <span class="sc">+</span> b[i]</span>
+<span id="cb342-5"><a href="cha-laplace.html#cb342-5" tabindex="-1"></a>     b[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> sigma)</span>
+<span id="cb342-6"><a href="cha-laplace.html#cb342-6" tabindex="-1"></a>   }</span>
+<span id="cb342-7"><a href="cha-laplace.html#cb342-7" tabindex="-1"></a>   sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb342-8"><a href="cha-laplace.html#cb342-8" tabindex="-1"></a>   beta0 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb342-9"><a href="cha-laplace.html#cb342-9" tabindex="-1"></a>   beta1 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb342-10"><a href="cha-laplace.html#cb342-10" tabindex="-1"></a>})</span>
+<span id="cb342-11"><a href="cha-laplace.html#cb342-11" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb342-12"><a href="cha-laplace.html#cb342-12" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb342-13"><a href="cha-laplace.html#cb342-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb342-14"><a href="cha-laplace.html#cb342-14" tabindex="-1"></a></span>
+<span id="cb342-15"><a href="cha-laplace.html#cb342-15" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">n =</span> n), <span class="at">data =</span> <span class="fu">list</span>(<span class="at">y =</span> y, <span class="at">x =</span> x))</span></code></pre></div>
+<pre><code>## Defining model</code></pre>
+<pre><code>## Building model</code></pre>
+<pre><code>## Setting data and initial values</code></pre>
+<pre><code>## Running calculate on model
+##   [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+<pre><code>## Checking model sizes and dimensions</code></pre>
+<pre><code>##   [Note] This model is not fully initialized. This is not an error.
+##          To see which variables are not initialized, use model$initializeInfo().
+##          For more information on model initialization, see help(modelInitialization).</code></pre>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="cha-laplace.html#cb349-1" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">buildNestedApprox</span>(model)</span></code></pre></div>
+<pre><code>## Building nested posterior approximation for the following node sets:
+##   - parameter nodes: sigma
+##   - latent nodes: beta0, beta1, b (30 elements)
+##   with AGHQ grid for the parameters and Laplace approximation for the latent nodes.</code></pre>
+<pre><code>## Building Laplace approximation.</code></pre>
+<p>We see that NMIBLE has now put the intercept (<code>beta0</code>, replacing <code>mu</code>) in the latent nodes.</p>
+<p>In contrast, if we use a non-centered parameterization (this arises often when using HMC as a better parameterization), then NIMBLE tries to put everything into the parameters, and an error occurs.</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="cha-laplace.html#cb352-1" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb352-2"><a href="cha-laplace.html#cb352-2" tabindex="-1"></a>   <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb352-3"><a href="cha-laplace.html#cb352-3" tabindex="-1"></a>     y[i] <span class="sc">~</span> <span class="fu">dbern</span>(p[i])</span>
+<span id="cb352-4"><a href="cha-laplace.html#cb352-4" tabindex="-1"></a>     <span class="fu">logit</span>(p[i]) <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x[i] <span class="sc">+</span> sigma<span class="sc">*</span>b[i]</span>
+<span id="cb352-5"><a href="cha-laplace.html#cb352-5" tabindex="-1"></a>     b[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb352-6"><a href="cha-laplace.html#cb352-6" tabindex="-1"></a>   }</span>
+<span id="cb352-7"><a href="cha-laplace.html#cb352-7" tabindex="-1"></a>   mu <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb352-8"><a href="cha-laplace.html#cb352-8" tabindex="-1"></a>   sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb352-9"><a href="cha-laplace.html#cb352-9" tabindex="-1"></a>   beta0 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb352-10"><a href="cha-laplace.html#cb352-10" tabindex="-1"></a>   beta1 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb352-11"><a href="cha-laplace.html#cb352-11" tabindex="-1"></a>})</span>
+<span id="cb352-12"><a href="cha-laplace.html#cb352-12" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb352-13"><a href="cha-laplace.html#cb352-13" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb352-14"><a href="cha-laplace.html#cb352-14" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb352-15"><a href="cha-laplace.html#cb352-15" tabindex="-1"></a></span>
+<span id="cb352-16"><a href="cha-laplace.html#cb352-16" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">n =</span> n), <span class="at">data =</span> <span class="fu">list</span>(<span class="at">y =</span> y, <span class="at">x =</span> x))</span>
+<span id="cb352-17"><a href="cha-laplace.html#cb352-17" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">buildNestedApprox</span>(model)</span></code></pre></div>
+<pre><code>## Error in buildNestedApprox(model): No latent nodes detected in model. Check the model structure or provide latent nodes explicitly via `latentNodes`. Note that this can occur in a model with random effects that do not depend on any (hyper)parameters.</code></pre>
+<p>Instead, we could manually specify the parameters.</p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="cha-laplace.html#cb354-1" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb354-2"><a href="cha-laplace.html#cb354-2" tabindex="-1"></a>   <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb354-3"><a href="cha-laplace.html#cb354-3" tabindex="-1"></a>     y[i] <span class="sc">~</span> <span class="fu">dbern</span>(p[i])</span>
+<span id="cb354-4"><a href="cha-laplace.html#cb354-4" tabindex="-1"></a>     <span class="fu">logit</span>(p[i]) <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x[i] <span class="sc">+</span> sigma<span class="sc">*</span>b[i]</span>
+<span id="cb354-5"><a href="cha-laplace.html#cb354-5" tabindex="-1"></a>     b[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb354-6"><a href="cha-laplace.html#cb354-6" tabindex="-1"></a>   }</span>
+<span id="cb354-7"><a href="cha-laplace.html#cb354-7" tabindex="-1"></a>   sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb354-8"><a href="cha-laplace.html#cb354-8" tabindex="-1"></a>   beta0 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb354-9"><a href="cha-laplace.html#cb354-9" tabindex="-1"></a>   beta1 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb354-10"><a href="cha-laplace.html#cb354-10" tabindex="-1"></a>})</span>
+<span id="cb354-11"><a href="cha-laplace.html#cb354-11" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb354-12"><a href="cha-laplace.html#cb354-12" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb354-13"><a href="cha-laplace.html#cb354-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb354-14"><a href="cha-laplace.html#cb354-14" tabindex="-1"></a></span>
+<span id="cb354-15"><a href="cha-laplace.html#cb354-15" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">n =</span> n), <span class="at">data =</span> <span class="fu">list</span>(<span class="at">y =</span> y, <span class="at">x =</span> x))</span>
+<span id="cb354-16"><a href="cha-laplace.html#cb354-16" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">buildNestedApprox</span>(model, <span class="at">paramNodes =</span> <span class="st">&quot;sigma&quot;</span>)</span></code></pre></div>
+<p>In some cases it can be computationally advantageous to move fixed effects into the parameter set so that the Laplace approximation can be done as a product of lower-dimensional Laplace approximations. Here’s an example of doing that manually.</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="cha-laplace.html#cb355-1" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb355-2"><a href="cha-laplace.html#cb355-2" tabindex="-1"></a>   <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb355-3"><a href="cha-laplace.html#cb355-3" tabindex="-1"></a>     y[i] <span class="sc">~</span> <span class="fu">dbern</span>(p[i])</span>
+<span id="cb355-4"><a href="cha-laplace.html#cb355-4" tabindex="-1"></a>     <span class="fu">logit</span>(p[i]) <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x[i] <span class="sc">+</span> sigma<span class="sc">*</span>b[i]</span>
+<span id="cb355-5"><a href="cha-laplace.html#cb355-5" tabindex="-1"></a>     b[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb355-6"><a href="cha-laplace.html#cb355-6" tabindex="-1"></a>   }</span>
+<span id="cb355-7"><a href="cha-laplace.html#cb355-7" tabindex="-1"></a>   sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb355-8"><a href="cha-laplace.html#cb355-8" tabindex="-1"></a>   beta0 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb355-9"><a href="cha-laplace.html#cb355-9" tabindex="-1"></a>   beta1 <span class="sc">~</span> <span class="fu">dflat</span>()</span>
+<span id="cb355-10"><a href="cha-laplace.html#cb355-10" tabindex="-1"></a>})</span>
+<span id="cb355-11"><a href="cha-laplace.html#cb355-11" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb355-12"><a href="cha-laplace.html#cb355-12" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb355-13"><a href="cha-laplace.html#cb355-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb355-14"><a href="cha-laplace.html#cb355-14" tabindex="-1"></a></span>
+<span id="cb355-15"><a href="cha-laplace.html#cb355-15" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">n =</span> n), <span class="at">data =</span> <span class="fu">list</span>(<span class="at">y =</span> y, <span class="at">x =</span> x))</span></code></pre></div>
+<pre><code>## Defining model</code></pre>
+<pre><code>## Building model</code></pre>
+<pre><code>## Setting data and initial values</code></pre>
+<pre><code>## Running calculate on model
+##   [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+<pre><code>## Checking model sizes and dimensions</code></pre>
+<pre><code>##   [Note] This model is not fully initialized. This is not an error.
+##          To see which variables are not initialized, use model$initializeInfo().
+##          For more information on model initialization, see help(modelInitialization).</code></pre>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="cha-laplace.html#cb362-1" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">buildNestedApprox</span>(model, <span class="at">paramNodes =</span> <span class="fu">c</span>(<span class="st">&quot;beta0&quot;</span>, <span class="st">&quot;beta1&quot;</span>, <span class="st">&quot;sigma&quot;</span>))</span></code></pre></div>
+<pre><code>## Building nested posterior approximation for the following node sets:
+##   - parameter nodes: beta0, beta1, sigma
+##   - latent nodes: b (30 elements)
+##   with CCD grid for the parameters and Laplace approximation for the latent nodes.</code></pre>
+<pre><code>## Building 30 individual Laplace approximations (one dot for each): ..............................</code></pre>
+<p>Note the messaging indicating that 30 Laplace approximations (one for each conditionally-independent set of nodes containing a <span class="math inline">\({y_i, b_i}\)</span> pair) were built. (In other, perhaps more common situations, one might have grouping structure such that a single random effect is associated with multiple observations such that the random effect and associated observations are conditionally independent of other random effects and observations given the parameters.)</p>
+
+<!--- % See http://yihui.name/knitr/demo/child/ for documentation on the parent/child document system of knitr -->
+<!---  
+% Rscript -e "library(knitr);  knit2pdf('includesSpatialOnly.Rnw')"; open -a "Google Chrome" includesSpatialOnly.pdf
+-->
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="cha-algos-provided.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cha-spatial.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["NimbleUserManual.pdf", "NimbleUserManual.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  },
+  "toc_depth": 3
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

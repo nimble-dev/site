@@ -3,7 +3,7 @@ title: "nimbleEcology: custom NIMBLE distributions for ecologists"
 description: ""
 author: "Ben Goldstein"
 date: "2020-04-18"
-categories: ['announcement']
+categories: ['announcement','R']
 execute:
   freeze: auto
 ---

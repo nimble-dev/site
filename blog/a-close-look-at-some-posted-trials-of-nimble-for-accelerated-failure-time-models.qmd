@@ -6,6 +6,7 @@ format:
   html:
     toc: true
     toc-depth: 2
+categories: ["tutorial", "R"]
 ---
 
 A bunch of folks have brought to our attention a [manuscript by Beraha, Falco and Guglielmi (BFG) posted on arXiv](https://arxiv.org/abs/2107.09357) giving some comparisons between JAGS, NIMBLE, and Stan. Naturally, we wanted to take a look. Each package performs best in some of their comparisons. There’s a lot going on, so here we’re just going to work through the last of their four examples, an accelerated failure time (AFT) model, because that’s the one where NIMBLE looks the worst in their results. The code from BFG is given on GitHub [here](https://github.com/daniele-falco/software_comparison).
