@@ -13,6 +13,10 @@ title: "Documentation"
 
 The manual provides information for those wishing to use NIMBLE to work with their own models as well as algorithm developers wishing to write algorithms using NIMBLE. Old versions of the manual can be found [here](archived-versions-of-nimble-and-the-user-manual.qmd).
 
+## Vignettes/Tutorials
+
+- A [vignette on the nimbleQuad package](vignettes/nimbleQuad.html), illustrating Laplace approximation and (INLA-like) deterministic nested approximation, including customization of the quadrature grid.
+
 ## Training materials
 
 Please see our collection of [GitHub repositories with training materials](https://github.com/nimble-training) for materials from our various NIMBLE training workshops, including workshops developed for statisticans and workshops developed for ecologists.
@@ -59,6 +63,7 @@ Hug, J.E., and C.J. Paciorek. 2021. A numerically stable online implementation a
 
 A partial list of packages that extend or use nimble.
 
+- [nimbleQuad](https://cran.r-project.org/package=nimbleQuad): NIMBLE's Laplace- and quadrature-related methods including INLA-like deterministic nested approximation; Laplace (and AGHQ) approximation migrated out of the core NIMBLE package as of version 1.4.0.
 - [nimbleSMC](https://cran.r-project.org/package=nimbleSMC): all of NIMBLE's sequential Monte Carlo (aka particle filtering) algorithms; migrated out of the core NIMBLE package as of version 0.10.0.
 - [nimbleEcology](https://cran.r-project.org/package=BayesEcology): distributions commonly used in ecology for use in nimble models
 - [nimbleSCR](https://cran.r-project.org/package=nimbleSCR): utility functions, distributions, and methods for improving Markov chain Monte Carlo (MCMC) sampling efficiency for ecological spatial capture-recapture (SCR) models.
