@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="NIMBLE Development Team">
+<meta name="dcterms.date" content="2026-01-05">
 
-<title>Documentation – NIMBLE</title>
+<title>Using derived quantities in NIMBLE’s MCMC system – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +22,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
@@ -79,8 +116,8 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -90,23 +127,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./what-is-nimble.html"> 
+    <a class="nav-link" href="../what-is-nimble.html"> 
 <span class="menu-text">What is NIMBLE?</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./examples.html"> 
+    <a class="nav-link" href="../examples.html"> 
 <span class="menu-text">Examples</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./documentation.html" aria-current="page"> 
+    <a class="nav-link" href="../documentation.html"> 
 <span class="menu-text">Documentation</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./download.html"> 
+    <a class="nav-link" href="../download.html"> 
 <span class="menu-text">Download</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -115,33 +152,33 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-blog">    
         <li>
-    <a class="dropdown-item" href="./blog/index.html">
+    <a class="dropdown-item" href="../blog/index.html">
  <span class="dropdown-text">All Posts</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Recent Posts</li>
         <li>
-    <a class="dropdown-item" href="./blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">
+    <a class="dropdown-item" href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">
  <span class="dropdown-text">nimbleMacros Package</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./blog/version-1-3-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-3-0-of-nimble-released.html">
  <span class="dropdown-text">Version 1.3.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./blog/version-1-2-1-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-2-1-of-nimble-released.html">
  <span class="dropdown-text">Version 1.2.1 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./blog/version-1-2-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-2-0-of-nimble-released.html">
  <span class="dropdown-text">Version 1.2.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./blog/version-1-1-0-of-nimble-released.html">
+    <a class="dropdown-item" href="../blog/version-1-1-0-of-nimble-released.html">
  <span class="dropdown-text">Version 1.1.0 Released</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
+    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
  <span class="dropdown-text">Version 1.0.0 Released</span></a>
   </li>  
     </ul>
@@ -152,23 +189,23 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
         <li>
-    <a class="dropdown-item" href="./contributing.html">
+    <a class="dropdown-item" href="../contributing.html">
  <span class="dropdown-text">How to Contribute</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./release-notes.html">
+    <a class="dropdown-item" href="../release-notes.html">
  <span class="dropdown-text">Release Notes</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./groups-and-issues.html">
+    <a class="dropdown-item" href="../groups-and-issues.html">
  <span class="dropdown-text">Groups and Issues</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./license-and-citation.html">
+    <a class="dropdown-item" href="../license-and-citation.html">
  <span class="dropdown-text">License and Citation</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./about-us.html">
+    <a class="dropdown-item" href="../about-us.html">
  <span class="dropdown-text">About Us</span></a>
   </li>  
     </ul>
@@ -178,7 +215,7 @@ ul.task-list li input[type="checkbox"] {
             <div class="quarto-navbar-tools tools-wide">
     <a href="https://github.com/nimble-dev/nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
     <a href="https://twitter.com/R_nimble" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
-    <a href="./blog/index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
+    <a href="../blog/index.xml" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-rss"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -187,7 +224,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Documentation</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Using derived quantities in NIMBLE’s MCMC system</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -218,7 +255,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./blog/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">All Posts</span></a>
   </div>
 </li>
@@ -228,37 +265,37 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./blog/version-1-3-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/version-1-3-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.3.0 of NIMBLE released</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./blog/version-1-2-1-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/version-1-2-1-of-nimble-released.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.2.1 of NIMBLE released</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./blog/version-1-2-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/version-1-2-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.2.0 of NIMBLE released</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./blog/version-1-1-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/version-1-1-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.1.0 of NIMBLE released</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
@@ -269,43 +306,39 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#cheatsheet" id="toc-cheatsheet" class="nav-link active" data-scroll-target="#cheatsheet">Cheatsheet</a></li>
-  <li><a href="#user-manual" id="toc-user-manual" class="nav-link" data-scroll-target="#user-manual">User Manual</a></li>
-  <li><a href="#vignettestutorials" id="toc-vignettestutorials" class="nav-link" data-scroll-target="#vignettestutorials">Vignettes/Tutorials</a></li>
-  <li><a href="#training-materials" id="toc-training-materials" class="nav-link" data-scroll-target="#training-materials">Training materials</a></li>
-  <li><a href="#other-links" id="toc-other-links" class="nav-link" data-scroll-target="#other-links">Other links</a></li>
-  <li><a href="#some-papers-about-nimble" id="toc-some-papers-about-nimble" class="nav-link" data-scroll-target="#some-papers-about-nimble">Some papers about NIMBLE</a>
-  <ul class="collapse">
-  <li><a href="#motivation-and-design-of-nimble" id="toc-motivation-and-design-of-nimble" class="nav-link" data-scroll-target="#motivation-and-design-of-nimble">Motivation and design of NIMBLE:</a></li>
-  <li><a href="#nimble-for-hidden-markov-models" id="toc-nimble-for-hidden-markov-models" class="nav-link" data-scroll-target="#nimble-for-hidden-markov-models">NIMBLE for Hidden Markov Models:</a></li>
-  <li><a href="#nimble-for-ecological-models" id="toc-nimble-for-ecological-models" class="nav-link" data-scroll-target="#nimble-for-ecological-models">NIMBLE for Ecological Models:</a></li>
-  <li><a href="#sequential-monte-carlo-particle-filtering-methods-in-nimble" id="toc-sequential-monte-carlo-particle-filtering-methods-in-nimble" class="nav-link" data-scroll-target="#sequential-monte-carlo-particle-filtering-methods-in-nimble">Sequential Monte Carlo (particle filtering) methods in NIMBLE:</a></li>
-  <li><a href="#spatial-epidemiology-in-nimble" id="toc-spatial-epidemiology-in-nimble" class="nav-link" data-scroll-target="#spatial-epidemiology-in-nimble">Spatial Epidemiology in NIMBLE:</a></li>
-  <li><a href="#nimble-for-item-response-theory-models" id="toc-nimble-for-item-response-theory-models" class="nav-link" data-scroll-target="#nimble-for-item-response-theory-models">NIMBLE for item response theory models:</a></li>
-  <li><a href="#waic-in-nimble" id="toc-waic-in-nimble" class="nav-link" data-scroll-target="#waic-in-nimble">WAIC in NIMBLE</a></li>
-  </ul></li>
-  <li><a href="#packages-with-extensions-and-applications-of-nimble" id="toc-packages-with-extensions-and-applications-of-nimble" class="nav-link" data-scroll-target="#packages-with-extensions-and-applications-of-nimble">Packages with extensions and applications of NIMBLE</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Documentation</h1>
-</div>
+<h1 class="title">Using derived quantities in NIMBLE’s MCMC system</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">announcement</div>
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">tutorial</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>NIMBLE Development Team </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 5, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -315,87 +348,128 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="cheatsheet" class="level2">
-<h2 class="anchored" data-anchor-id="cheatsheet">Cheatsheet</h2>
+<p>NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and sequential Monte Carlo).</p>
+<p>As of version 1.4.0, NIMBLE allows one to specify “derived quantities” to calculate or record additional quantities of interest during an MCMC. Potential derived quantities include:</p>
 <ul>
-<li><a href="NimbleCheatSheet.pdf">The NIMBLE cheatsheet — a compact two-page overview and reference guide</a>.</li>
+<li>posterior means,</li>
+<li>posterior variances,</li>
+<li>log-probabilities (log-density values) for single or (summed) groups of nodes,</li>
+<li>posterior predictive samples for predictive nodes, and</li>
+<li>arbitrary calculations by providing a user-defined nimbleFunction that follows the required specification.</li>
 </ul>
-</section>
-<section id="user-manual" class="level2">
-<h2 class="anchored" data-anchor-id="user-manual">User Manual</h2>
-<ul>
-<li>An <a href="manual/cha-welcome-nimble.html">HTML version of the manual</a>.</li>
-<li>A <a href="manual/NimbleUserManual.pdf">PDF version of the manual</a>.</li>
-</ul>
-<p>The manual provides information for those wishing to use NIMBLE to work with their own models as well as algorithm developers wishing to write algorithms using NIMBLE. Old versions of the manual can be found <a href="./archived-versions-of-nimble-and-the-user-manual.html">here</a>.</p>
-</section>
-<section id="vignettestutorials" class="level2">
-<h2 class="anchored" data-anchor-id="vignettestutorials">Vignettes/Tutorials</h2>
-<ul>
-<li>A <a href="vignettes/nimbleQuad.html">vignette on the nimbleQuad package</a>, illustrating Laplace approximation and (INLA-like) deterministic nested approximation, including customization of the quadrature grid.</li>
-</ul>
-</section>
-<section id="training-materials" class="level2">
-<h2 class="anchored" data-anchor-id="training-materials">Training materials</h2>
-<p>Please see our collection of <a href="https://github.com/nimble-training">GitHub repositories with training materials</a> for materials from our various NIMBLE training workshops, including workshops developed for statisticans and workshops developed for ecologists.</p>
-</section>
-<section id="other-links" class="level2">
-<h2 class="anchored" data-anchor-id="other-links">Other links</h2>
-<ul>
-<li><a href="https://github.com/Andrew9Lawson/Bayesian_DM_Nimble_code/tree/ICAR-and-other-code">Examples of spatial and spatio-temporal models</a> (specifically for disease mapping) provided by Andrew Lawson.</li>
-<li><a href="./blog/quick-guide-for-converting-from-jags-or-bugs-to-nimble.html">Blog post on converting from JAGS or BUGS to NIMBLE.</a></li>
-<li><a href="./blog/bayesian-nonparametric-models-in-nimble-part-1-density-estimation.html">First</a> and <a href="./blog/bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects.html">second</a> blog posts on support for Bayesian non-parametric distributions.</li>
-<li><a href="./blog/variable-selection-in-nimble-using-reversible-jump-mcmc.html">Blog post on reversible jump sampling for variable selection</a>.</li>
-<li><a href="https://github.com/nimble-dev/AHMnimble">Using NIMBLE for the examples in the book Applied Hierarchical Modeling in Ecology.</a>.</li>
-</ul>
-</section>
-<section id="some-papers-about-nimble" class="level2">
-<h2 class="anchored" data-anchor-id="some-papers-about-nimble">Some papers about NIMBLE</h2>
-<section id="motivation-and-design-of-nimble" class="level3">
-<h3 class="anchored" data-anchor-id="motivation-and-design-of-nimble">Motivation and design of NIMBLE:</h3>
-<p>de Valpine, P., D. Turek, C.J. Paciorek, C. Anderson-Bergman, D. Temple Lang, and R. Bodik. 2017. Programming with models: writing statistical algorithms for general model structures with NIMBLE. <em>Journal of Computational and Graphical Statistics</em> 26:403-413. <a href="https://doi.org/10.1080/10618600.2016.1172487">https://doi.org/10.1080/10618600.2016.1172487</a>.</p>
-</section>
-<section id="nimble-for-hidden-markov-models" class="level3">
-<h3 class="anchored" data-anchor-id="nimble-for-hidden-markov-models">NIMBLE for Hidden Markov Models:</h3>
-<p>Turek, D., P. de Valpine, and C.J. Paciorek. 2016. Efficient Markov chain Monte Carlo sampling for hierarchical hidden Markov models. <em>Environmental and Ecological Statistics</em> 23:549–564. <a href="https://doi.org/10.1007/s10651-016-0353-z">https://doi.org/10.1007/s10651-016-0353-z</a></p>
-</section>
-<section id="nimble-for-ecological-models" class="level3">
-<h3 class="anchored" data-anchor-id="nimble-for-ecological-models">NIMBLE for Ecological Models:</h3>
-<p>Ponisio, L.C., P. de Valpine, N. Michaud, and D. Turek. 2020. One size does not fit all: Customizing MCMC methods for hierarchical models using NIMBLE. <em>Ecology &amp; Evolution</em> 10: 2385– 2416. <a href="https://doi.org/10.1002/ece3.6053">https://doi.org/10.1002/ece3.6053</a></p>
-</section>
-<section id="sequential-monte-carlo-particle-filtering-methods-in-nimble" class="level3">
-<h3 class="anchored" data-anchor-id="sequential-monte-carlo-particle-filtering-methods-in-nimble">Sequential Monte Carlo (particle filtering) methods in NIMBLE:</h3>
-<p>Michaud, N., P. de Valpine, D. Turek, C.J. Paciorek, and D. Nguyen. 2021. Sequential Monte Carlo Methods in the nimble and nimbleSMC R Packages. <em>Journal of Statistical Software</em> 100(3): 1-39. <a href="https://doi.org/10.18637/jss.v100.i03">https://doi.org/10.18637/jss.v100.i03</a></p>
-</section>
-<section id="spatial-epidemiology-in-nimble" class="level3">
-<h3 class="anchored" data-anchor-id="spatial-epidemiology-in-nimble">Spatial Epidemiology in NIMBLE:</h3>
-<p>Lawson, A.B. 2020. NIMBLE for Bayesian Disease Mapping. Spatial and Spatio-temporal Epidemiology 33. <a href="https://doi.org/10.1016/j.sste.2020.100323">https://doi.org/10.1016/j.sste.2020.100323</a></p>
-</section>
-<section id="nimble-for-item-response-theory-models" class="level3">
-<h3 class="anchored" data-anchor-id="nimble-for-item-response-theory-models">NIMBLE for item response theory models:</h3>
-<p>Paganin, S., C.J. Paciorek, C. Wehrhahn, A. Rodríguez, S. Rabe-Hesketh, and P. de Valpine. 2021. Computational methods for Bayesian semiparametric Item Response Theory models. <a href="https://arxiv.org/abs/2101.11583">https://arxiv.org/abs/2101.11583</a>.</p>
-</section>
-<section id="waic-in-nimble" class="level3">
-<h3 class="anchored" data-anchor-id="waic-in-nimble">WAIC in NIMBLE</h3>
-<p>Hug, J.E., and C.J. Paciorek. 2021. A numerically stable online implementation and exploration of WAIC through variations of the predictive density, using NIMBLE. <a href="https://arxiv.org/abs/2106.13359">https://arxiv.org/abs/2106.13359</a>.</p>
-</section>
-</section>
-<section id="packages-with-extensions-and-applications-of-nimble" class="level2">
-<h2 class="anchored" data-anchor-id="packages-with-extensions-and-applications-of-nimble">Packages with extensions and applications of NIMBLE</h2>
-<p>A partial list of packages that extend or use nimble.</p>
-<ul>
-<li><a href="https://cran.r-project.org/package=nimbleSMC">nimbleSMC</a>: all of NIMBLE’s sequential Monte Carlo (aka particle filtering) algorithms; migrated out of the core NIMBLE package as of version 0.10.0.</li>
-<li><a href="https://cran.r-project.org/package=BayesEcology">nimbleEcology</a>: distributions commonly used in ecology for use in nimble models</li>
-<li><a href="https://cran.r-project.org/package=nimbleSCR">nimbleSCR</a>: utility functions, distributions, and methods for improving Markov chain Monte Carlo (MCMC) sampling efficiency for ecological spatial capture-recapture (SCR) models.</li>
-<li><a href="https://cran.r-project.org/package=BayesNSGP">bayesNSGP</a>: Bayesian analysis of (non-stationary) Gaussian processes, using nimble as the computational engine.</li>
-<li>bcgam: Bayesian constrained generalized linear models</li>
-<li><a href="https://cran.r-project.org/package=bridgesampling">bridgesampling</a>: functions for estimating marginal likelihoods, Bayes factors, posterior model probabilities, and normalizing constants in general, via different versions of bridge sampling.</li>
-<li><a href="https://github.com/scrogster/nimbleDistance">nimbleDistance</a>: user-defined distributions that can be used to implement distance sampling models in nimble.</li>
-<li><a href="https://github.com/ercrema/nimbleCarbon">nimbleCarbon</a>: utility functions and bespoke probability distributions for the Bayesian analyses of radiocarbon dates.</li>
-</ul>
+<p>By using derived quantities, users can avoid adding additional nodes to the model itself and can potentially reduce how much is stored during an MCMC run and saved as output from the run, thereby reducing memory and disk use.</p>
+<p>We’ll give a brief example of saving log-probability (log-posterior-density) values summed over a set of nodes in a simple Poisson random effects model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pumpCode <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({ </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        theta[i] <span class="sc">~</span> <span class="fu">dgamma</span>(alpha, beta)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        lambda[i] <span class="ot">&lt;-</span> theta[i]<span class="sc">*</span>t[i]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        x[i] <span class="sc">~</span> <span class="fu">dpois</span>(lambda[i])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    alpha <span class="sc">~</span> <span class="fu">dexp</span>(<span class="fl">1.0</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    beta <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="fl">0.1</span>, <span class="fl">1.0</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>pumpConsts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">10</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">t =</span> <span class="fu">c</span>(<span class="fl">94.3</span>, <span class="fl">15.7</span>, <span class="fl">62.9</span>, <span class="dv">126</span>, <span class="fl">5.24</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                         <span class="fl">31.4</span>, <span class="fl">1.05</span>, <span class="fl">1.05</span>, <span class="fl">2.1</span>, <span class="fl">10.5</span>))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>pumpData <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">3</span>, <span class="dv">19</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">22</span>))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>pumpInits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">beta =</span> <span class="dv">1</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">theta =</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, pumpConsts<span class="sc">$</span>N))</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>pumpModel <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(pumpCode, pumpConsts, pumpData, pumpInits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+</div>
+<p>Now we add the <code>logProb</code> derived quantity, specified directly as an argument to <code>configureMCMC</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(pumpModel, <span class="at">logProb =</span> <span class="fu">c</span>(<span class="st">'alpha'</span>, <span class="st">'beta'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: alpha, beta
+===== Samplers =====
+RW sampler (1)
+  - alpha
+conjugate sampler (11)
+  - beta
+  - theta[]  (10 elements)
+===== DerivedQ =====
+- logProb (1)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>conf<span class="sc">$</span><span class="fu">printDerivedQuantities</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] derived quantity: logProb,  execution interval: thin,  nodes: c(alpha, beta)</code></pre>
+</div>
+</div>
+<p>When we run the MCMC, we see the derived quantities are saved as an element of the output list, in addition to the usual posterior samples of the parameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(conf)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>cPumpModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(pumpModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cmcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runMCMC</span>(cmcmc, <span class="at">niter =</span> <span class="dv">100</span>, <span class="at">thin =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>running chain 1...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$samples
+         alpha      beta
+[1,] 0.8743296 1.4242688
+[2,] 0.3146310 0.6646602
+[3,] 0.2956413 0.2268710
+[4,] 0.2671264 0.2593272
+[5,] 0.6172439 0.5510009
+
+$derived
+$derived$logProb
+          alpha      beta
+[1,] -0.8743296 -3.995274
+[2,] -0.3146310 -2.549741
+[3,] -0.2956413 -1.144548
+[4,] -0.2671264 -1.297342
+[5,] -0.6172439 -2.267297</code></pre>
+</div>
+</div>
+<p>We could also have added the <code>logProb</code> derived quantity to an existing MCMC configuration argument (and also illustrating that one can modify the interval at which recording is done):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(pumpModel)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>conf<span class="sc">$</span><span class="fu">addDerivedQuantity</span>(<span class="st">'logProb'</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">'alpha'</span>, <span class="st">'beta'</span>), <span class="at">interval =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The operation of every derived quantity function is governed by an <code>interval</code> parameter. Each derived quantity function is executed at the end of every <code>interval</code> MCMC iterations (and only for iterations after the burnin period). The default value for <code>interval</code> is given by the <code>thin</code> interval of the MCMC. For example, if <code>interval = 1</code> (regardless of the <code>thin</code> value), then that derived quantity function will execute at the end of every MCMC sampling iteration.</p>
+<p>Note that user-defined derived quantity nimbleFunctions provide a general way for a user to intervene at the end of an MCMC iteration and do something. This would often be recording a value (to be returned at the end of the MCMC) or updating some summary statistic, but the derived quantities system doesn’t require this, giving users flexibility.</p>
+<p>More details can be found in the <a href="https://r-nimble.org/manual/cha-mcmc.html#sec:derived-quantities">NIMBLE User Manual</a> and via <code>help(derived)</code>.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
