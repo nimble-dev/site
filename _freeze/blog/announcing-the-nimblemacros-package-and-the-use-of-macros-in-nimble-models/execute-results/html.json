@@ -1,0 +1,15 @@
+{
+  "hash": "570a93f680b167323aef8102df0778e1",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"announcing the nimbleMacros package and the use of macros in NIMBLE models\"\nauthor: \"NIMBLE Development Team\"\ndate: \"2025-03-19\"\ncategories: ['announcement','release','R']\nexecute:\n  freeze: true\n---\n\nRecent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).\n\nA NIMBLE macro is a succinct syntax that expands to create the NIMBLE model code for part or all of a model.\n\nWe recently released the first version of the [`nimbleMacros` package on CRAN](https://cran.r-project.org/web/packages/nimbleMacros/index.html), which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the `LM` (“linear model”) macro like this:\n    \n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(nimbleMacros)\ncode <- nimbleCode({\n  LM(weight[1:N] ~ Time + (1|Chick))\n})\n```\n:::\n\n\nwith the formula syntax mimicking that of the lme4 package. After building the model based on the `code` object, you can see the model code produced after the macro is expanded with `model$getCode()`. The nimbleMacros package also includes macros for creating linear predictors and for loops, and we plan to add additional macros in the future.\n\nDevelopers can use the tools in `nimble` itself to create their own macros. See [Section 12.4 of the NIMBLE user manual](https://r-nimble.org/html_manual/cha-user-defined.html#sec:user-macros), [the `nimbleMacros` vignette](https://cran.r-project.org/web/packages/nimbleMacros/vignettes/nimbleMacros.html), or `help(buildMacro)` for more information.",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

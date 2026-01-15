@@ -187,28 +187,12 @@ window.Quarto = {
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Recent Posts</li>
         <li>
+    <a class="dropdown-item" href="../blog/version-1-4-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.4.0 and nimble Quad Released</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">
  <span class="dropdown-text">nimbleMacros Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-3-0-of-nimble-released.html">
- <span class="dropdown-text">Version 1.3.0 Released</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-2-1-of-nimble-released.html">
- <span class="dropdown-text">Version 1.2.1 Released</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-2-0-of-nimble-released.html">
- <span class="dropdown-text">Version 1.2.0 Released</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-1-0-of-nimble-released.html">
- <span class="dropdown-text">Version 1.1.0 Released</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
- <span class="dropdown-text">Version 1.0.0 Released</span></a>
   </li>  
     </ul>
   </li>
@@ -294,38 +278,14 @@ window.Quarto = {
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-4-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.4.0 of NIMBLE released, plus new quadrature-based functionality in nimbleQuad package</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-3-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.3.0 of NIMBLE released</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-2-1-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.2.1 of NIMBLE released</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-2-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.2.0 of NIMBLE released</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-1-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.1.0 of NIMBLE released</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
       </ul>
@@ -490,7 +450,7 @@ Attaching package: 'coda'</code></pre>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RW_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.2482  0.3257  0.4583  0.5479  0.5867  1.1205 </code></pre>
+ 0.2679  0.3482  0.4693  0.5713  0.5903  1.1809 </code></pre>
 </div>
 </div>
 <p>Examining a trace plot of the output below, we see that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing especially poorly.</p>
@@ -557,7 +517,7 @@ conjugate sampler (101)
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AFSS_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  21.16   21.75   27.19   26.27   27.94   33.32 </code></pre>
+  23.94   25.77   30.75   29.95   31.56   37.71 </code></pre>
 </div>
 </div>
 <p>Note that the minimum overall efficiency of the AFSS sampler is approximately <code>28</code> times that of the <code>RW_block</code> sampler. Additionally, trace plots from the output of the AFSS sampler show that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing much more effectively than they were under the <code>RW_block</code> sampler.</p>

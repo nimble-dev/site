@@ -1,0 +1,31 @@
+---
+title: "Version 1.4.0 of NIMBLE released, plus new quadrature-based functionality in nimbleQuad package"
+description: ""
+author: "NIMBLE Development Team"
+date: "2026-01-14"
+categories: ['release', 'announcement','R']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).
+
+Version 1.4.0 provides important new and improved functionality, plus some bug fixes and improved error trapping.
+
+The new and improved functionality includes:
+
+ * A new INLA-like deterministic nested posterior approximation whose methodology borrows from both INLA and the extended latent Gaussian models approach of the `aghq` package in R. This new approximation and NIMBLE's existing Laplace and AGHQ approximation now live in a new package, [`nimbleQuad`](https://cran.r-project.org/web/packages/nimbleQuad/index.html), rather than in the core `nimble` package.
+ * A new system for computing and storing "derived quantities" during MCMC execution, allowing users to record additional quantities of interest at every saved MCMC iteration (i.e., following the thinning interval, or some other user-chosen interval). Derived quantities provided by NIMBLE include means, variances, model log-densities, and predictive nodes. Users can also define their own derived quantities.
+ * Matrix exponential functionality via `expm` and `expAv`.
+ * The ability to provide multiple code chunks to `nimbleCode` for greater flexibility in composing models.
+ * Greatly improved efficiency and memory use of AD system and making efficiency improvements to Laplace/AGHQ approximation.
+
+In addition to the new and improved functionality above, other bug fixes, improved error trapping, and enhancements include:
+
+
+ * Removing some documentation references to "BUGS" when referring to models.
+ * Allowing users to turn off `model$checkBasics` via a new option.
+ * Better handling inconsistencies between `inits` and `dimensions`.
+ * Making minor improvements to the Pólya-gamma sampler.
+ * Generalizing the system of dynamically generating conjugate MCMC samplers, to allow for multivariate parameters of dependent distributions to have distinct sizes from the dependent node itself .
+ * Making MCEM append new samples when increasing sample size using the ascent-based method, rather than starting a new sample.
+
+Please see the [release notes](https://r-nimble.org/release-notes.html) on our website for more details.

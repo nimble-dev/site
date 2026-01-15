@@ -1,0 +1,15 @@
+{
+  "hash": "990c7ecae1931644412efac734f3e751",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Bug in newly-released version 0.13.0 affecting MCMC for models with predictive nodes\"\ndescription: \"\"\nauthor: \"NIMBLE Development Team\"\ndate: \"2022-12-08\"\ncategories: ['announcement','R']\nexecute:\n  freeze: true\n---\n\nWe recently released version 0.13.0, which has some improvements in how we handle predictive nodes in NIMBLE’s MCMC engine.\n\nUnfortunately, we realized (thanks to a user post from a couple days ago) that there is a bug in this new approach to predictive nodes.\n\nIf you haven’t upgraded to version 0.13.0, simply wait to upgrade until we release a bug fix in 0.13.1 in the next couple weeks.\n\nIf you have upgraded to version 0.13.0 and if you have run an MCMC on a model that both (1) has predictive nodes and (2) has multivariate nodes, then the bug might affect your results. Please set:\n    \n\n::: {.cell}\n\n```{.r .cell-code}\nnimbleOptions(MCMCusePredictiveDependenciesInCalculations = TRUE)\n```\n:::\n\n\nand then reconfigure/rebuild and rerun your MCMC. The option above will ensure that the MCMC behaves as it would in previous versions of NIMBLE.\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

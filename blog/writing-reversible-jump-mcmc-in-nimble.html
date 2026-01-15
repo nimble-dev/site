@@ -158,28 +158,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Recent Posts</li>
         <li>
+    <a class="dropdown-item" href="../blog/version-1-4-0-of-nimble-released.html">
+ <span class="dropdown-text">Version 1.4.0 and nimble Quad Released</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html">
  <span class="dropdown-text">nimbleMacros Package</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-3-0-of-nimble-released.html">
- <span class="dropdown-text">Version 1.3.0 Released</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-2-1-of-nimble-released.html">
- <span class="dropdown-text">Version 1.2.1 Released</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-2-0-of-nimble-released.html">
- <span class="dropdown-text">Version 1.2.0 Released</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-1-0-of-nimble-released.html">
- <span class="dropdown-text">Version 1.1.0 Released</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html">
- <span class="dropdown-text">Version 1.0.0 Released</span></a>
   </li>  
     </ul>
   </li>
@@ -265,38 +249,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../blog/version-1-4-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Version 1.4.0 of NIMBLE released, plus new quadrature-based functionality in nimbleQuad package</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">announcing the nimbleMacros package and the use of macros in NIMBLE models</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-3-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.3.0 of NIMBLE released</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-2-1-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.2.1 of NIMBLE released</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-2-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.2.0 of NIMBLE released</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-1-0-of-nimble-released.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.1.0 of NIMBLE released</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Version 1.0.0 of NIMBLE released, providing automatic differentiation, Laplace approximation, and HMC sampling</span></a>
   </div>
 </li>
       </ul>
@@ -771,11 +731,11 @@ conjugate sampler (3)
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(samples1[,<span class="st">'beta2'</span>]<span class="sc">==</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.124</code></pre>
+<pre><code>[1] 0.186</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(samples2[,<span class="st">'beta2'</span>]<span class="sc">==</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1242</code></pre>
+<pre><code>[1] 0.1939</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(samples1[ samples1[,<span class="st">'beta2'</span>] <span class="sc">!=</span> <span class="dv">0</span>,<span class="st">'beta2'</span>], samples2[samples2[,<span class="st">'beta2'</span>] <span class="sc">!=</span> <span class="dv">0</span>,<span class="st">'beta2'</span>])</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

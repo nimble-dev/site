@@ -5,7 +5,7 @@ author: "Claudia Wehrhahn"
 date: "2021-03-25"
 categories: ['announcement', 'tutorial', 'R']
 execute:
-  freeze: auto
+  freeze: true
 ---
 
 ##  Overview

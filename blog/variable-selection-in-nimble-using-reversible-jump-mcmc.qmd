@@ -8,7 +8,7 @@ format:
     toc-depth: 2
 categories: ["announcement"]
 execute:
-  freeze: auto
+  freeze: true
 ---
 
 ## Reversible Jump MCMC Overview
