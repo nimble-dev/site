@@ -7,7 +7,7 @@ format:
     toc-depth: 2
 categories: ["tutorial", "R"]
 execute:
-  freeze: auto
+  freeze: true
 ---
 
 # Bayesian nonparametrics in NIMBLE: Nonparametric random effects

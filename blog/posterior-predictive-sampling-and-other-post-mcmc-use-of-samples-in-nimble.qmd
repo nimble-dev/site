@@ -5,7 +5,7 @@ author: "Chris Paciorek and Sally Paganin"
 date: "2021-08-10"
 categories: ['announcement','R','tutorial']
 execute:
-  freeze: auto
+  freeze: true
 ---
 
 
