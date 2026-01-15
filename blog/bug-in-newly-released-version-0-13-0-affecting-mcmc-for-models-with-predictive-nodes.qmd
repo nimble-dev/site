@@ -4,6 +4,8 @@ description: ""
 author: "NIMBLE Development Team"
 date: "2022-12-08"
 categories: ['announcement','R']
+execute:
+  freeze: true
 ---
 
 We recently released version 0.13.0, which has some improvements in how we handle predictive nodes in NIMBLE’s MCMC engine.
