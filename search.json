@@ -4,7 +4,7 @@
     "href": "contributing.html",
     "title": "Contributions",
     "section": "",
-    "text": "We welcome contributions to help improve NIMBLE.\nThese may include:\n\nNew algorithms to the nimble repository.\nUsage examples to the demos repository.\nImprovements or updates to our documentation in the docs repository.\nTutorial or workshop materials to the outreach repository.\n\n\nHow to Contribute\nContributions to NIMBLE can be made by forking the NIMBLE repository and submitting a pull request with your changes.\nIf you have questions about this workflow, or would like to request membership to the NIMBLE GitHub organization, please contact the development team."
+    "text": "We welcome contributions to help improve NIMBLE.\nThese may include:\n\nNew algorithms to the nimble repository (or the appropriate nimble auxiliary package, such as nimbleHMC, nimbleEcology, etc.\nUsage examples to the demos repository.\nImprovements to our manual in the UserManual directory of the nimble repository.\nTutorial or workshop materials to the outreach repository.\n\n\nHow to Contribute\nContributions to NIMBLE can be made by forking the NIMBLE repository and submitting a pull request with your changes.\nIf you have questions about this workflow, or would like to request membership to the NIMBLE GitHub organization, please contact the development team."
   },
   {
     "objectID": "index.html",
