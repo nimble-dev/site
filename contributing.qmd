@@ -6,9 +6,9 @@ We welcome contributions to help improve NIMBLE.
 
 These may include:
 
-- New algorithms to the [nimble](https://github.com/nimble-dev/nimble) repository.
+- New algorithms to the [nimble](https://github.com/nimble-dev/nimble) repository (or the appropriate nimble auxiliary package, such as `nimbleHMC`, `nimbleEcology`, etc.
 - Usage examples to the [demos](https://github.com/nimble-dev/nimble-demos) repository.
-- Improvements or updates to our documentation in the [docs](https://github.com/nimble-dev/nimble-docs) repository.
+- Improvements to our manual in the `UserManual` directory of the [nimble](https://github.com/nimble-dev/nimble) repository.
 - Tutorial or workshop materials to the [outreach](https://github.com/nimble-dev/nimble-outreach) repository.
 
 ### How to Contribute
