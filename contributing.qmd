@@ -15,4 +15,4 @@ These may include:
 
 Contributions to NIMBLE can be made by [forking](https://help.github.com/articles/fork-a-repo/) the NIMBLE repository and submitting a [pull request](https://help.github.com/articles/using-pull-requests/) with your changes.
 
-If you have questions about this workflow, or would like to request membership to the NIMBLE Github organization, please contact the [development team](mailto:nimble.stats@gmail.com).
+If you have questions about this workflow, or would like to request membership to the NIMBLE GitHub organization, please contact the [development team](mailto:nimble.stats@gmail.com).

@@ -1,6 +1,8 @@
 ---
-title: "Groups and Issues"
+title: "Community (Groups, Issues, and Contributing)"
 ---
+
+Here's how you can get help with NIMBLE and contribute to NIMBLE. 
 
 ## Groups
 
@@ -10,4 +12,10 @@ title: "Groups and Issues"
 
 ## Issues
 
-Issues and bugs can be reported via the [issue tracker](https://github.com/nimble-dev/nimble/issues) of the nimble repository or via the [nimble-users](https://groups.google.com/forum/#!forum/nimble-users) Google groups site. General "how to" questions are welcome. If reporting a problem, please provide a reproducible example. For compilation errors, please provide your operating system.
+Issues and bugs can be reported via NIMBLE's GitHub [issue tracker](https://github.com/nimble-dev/nimble/issues) of the nimble repository or via the [nimble-users](https://groups.google.com/forum/#!forum/nimble-users) Google groups site. General "how to" questions or requests for help with NIMBLE are welcome but should generally be asked on the nimble-users group rather than reported as GitHub issue. If reporting a problem (either to the group or on GitHub), please provide a reproducible example, ideally as minimal as possible. For compilation errors, please provide your operating system.
+
+For questions related to auxiliary NIMBLE packages, such as `nimbleHMC`, `nimbleSMC`, `nimbleEcology`, `nimbleSCR`, and `nimbleQuad`, you can email the general nimble-users group. GitHub issues for these packages can be reported to the repository specific to each package, which are all of the form `https://github.com/nimble-dev/<name_of_package>`.
+
+## Contributing
+
+We welcome [contributions](contributing) to help improve NIMBLE.

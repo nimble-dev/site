@@ -31,6 +31,8 @@ website:
         href: documentation.qmd
       - text: "Download"
         href: download.qmd
+      - text: "Community"
+        href: groups-and-issues.qmd
       - text: "Blog"
         menu:
           - text: "All Posts"
@@ -47,8 +49,6 @@ website:
             href: contributing.qmd
           - text: "Release Notes"
             href: release-notes.qmd
-          - text: "Groups and Issues"
-            href: groups-and-issues.qmd
           - text: "License and Citation"
             href: license-and-citation.qmd
           - text: "About Us"
@@ -72,13 +72,8 @@ website:
             href: blog/index.qmd
           - text: "---"
           - text: "Recent Posts"
+          - blog/version-1-4-0-of-nimble-released.qmd 
           - blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.qmd
-          - blog/version-1-3-0-of-nimble-released.qmd
-          - blog/version-1-2-1-of-nimble-released.qmd
-          - blog/version-1-2-0-of-nimble-released.qmd
-          - blog/version-1-1-0-of-nimble-released.qmd
-          - blog/version-1-0-0-of-nimble-released-providing-automatic-differentiation-laplace-approximation-and-hmc-sampling.qmd
-
 
 format:
   html:
