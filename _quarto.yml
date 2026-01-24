@@ -15,6 +15,7 @@ website:
   description: "An R package for programming with BUGS models and compiling parts of R"
   site-url: "https://r-nimble.org"
   repo-url: "https://github.com/nimble-dev/nimble"
+  google-analytics: G-J6VLDBN5DK
   
   navbar:
     logo: "images/nimble-logo-oval-small-clean.png"
