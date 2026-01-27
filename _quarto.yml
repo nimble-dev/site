@@ -40,6 +40,8 @@ website:
             href: blog/index.qmd
           - text: "---"
           - text: "Recent Posts"
+          - text: "Using derived quantities in NIMBLE's MCMC system"
+            href: blog/derived-quantities.qmd
           - text: "Version 1.4.0 and nimble Quad Released"
             href: blog/version-1-4-0-of-nimble-released.qmd
           - text: "nimbleMacros Package"
@@ -73,6 +75,7 @@ website:
             href: blog/index.qmd
           - text: "---"
           - text: "Recent Posts"
+          - blog/derived-quantities.qmd
           - blog/version-1-4-0-of-nimble-released.qmd 
           - blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.qmd
 

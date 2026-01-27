@@ -1,8 +1,10 @@
 ---
 title: "Using derived quantities in NIMBLE's MCMC system"
 author: "NIMBLE Development Team"
-date: "2026-01-05"
+date: "2026-01-27"
 categories: ['announcement','R','tutorial']
+execute:
+  freeze: true
 ---
 
 NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and sequential Monte Carlo).
