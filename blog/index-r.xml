@@ -10,7 +10,332 @@
 <atom:link href="https://r-nimble.org/blog/index-r.xml" rel="self" type="application/rss+xml"/>
 <description>An R package for programming with BUGS models and compiling parts of R</description>
 <generator>quarto-1.7.31</generator>
-<lastBuildDate>Wed, 14 Jan 2026 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 27 Jan 2026 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>Using derived quantities in NIMBLE’s MCMC system</title>
+  <dc:creator>NIMBLE Development Team</dc:creator>
+  <link>https://r-nimble.org/blog/derived-quantities.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and sequential Monte Carlo).</p>
+<p>As of version 1.4.0, NIMBLE allows one to specify “derived quantities” to calculate or record additional quantities of interest during an MCMC. Potential derived quantities include:</p>
+<ul>
+<li>posterior means,</li>
+<li>posterior variances,</li>
+<li>log-probabilities (log-density values) for single or (summed) groups of nodes,</li>
+<li>posterior predictive samples for predictive nodes, and</li>
+<li>arbitrary calculations by providing a user-defined nimbleFunction that follows the required specification.</li>
+</ul>
+<p>By using derived quantities, users can avoid adding additional nodes to the model itself and can potentially reduce how much is stored during an MCMC run and saved as output from the run, thereby reducing memory and disk use.</p>
+<p>We’ll give a brief example of saving log-probability (log-posterior-density) values summed over a set of nodes in a simple Poisson random effects model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(nimble)</span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">pumpCode <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nimbleCode</span>({ </span>
+<span id="cb2-2">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span>(i <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>N) {</span>
+<span id="cb2-3">        theta[i] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dgamma</span>(alpha, beta)</span>
+<span id="cb2-4">        lambda[i] <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> theta[i]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>t[i]</span>
+<span id="cb2-5">        x[i] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dpois</span>(lambda[i])</span>
+<span id="cb2-6">    }</span>
+<span id="cb2-7">    alpha <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dexp</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>)</span>
+<span id="cb2-8">    beta <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dgamma</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>)</span>
+<span id="cb2-9">})</span>
+<span id="cb2-10"></span>
+<span id="cb2-11">pumpConsts <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">N =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,</span>
+<span id="cb2-12">                   <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">t =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">94.3</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15.7</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">62.9</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">126</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5.24</span>,</span>
+<span id="cb2-13">                         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">31.4</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.05</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.05</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10.5</span>))</span>
+<span id="cb2-14">pumpData <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">14</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">19</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">22</span>))</span>
+<span id="cb2-15">pumpInits <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">alpha =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">beta =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb2-16">                  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">theta =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.1</span>, pumpConsts<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>N))</span>
+<span id="cb2-17">pumpModel <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nimbleModel</span>(pumpCode, pumpConsts, pumpData, pumpInits)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+</div>
+<p>Now we add the <code>logProb</code> derived quantity, specified directly as an argument to <code>configureMCMC</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">conf <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">configureMCMC</span>(pumpModel, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">logProb =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'alpha'</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'beta'</span>))</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== Monitors =====
+thin = 1: alpha, beta
+===== Samplers =====
+RW sampler (1)
+  - alpha
+conjugate sampler (11)
+  - beta
+  - theta[]  (10 elements)
+===== DerivedQ =====
+- logProb (1)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">conf<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">printDerivedQuantities</span>()</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] derived quantity: logProb,  execution interval: thin,  nodes: c(alpha, beta)</code></pre>
+</div>
+</div>
+<p>When we run the MCMC, we see the derived quantities are saved as an element of the output list, in addition to the usual posterior samples of the parameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">mcmc <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">buildMCMC</span>(conf)</span>
+<span id="cb12-2"></span>
+<span id="cb12-3">cPumpModel <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">compileNimble</span>(pumpModel)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">cmcmc <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">compileNimble</span>(mcmc)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">runMCMC</span>(cmcmc, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">niter =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">thin =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>running chain 1...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>|-------------|-------------|-------------|-------------|
+|-------------------------------------------------------|</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$samples
+         alpha      beta
+[1,] 0.7434957 0.8437510
+[2,] 0.5046057 0.8152505
+[3,] 0.5201513 1.3765454
+[4,] 1.1023278 2.2564913
+[5,] 1.4316249 2.1598157
+
+$derived
+$derived$logProb
+          alpha      beta
+[1,] -0.7434957 -2.943556
+[2,] -0.5046057 -2.884129
+[3,] -0.5201513 -3.916877
+[4,] -1.1023278 -5.241634
+[5,] -1.4316249 -5.105549</code></pre>
+</div>
+</div>
+<p>We could also have added the <code>logProb</code> derived quantity to an existing MCMC configuration argument (and also illustrating that one can modify the interval at which recording is done):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">conf <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">configureMCMC</span>(pumpModel)</span>
+<span id="cb20-2">conf<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">addDerivedQuantity</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'logProb'</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nodes =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'alpha'</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'beta'</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">interval =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>)</span></code></pre></div>
+</div>
+<p>The operation of every derived quantity function is governed by an <code>interval</code> parameter. Each derived quantity function is executed at the end of every <code>interval</code> MCMC iterations (and only for iterations after the burnin period). The default value for <code>interval</code> is given by the <code>thin</code> interval of the MCMC. For example, if <code>interval = 1</code> (regardless of the <code>thin</code> value), then that derived quantity function will execute at the end of every MCMC sampling iteration.</p>
+<p>Note that user-defined derived quantity nimbleFunctions provide a general way for a user to intervene at the end of an MCMC iteration and do something. This would often be recording a value (to be returned at the end of the MCMC) or updating some summary statistic, but the derived quantities system doesn’t require this, giving users flexibility.</p>
+<p>More details can be found in the <a href="https://r-nimble.org/manual/cha-mcmc.html#sec:derived-quantities">NIMBLE User Manual</a> and via <code>help(derived)</code>.</p>
+
+
+
+ ]]></description>
+  <category>announcement</category>
+  <category>R</category>
+  <category>tutorial</category>
+  <guid>https://r-nimble.org/blog/derived-quantities.html</guid>
+  <pubDate>Tue, 27 Jan 2026 08:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Version 1.4.0 of NIMBLE released, plus new quadrature-based functionality in nimbleQuad package</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
@@ -1392,36 +1717,6 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
   <category>R</category>
   <guid>https://r-nimble.org/blog/nimble-online-tutorial-november-18-2021.html</guid>
   <pubDate>Wed, 20 Oct 2021 07:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Version 0.12.1 of NIMBLE released</title>
-  <dc:creator>NIMBLE Development Team</dc:creator>
-  <link>https://r-nimble.org/blog/version-0-12-1-of-nimble-released.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
-<p>Version 0.12.1, in combination with version 0.12.0 (which was released just last week), provides a variety of new functionality (in particular enhanced WAIC functionality and adding the LKJ distribution) plus bug fixes affecting MCMC in specific narrow cases described below and that warrant upgrading for some users. The changes include:</p>
-<ul>
-<li>Completely revamping WAIC in NIMBLE, creating an online version that does not require any particular variable monitors. The new WAIC can calculate conditional or marginal WAIC and can group data nodes into joint likelihood terms if desired. In addition there is a new <code>calculateWAIC()</code> function that will calculate the basic conditional WAIC from MCMC output without having to enable the WAIC when creating the MCMC.</li>
-<li>Adding the LKJ distribution, useful for prior distributions for correlation matrices, along with random walk samplers for them. These samplers operate in an unconstrained transformed parameter space and are assigned by default during MCMC configuration.</li>
-<li>Fixing a bug introduced in conjugacy processing in version 0.11.0 that causes incorrect MCMC sampling only in specific cases. The impacted cases have terms of the form <code>a[i] + x[i] * beta</code> (or more simply <code>x[i] * beta</code>), with <code>beta</code> subject to conjugate sampling and either (i) <code>x</code> provided via NIMBLE’s <code>constants</code> argument and <code>x[1] == 1</code> or (ii) <code>a</code> provided via NIMBLE’s <code>constants</code> argument and <code>a[1] == 0</code>.</li>
-<li>Fixing an error in the sampler for the proper CAR distribution (<code>dcar_proper</code>) that gives incorrect MCMC results when the mean of the proper CAR is not the same value for all locations, e.g., when embedding covariate effects directly in the <code>mu</code> parameter of the <code>dcar_proper</code> distribution.</li>
-<li>Fixing <code>isData("y")</code> to return <code>TRUE</code> whenever any elements of a multivariate data node (<code>y</code>) are flagged as data. As a result, attempting to carry out MCMC on the non-data elements will now fail. Formerly if only some elements were flagged as data, <code>isData</code> would only check the first element, potentially leading to other elements that were flagged as data being overwritten.</li>
-<li>Error trapping cases where a BNP model has a differing number of dependent stochastic nodes (e.g., observations) or dependent deterministic nodes per group of elements clustered jointly (using functionality introduced in version 0.10.0). Previously we were not error trapping this, and incorrect MCMC results would be obtained.</li>
-<li>Improving the formatting of standard logging messages.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>release</category>
-  <category>announcement</category>
-  <category>R</category>
-  <guid>https://r-nimble.org/blog/version-0-12-1-of-nimble-released.html</guid>
-  <pubDate>Wed, 13 Oct 2021 07:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

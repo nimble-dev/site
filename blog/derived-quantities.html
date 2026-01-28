@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Chris Paciorek and Sally Paganin">
-<meta name="dcterms.date" content="2021-08-10">
+<meta name="author" content="NIMBLE Development Team">
+<meta name="dcterms.date" content="2026-01-27">
 
-<title>Posterior predictive sampling and other post-MCMC use of samples in NIMBLE – NIMBLE</title>
+<title>Using derived quantities in NIMBLE’s MCMC system – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -221,7 +221,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Posterior predictive sampling and other post-MCMC use of samples in NIMBLE</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/derived-quantities.html">Using derived quantities in NIMBLE’s MCMC system</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -262,7 +262,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../blog/derived-quantities.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/derived-quantities.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Using derived quantities in NIMBLE’s MCMC system</span></a>
   </div>
 </li>
@@ -285,32 +285,15 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#posterior-predictive-sampling-using-a-loop-in-r" id="toc-posterior-predictive-sampling-using-a-loop-in-r" class="nav-link active" data-scroll-target="#posterior-predictive-sampling-using-a-loop-in-r">Posterior predictive sampling using a loop in R</a>
-  <ul class="collapse">
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#posterior-predictive-sampling-by-direct-variable-assignment" id="toc-posterior-predictive-sampling-by-direct-variable-assignment" class="nav-link" data-scroll-target="#posterior-predictive-sampling-by-direct-variable-assignment">Posterior predictive sampling by direct variable assignment</a></li>
-  <li><a href="#posterior-predictive-sampling-using-values" id="toc-posterior-predictive-sampling-using-values" class="nav-link" data-scroll-target="#posterior-predictive-sampling-using-values">Posterior predictive sampling using <code>values</code></a></li>
-  <li><a href="#doing-the-posterior-predictive-check" id="toc-doing-the-posterior-predictive-check" class="nav-link" data-scroll-target="#doing-the-posterior-predictive-check">Doing the posterior predictive check</a></li>
-  </ul></li>
-  <li><a href="#fast-posterior-predictive-sampling-using-a-nimblefunction" id="toc-fast-posterior-predictive-sampling-using-a-nimblefunction" class="nav-link" data-scroll-target="#fast-posterior-predictive-sampling-using-a-nimblefunction">Fast posterior predictive sampling using a nimbleFunction</a>
-  <ul class="collapse">
-  <li><a href="#writing-the-nimblefunction" id="toc-writing-the-nimblefunction" class="nav-link" data-scroll-target="#writing-the-nimblefunction">Writing the nimbleFunction</a></li>
-  <li><a href="#using-the-nimblefunction" id="toc-using-the-nimblefunction" class="nav-link" data-scroll-target="#using-the-nimblefunction">Using the nimbleFunction</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/derived-quantities.html">Using derived quantities in NIMBLE’s MCMC system</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Posterior predictive sampling and other post-MCMC use of samples in NIMBLE</h1>
+<h1 class="title">Using derived quantities in NIMBLE’s MCMC system</h1>
   <div class="quarto-categories">
     <div class="quarto-category">announcement</div>
     <div class="quarto-category">R</div>
@@ -325,14 +308,14 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Chris Paciorek and Sally Paganin </p>
+             <p>NIMBLE Development Team </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 10, 2021</p>
+      <p class="date">January 27, 2026</p>
     </div>
   </div>
   
@@ -344,34 +327,38 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 </header>
 
 
-<p>Once one has samples from an MCMC, one often wants to do some post hoc manipulation of the samples. An important example is posterior predictive sampling, which is needed for posterior predictive checking.</p>
-<p>With posterior predictive sampling, we need to simulate new data values, once for each posterior sample. These samples can then be compared with the actual data as a model check.</p>
-<p>In this example, we’ll follow the posterior predictive checking done in the Gelman et al.&nbsp;Bayesian Data Analysis book, using Newcomb’s speed of light measurements (Section 6.3).</p>
-<section id="posterior-predictive-sampling-using-a-loop-in-r" class="level2">
-<h2 class="anchored" data-anchor-id="posterior-predictive-sampling-using-a-loop-in-r">Posterior predictive sampling using a loop in R</h2>
-<p>Simon Newcomb made 66 measurements of the speed of light, which one might model using a normal distribution. One question discussed in Gelman et al.&nbsp;is whether the lowest measurements, which look like outliers, could have reasonably come from a normal distribution.</p>
-<section id="setup" class="level3">
-<h3 class="anchored" data-anchor-id="setup">Setup</h3>
-<p>We set up the nimble model.</p>
+<p>NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and sequential Monte Carlo).</p>
+<p>As of version 1.4.0, NIMBLE allows one to specify “derived quantities” to calculate or record additional quantities of interest during an MCMC. Potential derived quantities include:</p>
+<ul>
+<li>posterior means,</li>
+<li>posterior variances,</li>
+<li>log-probabilities (log-density values) for single or (summed) groups of nodes,</li>
+<li>posterior predictive samples for predictive nodes, and</li>
+<li>arbitrary calculations by providing a user-defined nimbleFunction that follows the required specification.</li>
+</ul>
+<p>By using derived quantities, users can avoid adding additional nodes to the model itself and can potentially reduce how much is stored during an MCMC run and saved as output from the run, thereby reducing memory and disk use.</p>
+<p>We’ll give a brief example of saving log-probability (log-posterior-density) values summed over a set of nodes in a simple Poisson random effects model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## noninformative priors</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    mu <span class="sc">~</span> <span class="fu">dflat</span>()</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    sigma <span class="sc">~</span> <span class="fu">dhalfflat</span>()</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## likelihood</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        y[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu, <span class="at">sd =</span> sigma)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pumpCode <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({ </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        theta[i] <span class="sc">~</span> <span class="fu">dgamma</span>(alpha, beta)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        lambda[i] <span class="ot">&lt;-</span> theta[i]<span class="sc">*</span>t[i]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        x[i] <span class="sc">~</span> <span class="fu">dpois</span>(lambda[i])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    alpha <span class="sc">~</span> <span class="fu">dexp</span>(<span class="fl">1.0</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    beta <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="fl">0.1</span>, <span class="fl">1.0</span>)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> MASS<span class="sc">::</span>newcomb)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mu =</span> <span class="dv">0</span>, <span class="at">sigma =</span> <span class="dv">5</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>constants <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">length</span>(data<span class="sc">$</span>y))</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(<span class="at">code =</span> code, <span class="at">data =</span> data, <span class="at">constants =</span> constants, <span class="at">inits =</span> inits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>pumpConsts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">10</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">t =</span> <span class="fu">c</span>(<span class="fl">94.3</span>, <span class="fl">15.7</span>, <span class="fl">62.9</span>, <span class="dv">126</span>, <span class="fl">5.24</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                         <span class="fl">31.4</span>, <span class="fl">1.05</span>, <span class="fl">1.05</span>, <span class="fl">2.1</span>, <span class="fl">10.5</span>))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>pumpData <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">3</span>, <span class="dv">19</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">22</span>))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>pumpInits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">beta =</span> <span class="dv">1</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">theta =</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, pumpConsts<span class="sc">$</span>N))</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>pumpModel <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(pumpCode, pumpConsts, pumpData, pumpInits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -389,38 +376,43 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 <pre><code>Checking model sizes and dimensions</code></pre>
 </div>
 </div>
-<p>Next we’ll create some vectors of node names that will be useful for our manipulations.</p>
+<p>Now we add the <code>logProb</code> derived quantity, specified directly as an argument to <code>configureMCMC</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ensure we have the nodes needed to simulate new datasets</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>dataNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getNodeNames</span>(<span class="at">dataOnly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>parentNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getParents</span>(dataNodes, <span class="at">stochOnly =</span> <span class="cn">TRUE</span>)  <span class="co"># `getParents` is new in nimble 0.11.0</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Ensure we have both data nodes and deterministic intermediates (e.g., lifted nodes)</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>simNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getDependencies</span>(parentNodes, <span class="at">self =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now run the MCMC.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cmodel  <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Compiling
-  [Note] This may take a minute.
-  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mcmc    <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(model, <span class="at">monitors =</span> parentNodes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(pumpModel, <span class="at">logProb =</span> <span class="fu">c</span>(<span class="st">'alpha'</span>, <span class="st">'beta'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>===== Monitors =====
-thin = 1: mu, sigma
+thin = 1: alpha, beta
 ===== Samplers =====
-conjugate sampler (2)
-  - mu
-  - sigma</code></pre>
+RW sampler (1)
+  - alpha
+conjugate sampler (11)
+  - beta
+  - theta[]  (10 elements)
+===== DerivedQ =====
+- logProb (1)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cmcmc   <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc, <span class="at">project =</span> model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>conf<span class="sc">$</span><span class="fu">printDerivedQuantities</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] derived quantity: logProb,  execution interval: thin,  nodes: c(alpha, beta)</code></pre>
+</div>
+</div>
+<p>When we run the MCMC, we see the derived quantities are saved as an element of the output list, in addition to the usual posterior samples of the parameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(conf)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>cPumpModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(pumpModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(cmcmc, <span class="at">niter =</span> <span class="dv">1000</span>, <span class="at">nburnin =</span> <span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cmcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runMCMC</span>(cmcmc, <span class="at">niter =</span> <span class="dv">100</span>, <span class="at">thin =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>running chain 1...</code></pre>
 </div>
@@ -428,145 +420,35 @@ conjugate sampler (2)
 <pre><code>|-------------|-------------|-------------|-------------|
 |-------------------------------------------------------|</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$samples
+         alpha      beta
+[1,] 0.7434957 0.8437510
+[2,] 0.5046057 0.8152505
+[3,] 0.5201513 1.3765454
+[4,] 1.1023278 2.2564913
+[5,] 1.4316249 2.1598157
+
+$derived
+$derived$logProb
+          alpha      beta
+[1,] -0.7434957 -2.943556
+[2,] -0.5046057 -2.884129
+[3,] -0.5201513 -3.916877
+[4,] -1.1023278 -5.241634
+[5,] -1.4316249 -5.105549</code></pre>
 </div>
-</section>
-<section id="posterior-predictive-sampling-by-direct-variable-assignment" class="level3">
-<h3 class="anchored" data-anchor-id="posterior-predictive-sampling-by-direct-variable-assignment">Posterior predictive sampling by direct variable assignment</h3>
-<p>We’ll loop over the samples and use the compiled model (uncompiled would be ok too, but slower) to simulate new datasets.</p>
+</div>
+<p>We could also have added the <code>logProb</code> derived quantity to an existing MCMC configuration argument (and also illustrating that one can modify the interval at which recording is done):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>nSamp <span class="ot">&lt;-</span> <span class="fu">nrow</span>(samples)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(data<span class="sc">$</span>y)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ppSamples <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, nSamp, n)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nSamp){</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  cmodel[[<span class="st">"mu"</span>]] <span class="ot">&lt;-</span> samples[i, <span class="st">"mu"</span>]             <span class="do">## or cmodel$mu &lt;- samples[i, "mu"]</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  cmodel[[<span class="st">"sigma"</span>]] <span class="ot">&lt;-</span> samples[i, <span class="st">"sigma"</span>]</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  cmodel<span class="sc">$</span><span class="fu">simulate</span>(simNodes, <span class="at">includeData =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  ppSamples[i, ] <span class="ot">&lt;-</span> cmodel[[<span class="st">"y"</span>]]</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(pumpModel)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>conf<span class="sc">$</span><span class="fu">addDerivedQuantity</span>(<span class="st">'logProb'</span>, <span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">'alpha'</span>, <span class="st">'beta'</span>), <span class="at">interval =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="posterior-predictive-sampling-using-values" class="level3">
-<h3 class="anchored" data-anchor-id="posterior-predictive-sampling-using-values">Posterior predictive sampling using <code>values</code></h3>
-<p>That’s fine, but we needed to manually insert values for the different variables. For a more general solution, we can use nimble’s <code>values</code> function as follows.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ppSamples <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> nSamp, <span class="at">ncol =</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">length</span>(model<span class="sc">$</span><span class="fu">expandNodeNames</span>(dataNodes, <span class="at">returnScalarComponents =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>postNames <span class="ot">&lt;-</span> <span class="fu">colnames</span>(samples)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_len</span>(nSamp)) {</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">values</span>(cmodel, postNames) <span class="ot">&lt;-</span> samples[i, ]  <span class="co"># assign 'flattened' values</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    cmodel<span class="sc">$</span><span class="fu">simulate</span>(simNodes, <span class="at">includeData =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    ppSamples[i, ] <span class="ot">&lt;-</span> <span class="fu">values</span>(cmodel, dataNodes)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   user  system elapsed 
-  4.243   0.003   4.246 </code></pre>
-</div>
-</div>
-<p>Side note: For large models, it might be faster to use the variable names as the second argument to <code>values()</code> rather than the names of all the elements of the variables. If one chooses to do this, it’s important to check that the ordering of variables in the ‘flattened’ values in <code>samples</code> is the same as the ordering of variables in the second argument to <code>values</code> so that the first line of the for loop assigns the values from <code>samples</code> correctly into the model.</p>
-</section>
-<section id="doing-the-posterior-predictive-check" class="level3">
-<h3 class="anchored" data-anchor-id="doing-the-posterior-predictive-check">Doing the posterior predictive check</h3>
-<p>At this point, we can implement the check we want using our chosen discrepancy measure. Here a simple check uses the minimum observation.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>obsMin <span class="ot">&lt;-</span> <span class="fu">min</span>(data<span class="sc">$</span>y)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>ppMin <span class="ot">&lt;-</span> <span class="fu">apply</span>(ppSamples, <span class="dv">1</span>, min)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ## Check with plot in Gelman et al. (3rd edition), Figure 6.3</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(ppMin, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">50</span>, <span class="dv">20</span>),</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Discrepancy = min(y)"</span>,</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"min(y_rep)"</span>)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> obsMin, <span class="at">col =</span> <span class="st">'red'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="fast-posterior-predictive-sampling-using-a-nimblefunction" class="level2">
-<h2 class="anchored" data-anchor-id="fast-posterior-predictive-sampling-using-a-nimblefunction">Fast posterior predictive sampling using a nimbleFunction</h2>
-<p>The approach above could be slow, even with a compiled model, because the loop is carried out in R. We could instead do all the work in a compiled nimbleFunction.</p>
-<section id="writing-the-nimblefunction" class="level3">
-<h3 class="anchored" data-anchor-id="writing-the-nimblefunction">Writing the nimbleFunction</h3>
-<p>Let’s set up a nimbleFunction. In the setup code, we’ll manipulate the nodes and variables, similarly to the code above. In the run code, we’ll loop through the samples and simulate, also similarly.</p>
-<p>Remember that all querying of the model structure needs to happen in the setup code. We also need to pass the MCMC object to the nimble function, so that we can determine at setup time the names of the variables we are copying from the posterior samples into the model.</p>
-<p>The run code takes the actual samples as the input argument, so the nimbleFunction will work regardless of how long the MCMC was run for.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ppSamplerNF <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">setup =</span> <span class="cf">function</span>(model, mcmc) {</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>              dataNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getNodeNames</span>(<span class="at">dataOnly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>              parentNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getParents</span>(dataNodes, <span class="at">stochOnly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">cat</span>(<span class="st">"Stochastic parents of data are:"</span>, <span class="fu">paste</span>(parentNodes, <span class="at">collapse =</span> <span class="st">','</span>), <span class="st">".</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>              simNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getDependencies</span>(parentNodes, <span class="at">self =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>              vars <span class="ot">&lt;-</span> mcmc<span class="sc">$</span>mvSamples<span class="sc">$</span><span class="fu">getVarNames</span>()  <span class="co"># need ordering of variables in mvSamples / samples matrix</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">cat</span>(<span class="st">"Using posterior samples of:"</span>, <span class="fu">paste</span>(vars, <span class="at">collapse =</span> <span class="st">','</span>), <span class="st">".</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>              n <span class="ot">&lt;-</span> <span class="fu">length</span>(model<span class="sc">$</span><span class="fu">expandNodeNames</span>(dataNodes, <span class="at">returnScalarComponents =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>          },</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">run =</span> <span class="cf">function</span>(<span class="at">samples =</span> <span class="fu">double</span>(<span class="dv">2</span>)) {</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>              nSamp <span class="ot">&lt;-</span> <span class="fu">dim</span>(samples)[<span class="dv">1</span>]</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>              ppSamples <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> nSamp, <span class="at">ncol =</span> n)</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>              <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nSamp) {</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">values</span>(model, vars) <span class="ot">&lt;&lt;-</span> samples[i, ]</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>                    model<span class="sc">$</span><span class="fu">simulate</span>(simNodes, <span class="at">includeData =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>                    ppSamples[i, ] <span class="ot">&lt;-</span> <span class="fu">values</span>(model, dataNodes)</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>              }</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>              <span class="fu">returnType</span>(<span class="fu">double</span>(<span class="dv">2</span>))</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>              <span class="fu">return</span>(ppSamples)</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>          })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="using-the-nimblefunction" class="level3">
-<h3 class="anchored" data-anchor-id="using-the-nimblefunction">Using the nimbleFunction</h3>
-<p>We’ll create the instance of the nimbleFunction for this model and MCMC.<br>
-Then we run the compiled nimbleFunction.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create the sampler for this model and this MCMC.</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>ppSampler <span class="ot">&lt;-</span> <span class="fu">ppSamplerNF</span>(model, mcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Stochastic parents of data are: mu,sigma .
-Using posterior samples of: mu,sigma .</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>cppSampler <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(ppSampler, <span class="at">project =</span> model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Compiling
-  [Note] This may take a minute.
-  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Check ordering of variables is same in 'vars' and in 'samples'.</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "mu"    "sigma"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">colnames</span>(samples), model<span class="sc">$</span><span class="fu">expandNodeNames</span>(mcmc<span class="sc">$</span>mvSamples<span class="sc">$</span><span class="fu">getVarNames</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(ppSamples_via_nf <span class="ot">&lt;-</span> cppSampler<span class="sc">$</span><span class="fu">run</span>(samples))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   user  system elapsed 
-  0.002   0.000   0.002 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(ppSamples, ppSamples_via_nf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-</div>
-<p>So we get exactly the same results (note the use of <code>set.seed</code> to ensure this) but much faster.</p>
-<p>Here the speed doesn’t really matter but for more samples and larger models it often will, even after accounting for the time spent to compile the nimbleFunction.</p>
+<p>The operation of every derived quantity function is governed by an <code>interval</code> parameter. Each derived quantity function is executed at the end of every <code>interval</code> MCMC iterations (and only for iterations after the burnin period). The default value for <code>interval</code> is given by the <code>thin</code> interval of the MCMC. For example, if <code>interval = 1</code> (regardless of the <code>thin</code> value), then that derived quantity function will execute at the end of every MCMC sampling iteration.</p>
+<p>Note that user-defined derived quantity nimbleFunctions provide a general way for a user to intervene at the end of an MCMC iteration and do something. This would often be recording a value (to be returned at the end of the MCMC) or updating some summary statistic, but the derived quantities system doesn’t require this, giving users flexibility.</p>
+<p>More details can be found in the <a href="https://r-nimble.org/manual/cha-mcmc.html#sec:derived-quantities">NIMBLE User Manual</a> and via <code>help(derived)</code>.</p>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
