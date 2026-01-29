@@ -2,6 +2,7 @@
   {
     "listing": "/blog/index.html",
     "items": [
+      "/blog/nimbleQuad.html",
       "/blog/derived-quantities.html",
       "/blog/version-1-4-0-of-nimble-released.html",
       "/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html",
@@ -83,6 +84,7 @@
     "listing": "/recent-posts.html",
     "items": [
       "/blog/index.html",
+      "/blog/nimbleQuad.html",
       "/blog/derived-quantities.html",
       "/blog/version-1-4-0-of-nimble-released.html",
       "/blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html",

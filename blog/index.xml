@@ -10,7 +10,1522 @@
 <atom:link href="https://r-nimble.org/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>An R package for programming with BUGS models and compiling parts of R</description>
 <generator>quarto-1.7.31</generator>
-<lastBuildDate>Tue, 27 Jan 2026 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 29 Jan 2026 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>Using nimbleQuad for maximum likelihood estimation and deterministic posterior approximation</title>
+  <dc:creator>Paul van Dam-Bates and Christopher Paciorek</dc:creator>
+  <link>https://r-nimble.org/blog/nimbleQuad.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The new <code>nimbleQuad</code> package provides quadrature-based inference methods that use Laplace and Adaptive Gauss-Hermite Quadrature (AGHQ) approximation. It has two main components:</p>
+<ol type="1">
+<li>Laplace and AGHQ approximations for marginalizing over latent nodes (e.g., random effects) to perform approximate maximum likelihood estimation.</li>
+<li>Deterministic nested quadrature methods for posterior approximation using Laplace approximation for the inner marginalization of the latent nodes and general quadrature methods for outer marginalization of the parameter nodes. These methods borrow ideas from the popular INLA approach <span class="citation" data-cites="rue2009approximate">(Rue, Martino, and Chopin 2009)</span> and from the extended Gaussian latent model approach provided in the R <code>aghq</code> package <span class="citation" data-cites="stringer2023fast">(Stringer, Brown, and Stafford 2023)</span>.</li>
+</ol>
+<p>The first component was present in the core <code>nimble</code> package until version 1.4.0. The second component is a new feature.</p>
+<p>By providing these methods in the NIMBLE system, via <code>nimbleQuad</code>, users can use the methods on models constructed using the NIMBLE model language (which extends the BUGS model language) and can also customize and extend the algorithms.</p>
+<p>In this document we will introduce some of the workflow and show the flexibility available when using <code>buildNestedApprox</code> for posterior approximations.</p>
+<p>Additional details about nimbleQuad can be found in <a href="https://r-nimble.org/manual/cha-laplace.html">the NIMBLE User Manual</a> and <a href="https://r-nimble.org/vignettes/nimbleQuad.html">the nimbleQuad vignette</a>.</p>
+<section id="what-is-nimble" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-nimble">What is NIMBLE?</h3>
+<p><a href="https://r-nimble.org">NIMBLE</a> is a system for writing hierarchical statistical models and algorithms. It is distributed as the R package, <a href="https://CRAN.R-project.org/package=nimble">nimble</a>. NIMBLE includes:</p>
+<ol type="1">
+<li><p>A dialect of the BUGS model language that is extensible. NIMBLE uses almost the same model code as WinBUGS, OpenBUGS, and JAGS. Being “extensible” means that it is possible to write new functions and distributions and use them in your models.</p></li>
+<li><p>An algorithm library including Markov chain Monte Carlo (MCMC) and other methods.</p></li>
+<li><p>A compiler that generates C++ for each model and algorithm, compiles the C++, and lets you use it from R. You don’t need to know anything about C++ to use nimble.</p></li>
+</ol>
+</section>
+<section id="illustrative-example" class="level3">
+<h3 class="anchored" data-anchor-id="illustrative-example">Illustrative Example</h3>
+<p>For this vignette we will use the salamander example from the R package <code>glmmTMB</code>. Example usage of this model can be seen by running <code>?glmmTMB</code>. The data are repeated counts, <img src="https://latex.codecogs.com/png.latex?y">, of salamanders at multiple sites, which are zero-inflated. Some of the sites are mined, and some are not (<img src="https://latex.codecogs.com/png.latex?x">). Based on <code>glmmTMB</code>, we can analyze these data as</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%20%20y_i%7Cz_i%20%5Csim%20%5Ctext%7BPoisson%7D(z_i%5Clambda_i)%0A"></p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%20%20z_i%20%5Csim%20%5Ctext%7BBernoulli%7D(1-p_i)%0A"></p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%20%20%5Ctext%7Blog%7D(%5Clambda_i)%20=%20%5Cbeta%20x_i%20+%20u_%7Bsite_i%7D%0A"></p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Ctext%7Blogit%7D(p_i)%20=%20%5Calpha_0%20x_i%0A"></p>
+<p><img src="https://latex.codecogs.com/png.latex?%0Au_%7Bj%7D%20%5Csim%20%5Ctext%7BNormal%7D(0,%20%5Csigma%5E2)%0A"></p>
+<p>The maximum likelihood estimator can be found with <code>glmmTMB</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(glmmTMB)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data</span>(Salamanders)</span>
+<span id="cb1-3">fit_tmb <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">glmmTMB</span>(count <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> spp <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> mined <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span>site), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">zi=</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">family=</span>poisson, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data=</span>Salamanders)</span></code></pre></div>
+</div>
+<p>We can also fit this model in <code>INLA</code> to get the approximate posterior using the “zeroinflatedpoisson1” model family.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(INLA)</span>
+<span id="cb2-2">fit_inla <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inla</span>( count <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> spp <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> mined <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">f</span>(site, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">model=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"iid"</span>), </span>
+<span id="cb2-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">quantiles =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(.<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">025</span>,.<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>,.<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>,.<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">75</span>,.<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">975</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">family=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"zeroinflatedpoisson1"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data=</span>Salamanders,</span>
+<span id="cb2-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">control.inla =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">int.strategy =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ccd"</span>))</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="building-a-glmm-in-nimble" class="level2">
+<h2 class="anchored" data-anchor-id="building-a-glmm-in-nimble">Building a GLMM in NIMBLE</h2>
+<p>To write this model in NIMBLE we will first write a zero-inflated Poisson distribution that marginalizes over the indirectly observed discrete value <img src="https://latex.codecogs.com/png.latex?z">. When <img src="https://latex.codecogs.com/png.latex?y=0">, <img src="https://latex.codecogs.com/png.latex?z"> is a discrete latent variable. In order to use the methods in <code>nimbleQuad</code>, all the latent variables in this model must be continuous.</p>
+<p><code>nimbleQuad</code> relies on automatic differentiation (AD) to take derivatives. To include AD in a <code>nimbleFunction</code> we must set <code>buildDerivs = 'run'</code>.</p>
+<p>A nimbleFunction, <code>rZIP</code>, to simulate from the distribution is also provided for convenience, although this is not strictly needed for this model to fit.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(nimbleQuad)</span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">dZIP <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nimbleFunction</span>(</span>
+<span id="cb4-2"> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">run =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>(), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lambda =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>(),</span>
+<span id="cb4-3">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">zeroProb =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>(), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">log =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">logical</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">default =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)) {</span>
+<span id="cb4-4">   <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">returnType</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>())</span>
+<span id="cb4-5">   <span class="do" style="color: #5E5E5E;
+background-color: null;
+font-style: italic;">## For use with AD, we cannot use an `if` statement to handle the mixture.</span></span>
+<span id="cb4-6">   prob <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> zeroProb <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dbinom</span>(x, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prob =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> zeroProb) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dpois</span>(x, lambda)</span>
+<span id="cb4-7">   <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> (log) <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log</span>(prob))</span>
+<span id="cb4-8">     <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(prob)</span>
+<span id="cb4-9">   },</span>
+<span id="cb4-10">   <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">buildDerivs =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'run'</span>   <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Needed when used with AD-based algorithms.</span></span>
+<span id="cb4-11">)</span>
+<span id="cb4-12"></span>
+<span id="cb4-13">rZIP <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nimbleFunction</span>(</span>
+<span id="cb4-14"> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">run =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">integer</span>(), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lambda =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>(), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">zeroProb =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>()) {</span>
+<span id="cb4-15">   <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">returnType</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>())</span>
+<span id="cb4-16">   isStructuralZero <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rbinom</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prob =</span> zeroProb, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb4-17">   <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> (isStructuralZero) <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb4-18">   <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rpois</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, lambda))</span>
+<span id="cb4-19">})</span></code></pre></div>
+</div>
+<p>We will use prior distributions to match the default priors in the <code>INLA</code> model that was fit above to allow direct comparison of results. See <code>inla.priors.used(fit_inla)</code> for a description of the default priors. INLA places a logit-normal prior on <img src="https://latex.codecogs.com/png.latex?p">. For convenience, we will write our own logit-normal prior. In this case, we explicitly register the distribution to tell NIMBLE the range of possible values, needed for use in NIMBLE’s parameter transformation system.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">dlogitnormal <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nimbleFunction</span>(</span>
+<span id="cb5-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">run =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>(), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mean =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>(), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sd =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>(), </span>
+<span id="cb5-3">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">log =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">logical</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">default =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)){</span>
+<span id="cb5-4">    ans <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dnorm</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">logit</span>(x), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mean =</span> mean, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sd =</span> sd, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">log =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log</span>(x) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>x)</span>
+<span id="cb5-5">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">returnType</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">double</span>())</span>
+<span id="cb5-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span>(log) <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(ans)</span>
+<span id="cb5-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">exp</span>(ans))</span>
+<span id="cb5-8">  },</span>
+<span id="cb5-9">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">buildDerivs =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'run'</span></span>
+<span id="cb5-10">)</span>
+<span id="cb5-11"></span>
+<span id="cb5-12"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">registerDistributions</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb5-13">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">dlogitnormal =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">BUGSdist =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dlogitnormal(mean, sd)"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">range =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span>
+<span id="cb5-14">))</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  [Warning] Random generation function for dlogitnormal is not available. NIMBLE is generating a placeholder function, rlogitnormal, that will invoke an error if an algorithm needs to simulate from this distribution. Some algorithms (such as random-walk Metropolis MCMC sampling) will work without the ability to simulate from the distribution.  If simulation is needed, provide a nimbleFunction (with no setup code) to do it.</code></pre>
+</div>
+</div>
+<p>If not trying to use the same model as INLA, one might choose different priors, and one would not necessarily need to define the logit-normal distribution.</p>
+<p>Following INLA, we use a completely flat prior on the intercept <code>dflat</code>, a gamma prior on precision <code>tau_re</code> and a logit-normal on <code>p</code>. We can now write the model code, and then provide constants and data to build the model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">code <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nimbleCode</span>({</span>
+<span id="cb7-2">  beta[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dflat</span>()</span>
+<span id="cb7-3">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span>( i <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>np ) </span>
+<span id="cb7-4">    beta[i] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dnorm</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">tau =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.001</span>) </span>
+<span id="cb7-5">  tau_re <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dgamma</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">rate =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5e-5</span>)</span>
+<span id="cb7-6">  p <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dlogitnormal</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mean =</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sd =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sqrt</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.2</span>))</span>
+<span id="cb7-7">  </span>
+<span id="cb7-8">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span>(i <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>nsites) </span>
+<span id="cb7-9">    re[i] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dnorm</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">tau =</span> tau_re)</span>
+<span id="cb7-10"></span>
+<span id="cb7-11">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span>( i <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>nobs ){</span>
+<span id="cb7-12">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log</span>(lam[i]) <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sum</span>(beta[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>np]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>X[i,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>np]) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> re[site[i]]</span>
+<span id="cb7-13">    count[i] <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dZIP</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lambda =</span> lam[i], <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">zeroProb =</span> p)</span>
+<span id="cb7-14">  }</span>
+<span id="cb7-15">})</span>
+<span id="cb7-16"></span>
+<span id="cb7-17">nimconst <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>()</span>
+<span id="cb7-18">nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>X <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.matrix</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">model.matrix</span>( <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> spp <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> mined, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> Salamanders ))</span>
+<span id="cb7-19">nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>np <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ncol</span>(nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>X)</span>
+<span id="cb7-20">nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>nobs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>(nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>X)</span>
+<span id="cb7-21">nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>site <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.numeric</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(Salamanders<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>site))</span>
+<span id="cb7-22">nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>nsites <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>site)</span>
+<span id="cb7-23"></span>
+<span id="cb7-24">nimdata <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>()</span>
+<span id="cb7-25">nimdata<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>count <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> Salamanders<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>count</span>
+<span id="cb7-26"></span>
+<span id="cb7-27">inits <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">p =</span> .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">29</span>,</span>
+<span id="cb7-28">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">tau_re =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,</span>
+<span id="cb7-29">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">re =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rnorm</span>(nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>nsites,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.1</span>),</span>
+<span id="cb7-30">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">beta =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rnorm</span>(nimconst<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>np))</span>
+<span id="cb7-31"></span>
+<span id="cb7-32">m <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nimbleModel</span>(code, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> nimdata, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">constants =</span> nimconst, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inits =</span> inits, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">buildDerivs =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Defining model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  [Note] Registering 'dZIP' as a distribution based on its use in BUGS code. If you make changes to the nimbleFunctions for the distribution, you must call 'deregisterDistributions' before using the distribution in BUGS code for those changes to take effect.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting data and initial values</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Running calculate on model
+  [Note] Any error reports that follow may simply reflect missing values in model variables.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Checking model sizes and dimensions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">cm <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">compileNimble</span>(m)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+</div>
+<p>Note that since nimbleQuad methods use NIMBLE’s automatic differentiation (AD) system, we set <code>buildDerivs = TRUE</code> when building the nimble model.</p>
+</section>
+<section id="using-the-laplace-approximation" class="level2">
+<h2 class="anchored" data-anchor-id="using-the-laplace-approximation">Using the Laplace Approximation</h2>
+<p>We can find the maximum likelihood estimate by using <code>buildLaplace</code> (or <code>buildAGHQ</code> if we want more quadrature nodes for marginalizing over the random effects, as discussed below).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">laplace <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">buildLaplace</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">model =</span> m)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building 23 individual Laplace approximations (one dot for each): .......................</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">claplace <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">compileNimble</span>(laplace)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">nimble_fit <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">runLaplace</span>(claplace)</span></code></pre></div>
+</div>
+<p>NIMBLE reports that it is able to use 23 separate (one-dimensional) Laplace approximations (because the random effects, plus their data dependencies, are conditionally independent).</p>
+<p>Let’s compare the results with <code>glmmTMB</code>. The results are very similar.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">nimble_params <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> nimble_fit<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>summary<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>params</span>
+<span id="cb21-2">nimble_fixef <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> nimble_params[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">grep</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta"</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rownames</span>(nimble_params)),]</span>
+<span id="cb21-3"></span>
+<span id="cb21-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(nimble_fixef[, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"estimate"</span>], <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fixef</span>(fit_tmb)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>cond, </span>
+<span id="cb21-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlab =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"NIMBLE Estimate"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylab =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"glmmTMB Estimate"</span>)</span>
+<span id="cb21-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">abline</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">a =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">b =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lty =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://r-nimble.org/blog/nimbleQuad_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># logit(p):</span></span>
+<span id="cb22-2">fit_tmb<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fit<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>par[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"betazi"</span>]     <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># TMB</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   betazi 
+-0.933805 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">logit</span>(nimble_params[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"p"</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>])   <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># NIMBLE</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.9338518</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># tau_re</span></span>
+<span id="cb26-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">exp</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>fit_tmb<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fit<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>par[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"theta"</span>])  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># TMB</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   theta 
+3.646564 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">nimble_params[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tau_re"</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]         <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># NIMBLE</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.646879</code></pre>
+</div>
+</div>
+<p>It can be helpful to check the Laplace approximation at the MLE by increasing the number of quadrature nodes using AGHQ. If the likelihood is very different when increasing the number of quadrature nodes, that indicates that Laplace was not a good approximation to the marginal likelihood. In this particular case, since we have have conditionally independent random effects (and therefore a set of 1-dimensional AGHQ approximations), increasing the number of quadrature nodes will be relatively quick, but in other cases it can be very slow.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">claplace<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">calcLogLik</span>(nimble_fit<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>summary<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>params[, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'estimate'</span>], <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">trans =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -881.9147</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1">claplace<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">updateSettings</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nQuad =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>)</span>
+<span id="cb32-2">claplace<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">calcLogLik</span>(nimble_fit<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>summary<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>params[, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'estimate'</span>], <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">trans =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -881.8752</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1">claplace<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">updateSettings</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nQuad =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">11</span>)</span>
+<span id="cb34-2">claplace<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">calcLogLik</span>(nimble_fit<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>summary<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>params[, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'estimate'</span>], <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">trans =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">FALSE</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -881.8749</code></pre>
+</div>
+</div>
+</section>
+<section id="posterior-approximation" class="level2">
+<h2 class="anchored" data-anchor-id="posterior-approximation">Posterior Approximation</h2>
+<p>Posterior approximation is done by <code>buildNestedApprox</code> (to build the approximation) and <code>runNestedApprox</code> (to calculate the approximation). Note that the setup for <code>buildNestedApprox</code>is similar to <code>buildLaplace</code> except that we refer to the combination of random effects and fixed effects as <code>latentNodes</code> and the hyperparameters as <code>paramNodes</code>, which we will refer to more generally as the “parameters”. Including fixed effects with the random effects reduces the dimension of the outer quadrature, which reduces computation time. However, in some cases one may want to include the fixed effects in the <code>paramNodes</code>, as the choice of where to include the fixed effects can affect statistical performance. If the user does not specify <code>latentNodes</code> and <code>paramNodes</code>, NIMBLE will automatically determine them based on the graphical structure of the model, and the user can check that a reasonable determination has been made.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1">approx <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">buildNestedApprox</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">model =</span> m, </span>
+<span id="cb36-2">                            <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">paramNodes =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'p'</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'tau_re'</span>), </span>
+<span id="cb36-3">                            <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">latentNodes =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'beta'</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'re'</span>))</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building nested posterior approximation for the following node sets:
+  - parameter nodes: p, tau_re
+  - latent nodes: beta (14 elements), re (23 elements)
+  with AGHQ grid for the parameters and Laplace approximation for the latent nodes.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Building Laplace approximation.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1">capprox <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">compileNimble</span>(approx, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">project =</span> m)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Compiling
+  [Note] This may take a minute.
+  [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
+</div>
+</div>
+<p>We then use <code>runNestedApprox</code> to run the basic approximation and apply various methods to the output object to carry out further inference. The steps include:</p>
+<ol type="1">
+<li>Find posterior mode of the parameters using Laplace (or AGHQ) to marginalize over the latent nodes.</li>
+<li>Use an <em>integration-free</em> method analogous to that of INLA to quickly approximate the marginal posterior distribution of each parameter <span class="citation" data-cites="martins2013bayesian">(Martins et al. 2013)</span>.</li>
+<li>Calculate the posterior density of the parameters across the parameter quadrature grid (the default grid uses the CCD (central composite design) approach when the number of parameters is greater than two). In addition, a quadrature-based marginal log likelihood is produced based on this computation.</li>
+<li>Sample from the joint posterior of the <code>latentNodes</code> using a mixture of multivariate normal distributions with mean, covariance, and weights obtained at each grid point in the parameter quadrature grid.</li>
+</ol>
+<p>Using the integration-free method is the fastest way to produce marginal posterior density estimates of the parameters. Following the methodology of INLA, this is done by using an asymmetric multivariate normal distribution to approximate the posterior density of the parameters.</p>
+<p>If more accuracy is required, quadrature can be used such as AGHQ to marginalize over the other parameters (similar to the R package <code>aghq</code>). Here the user can choose between AGHQ, CCD, sparse AGHQ, or a user-provided quadrature rule, as discussed further below). Marginal density values are computed at a fixed set of points and then a spline is used for computations with the univariate density.</p>
+<p>For inference on the latent nodes, at each point in the parameter grid, Laplace is used to marginalize the latent nodes to calculate the posterior density for the point, which requires an inner optimization. This can be computationally expensive (particularly with a large number of latent nodes), scaling with the number of grid points. CCD is the default (as is done in INLA) because it scales well to higher dimensions. Alternatively, an AGHQ grid can be used. This will be computationally more expensive because there are more grid points but potentially more accurate. The user can also provide their own grid. By default, we do not do compute the parameter grid when calling <code>runNestedApprox</code> unless requested, because the integration-free estimates do not require it. However, it is necessary for inference on the latent nodes and is done automatically when the latent nodes are sampled (via <code>sampleLatents</code>).</p>
+<p>Here is the initial (integration-free) inference for the parameters. We compare results to samples from a long HMC (MCMC) run.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1">result <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">runNestedApprox</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">approx =</span> capprox)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Finding posterior mode for parameter(s).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1">result</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model (hyper)parameters: 
+            mean         sd      2.5%       25%       50%      75%     97.5%
+p      0.2829532 0.03213737 0.2223163 0.2607501 0.2822413 0.304266 0.3480409
+tau_re 4.2832265 2.21980867 1.4690074 2.7377845 3.7993353 5.280151 9.9046828
+
+Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
+  (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">par</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mfrow =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span>
+<span id="cb45-2"></span>
+<span id="cb45-3">result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotMarginal</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tau_re"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">17</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb45-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_tau_re<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inla.dmarginal</span>(hmc_tau_re<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, fit_inla<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>marginals.hyperpar[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>)</span>
+<span id="cb45-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_tau_re, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'green'</span>)</span>
+<span id="cb45-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">legend</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"topright"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">legend =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"NIMBLE</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">nested approx"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"INLA"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HMC"</span>),</span>
+<span id="cb45-7">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'black'</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'green'</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lty =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rep</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">cex =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.75</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bty =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'n'</span>)</span>
+<span id="cb45-8"></span>
+<span id="cb45-9">result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotMarginal</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"p"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb45-10"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_p<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inla.dmarginal</span>(hmc_p<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, fit_inla<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>marginals.hyperpar[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>)</span>
+<span id="cb45-11"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_p, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'green'</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://r-nimble.org/blog/nimbleQuad_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The nested approximation and INLA results match MCMC well, though for some reason the densities plotted by INLA don’t quite integrate to one and therefore lies above the other two lines.</p>
+<p>Here is the sampling-based inference for the latent nodes. The density estimates match HMC reasonably well, but not quite as well as INLA for the fixed effects.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># remove these lines later</span></span>
+<span id="cb46-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># hmc_beta1 &lt;- density(samples_hmc[ , 'beta[1]'])</span></span>
+<span id="cb46-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># hmc_beta2 &lt;- density(samples_hmc[ , 'beta[2]'])</span></span>
+<span id="cb46-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># hmc_re1 &lt;- density(samples_hmc[ , 're[1]'])</span></span>
+<span id="cb46-5"></span>
+<span id="cb46-6">result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sampleLatents</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10000</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Calculating inner AGHQ/Laplace approximation at 9 parameter (outer)
+  grid points (one dot per point): .........</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">par</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mfrow =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>))</span>
+<span id="cb48-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">density</span>(result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>samples[, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta[1]"</span>]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">main =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlab =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta[1]"</span>)</span>
+<span id="cb48-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_beta1<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inla.dmarginal</span>(hmc_beta1<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, fit_inla<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>marginals.fixed[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>)</span>
+<span id="cb48-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_beta1, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'green'</span>)</span>
+<span id="cb48-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">density</span>(result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>samples[, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta[2]"</span>]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">main =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlab =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beta[2]"</span>)</span>
+<span id="cb48-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_beta2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inla.dmarginal</span>(hmc_beta2<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, fit_inla<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>marginals.fixed[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>)</span>
+<span id="cb48-7"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_beta2, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'green'</span>)</span>
+<span id="cb48-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">density</span>(result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>samples[, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"re[1]"</span>]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">main =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlab =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"re[1]"</span>)</span>
+<span id="cb48-9"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_re1<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inla.dmarginal</span>(hmc_re1<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, fit_inla<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>marginals.random[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]][[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>)</span>
+<span id="cb48-10"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_re1, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'green'</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://r-nimble.org/blog/nimbleQuad_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="improving-the-parameter-marginals" class="level3">
+<h3 class="anchored" data-anchor-id="improving-the-parameter-marginals">Improving the Parameter Marginals</h3>
+<p>Although the integration-free method is fast and performs reasonably well, it may be that the user wishes to get a more exact marginal. This is done individually for each parameter of interest, marginalizing over the remaining parameters using an outer quadrature rule (AGHQ, CCD, AGHQSPARSE, USER), with AGHQ as the default. We choose the number of quadrature points for marginalization (<code>nQuad</code>) as well as the number of points along a grid to evaluate the marginal (<code>nMarginalGrid</code>). Increasing either can improve performance but at the expense of additional computation and generally with diminishing improvement.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1">result  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Original (integration-free) parameter estimates</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model (hyper)parameters: 
+            mean         sd      2.5%       25%       50%      75%     97.5%
+p      0.2829532 0.03213737 0.2223163 0.2607501 0.2822413 0.304266 0.3480409
+tau_re 4.2832265 2.21980867 1.4690074 2.7377845 3.7993353 5.280151 9.9046828
+
+Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
+Marginal log-likelihood (grid-based): -957.3845(*)
+  (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1">result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">improveParamMarginals</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nodes =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'tau_re'</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'p'</span>),</span>
+<span id="cb51-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nMarginalGrid =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">nQuad =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">quadRule =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AGHQ"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Approximating 2 individual parameter marginal densities via AGHQ:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  - calculating inner AGHQ/Laplace approximation at (9) marginal points
+    with 3 quadrature grid points (one dot per grid point): (1)...(2)...(3)...(4)...(5)...(6)...(7)...(8)...(9)...
+  - calculating inner AGHQ/Laplace approximation at (9) marginal points
+    with 3 quadrature grid points (one dot per grid point): (1)...(2)...(3)...(4)...(5)...(6)...(7)...(8)...(9)...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model (hyper)parameters: 
+            mean         sd     2.5%       25%       50%       75%     97.5%
+p      0.2829161 0.03233042 0.220414 0.2608876 0.2826332 0.3046184  0.347118
+tau_re 4.3240215 2.34440791 1.450420 2.7365618 3.8040399 5.3028558 10.249151
+
+Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
+Marginal log-likelihood (grid-based): -957.3845(*)
+  (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
+</div>
+</div>
+<p>Comparing to the quantiles from the integration-free approach, the differences are generally minor, but there is a noticeable difference in the right tail for <code>tau_re</code>.</p>
+</section>
+<section id="customizing-the-quadrature-grid" class="level3">
+<h3 class="anchored" data-anchor-id="customizing-the-quadrature-grid">Customizing the Quadrature Grid</h3>
+<p>For the salamanders example, we have two parameters, for which <code>nimbleQuad</code> defaults to using AGHQ as the parameter grid. The grid points are skewed based on the skew from the asymmetric multivariate normal approximation, and then scaled using spectral decomposition (or Cholesky decomposition).</p>
+<p>For more than two parameters, <code>nimbleQuad</code> defaults to using a CCD grid, also used by INLA.</p>
+<p>The user may also provide their own parameter grid. This must be written as a <code>nimbleFunction</code> with some specific components and is described in <a href="https://r-nimble.org/vignettes/nimbleQuad.html#customizing-the-quadrature-grid">the nimbleQuad vignette</a>.</p>
+</section>
+<section id="sampling-from-the-posterior-over-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="sampling-from-the-posterior-over-parameters">Sampling from the posterior over parameters</h3>
+<p>The user may also choose to sample from the asymmetric multivariate normal approximation to make inference about the parameters. This can be particularly useful when making inference on parameters with dimension changes (e.g., proportions with a Dirichlet prior or elements of a covariance matrix, such as one with a Wishart or LKJ prior) or generally making inference about functionals of multiple parameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1">samples_params <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sampleParams</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10000</span>)</span>
+<span id="cb55-2">result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plotMarginal</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tau_re"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">17</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lwd=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb55-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">density</span>(samples_params[,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'black'</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lty =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb55-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lines</span>(hmc_tau_re, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'green'</span>)</span>
+<span id="cb55-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">legend</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"topright"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">legend =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nested approx"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nested approx, samples"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HMC"</span>),</span>
+<span id="cb55-6">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">col =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'black'</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'black'</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'green'</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">lty =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bty =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'n'</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://r-nimble.org/blog/nimbleQuad_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-selection-and-the-marginal-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="model-selection-and-the-marginal-likelihood">Model selection and the marginal likelihood</h3>
+<p>With proper priors, one can calculate <img src="https://latex.codecogs.com/png.latex?p(y)=%5Cint%20p(y%7C%5Ctheta)p(%5Ctheta)d%5Ctheta">, the marginal likelihood, which is useful for model selection. This is reported with the nested approximation results, initially using an asymmetric multivariate normal approximation to the joint posterior of the parameters. An an improved estimate based on quadrature over the parameter grid (by default using AGHQ) can be obtained using the <code>calcMarginalLogLikImproved</code> method of the nested approximation object.</p>
+<p>However, much caution is warranted. The quantity is ill-defined when the prior is improper. Furthermore, even with proper priors, if the prior is diffuse, the integral will generally average over values of the parameters that give very poor fits to the data, which can produce misleading results for model selection.</p>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="ref-martins2013bayesian" class="csl-entry">
+Martins, Thiago G, Daniel Simpson, Finn Lindgren, and Håvard Rue. 2013. <span>“Bayesian Computing with INLA: New Features.”</span> <em>Computational Statistics &amp; Data Analysis</em> 67: 68–83.
+</div>
+<div id="ref-rue2009approximate" class="csl-entry">
+Rue, Håvard, Sara Martino, and Nicolas Chopin. 2009. <span>“Approximate Bayesian Inference for Latent Gaussian Models by Using Integrated Nested Laplace Approximations.”</span> <em>Journal of the Royal Statistical Society Series B: Statistical Methodology</em> 71 (2): 319–92.
+</div>
+<div id="ref-stringer2023fast" class="csl-entry">
+Stringer, Alex, Patrick Brown, and Jamie Stafford. 2023. <span>“Fast, Scalable Approximations to Posterior Distributions in Extended Latent Gaussian Models.”</span> <em>Journal of Computational and Graphical Statistics</em> 32 (1): 84–98.
+</div>
+</div></section></div> ]]></description>
+  <category>R</category>
+  <category>tutorial</category>
+  <guid>https://r-nimble.org/blog/nimbleQuad.html</guid>
+  <pubDate>Thu, 29 Jan 2026 08:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Using derived quantities in NIMBLE’s MCMC system</title>
   <dc:creator>NIMBLE Development Team</dc:creator>
@@ -1335,401 +2850,6 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
   <category>R</category>
   <guid>https://r-nimble.org/blog/a-close-look-at-some-linear-model-mcmc-comparisons.html</guid>
   <pubDate>Thu, 11 Nov 2021 08:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>A close look at some posted trials of nimble for accelerated failure time models</title>
-  <dc:creator>Perry de Valpine</dc:creator>
-  <link>https://r-nimble.org/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>A bunch of folks have brought to our attention a <a href="https://arxiv.org/abs/2107.09357">manuscript by Beraha, Falco and Guglielmi (BFG) posted on arXiv</a> giving some comparisons between JAGS, NIMBLE, and Stan. Naturally, we wanted to take a look. Each package performs best in some of their comparisons. There’s a lot going on, so here we’re just going to work through the last of their four examples, an accelerated failure time (AFT) model, because that’s the one where NIMBLE looks the worst in their results. The code from BFG is given on GitHub <a href="https://github.com/daniele-falco/software_comparison">here</a>.</p>
-<p>There may be some issues with their other three examples as well, and we might work through those in future blog post(s). NIMBLE provides a lot of flexibility for configuring MCMCs in different ways (with different samplers), which means a comparison using our default configuration is just a start. Performance differences can also arise from writing the same model in different ways. We see both kinds of issues coming up for the other examples. But the AFT example gives a lot to talk about, so we’re sticking to that one here.</p>
-<p>It turns out that NIMBLE and JAGS were put at a huge disadvantage compared to Stan, and that BFG’s results from NIMBLE don’t look valid, and that there isn’t any exploration of NIMBLE’s configurability. If we make the model for NIMBLE and JAGS comparable to the model for Stan, NIMBLE does roughly 2-45 times better in various cases than what BFG reported. If we explore a simple block sampling option, NIMBLE gets a small additional boost in some cases. It’s hard to compare results exactly with what BFG report, and we are not out to re-run the full comparison including JAGS and Stan. A “back of the envelope” comparison suggests that NIMBLE is still less efficient than Stan for this example, but not nearly to the degree reported. We’re also not out to explore many sampling configurations to try for better performance in this particular example problem, but part of NIMBLE’s design is to make it easy to do so.</p>
-<p>Before starting into the AFT models, it’s worth recognizing that software benchmarks and other kinds of performance comparisons are really hard to do well. It’s almost inevitable that, when done by developers of one package, that package gets a boost in results even if objectivity is the honest goal. That’s because package developers almost can’t help using their package effectively and likely don’t know how to use other packages as well as their own. In this case, it’s fair to point out that NIMBLE needs more care in providing valid initial values (which BFG’s code doesn’t do) and that NIMBLE’s default samplers don’t work well here, which is because this problem features heavy right tails of Weibull distributions with shape parameter &lt; 1. For many users, that is not a typical problem. By choosing slice samplers (which JAGS often uses too) instead of NIMBLE’s default Metropolis-Hastings samplers, the mixing is much better. This issue is only relevant to the problem as BFG formulated it for JAGS and NIMBLE and goes away when we put it on par with the formulation BFG gave to Stan. In principle, comparisons by third parties, like BFG, might be more objective than those by package developers, but in this case the comparisons by BFG don’t use JAGS or NIMBLE effectively and include incorrect results from NIMBLE.</p>
-<p>Below we try to reproduce their (invalid) results for NIMBLE and to run some within-NIMBLE comparisons of other methods. We’ll stick to their model scenarios and performance metrics. Those metrics are not the way we’ve done some published MCMC comparisons <a href="https://link.springer.com/article/10.1007/s10651-016-0353-z">here</a>, <a href="https://doi.org/10.1002/ece3.6053">here</a> and <a href="https://doi.org/10.1002/ecs2.3385">here</a>, but using them will allow readers to interpret our results alongside theirs.</p>
-<p>First we’ll give a brief summary of their model scenarios. Here goes.</p>
-<section id="accelerated-failure-time-aft-models" class="level1">
-<h1>Accelerated Failure Time (AFT) models</h1>
-<p>Here’s a lightning introduction to AFT models based on Weibull distributions. These are models for time-to-event data such as a “failure.” For shape <img src="https://latex.codecogs.com/png.latex?a"> and scale <img src="https://latex.codecogs.com/png.latex?s">, the Weibull probability density function for time <img src="https://latex.codecogs.com/png.latex?t"> is</p>
-<p><img src="https://latex.codecogs.com/png.latex?f_W(t%20%7C%20a,%20s)%20=%20%5Cfrac%7Ba%7D%7Bs%7D%5Cleft(%5Cfrac%7Bt%7D%7Bs%7D%5Cright)%5E%7Ba-1%7D%20e%5E%7B-%5Cleft(%5Cfrac%7Bt%7D%7Bs%7D%5Cright)%5Ea%7D"></p>
-<p>One important thing about the Weibull is that its cumulative density can be written in closed form. It is:</p>
-<p><img src="https://latex.codecogs.com/png.latex?F_W(t%20%7C%20a,%20s)%20=%201-e%5E%7B%5Cleft(%5Cfrac%7Bt%7D%7Bs%7D%5Cright)%5Ea%7D"></p>
-<p>The role of covariates is to accelerate or decelerate the time course towards failure, effectively stretching or shrinking the time scale for each item. Specifically, for covariate vector <img src="https://latex.codecogs.com/png.latex?x"> and coefficient vector <img src="https://latex.codecogs.com/png.latex?%5Ceta">, define <img src="https://latex.codecogs.com/png.latex?%5Ctheta%20=%20e%5E%7B-x'%20%5Ceta%7D">. Then the distribution of times-to-event is defined by rescaling the Weibull: <img src="https://latex.codecogs.com/png.latex?f(t%20%7C%20%5Ctheta,%20a,%20s)%20=%20%5Ctheta%20f_W(%5Ctheta%20t%20%7C%20a,%20s)">. This gives a Weibull with shape <img src="https://latex.codecogs.com/png.latex?a"> and scale <img src="https://latex.codecogs.com/png.latex?s%20/%20%5Ctheta">, so we have</p>
-<p><img src="https://latex.codecogs.com/png.latex?f(t%20%7C%20%5Ctheta,%20a,%20s)%20=%20f_W%5Cleft(t%20%7C%20a,%20%5Cfrac%7Bs%7D%7B%5Ctheta%7D%5Cright)"></p>
-<p>In the code, there are two parameterizations in play. The first is <img src="https://latex.codecogs.com/png.latex?(a,%20s)"> as just given. This is used in Stan and could be used in NIMBLE because it supports alternative parameterizations, including that one. Given <img src="https://latex.codecogs.com/png.latex?%5Ceta">, the scale is <img src="https://latex.codecogs.com/png.latex?%5Clog(2)%5E%7B-%5Cfrac%7B1%7D%7Ba%7D%7D%20e%5E%7Bx'%20%5Ceta%7D">. The second is <img src="https://latex.codecogs.com/png.latex?%5Cleft(a,%20%5Clambda%20=%20%5Cleft(%5Cfrac%7B1%7D%7Bs%7D%5Cright)%5E%7Ba%7D%5Cright)">. This is the parameterization in the BUGS model language, so it is used in JAGS and is the default in NIMBLE. Given <img src="https://latex.codecogs.com/png.latex?%5Ceta">, <img src="https://latex.codecogs.com/png.latex?%5Clambda%20=%20%5Clog(2)%20e%5E%7B-a(x'%20%5Ceta)%7D">.</p>
-<p>The reason for the <img src="https://latex.codecogs.com/png.latex?%5Clog(2)"> is that it makes the median of <img src="https://latex.codecogs.com/png.latex?f_W(t%20%7C%20a,%20s)"> be 1 for any <img src="https://latex.codecogs.com/png.latex?a">, i.e.&nbsp;when <img src="https://latex.codecogs.com/png.latex?x'%20%5Ceta%20=%200">. Priors are put on <img src="https://latex.codecogs.com/png.latex?a"> (<code>alpha</code> in the code) and <img src="https://latex.codecogs.com/png.latex?%5Ceta"> (<code>beta</code>). There is no separate scale parameter. Rather, <img src="https://latex.codecogs.com/png.latex?%5Clambda%20=%20%5Clog(2)"> when <img src="https://latex.codecogs.com/png.latex?x'%20%5Ceta%20=%200">. The models are equivalent with either parameterization, and they shouldn’t have much impact on computational efficiency. We’re just pointing them out to follow what’s going on.</p>
-<section id="right-censored-failure-time-data" class="level2">
-<h2 class="anchored" data-anchor-id="right-censored-failure-time-data">Right-censored failure time data</h2>
-<p>When a failure time is directly observed, its likelihood contribution is <img src="https://latex.codecogs.com/png.latex?f_W(t%20%7C%20a,%20s%20e%5E%7Bx'%20%5Ceta%7D)">. When a unit hasn’t failed by its last observation, all that is known is that it lasted at least until <img src="https://latex.codecogs.com/png.latex?t">. Then its likelihood contribution is <img src="https://latex.codecogs.com/png.latex?1-F_W(t%20%7C%20a,%20s%20e%5E%7Bx'%20%5Ceta%7D)">. This is called a right-censored observation. Thus the data consist of some <img src="https://latex.codecogs.com/png.latex?t">s that are actual failure times and some <img src="https://latex.codecogs.com/png.latex?t">s that are right-censoring times.</p>
-<p>There are two ways to handle a right-censored observation in MCMC:</p>
-<ul>
-<li>Include the likelihood factor <img src="https://latex.codecogs.com/png.latex?1-F_W(t%20%7C%20a,%20s%20e%5E%7Bx'%20%5Ceta%7D)">. This is how BFG set up the model for Stan.</li>
-<li>Include a latent state, <img src="https://latex.codecogs.com/png.latex?t'">, for the failure time. Include the likelihood factor <img src="https://latex.codecogs.com/png.latex?f_W(t'%20%7C%20a,%20s%20e%5E%7Bx'%20%5Ceta%7D)"> and let MCMC sample <img src="https://latex.codecogs.com/png.latex?t'">, with the numerical effect of integrating over it. This is how BFG set up the model for JAGS and NIMBLE.</li>
-</ul>
-<p>The first version is marginalized relative to the second version because <img src="https://latex.codecogs.com/png.latex?1-F_W(t%20%7C%20a,%20s%20e%5E%7Bx'%20%5Ceta%7D)"> integrates over <img src="https://latex.codecogs.com/png.latex?t'"> without needing to sample it. Often, but not always, marginalization is computationally faster and gives better mixing, so it makes the MCMC problem easier. That’s why the comparison as set up by BFG seems like an apples-to-oranges comparison. They’ve made the problem substantially easier for Stan.</p>
-<p>It’s easy to set up the marginalized version for JAGS or NIMBLE. This can be done using the “zeroes” trick in the BUGS language, which both packages use for writing models. In NIMBLE this can also be done by writing a user-defined distribution as a <code>nimbleFunction</code>, which can be compiled along with a model.</p>
-</section>
-<section id="bfgs-scenarios" class="level2">
-<h2 class="anchored" data-anchor-id="bfgs-scenarios">BFG’s scenarios</h2>
-<p>BFG included the following scenarios:</p>
-<ul>
-<li>Sample size, <img src="https://latex.codecogs.com/png.latex?N">, is 100 or 1000.</li>
-<li>Number of explanatory variables, <img src="https://latex.codecogs.com/png.latex?p">, is 4 or 16. These always include an intercept. Other covariates, and the true coefficient values, are simulated.</li>
-<li>Censoring times are drawn from another Weibull distribution. This is set up following previous works such that the expected proportion of censored values is 20%, 50% or 80%.</li>
-<li>Most of their comparisons use informative priors. Those are the ones we look at here. Again, we weren’t out to look at everything they did.</li>
-<li>They used <img src="https://latex.codecogs.com/png.latex?N_%7Bit%7D%20=%2010,000"> total iterations. Of these, <img src="https://latex.codecogs.com/png.latex?5,000"> were discarded as burn-in (warmup). They used a thinning interval of 2, resulting in <img src="https://latex.codecogs.com/png.latex?N_s%20=%202,500"> saved samples.</li>
-</ul>
-</section>
-</section>
-<section id="some-issues-to-explore" class="level1">
-<h1>Some issues to explore</h1>
-<p>Now that we’ve set up the background, we are ready to list some of the issues with BFG’s comparisons that are worth exploring. For the computational experiments below, we decided to limit our efforts to NIMBLE because we are not trying to re-do BFG’s full analysis. Here are the main issues.</p>
-<ol type="1">
-<li><strong>BFG gave Stan a much easier problem than they gave JAGS and NIMBLE.</strong> Stan was allowed to use direct calculation of right-censored probabilities. These are complementary (right-tail) cumulative probability density calculations. NIMBLE and JAGS were made to sample latent failure times for censored items, even though they can be set up to use the cumulative calculations as well. Below we give NIMBLE a more comparable problem to the one given by BFG to Stan.</li>
-<li><strong>It looks like BFG must not have obtained valid results from NIMBLE because they did not set up valid initial values for latent failure times.</strong> NIMBLE can be more sensitive to initial values (“inits”) than JAGS. We think that’s partly because NIMBLE uses a lot of adaptive random-walk Metropolis-Hastings samplers in its default MCMC configuration. In any case, NIMBLE gives warnings at multiple steps if a user should give attention to initial values. We give warnings instead of errors because a user might have plans to add initial values at a later step, and because sometimes MCMC samplers can recover from bad initial values. In the AFT example, the model does not “know” that initial values for latent failure times must be greater than the censoring times. If they aren’t, the likelihood calculations will return a <code>-Inf</code> (or possibly <code>NA</code>), which causes trouble for the samplers. Inspection of the model after MCMC runs using BFG’s code shows that even after 10000 iterations, the model likelihood is <code>-Inf</code>, so the results are invalid. It’s fair to say this is an issue in how to use NIMBLE, but it’s confusing to include invalid results in a comparison.</li>
-<li><strong>Even with valid initial values in BFG’s model formulation, NIMBLE’s default samplers do not do well for this example. In this post, we explore slice samplers instead.</strong> The problem is that the Weibull distributions in these scenarios give long right tails, due to simulating with shape parameter &lt; 1. This corresponds to failure rates that decrease with time, like when many failures occur early and then those that don’t fail can last a long, long time. MCMC sampling of long right tails is a known challenge. In trial runs, we saw that, to some extent, the issue can be diagnosed by monitoring the latent failure times and noticing that they don’t mix well. We also saw that sometimes regression parameters displayed mixing problems. BFG report that NIMBLE’s results have mean posterior values farther from the correct values than given by the other tools, which is a hint that something is more deeply wrong. Slice samplers work much better for this situation, and it is easy to tell NIMBLE to use slice samplers, which we did.</li>
-<li><strong>BFG’s code uses matrix multiplication for <code>X%*%eta</code> in Stan, but not in NIMBLE or JAGS, even though they also support matrix multiplication.</strong> Instead, BFG’s code for NIMBLE and JAGS has a scalar declaration for each element of the matrix multiplication operation, followed by the sums that form each element of the result. We modify the code to use matrix multiplication. While we don’t often see this make a huge difference in run-time performance (when we’ve looked at the issue in other examples), it could potentially matter, and it definitely speeds up NIMBLE’s model-building and compilation steps because there is less to keep track of. An intermediate option would be to use inner products (<code>inprod</code>).</li>
-<li>It’s worth noting that <em>all of these examples are fairly fast and mix fairly well</em>. Some might disagree, but these all generate reasonable effective sample sizes in seconds-to-minutes, not hours-to-days.</li>
-<li>There are some minor issues, and we don’t want to get nit-picky. One is that we don’t see BFG’s code being set up to be reproducible. For example, not only is there no <code>set.seed</code> so that others can generate identical data sets, but it looks like <em>each package was given different simulated data sets</em>. It can happen that MCMC performance depends on the data set. While this <em>might</em> not be a huge issue, we prefer below to give each package the same, reproducible, data sets. Another issue is that looking at <em>average</em> effective sample size across parameters can be misleading because one wants all parameters mixed well, not some mixed really well and others mixed poorly. But in these examples the parameters compared are all regression-type coefficients that play similar roles in the model, and the averaging doesn’t look like a huge issue. Finally, BFG decline to report ESS/time, preferring instead to report ESS and time and let readers make sense of them. We see ESS/time as the primary metric of interest, the number of effectively independent samples generated per second, so we report it below. This gives a way to see how both mixing (ESS) and computation time contribute to MCMC performance.</li>
-</ol>
-</section>
-<section id="setting-up-the-example" class="level1">
-<h1>Setting up the example</h1>
-<p>We use BFG’s code but modify it to organize it into functions and make it reproducible. The <a href="https://github.com/nimble-dev/nimble-demos/tree/master/blog_posts/AFT_comparisons_Behara_etal">source files</a> for this document includes code chunks to run and save results. We are not running JAGS or Stan because we are not trying to reproduce a full set of comparisons. Instead we are looking into NIMBLE’s performance for this example. Since the main issue is that BFG gave NIMBLE and JAGS harder models than they gave Stan, we fix this in a way that is not NIMBLE-specific and should also work for JAGS.</p>
-<p>Here is a summary of what the code does:</p>
-<ul>
-<li>Set up the twelve cases with informative priors included in the first twelve rows of BFG’s table 5, which has their AFT results.</li>
-<li>For each of the twelve cases, run:
-<ul>
-<li>the original method of BFG, which gives <strong>invalid</strong> results but is useful for trying to see how much later steps improve over what BFG reported;</li>
-<li>a method with valid initial values and slice sampling, but still in the harder model formulation given by BFG;</li>
-<li>a method with the model formulation matching what BFG gave to Stan, using marginal probabilities for censored times and also using matrix multiplication;</li>
-<li>a method with the model formulation matching what BFG gave to Stan and also with one simple experiment in block sampling. The block sampler used is a multivariate adaptive random-walk Metropolis-Hastings sampler for all the regression coefficients. It sometimes helps to let these try multiple propose-accept/reject steps because otherwise <img src="https://latex.codecogs.com/png.latex?p"> tries are replaced with 1 try (where <img src="https://latex.codecogs.com/png.latex?p">) is the number of regression coefficients). As a heuristic choice, we used <img src="https://latex.codecogs.com/png.latex?p/2"> tries each time the sampler ran.</li>
-</ul></li>
-</ul>
-<p>Although the original method of BFG seems to give invalid results, we include it so we can try to roughly compare performance (shown below) against what they report. However one difficulty is that processing with <code>-Inf</code> and <code>NaN</code> values can be substantially slower than processing with actual numbers, and these issues might differ across systems.</p>
-<p>Results here are run on a MacBook Pro (2019), with 2.4 GHz 8-Core Intel Core i9, and OS X version 11.6.</p>
-</section>
-<section id="results" class="level1">
-<h1>Results</h1>
-<p>Here are the results, in a table that roughly matches the format of BFG’s Table 5. “Perc” is the average fraction of observations that are right-censored.</p>
-<p>As best as we can determine:</p>
-<ul>
-<li>“ESS/Ns” is their “ε_η”. This is the mean effective sample size of the (4 or 16) beta coefficients per saved MCMC iteration. The number of saved iterations, N_s is 2500. We used <code>coda::effectiveSize</code> to estimate ESS. We did not see in their code what method they used. This is another reason we can’t be sure how to compare our results to theirs.</li>
-<li>“Nit/t” is their “N_it/t_s”, total number of iterations (10000) per computation time, not counting compilation time.</li>
-<li>We calculate “ESS/t”, which is the product of the previous two numbers divided by four, (ESS/Ns)*(Nit/t)/4. This is the mean effective sample size from the saved samples per total sampling time (including burn-in). One might also consider modifying this for the burn-in portion. The factor 4 comes from N_it/N_s = 4. We do it this way to make it easier to compare to BFG’s Table 5. They decline to calculate a metric of ESS per time, which we view as a fundamental metric of MCMC performance. An MCMC can be efficient either by generating well-mixed samples at high computational cost or generating poorly-mixed samples at low computational cost, so both mixing and computational cost contribute to MCMC efficiency.</li>
-</ul>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">BFG (invalid)</th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">BFG+inits+slice</th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">Marginal</th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;">Marginal+blocks</th>
-<th style="text-align: right;"></th>
-<th style="text-align: right;"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: right;">ESS/Ns</td>
-<td style="text-align: right;">Nit/t</td>
-<td style="text-align: right;">ESS/t</td>
-<td style="text-align: right;">ESS/Ns</td>
-<td style="text-align: right;">Nit/t</td>
-<td style="text-align: right;">ESS/t</td>
-<td style="text-align: right;">ESS/Ns</td>
-<td style="text-align: right;">Nit/t</td>
-<td style="text-align: right;">ESS/t</td>
-<td style="text-align: right;">ESS/Ns</td>
-<td style="text-align: right;">Nit/t</td>
-<td style="text-align: right;">ESS/t</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Perc = 0.2</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">N=100, p = 4, perc = 0.2</td>
-<td style="text-align: right;">0.27</td>
-<td style="text-align: right;">6844.63</td>
-<td style="text-align: right;">465.80</td>
-<td style="text-align: right;">0.52</td>
-<td style="text-align: right;">2325.58</td>
-<td style="text-align: right;">300.65</td>
-<td style="text-align: right;">0.39</td>
-<td style="text-align: right;">9775.17</td>
-<td style="text-align: right;">951.09</td>
-<td style="text-align: right;">0.27</td>
-<td style="text-align: right;">16233.77</td>
-<td style="text-align: right;">1109.06</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">N=1000, p = 4, perc = 0.2</td>
-<td style="text-align: right;">0.30</td>
-<td style="text-align: right;">1127.27</td>
-<td style="text-align: right;">84.71</td>
-<td style="text-align: right;">0.55</td>
-<td style="text-align: right;">306.22</td>
-<td style="text-align: right;">41.83</td>
-<td style="text-align: right;">0.41</td>
-<td style="text-align: right;">1527.88</td>
-<td style="text-align: right;">157.65</td>
-<td style="text-align: right;">0.28</td>
-<td style="text-align: right;">2490.04</td>
-<td style="text-align: right;">171.47</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">N=100, p = 16, perc = 0.2</td>
-<td style="text-align: right;">0.19</td>
-<td style="text-align: right;">3423.49</td>
-<td style="text-align: right;">161.60</td>
-<td style="text-align: right;">0.36</td>
-<td style="text-align: right;">949.49</td>
-<td style="text-align: right;">84.94</td>
-<td style="text-align: right;">0.27</td>
-<td style="text-align: right;">3717.47</td>
-<td style="text-align: right;">248.99</td>
-<td style="text-align: right;">0.29</td>
-<td style="text-align: right;">5621.14</td>
-<td style="text-align: right;">408.77</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">N=1000, p = 16, perc = 0.2</td>
-<td style="text-align: right;">0.08</td>
-<td style="text-align: right;">404.22</td>
-<td style="text-align: right;">7.80</td>
-<td style="text-align: right;">0.57</td>
-<td style="text-align: right;">98.86</td>
-<td style="text-align: right;">14.16</td>
-<td style="text-align: right;">0.41</td>
-<td style="text-align: right;">591.82</td>
-<td style="text-align: right;">61.12</td>
-<td style="text-align: right;">0.30</td>
-<td style="text-align: right;">1100.47</td>
-<td style="text-align: right;">83.33</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Perc = 0.5</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">N=100, p = 4, perc = 0.5</td>
-<td style="text-align: right;">0.05</td>
-<td style="text-align: right;">7262.16</td>
-<td style="text-align: right;">98.39</td>
-<td style="text-align: right;">0.08</td>
-<td style="text-align: right;">2572.68</td>
-<td style="text-align: right;">54.45</td>
-<td style="text-align: right;">0.38</td>
-<td style="text-align: right;">10214.50</td>
-<td style="text-align: right;">960.31</td>
-<td style="text-align: right;">0.26</td>
-<td style="text-align: right;">15060.24</td>
-<td style="text-align: right;">990.34</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">N=1000, p = 4, perc = 0.5</td>
-<td style="text-align: right;">0.10</td>
-<td style="text-align: right;">1106.32</td>
-<td style="text-align: right;">26.96</td>
-<td style="text-align: right;">0.10</td>
-<td style="text-align: right;">298.23</td>
-<td style="text-align: right;">7.25</td>
-<td style="text-align: right;">0.44</td>
-<td style="text-align: right;">1987.28</td>
-<td style="text-align: right;">219.92</td>
-<td style="text-align: right;">0.26</td>
-<td style="text-align: right;">3074.09</td>
-<td style="text-align: right;">196.19</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">N=100, p = 16, perc = 0.5</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">3411.80</td>
-<td style="text-align: right;">52.07</td>
-<td style="text-align: right;">0.21</td>
-<td style="text-align: right;">940.56</td>
-<td style="text-align: right;">49.94</td>
-<td style="text-align: right;">0.23</td>
-<td style="text-align: right;">3955.70</td>
-<td style="text-align: right;">229.94</td>
-<td style="text-align: right;">0.28</td>
-<td style="text-align: right;">5854.80</td>
-<td style="text-align: right;">415.89</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">N=1000, p = 16, perc = 0.5</td>
-<td style="text-align: right;">0.07</td>
-<td style="text-align: right;">339.29</td>
-<td style="text-align: right;">5.88</td>
-<td style="text-align: right;">0.07</td>
-<td style="text-align: right;">95.90</td>
-<td style="text-align: right;">1.66</td>
-<td style="text-align: right;">0.41</td>
-<td style="text-align: right;">601.90</td>
-<td style="text-align: right;">61.98</td>
-<td style="text-align: right;">0.31</td>
-<td style="text-align: right;">1074.58</td>
-<td style="text-align: right;">83.07</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Perc = 0.8</strong></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">N=100, p = 4, perc = 0.8</td>
-<td style="text-align: right;">0.03</td>
-<td style="text-align: right;">6761.33</td>
-<td style="text-align: right;">51.99</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: right;">2297.79</td>
-<td style="text-align: right;">10.79</td>
-<td style="text-align: right;">0.24</td>
-<td style="text-align: right;">9842.52</td>
-<td style="text-align: right;">602.28</td>
-<td style="text-align: right;">0.20</td>
-<td style="text-align: right;">15151.52</td>
-<td style="text-align: right;">763.36</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">N=1000, p = 4, perc = 0.8</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: right;">1013.27</td>
-<td style="text-align: right;">5.16</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: right;">265.58</td>
-<td style="text-align: right;">1.50</td>
-<td style="text-align: right;">0.39</td>
-<td style="text-align: right;">1831.50</td>
-<td style="text-align: right;">180.50</td>
-<td style="text-align: right;">0.25</td>
-<td style="text-align: right;">2856.33</td>
-<td style="text-align: right;">176.27</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">N=100, p = 16, perc = 0.8</td>
-<td style="text-align: right;">0.04</td>
-<td style="text-align: right;">3412.97</td>
-<td style="text-align: right;">33.45</td>
-<td style="text-align: right;">0.03</td>
-<td style="text-align: right;">876.96</td>
-<td style="text-align: right;">6.74</td>
-<td style="text-align: right;">0.17</td>
-<td style="text-align: right;">3853.56</td>
-<td style="text-align: right;">166.26</td>
-<td style="text-align: right;">0.23</td>
-<td style="text-align: right;">5820.72</td>
-<td style="text-align: right;">329.18</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">N=1000, p = 16, perc = 0.8</td>
-<td style="text-align: right;">0.01</td>
-<td style="text-align: right;">395.99</td>
-<td style="text-align: right;">1.22</td>
-<td style="text-align: right;">0.05</td>
-<td style="text-align: right;">95.33</td>
-<td style="text-align: right;">1.22</td>
-<td style="text-align: right;">0.39</td>
-<td style="text-align: right;">560.54</td>
-<td style="text-align: right;">54.91</td>
-<td style="text-align: right;">0.29</td>
-<td style="text-align: right;">1016.57</td>
-<td style="text-align: right;">72.55</td>
-<td style="text-align: right;"></td>
-</tr>
-</tbody>
-</table>
-<p>The left-most set of results (“BFG (invalid)”) is comparable to the right-most (“NIMBLE”) column of BFG’s Table 5, in the same row order for their first 12 rows. The simulated data sets are different. For that reason and the stochasticity of Monte Carlo methods, we shouldn’t expect to see exactly matching values. And of course the computations were run on different systems, resulting in different times. Again, these results are <strong>invalid</strong>.</p>
-<p>The next column (“BFG+inits+slice”) gives results when BFG’s model formulation for JAGS and NIMBLE is combined with valid initialization and slice sampling in NIMBLE. We can see that valid sampling generally gives lower ESS/time than the invalid results.</p>
-<p>The next column shows results when the problem is set up as BFG gave it to Stan, and NIMBLE’s default samplers are used. If we assume the left-most results are similar to what BFG report, but with times from the system used here, then the boost in performance is the ratio of ESS/time between methods. For example, in the last row, the marginal method is 54.91/1.22 = 45.01 times more efficient that what BFG reported. We can make a similar kind of ratio between Stan and NIMBLE from BFG’s results, which gave Stan as about 380 times more efficient than NIMBLE (although rounding error for “1%” could be a substantial issue here). Putting these together, Stan might really be about 8.4 times more efficient than NIMBLE for this case, which is the hardest case considered.</p>
-<p>The last column shows results of the single experiment with alternative (block) samplers that we tried. In many cases, it gives a modest additional boost. Often with more work one can find a better sampling strategy, which can be worth the trouble for extended work with a particular kind of model. In the last row of our results, this gives about another 72.55 / 54.91 = 1.32 boost in performance, lowering the ratio to Stan to about 6.4. Again, we decided to limit this post to within-NIMBLE comparisons, and the comparisons to Stan based on BFG’s results should be taken with a grain of salt because we didn’t re-run them.</p>
-<p>In summary, it looks like BFG gave Stan a different and easier accelerated failure time problem than they gave NIMBLE and JAGS. When given the same problem as they gave Stan, NIMBLE’s default samplers perform around 2 to 45 times better than what BFG reported.</p>
-
-
-</section>
-
- ]]></description>
-  <category>tutorial</category>
-  <category>R</category>
-  <guid>https://r-nimble.org/blog/a-close-look-at-some-posted-trials-of-nimble-for-accelerated-failure-time-models.html</guid>
-  <pubDate>Fri, 29 Oct 2021 07:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
