@@ -40,9 +40,11 @@ website:
             href: blog/index.qmd
           - text: "---"
           - text: "Recent Posts"
+          - text: "Using nimbleQuad for maximum likelihood estimation and deterministic posterior approximation"
+            href: blog/nimbleQuad.qmd
           - text: "Using derived quantities in NIMBLE's MCMC system"
             href: blog/derived-quantities.qmd
-          - text: "Version 1.4.0 and nimble Quad Released"
+          - text: "Version 1.4.0 and nimbleQuad Released"
             href: blog/version-1-4-0-of-nimble-released.qmd
           - text: "nimbleMacros Package"
             href: blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.qmd
@@ -75,6 +77,7 @@ website:
             href: blog/index.qmd
           - text: "---"
           - text: "Recent Posts"
+          - blog/nimbleQuad.qmd
           - blog/derived-quantities.qmd
           - blog/version-1-4-0-of-nimble-released.qmd 
           - blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.qmd

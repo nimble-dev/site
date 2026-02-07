@@ -63,12 +63,13 @@ Hug, J.E., and C.J. Paciorek. 2021. A numerically stable online implementation a
 
 A partial list of packages that extend or use nimble.
 
+- [nimbleHMC](https://cran.r-project.org/package=nimbleHMC): NIMBLE's Hamiltonian Monte Carlo (HMC) algorithm.
 - [nimbleQuad](https://cran.r-project.org/package=nimbleQuad): NIMBLE's Laplace- and quadrature-related methods including INLA-like deterministic nested approximation; Laplace (and AGHQ) approximation migrated out of the core NIMBLE package as of version 1.4.0.
 - [nimbleSMC](https://cran.r-project.org/package=nimbleSMC): all of NIMBLE's sequential Monte Carlo (aka particle filtering) algorithms; migrated out of the core NIMBLE package as of version 0.10.0.
 - [nimbleEcology](https://cran.r-project.org/package=BayesEcology): distributions commonly used in ecology for use in nimble models
 - [nimbleSCR](https://cran.r-project.org/package=nimbleSCR): utility functions, distributions, and methods for improving Markov chain Monte Carlo (MCMC) sampling efficiency for ecological spatial capture-recapture (SCR) models.
+- [nimbleMacros](https://cran.r-project.org/package=nimbleMacros): macros to generate 'nimble' code from a concise syntax.
 - [bayesNSGP](https://cran.r-project.org/package=BayesNSGP): Bayesian analysis of (non-stationary) Gaussian processes, using nimble as the computational engine.
-- bcgam: Bayesian constrained generalized linear models
 - [bridgesampling](https://cran.r-project.org/package=bridgesampling): functions for estimating marginal likelihoods, Bayes factors, posterior model probabilities, and normalizing constants in general, via different versions of bridge sampling.
-- [nimbleDistance](https://github.com/scrogster/nimbleDistance): user-defined distributions that can be used to implement distance sampling models in nimble.
 - [nimbleCarbon](https://github.com/ercrema/nimbleCarbon): utility functions and bespoke probability distributions for the Bayesian analyses of radiocarbon dates.
+- [BayesSIM](https://cran.r-project.org/web/packages/BayesSIM/index.html): implementation of single index models using nimble.
