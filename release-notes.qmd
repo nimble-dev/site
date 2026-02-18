@@ -2,6 +2,16 @@
 title: "Release notes"
 ---
 
+### February 14, 2026: We've released Version 1.4.1
+
+We've released the newest version of NIMBLE on CRAN and on our website.
+
+This is a micro release that primarily addresses some minor issues, but it also includes:
+
+ - An MCMC sampler for sampling elements of partially observed multivariate normal random variables, e.g., if one has some elements of a data vector that are missing.
+ - The ability to change the MCMC thinning interval when continuing an MCMC.
+
+
 ### December 13, 2025: We've released Version 1.4.0
 
 We've released the newest version of NIMBLE on CRAN and on our website.

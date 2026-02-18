@@ -14,7 +14,7 @@ More details and troubleshooting tips are provided in [Section 4 of the User Man
 
 If you install a new version of R, you will need to reinstall NIMBLE.
 
-## Current version (1.4.0)
+## Current version (1.4.1)
 
 ### Installing from CRAN
 
@@ -38,7 +38,7 @@ install.packages("nimble", repos = "https://r-nimble.org", type = "source")
 # the 'type = "source"' is unnecessary for Linux
 ```
 
-Or download the [source package](https://r-nimble.org/src/contrib/nimble_1.4.0.tar.gz) for installation via R CMD INSTALL on Linux, Mac, or Windows
+Or download the [source package](https://r-nimble.org/src/contrib/nimble_1.4.1.tar.gz) for installation via R CMD INSTALL on Linux, Mac, or Windows
 
 The NIMBLE source code can be viewed by unzipping the source package tarball or directly on our [GitHub repository](https://github.com/nimble-dev/nimble).
 

@@ -5,10 +5,11 @@ title: "Archived Versions of NIMBLE and the User Manual"
 This page provides access to previous versions of NIMBLE and their corresponding documentation.
 
 ## Current Version
-- **NIMBLE 1.4.0** - [Download](download.qmd) | [User Manual](https://r-nimble.org/manual/cha-welcome-nimble.html)
+- **NIMBLE 1.4.1** - [Download](download.qmd) | [User Manual](https://r-nimble.org/manual/cha-welcome-nimble.html)
 
 ## Previous Versions
 
+- [NIMBLE 1.4.0 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.4.0.tar.gz)
 - [NIMBLE 1.3.0 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.3.0.tar.gz)
 - [NIMBLE 1.2.1 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.2.1.tar.gz)
 - [NIMBLE 1.2.0 Source Package](https://r-nimble.org/src/contrib/Archive/nimble_1.2.0.tar.gz)
