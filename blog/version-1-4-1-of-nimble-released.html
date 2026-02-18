@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="NIMBLE Development Team">
-<meta name="dcterms.date" content="2020-06-14">
+<meta name="dcterms.date" content="2026-02-18">
 
-<title>New NIMBLE cheatsheat available – NIMBLE</title>
+<title>Version 1.4.1 of NIMBLE released – NIMBLE</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -194,7 +194,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">New NIMBLE cheatsheat available</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-4-1-of-nimble-released.html">Version 1.4.1 of NIMBLE released</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -235,7 +235,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
   </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../blog/version-1-4-1-of-nimble-released.html" class="sidebar-item-text sidebar-link">
+  <a href="../blog/version-1-4-1-of-nimble-released.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Version 1.4.1 of NIMBLE released</span></a>
   </div>
 </li>
@@ -276,10 +276,11 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../blog/index.html">Blog Posts</a></li><li class="breadcrumb-item"><a href="../blog/version-1-4-1-of-nimble-released.html">Version 1.4.1 of NIMBLE released</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">New NIMBLE cheatsheat available</h1>
+<h1 class="title">Version 1.4.1 of NIMBLE released</h1>
   <div class="quarto-categories">
+    <div class="quarto-category">release</div>
     <div class="quarto-category">announcement</div>
     <div class="quarto-category">R</div>
   </div>
@@ -299,7 +300,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 14, 2020</p>
+      <p class="date">February 18, 2026</p>
     </div>
   </div>
   
@@ -311,9 +312,13 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 </header>
 
 
-<p>We have prepared a cheatsheet that summarizes NIMBLE’s functionality and syntax in a two-page format that follows the RStudio collection of cheatsheets. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC and SMC).</p>
-<p>Please <a href="https://r-nimble.org/documentation">see our documentation page</a> for a link.</p>
-<p>Special thanks to Sally Paganin and Ben Goldstein for leading the development of the cheatsheet.</p>
+<p>We’ve released the newest version of NIMBLE on CRAN and on our <a href="https://r-nimble.org/">website</a>. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).</p>
+<p>Version 1.4.1 is a micro release that primarily addresses some minor issues, but it also includes:</p>
+<ul>
+<li>An MCMC sampler for sampling elements of partially observed multivariate normal random variables, e.g., if one has some elements of a data vector that are missing.</li>
+<li>The ability to change the MCMC thinning interval when continuing an MCMC.</li>
+</ul>
+<p>Please see the <a href="https://r-nimble.org/release-notes.html">release notes</a> on our website for more details.</p>
 
 
 

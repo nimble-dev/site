@@ -2,6 +2,7 @@
   {
     "listing": "/blog/index.html",
     "items": [
+      "/blog/version-1-4-1-of-nimble-released.html",
       "/blog/nimbleQuad.html",
       "/blog/derived-quantities.html",
       "/blog/version-1-4-0-of-nimble-released.html",
@@ -84,6 +85,7 @@
     "listing": "/recent-posts.html",
     "items": [
       "/blog/index.html",
+      "/blog/version-1-4-1-of-nimble-released.html",
       "/blog/nimbleQuad.html",
       "/blog/derived-quantities.html",
       "/blog/version-1-4-0-of-nimble-released.html",
