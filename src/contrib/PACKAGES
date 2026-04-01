@@ -1,8 +1,8 @@
 Package: nimble
-Version: 1.4.1
+Version: 1.4.2
 Depends: R (>= 3.1.2)
 Imports: methods,igraph,coda,R6,pracma,numDeriv
 Suggests: testthat,mcmcse,nloptr,nimbleQuad
 License: BSD_3_clause + file LICENSE | GPL (>= 2)
-MD5sum: 28c55f903a4b15f22f6ef1faa439bded
+MD5sum: 0987afcade60f6bbbf03cbf5c970617b
 NeedsCompilation: yes

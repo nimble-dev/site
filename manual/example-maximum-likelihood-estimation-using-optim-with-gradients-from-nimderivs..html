@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 17 Example: maximum likelihood estimation using optim with gradients from nimDerivs. | NimbleUserManual.knit</title>
+  <title>Chapter 18 Example: maximum likelihood estimation using optim with gradients from nimDerivs. | NimbleUserManual.knit</title>
   <meta name="description" content="This is the NIMBLE User Manual." />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 17 Example: maximum likelihood estimation using optim with gradients from nimDerivs. | NimbleUserManual.knit" />
+  <meta property="og:title" content="Chapter 18 Example: maximum likelihood estimation using optim with gradients from nimDerivs. | NimbleUserManual.knit" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/nimble-icon.png" />
   <meta property="og:description" content="This is the NIMBLE User Manual." />
   <meta name="github-repo" content="nimble-dev/nimble" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 17 Example: maximum likelihood estimation using optim with gradients from nimDerivs. | NimbleUserManual.knit" />
+  <meta name="twitter:title" content="Chapter 18 Example: maximum likelihood estimation using optim with gradients from nimDerivs. | NimbleUserManual.knit" />
   
   <meta name="twitter:description" content="This is the NIMBLE User Manual." />
   <meta name="twitter:image" content="/nimble-icon.png" />
@@ -30,7 +30,7 @@
   
 <link rel="prev" href="cha-AD.html"/>
 <link rel="next" href="references.html"/>
-<script src="libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -159,7 +159,7 @@ div.csl-indent {
 <ul class="summary">
 <img src="./nimble-icon.png"
      width=100>
-<li><a href="./cha-welcome-nimble.html">NIMBLE User Manual, Version 1.3.0</a></li>
+<li><a href="./cha-welcome-nimble.html">NIMBLE User Manual, Version 1.4.2</a></li>
 <li><a href="https://github.com/nimble-dev/nimble">NIMBLE Development Team</a></li>
 <li><a href="https://R-nimble.org">https://R-nimble.org</a></li>
 
@@ -254,6 +254,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="7.2.1" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:default-mcmc-conf"><i class="fa fa-check"></i><b>7.2.1</b> Default MCMC configuration</a></li>
 <li class="chapter" data-level="7.2.2" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:customizing-mcmc-conf"><i class="fa fa-check"></i><b>7.2.2</b> Customizing the MCMC configuration</a></li>
+<li class="chapter" data-level="7.2.3" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:derived-quantities"><i class="fa fa-check"></i><b>7.2.3</b> Setting up derived quantities for additional quantities of interest</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:build-compile-mcmc"><i class="fa fa-check"></i><b>7.3</b> Building and compiling the MCMC</a></li>
 <li class="chapter" data-level="7.4" data-path="cha-mcmc.html"><a href="cha-mcmc.html#sec:initMCMC"><i class="fa fa-check"></i><b>7.4</b> Initializing MCMC</a></li>
@@ -283,7 +284,7 @@ div.csl-indent {
 <li class="chapter" data-level="7.13" data-path="cha-mcmc.html"><a href="cha-mcmc.html#mcmc-suite-compare-mcmcs"><i class="fa fa-check"></i><b>7.13</b> Comparing different MCMCs with <em>compareMCMCs</em></a></li>
 <li class="chapter" data-level="7.14" data-path="cha-mcmc.html"><a href="cha-mcmc.html#running-mcmc-chains-in-parallel"><i class="fa fa-check"></i><b>7.14</b> Running MCMC chains in parallel</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html"><i class="fa fa-check"></i><b>8</b> Particle Filters, PMCMC, MCEM, Laplace approximation and quadrature</a>
+<li class="chapter" data-level="8" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html"><i class="fa fa-check"></i><b>8</b> Particle Filters, PMCMC, and MCEM</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#particle-filters-sequential-monte-carlo-and-iterated-filtering"><i class="fa fa-check"></i><b>8.1</b> Particle filters / sequential Monte Carlo and iterated filtering</a>
 <ul>
@@ -294,189 +295,192 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="8.2.1" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#sec:estimate-mcem-cov"><i class="fa fa-check"></i><b>8.2.1</b> Estimating the asymptotic covariance From MCEM</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#sec:AD-laplace"><i class="fa fa-check"></i><b>8.3</b> Laplace approximation and adaptive Gauss-Hermite quadrature</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#glmm-example"><i class="fa fa-check"></i><b>8.3.1</b> GLMM example</a></li>
-<li class="chapter" data-level="8.3.2" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#using-laplace-approximation"><i class="fa fa-check"></i><b>8.3.2</b> Using Laplace approximation</a></li>
-<li class="chapter" data-level="8.3.3" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#using-the-laplace-approximation-methods-directly"><i class="fa fa-check"></i><b>8.3.3</b> Using the Laplace approximation methods directly</a></li>
-<li class="chapter" data-level="8.3.4" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#changing-the-optimization-methods"><i class="fa fa-check"></i><b>8.3.4</b> Changing the optimization methods</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#sec:nested-approx"><i class="fa fa-check"></i><b>8.4</b> Nested approximation methods</a>
+<li class="chapter" data-level="9" data-path="cha-laplace.html"><a href="cha-laplace.html"><i class="fa fa-check"></i><b>9</b> Laplace, AGHQ, and nested approximations</a>
 <ul>
-<li class="chapter" data-level="8.4.1" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#overview-of-the-methodology"><i class="fa fa-check"></i><b>8.4.1</b> Overview of the methodology</a></li>
-<li class="chapter" data-level="8.4.2" data-path="cha-algos-provided.html"><a href="cha-algos-provided.html#using-nimbles-nested-approximation"><i class="fa fa-check"></i><b>8.4.2</b> Using NIMBLE’s nested approximation</a></li>
+<li class="chapter" data-level="9.1" data-path="cha-laplace.html"><a href="cha-laplace.html#sec:AD-laplace"><i class="fa fa-check"></i><b>9.1</b> Laplace approximation and adaptive Gauss-Hermite quadrature (AGHQ)</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="cha-laplace.html"><a href="cha-laplace.html#glmm-example"><i class="fa fa-check"></i><b>9.1.1</b> GLMM example</a></li>
+<li class="chapter" data-level="9.1.2" data-path="cha-laplace.html"><a href="cha-laplace.html#using-laplace-approximation"><i class="fa fa-check"></i><b>9.1.2</b> Using Laplace approximation</a></li>
+<li class="chapter" data-level="9.1.3" data-path="cha-laplace.html"><a href="cha-laplace.html#using-the-laplace-approximation-methods-directly"><i class="fa fa-check"></i><b>9.1.3</b> Using the Laplace approximation methods directly</a></li>
+<li class="chapter" data-level="9.1.4" data-path="cha-laplace.html"><a href="cha-laplace.html#changing-the-optimization-methods"><i class="fa fa-check"></i><b>9.1.4</b> Changing the optimization methods</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="cha-spatial.html"><a href="cha-spatial.html"><i class="fa fa-check"></i><b>9</b> Spatial models</a>
+<li class="chapter" data-level="9.2" data-path="cha-laplace.html"><a href="cha-laplace.html#sec:nested-approx"><i class="fa fa-check"></i><b>9.2</b> Nested approximation (INLA-like) methods</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="cha-spatial.html"><a href="cha-spatial.html#intrinsic-gaussian-car-model-dcar_normal"><i class="fa fa-check"></i><b>9.1</b> Intrinsic Gaussian CAR model: <em>dcar_normal</em></a>
-<ul>
-<li class="chapter" data-level="9.1.1" data-path="cha-spatial.html"><a href="cha-spatial.html#specification-and-density"><i class="fa fa-check"></i><b>9.1.1</b> Specification and density</a></li>
-<li class="chapter" data-level="9.1.2" data-path="cha-spatial.html"><a href="cha-spatial.html#example"><i class="fa fa-check"></i><b>9.1.2</b> Example</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="cha-spatial.html"><a href="cha-spatial.html#proper-gaussian-car-model-dcar_proper"><i class="fa fa-check"></i><b>9.2</b> Proper Gaussian CAR model: <em>dcar_proper</em></a>
-<ul>
-<li class="chapter" data-level="9.2.1" data-path="cha-spatial.html"><a href="cha-spatial.html#specification-and-density-1"><i class="fa fa-check"></i><b>9.2.1</b> Specification and density</a></li>
-<li class="chapter" data-level="9.2.2" data-path="cha-spatial.html"><a href="cha-spatial.html#example-1"><i class="fa fa-check"></i><b>9.2.2</b> Example</a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="cha-spatial.html"><a href="cha-spatial.html#sec:spatial-mcmc-sampling-car"><i class="fa fa-check"></i><b>9.3</b> MCMC Sampling of CAR models</a>
-<ul>
-<li class="chapter" data-level="9.3.1" data-path="cha-spatial.html"><a href="cha-spatial.html#initial-values"><i class="fa fa-check"></i><b>9.3.1</b> Initial values</a></li>
-<li class="chapter" data-level="9.3.2" data-path="cha-spatial.html"><a href="cha-spatial.html#zero-neighbor-regions"><i class="fa fa-check"></i><b>9.3.2</b> Zero-neighbor regions</a></li>
-<li class="chapter" data-level="9.3.3" data-path="cha-spatial.html"><a href="cha-spatial.html#zero-mean-constraint"><i class="fa fa-check"></i><b>9.3.3</b> Zero-mean constraint</a></li>
+<li class="chapter" data-level="9.2.1" data-path="cha-laplace.html"><a href="cha-laplace.html#overview-of-the-methodology"><i class="fa fa-check"></i><b>9.2.1</b> Overview of the methodology</a></li>
+<li class="chapter" data-level="9.2.2" data-path="cha-laplace.html"><a href="cha-laplace.html#using-nimbles-nested-approximation"><i class="fa fa-check"></i><b>9.2.2</b> Using NIMBLE’s nested approximation</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="cha-bnp.html"><a href="cha-bnp.html"><i class="fa fa-check"></i><b>10</b> Bayesian nonparametric models</a>
+<li class="chapter" data-level="10" data-path="cha-spatial.html"><a href="cha-spatial.html"><i class="fa fa-check"></i><b>10</b> Spatial models</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:bnpmixtures"><i class="fa fa-check"></i><b>10.1</b> Bayesian nonparametric mixture models</a></li>
-<li class="chapter" data-level="10.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:crp"><i class="fa fa-check"></i><b>10.2</b> Chinese Restaurant Process model</a>
+<li class="chapter" data-level="10.1" data-path="cha-spatial.html"><a href="cha-spatial.html#intrinsic-gaussian-car-model-dcar_normal"><i class="fa fa-check"></i><b>10.1</b> Intrinsic Gaussian CAR model: <em>dcar_normal</em></a>
 <ul>
-<li class="chapter" data-level="10.2.1" data-path="cha-bnp.html"><a href="cha-bnp.html#specification-and-density-2"><i class="fa fa-check"></i><b>10.2.1</b> Specification and density</a></li>
-<li class="chapter" data-level="10.2.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:excrp"><i class="fa fa-check"></i><b>10.2.2</b> Example</a></li>
-<li class="chapter" data-level="10.2.3" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:extensionscrp"><i class="fa fa-check"></i><b>10.2.3</b> Extensions</a></li>
+<li class="chapter" data-level="10.1.1" data-path="cha-spatial.html"><a href="cha-spatial.html#specification-and-density"><i class="fa fa-check"></i><b>10.1.1</b> Specification and density</a></li>
+<li class="chapter" data-level="10.1.2" data-path="cha-spatial.html"><a href="cha-spatial.html#example"><i class="fa fa-check"></i><b>10.1.2</b> Example</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:sb"><i class="fa fa-check"></i><b>10.3</b> Stick-breaking model</a>
+<li class="chapter" data-level="10.2" data-path="cha-spatial.html"><a href="cha-spatial.html#proper-gaussian-car-model-dcar_proper"><i class="fa fa-check"></i><b>10.2</b> Proper Gaussian CAR model: <em>dcar_proper</em></a>
 <ul>
-<li class="chapter" data-level="10.3.1" data-path="cha-bnp.html"><a href="cha-bnp.html#specification-and-function"><i class="fa fa-check"></i><b>10.3.1</b> Specification and function</a></li>
-<li class="chapter" data-level="10.3.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:exsb"><i class="fa fa-check"></i><b>10.3.2</b> Example</a></li>
+<li class="chapter" data-level="10.2.1" data-path="cha-spatial.html"><a href="cha-spatial.html#specification-and-density-1"><i class="fa fa-check"></i><b>10.2.1</b> Specification and density</a></li>
+<li class="chapter" data-level="10.2.2" data-path="cha-spatial.html"><a href="cha-spatial.html#example-1"><i class="fa fa-check"></i><b>10.2.2</b> Example</a></li>
 </ul></li>
-<li class="chapter" data-level="10.4" data-path="cha-bnp.html"><a href="cha-bnp.html#mcmc-sampling-of-bnp-models"><i class="fa fa-check"></i><b>10.4</b> MCMC sampling of BNP models</a>
+<li class="chapter" data-level="10.3" data-path="cha-spatial.html"><a href="cha-spatial.html#sec:spatial-mcmc-sampling-car"><i class="fa fa-check"></i><b>10.3</b> MCMC Sampling of CAR models</a>
 <ul>
-<li class="chapter" data-level="10.4.1" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:mcmcdcrp"><i class="fa fa-check"></i><b>10.4.1</b> Sampling CRP models</a></li>
-<li class="chapter" data-level="10.4.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:mcmcsb"><i class="fa fa-check"></i><b>10.4.2</b> Sampling stick-breaking models</a></li>
+<li class="chapter" data-level="10.3.1" data-path="cha-spatial.html"><a href="cha-spatial.html#initial-values"><i class="fa fa-check"></i><b>10.3.1</b> Initial values</a></li>
+<li class="chapter" data-level="10.3.2" data-path="cha-spatial.html"><a href="cha-spatial.html#zero-neighbor-regions"><i class="fa fa-check"></i><b>10.3.2</b> Zero-neighbor regions</a></li>
+<li class="chapter" data-level="10.3.3" data-path="cha-spatial.html"><a href="cha-spatial.html#zero-mean-constraint"><i class="fa fa-check"></i><b>10.3.3</b> Zero-mean constraint</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="cha-bnp.html"><a href="cha-bnp.html"><i class="fa fa-check"></i><b>11</b> Bayesian nonparametric models</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:bnpmixtures"><i class="fa fa-check"></i><b>11.1</b> Bayesian nonparametric mixture models</a></li>
+<li class="chapter" data-level="11.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:crp"><i class="fa fa-check"></i><b>11.2</b> Chinese Restaurant Process model</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="cha-bnp.html"><a href="cha-bnp.html#specification-and-density-2"><i class="fa fa-check"></i><b>11.2.1</b> Specification and density</a></li>
+<li class="chapter" data-level="11.2.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:excrp"><i class="fa fa-check"></i><b>11.2.2</b> Example</a></li>
+<li class="chapter" data-level="11.2.3" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:extensionscrp"><i class="fa fa-check"></i><b>11.2.3</b> Extensions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:sb"><i class="fa fa-check"></i><b>11.3</b> Stick-breaking model</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="cha-bnp.html"><a href="cha-bnp.html#specification-and-function"><i class="fa fa-check"></i><b>11.3.1</b> Specification and function</a></li>
+<li class="chapter" data-level="11.3.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:exsb"><i class="fa fa-check"></i><b>11.3.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="cha-bnp.html"><a href="cha-bnp.html#mcmc-sampling-of-bnp-models"><i class="fa fa-check"></i><b>11.4</b> MCMC sampling of BNP models</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:mcmcdcrp"><i class="fa fa-check"></i><b>11.4.1</b> Sampling CRP models</a></li>
+<li class="chapter" data-level="11.4.2" data-path="cha-bnp.html"><a href="cha-bnp.html#sec:mcmcsb"><i class="fa fa-check"></i><b>11.4.2</b> Sampling stick-breaking models</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>IV Programming with NIMBLE</b></span></li>
 <li class="chapter" data-level="" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i>Overview</a></li>
-<li class="chapter" data-level="11" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html"><i class="fa fa-check"></i><b>11</b> Writing simple nimbleFunctions</a>
+<li class="chapter" data-level="12" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html"><i class="fa fa-check"></i><b>12</b> Writing simple nimbleFunctions</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:RC-intro"><i class="fa fa-check"></i><b>11.1</b> Introduction to simple nimbleFunctions</a></li>
-<li class="chapter" data-level="11.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:r-fiunctions-implemented"><i class="fa fa-check"></i><b>11.2</b> R functions (or variants) implemented in NIMBLE</a>
+<li class="chapter" data-level="12.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:RC-intro"><i class="fa fa-check"></i><b>12.1</b> Introduction to simple nimbleFunctions</a></li>
+<li class="chapter" data-level="12.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:r-fiunctions-implemented"><i class="fa fa-check"></i><b>12.2</b> R functions (or variants) implemented in NIMBLE</a>
 <ul>
-<li class="chapter" data-level="11.2.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#finding-help-for-nimbles-versions-of-r-functions"><i class="fa fa-check"></i><b>11.2.1</b> Finding help for NIMBLE’s versions of R functions</a></li>
-<li class="chapter" data-level="11.2.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#basic-operations"><i class="fa fa-check"></i><b>11.2.2</b> Basic operations</a></li>
-<li class="chapter" data-level="11.2.3" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:basic-math-linear"><i class="fa fa-check"></i><b>11.2.3</b> Math and linear algebra</a></li>
-<li class="chapter" data-level="11.2.4" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:nimble-dist-funs"><i class="fa fa-check"></i><b>11.2.4</b> Distribution functions</a></li>
-<li class="chapter" data-level="11.2.5" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:basic-flow-control"><i class="fa fa-check"></i><b>11.2.5</b> Flow control: <em>if-then-else</em>, <em>for</em>, <em>while</em>, and <em>stop</em></a></li>
-<li class="chapter" data-level="11.2.6" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:print"><i class="fa fa-check"></i><b>11.2.6</b> <em>print</em> and <em>cat</em></a></li>
-<li class="chapter" data-level="11.2.7" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:check-user-interr"><i class="fa fa-check"></i><b>11.2.7</b> Checking for user interrupts: <em>checkInterrupt</em></a></li>
-<li class="chapter" data-level="11.2.8" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#optimization-optim-and-nimoptim"><i class="fa fa-check"></i><b>11.2.8</b> Optimization: <em>optim</em> and <em>nimOptim</em></a></li>
-<li class="chapter" data-level="11.2.9" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#integration-integrate-and-nimintegrate"><i class="fa fa-check"></i><b>11.2.9</b> Integration: <em>integrate</em> and <em>nimIntegrate</em></a></li>
-<li class="chapter" data-level="11.2.10" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:altern-keyw-some"><i class="fa fa-check"></i><b>11.2.10</b> ‘nim’ synonyms for some functions</a></li>
+<li class="chapter" data-level="12.2.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#finding-help-for-nimbles-versions-of-r-functions"><i class="fa fa-check"></i><b>12.2.1</b> Finding help for NIMBLE’s versions of R functions</a></li>
+<li class="chapter" data-level="12.2.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#basic-operations"><i class="fa fa-check"></i><b>12.2.2</b> Basic operations</a></li>
+<li class="chapter" data-level="12.2.3" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:basic-math-linear"><i class="fa fa-check"></i><b>12.2.3</b> Math and linear algebra</a></li>
+<li class="chapter" data-level="12.2.4" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:nimble-dist-funs"><i class="fa fa-check"></i><b>12.2.4</b> Distribution functions</a></li>
+<li class="chapter" data-level="12.2.5" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:basic-flow-control"><i class="fa fa-check"></i><b>12.2.5</b> Flow control: <em>if-then-else</em>, <em>for</em>, <em>while</em>, and <em>stop</em></a></li>
+<li class="chapter" data-level="12.2.6" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:print"><i class="fa fa-check"></i><b>12.2.6</b> <em>print</em> and <em>cat</em></a></li>
+<li class="chapter" data-level="12.2.7" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:check-user-interr"><i class="fa fa-check"></i><b>12.2.7</b> Checking for user interrupts: <em>checkInterrupt</em></a></li>
+<li class="chapter" data-level="12.2.8" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#optimization-optim-and-nimoptim"><i class="fa fa-check"></i><b>12.2.8</b> Optimization: <em>optim</em> and <em>nimOptim</em></a></li>
+<li class="chapter" data-level="12.2.9" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#integration-integrate-and-nimintegrate"><i class="fa fa-check"></i><b>12.2.9</b> Integration: <em>integrate</em> and <em>nimIntegrate</em></a></li>
+<li class="chapter" data-level="12.2.10" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:altern-keyw-some"><i class="fa fa-check"></i><b>12.2.10</b> ‘nim’ synonyms for some functions</a></li>
 </ul></li>
-<li class="chapter" data-level="11.3" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:how-nimble-handles"><i class="fa fa-check"></i><b>11.3</b> How NIMBLE handles types of variables</a>
+<li class="chapter" data-level="12.3" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:how-nimble-handles"><i class="fa fa-check"></i><b>12.3</b> How NIMBLE handles types of variables</a>
 <ul>
-<li class="chapter" data-level="11.3.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:nimbleList-RCFuns"><i class="fa fa-check"></i><b>11.3.1</b> nimbleList data structures</a></li>
-<li class="chapter" data-level="11.3.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:how-types-work"><i class="fa fa-check"></i><b>11.3.2</b> How numeric types work</a></li>
+<li class="chapter" data-level="12.3.1" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:nimbleList-RCFuns"><i class="fa fa-check"></i><b>12.3.1</b> nimbleList data structures</a></li>
+<li class="chapter" data-level="12.3.2" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:how-types-work"><i class="fa fa-check"></i><b>12.3.2</b> How numeric types work</a></li>
 </ul></li>
-<li class="chapter" data-level="11.4" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:decl-argum-return"><i class="fa fa-check"></i><b>11.4</b> Declaring argument and return types</a></li>
-<li class="chapter" data-level="11.5" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:comp-nimbl-pass"><i class="fa fa-check"></i><b>11.5</b> Compiled nimbleFunctions pass arguments by reference</a></li>
-<li class="chapter" data-level="11.6" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:calling-external-code"><i class="fa fa-check"></i><b>11.6</b> Calling external compiled code</a></li>
-<li class="chapter" data-level="11.7" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:calling-R-code"><i class="fa fa-check"></i><b>11.7</b> Calling uncompiled R functions from compiled nimbleFunctions</a></li>
+<li class="chapter" data-level="12.4" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:decl-argum-return"><i class="fa fa-check"></i><b>12.4</b> Declaring argument and return types</a></li>
+<li class="chapter" data-level="12.5" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:comp-nimbl-pass"><i class="fa fa-check"></i><b>12.5</b> Compiled nimbleFunctions pass arguments by reference</a></li>
+<li class="chapter" data-level="12.6" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:calling-external-code"><i class="fa fa-check"></i><b>12.6</b> Calling external compiled code</a></li>
+<li class="chapter" data-level="12.7" data-path="cha-RCfunctions.html"><a href="cha-RCfunctions.html#sec:calling-R-code"><i class="fa fa-check"></i><b>12.7</b> Calling uncompiled R functions from compiled nimbleFunctions</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="cha-user-defined.html"><a href="cha-user-defined.html"><i class="fa fa-check"></i><b>12</b> Creating user-defined distributions and functions for models</a>
+<li class="chapter" data-level="13" data-path="cha-user-defined.html"><a href="cha-user-defined.html"><i class="fa fa-check"></i><b>13</b> Creating user-defined distributions and functions for models</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-functions"><i class="fa fa-check"></i><b>12.1</b> User-defined functions</a></li>
-<li class="chapter" data-level="12.2" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-distributions"><i class="fa fa-check"></i><b>12.2</b> User-defined distributions</a>
+<li class="chapter" data-level="13.1" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-functions"><i class="fa fa-check"></i><b>13.1</b> User-defined functions</a></li>
+<li class="chapter" data-level="13.2" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-distributions"><i class="fa fa-check"></i><b>13.2</b> User-defined distributions</a>
 <ul>
-<li class="chapter" data-level="12.2.1" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:registerDistributions"><i class="fa fa-check"></i><b>12.2.1</b> Using <em>registerDistributions</em> for alternative parameterizations and providing other information</a></li>
+<li class="chapter" data-level="13.2.1" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:registerDistributions"><i class="fa fa-check"></i><b>13.2.1</b> Using <em>registerDistributions</em> for alternative parameterizations and providing other information</a></li>
 </ul></li>
-<li class="chapter" data-level="12.3" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:adv-user-def"><i class="fa fa-check"></i><b>12.3</b> Advanced user-defined functions and distributions</a></li>
-<li class="chapter" data-level="12.4" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-macros"><i class="fa fa-check"></i><b>12.4</b> User-defined model macros</a></li>
+<li class="chapter" data-level="13.3" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:adv-user-def"><i class="fa fa-check"></i><b>13.3</b> Advanced user-defined functions and distributions</a></li>
+<li class="chapter" data-level="13.4" data-path="cha-user-defined.html"><a href="cha-user-defined.html#sec:user-macros"><i class="fa fa-check"></i><b>13.4</b> User-defined model macros</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="cha-using-models.html"><a href="cha-using-models.html"><i class="fa fa-check"></i><b>13</b> Working with NIMBLE models</a>
+<li class="chapter" data-level="14" data-path="cha-using-models.html"><a href="cha-using-models.html"><i class="fa fa-check"></i><b>14</b> Working with NIMBLE models</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:accessing-variables"><i class="fa fa-check"></i><b>13.1</b> The variables and nodes in a NIMBLE model</a>
+<li class="chapter" data-level="14.1" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:accessing-variables"><i class="fa fa-check"></i><b>14.1</b> The variables and nodes in a NIMBLE model</a>
 <ul>
-<li class="chapter" data-level="13.1.1" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:get-nodes"><i class="fa fa-check"></i><b>13.1.1</b> Determining the nodes in a model</a></li>
-<li class="chapter" data-level="13.1.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:introduced-nodes"><i class="fa fa-check"></i><b>13.1.2</b> Understanding lifted nodes</a></li>
-<li class="chapter" data-level="13.1.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdgetdependencies"><i class="fa fa-check"></i><b>13.1.3</b> Determining dependencies in a model</a></li>
+<li class="chapter" data-level="14.1.1" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:get-nodes"><i class="fa fa-check"></i><b>14.1.1</b> Determining the nodes in a model</a></li>
+<li class="chapter" data-level="14.1.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:introduced-nodes"><i class="fa fa-check"></i><b>14.1.2</b> Understanding lifted nodes</a></li>
+<li class="chapter" data-level="14.1.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdgetdependencies"><i class="fa fa-check"></i><b>14.1.3</b> Determining dependencies in a model</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:nodeInfo"><i class="fa fa-check"></i><b>13.2</b> Accessing information about nodes and variables</a>
+<li class="chapter" data-level="14.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:nodeInfo"><i class="fa fa-check"></i><b>14.2</b> Accessing information about nodes and variables</a>
 <ul>
-<li class="chapter" data-level="13.2.1" data-path="cha-using-models.html"><a href="cha-using-models.html#getting-distributional-information-about-a-node"><i class="fa fa-check"></i><b>13.2.1</b> Getting distributional information about a node</a></li>
-<li class="chapter" data-level="13.2.2" data-path="cha-using-models.html"><a href="cha-using-models.html#getting-information-about-a-distribution"><i class="fa fa-check"></i><b>13.2.2</b> Getting information about a distribution</a></li>
-<li class="chapter" data-level="13.2.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:getParam"><i class="fa fa-check"></i><b>13.2.3</b> Getting distribution parameter values for a node</a></li>
-<li class="chapter" data-level="13.2.4" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:getBound"><i class="fa fa-check"></i><b>13.2.4</b> Getting distribution bounds for a node</a></li>
+<li class="chapter" data-level="14.2.1" data-path="cha-using-models.html"><a href="cha-using-models.html#getting-distributional-information-about-a-node"><i class="fa fa-check"></i><b>14.2.1</b> Getting distributional information about a node</a></li>
+<li class="chapter" data-level="14.2.2" data-path="cha-using-models.html"><a href="cha-using-models.html#getting-information-about-a-distribution"><i class="fa fa-check"></i><b>14.2.2</b> Getting information about a distribution</a></li>
+<li class="chapter" data-level="14.2.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:getParam"><i class="fa fa-check"></i><b>14.2.3</b> Getting distribution parameter values for a node</a></li>
+<li class="chapter" data-level="14.2.4" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:getBound"><i class="fa fa-check"></i><b>14.2.4</b> Getting distribution bounds for a node</a></li>
 </ul></li>
-<li class="chapter" data-level="13.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdcalc-cdsim-cdgetl"><i class="fa fa-check"></i><b>13.3</b> Carrying out model calculations</a>
+<li class="chapter" data-level="14.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdcalc-cdsim-cdgetl"><i class="fa fa-check"></i><b>14.3</b> Carrying out model calculations</a>
 <ul>
-<li class="chapter" data-level="13.3.1" data-path="cha-using-models.html"><a href="cha-using-models.html#core-model-operations-calculation-and-simulation"><i class="fa fa-check"></i><b>13.3.1</b> Core model operations: calculation and simulation</a></li>
-<li class="chapter" data-level="13.3.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdsimn-cdcalcn-cdget"><i class="fa fa-check"></i><b>13.3.2</b> Pre-defined nimbleFunctions for operating on model nodes: <em>simNodes</em>, <em>calcNodes</em>, and <em>getLogProbNodes</em></a></li>
-<li class="chapter" data-level="13.3.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:access-log-prob"><i class="fa fa-check"></i><b>13.3.3</b> Accessing log probabilities via <em>logProb</em> variables</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="cha-data-structures.html"><a href="cha-data-structures.html"><i class="fa fa-check"></i><b>14</b> Data structures in NIMBLE</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:modelValues-struct"><i class="fa fa-check"></i><b>14.1</b> The modelValues data structure</a>
-<ul>
-<li class="chapter" data-level="14.1.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#creating-modelvalues-objects"><i class="fa fa-check"></i><b>14.1.1</b> Creating modelValues objects</a></li>
-<li class="chapter" data-level="14.1.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:access-cont-modelv"><i class="fa fa-check"></i><b>14.1.2</b> Accessing contents of modelValues</a></li>
-</ul></li>
-<li class="chapter" data-level="14.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:nimbleLists"><i class="fa fa-check"></i><b>14.2</b> The nimbleList data structure</a>
-<ul>
-<li class="chapter" data-level="14.2.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:predef-nimbleLists"><i class="fa fa-check"></i><b>14.2.1</b> Pre-defined nimbleList types</a></li>
-<li class="chapter" data-level="14.2.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:eigen-nimFunctions"><i class="fa fa-check"></i><b>14.2.2</b> Using <em>eigen</em> and <em>svd</em> in nimbleFunctions</a></li>
+<li class="chapter" data-level="14.3.1" data-path="cha-using-models.html"><a href="cha-using-models.html#core-model-operations-calculation-and-simulation"><i class="fa fa-check"></i><b>14.3.1</b> Core model operations: calculation and simulation</a></li>
+<li class="chapter" data-level="14.3.2" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:cdsimn-cdcalcn-cdget"><i class="fa fa-check"></i><b>14.3.2</b> Pre-defined nimbleFunctions for operating on model nodes: <em>simNodes</em>, <em>calcNodes</em>, and <em>getLogProbNodes</em></a></li>
+<li class="chapter" data-level="14.3.3" data-path="cha-using-models.html"><a href="cha-using-models.html#sec:access-log-prob"><i class="fa fa-check"></i><b>14.3.3</b> Accessing log probabilities via <em>logProb</em> variables</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html"><i class="fa fa-check"></i><b>15</b> Writing nimbleFunctions to interact with models</a>
+<li class="chapter" data-level="15" data-path="cha-data-structures.html"><a href="cha-data-structures.html"><i class="fa fa-check"></i><b>15</b> Data structures in NIMBLE</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:writ-nimble-funct"><i class="fa fa-check"></i><b>15.1</b> Overview</a></li>
-<li class="chapter" data-level="15.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-comp-nimbl"><i class="fa fa-check"></i><b>15.2</b> Using and compiling nimbleFunctions</a></li>
-<li class="chapter" data-level="15.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#writing-setup-code"><i class="fa fa-check"></i><b>15.3</b> Writing setup code</a>
+<li class="chapter" data-level="15.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:modelValues-struct"><i class="fa fa-check"></i><b>15.1</b> The modelValues data structure</a>
 <ul>
-<li class="chapter" data-level="15.3.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#useful-tools-for-setup-functions"><i class="fa fa-check"></i><b>15.3.1</b> Useful tools for setup functions</a></li>
-<li class="chapter" data-level="15.3.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:access-modify-numer"><i class="fa fa-check"></i><b>15.3.2</b> Accessing and modifying numeric values from setup</a></li>
-<li class="chapter" data-level="15.3.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#determining-numeric-types-in-nimblefunctions"><i class="fa fa-check"></i><b>15.3.3</b> Determining numeric types in nimbleFunctions</a></li>
-<li class="chapter" data-level="15.3.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:determ-pers-texttts"><i class="fa fa-check"></i><b>15.3.4</b> Control of setup outputs</a></li>
+<li class="chapter" data-level="15.1.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#creating-modelvalues-objects"><i class="fa fa-check"></i><b>15.1.1</b> Creating modelValues objects</a></li>
+<li class="chapter" data-level="15.1.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:access-cont-modelv"><i class="fa fa-check"></i><b>15.1.2</b> Accessing contents of modelValues</a></li>
 </ul></li>
-<li class="chapter" data-level="15.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:nimble-lang-comp"><i class="fa fa-check"></i><b>15.4</b> Writing run code</a>
+<li class="chapter" data-level="15.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:nimbleLists"><i class="fa fa-check"></i><b>15.2</b> The nimbleList data structure</a>
 <ul>
-<li class="chapter" data-level="15.4.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:driv-models:-calc"><i class="fa fa-check"></i><b>15.4.1</b> Driving models: <em>calculate</em>, <em>calculateDiff</em>, <em>simulate</em>, <em>getLogProb</em></a></li>
-<li class="chapter" data-level="15.4.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#getting-and-setting-variable-and-node-values"><i class="fa fa-check"></i><b>15.4.2</b> Getting and setting variable and node values</a></li>
-<li class="chapter" data-level="15.4.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#getting-parameter-values-and-node-bounds"><i class="fa fa-check"></i><b>15.4.3</b> Getting parameter values and node bounds</a></li>
-<li class="chapter" data-level="15.4.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:access-model-modelv"><i class="fa fa-check"></i><b>15.4.4</b> Using modelValues objects</a></li>
-<li class="chapter" data-level="15.4.5" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-model-variable"><i class="fa fa-check"></i><b>15.4.5</b> Using model variables and modelValues in expressions</a></li>
-<li class="chapter" data-level="15.4.6" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:incl-other-meth"><i class="fa fa-check"></i><b>15.4.6</b> Including other methods in a nimbleFunction</a></li>
-<li class="chapter" data-level="15.4.7" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-other-nimbl"><i class="fa fa-check"></i><b>15.4.7</b> Using other nimbleFunctions</a></li>
-<li class="chapter" data-level="15.4.8" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:virt-nimbl-nimbl"><i class="fa fa-check"></i><b>15.4.8</b> Virtual nimbleFunctions and nimbleFunctionLists</a></li>
-<li class="chapter" data-level="15.4.9" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#character-objects"><i class="fa fa-check"></i><b>15.4.9</b> Character objects</a></li>
-<li class="chapter" data-level="15.4.10" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:user-defined-data"><i class="fa fa-check"></i><b>15.4.10</b> User-defined data structures</a></li>
+<li class="chapter" data-level="15.2.1" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:predef-nimbleLists"><i class="fa fa-check"></i><b>15.2.1</b> Pre-defined nimbleList types</a></li>
+<li class="chapter" data-level="15.2.2" data-path="cha-data-structures.html"><a href="cha-data-structures.html#sec:eigen-nimFunctions"><i class="fa fa-check"></i><b>15.2.2</b> Using <em>eigen</em> and <em>svd</em> in nimbleFunctions</a></li>
 </ul></li>
-<li class="chapter" data-level="15.5" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:user-samplers"><i class="fa fa-check"></i><b>15.5</b> Example: writing user-defined samplers to extend NIMBLE’s MCMC engine</a>
+</ul></li>
+<li class="chapter" data-level="16" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html"><i class="fa fa-check"></i><b>16</b> Writing nimbleFunctions to interact with models</a>
 <ul>
-<li class="chapter" data-level="15.5.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#user-defined-samplers-and-posterior-predictive-nodes"><i class="fa fa-check"></i><b>15.5.1</b> User-defined samplers and posterior predictive nodes</a></li>
+<li class="chapter" data-level="16.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:writ-nimble-funct"><i class="fa fa-check"></i><b>16.1</b> Overview</a></li>
+<li class="chapter" data-level="16.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-comp-nimbl"><i class="fa fa-check"></i><b>16.2</b> Using and compiling nimbleFunctions</a></li>
+<li class="chapter" data-level="16.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#writing-setup-code"><i class="fa fa-check"></i><b>16.3</b> Writing setup code</a>
+<ul>
+<li class="chapter" data-level="16.3.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#useful-tools-for-setup-functions"><i class="fa fa-check"></i><b>16.3.1</b> Useful tools for setup functions</a></li>
+<li class="chapter" data-level="16.3.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:access-modify-numer"><i class="fa fa-check"></i><b>16.3.2</b> Accessing and modifying numeric values from setup</a></li>
+<li class="chapter" data-level="16.3.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#determining-numeric-types-in-nimblefunctions"><i class="fa fa-check"></i><b>16.3.3</b> Determining numeric types in nimbleFunctions</a></li>
+<li class="chapter" data-level="16.3.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:determ-pers-texttts"><i class="fa fa-check"></i><b>16.3.4</b> Control of setup outputs</a></li>
 </ul></li>
-<li class="chapter" data-level="15.6" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#copying-nimblefunctions-and-nimble-models"><i class="fa fa-check"></i><b>15.6</b> Copying nimbleFunctions (and NIMBLE models)</a></li>
-<li class="chapter" data-level="15.7" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:debugging"><i class="fa fa-check"></i><b>15.7</b> Debugging nimbleFunctions</a></li>
-<li class="chapter" data-level="15.8" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#timing-nimblefunctions-with-run.time"><i class="fa fa-check"></i><b>15.8</b> Timing nimbleFunctions with <em>run.time</em></a></li>
-<li class="chapter" data-level="15.9" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#clearing-and-unloading-compiled-objects"><i class="fa fa-check"></i><b>15.9</b> Clearing and unloading compiled objects</a></li>
-<li class="chapter" data-level="15.10" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#reducing-memory-usage"><i class="fa fa-check"></i><b>15.10</b> Reducing memory usage</a></li>
+<li class="chapter" data-level="16.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:nimble-lang-comp"><i class="fa fa-check"></i><b>16.4</b> Writing run code</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:driv-models:-calc"><i class="fa fa-check"></i><b>16.4.1</b> Driving models: <em>calculate</em>, <em>calculateDiff</em>, <em>simulate</em>, <em>getLogProb</em></a></li>
+<li class="chapter" data-level="16.4.2" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#getting-and-setting-variable-and-node-values"><i class="fa fa-check"></i><b>16.4.2</b> Getting and setting variable and node values</a></li>
+<li class="chapter" data-level="16.4.3" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#getting-parameter-values-and-node-bounds"><i class="fa fa-check"></i><b>16.4.3</b> Getting parameter values and node bounds</a></li>
+<li class="chapter" data-level="16.4.4" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:access-model-modelv"><i class="fa fa-check"></i><b>16.4.4</b> Using modelValues objects</a></li>
+<li class="chapter" data-level="16.4.5" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-model-variable"><i class="fa fa-check"></i><b>16.4.5</b> Using model variables and modelValues in expressions</a></li>
+<li class="chapter" data-level="16.4.6" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:incl-other-meth"><i class="fa fa-check"></i><b>16.4.6</b> Including other methods in a nimbleFunction</a></li>
+<li class="chapter" data-level="16.4.7" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:using-other-nimbl"><i class="fa fa-check"></i><b>16.4.7</b> Using other nimbleFunctions</a></li>
+<li class="chapter" data-level="16.4.8" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:virt-nimbl-nimbl"><i class="fa fa-check"></i><b>16.4.8</b> Virtual nimbleFunctions and nimbleFunctionLists</a></li>
+<li class="chapter" data-level="16.4.9" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#character-objects"><i class="fa fa-check"></i><b>16.4.9</b> Character objects</a></li>
+<li class="chapter" data-level="16.4.10" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:user-defined-data"><i class="fa fa-check"></i><b>16.4.10</b> User-defined data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:user-samplers"><i class="fa fa-check"></i><b>16.5</b> Example: writing user-defined samplers to extend NIMBLE’s MCMC engine</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#user-defined-samplers-and-posterior-predictive-nodes"><i class="fa fa-check"></i><b>16.5.1</b> User-defined samplers and posterior predictive nodes</a></li>
+</ul></li>
+<li class="chapter" data-level="16.6" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#copying-nimblefunctions-and-nimble-models"><i class="fa fa-check"></i><b>16.6</b> Copying nimbleFunctions (and NIMBLE models)</a></li>
+<li class="chapter" data-level="16.7" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#sec:debugging"><i class="fa fa-check"></i><b>16.7</b> Debugging nimbleFunctions</a></li>
+<li class="chapter" data-level="16.8" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#timing-nimblefunctions-with-run.time"><i class="fa fa-check"></i><b>16.8</b> Timing nimbleFunctions with <em>run.time</em></a></li>
+<li class="chapter" data-level="16.9" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#clearing-and-unloading-compiled-objects"><i class="fa fa-check"></i><b>16.9</b> Clearing and unloading compiled objects</a></li>
+<li class="chapter" data-level="16.10" data-path="cha-progr-with-models.html"><a href="cha-progr-with-models.html#reducing-memory-usage"><i class="fa fa-check"></i><b>16.10</b> Reducing memory usage</a></li>
 </ul></li>
 <li class="part"><span><b>V Automatic Derivatives in NIMBLE</b></span></li>
-<li class="chapter" data-level="16" data-path="cha-AD.html"><a href="cha-AD.html"><i class="fa fa-check"></i><b>16</b> Automatic Derivatives</a>
+<li class="chapter" data-level="17" data-path="cha-AD.html"><a href="cha-AD.html"><i class="fa fa-check"></i><b>17</b> Automatic Derivatives</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="cha-AD.html"><a href="cha-AD.html#sec:use-derivs"><i class="fa fa-check"></i><b>16.1</b> How to turn on derivatives in a model</a></li>
-<li class="chapter" data-level="16.2" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-user-def"><i class="fa fa-check"></i><b>16.2</b> How to support derivatives in user-defined functions and distributions</a></li>
-<li class="chapter" data-level="16.3" data-path="cha-AD.html"><a href="cha-AD.html#what-operations-are-and-arent-supported-for-ad"><i class="fa fa-check"></i><b>16.3</b> What operations are and aren’t supported for AD</a></li>
-<li class="chapter" data-level="16.4" data-path="cha-AD.html"><a href="cha-AD.html#basics-of-obtaining-derivatives-in-nimblefunctions"><i class="fa fa-check"></i><b>16.4</b> Basics of obtaining derivatives in <code>nimbleFunctions</code></a>
+<li class="chapter" data-level="17.1" data-path="cha-AD.html"><a href="cha-AD.html#sec:use-derivs"><i class="fa fa-check"></i><b>17.1</b> How to turn on derivatives in a model</a></li>
+<li class="chapter" data-level="17.2" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-user-def"><i class="fa fa-check"></i><b>17.2</b> How to support derivatives in user-defined functions and distributions</a></li>
+<li class="chapter" data-level="17.3" data-path="cha-AD.html"><a href="cha-AD.html#what-operations-are-and-arent-supported-for-ad"><i class="fa fa-check"></i><b>17.3</b> What operations are and aren’t supported for AD</a></li>
+<li class="chapter" data-level="17.4" data-path="cha-AD.html"><a href="cha-AD.html#basics-of-obtaining-derivatives-in-nimblefunctions"><i class="fa fa-check"></i><b>17.4</b> Basics of obtaining derivatives in <code>nimbleFunctions</code></a>
 <ul>
-<li class="chapter" data-level="16.4.1" data-path="cha-AD.html"><a href="cha-AD.html#checking-derivatives-with-uncompiled-execution"><i class="fa fa-check"></i><b>16.4.1</b> Checking derivatives with uncompiled execution</a></li>
-<li class="chapter" data-level="16.4.2" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-holding-out"><i class="fa fa-check"></i><b>16.4.2</b> Holding some local variables out of derivative tracking</a></li>
-<li class="chapter" data-level="16.4.3" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-multiple-NF"><i class="fa fa-check"></i><b>16.4.3</b> Using AD with multiple nimbleFunctions</a></li>
-<li class="chapter" data-level="16.4.4" data-path="cha-AD.html"><a href="cha-AD.html#sec:understanding-more-AD"><i class="fa fa-check"></i><b>16.4.4</b> Understanding more about how AD works: <em>taping</em> of operations</a></li>
-<li class="chapter" data-level="16.4.5" data-path="cha-AD.html"><a href="cha-AD.html#resetting-a-nimderivs-call"><i class="fa fa-check"></i><b>16.4.5</b> Resetting a <code>nimDerivs</code> call</a></li>
-<li class="chapter" data-level="16.4.6" data-path="cha-AD.html"><a href="cha-AD.html#a-note-on-performance-benchmarking"><i class="fa fa-check"></i><b>16.4.6</b> A note on performance benchmarking</a></li>
+<li class="chapter" data-level="17.4.1" data-path="cha-AD.html"><a href="cha-AD.html#checking-derivatives-with-uncompiled-execution"><i class="fa fa-check"></i><b>17.4.1</b> Checking derivatives with uncompiled execution</a></li>
+<li class="chapter" data-level="17.4.2" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-holding-out"><i class="fa fa-check"></i><b>17.4.2</b> Holding some local variables out of derivative tracking</a></li>
+<li class="chapter" data-level="17.4.3" data-path="cha-AD.html"><a href="cha-AD.html#sec:AD-multiple-NF"><i class="fa fa-check"></i><b>17.4.3</b> Using AD with multiple nimbleFunctions</a></li>
+<li class="chapter" data-level="17.4.4" data-path="cha-AD.html"><a href="cha-AD.html#sec:understanding-more-AD"><i class="fa fa-check"></i><b>17.4.4</b> Understanding more about how AD works: <em>taping</em> of operations</a></li>
+<li class="chapter" data-level="17.4.5" data-path="cha-AD.html"><a href="cha-AD.html#resetting-a-nimderivs-call"><i class="fa fa-check"></i><b>17.4.5</b> Resetting a <code>nimDerivs</code> call</a></li>
+<li class="chapter" data-level="17.4.6" data-path="cha-AD.html"><a href="cha-AD.html#a-note-on-performance-benchmarking"><i class="fa fa-check"></i><b>17.4.6</b> A note on performance benchmarking</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="cha-AD.html"><a href="cha-AD.html#advanced-uses-double-taping"><i class="fa fa-check"></i><b>16.5</b> Advanced uses: double taping</a></li>
-<li class="chapter" data-level="16.6" data-path="cha-AD.html"><a href="cha-AD.html#derivatives-involving-model-calculations"><i class="fa fa-check"></i><b>16.6</b> Derivatives involving model calculations</a>
+<li class="chapter" data-level="17.5" data-path="cha-AD.html"><a href="cha-AD.html#advanced-uses-double-taping"><i class="fa fa-check"></i><b>17.5</b> Advanced uses: double taping</a></li>
+<li class="chapter" data-level="17.6" data-path="cha-AD.html"><a href="cha-AD.html#derivatives-involving-model-calculations"><i class="fa fa-check"></i><b>17.6</b> Derivatives involving model calculations</a>
 <ul>
-<li class="chapter" data-level="16.6.1" data-path="cha-AD.html"><a href="cha-AD.html#method-1-nimderivs-of-modelcalculate"><i class="fa fa-check"></i><b>16.6.1</b> Method 1: <code>nimDerivs</code> of <code>model$calculate</code></a></li>
-<li class="chapter" data-level="16.6.2" data-path="cha-AD.html"><a href="cha-AD.html#method-2-nimderivs-of-a-method-that-calls-modelcalculate"><i class="fa fa-check"></i><b>16.6.2</b> Method 2: <code>nimDerivs</code> of a method that calls <code>model$calculate</code></a></li>
+<li class="chapter" data-level="17.6.1" data-path="cha-AD.html"><a href="cha-AD.html#method-1-nimderivs-of-modelcalculate"><i class="fa fa-check"></i><b>17.6.1</b> Method 1: <code>nimDerivs</code> of <code>model$calculate</code></a></li>
+<li class="chapter" data-level="17.6.2" data-path="cha-AD.html"><a href="cha-AD.html#method-2-nimderivs-of-a-method-that-calls-modelcalculate"><i class="fa fa-check"></i><b>17.6.2</b> Method 2: <code>nimDerivs</code> of a method that calls <code>model$calculate</code></a></li>
 </ul></li>
-<li class="chapter" data-level="16.7" data-path="cha-AD.html"><a href="cha-AD.html#sec:parameter-transform"><i class="fa fa-check"></i><b>16.7</b> Parameter transformations</a></li>
+<li class="chapter" data-level="17.7" data-path="cha-AD.html"><a href="cha-AD.html#sec:parameter-transform"><i class="fa fa-check"></i><b>17.7</b> Parameter transformations</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html"><i class="fa fa-check"></i><b>17</b> Example: maximum likelihood estimation using <code>optim</code> with gradients from <code>nimDerivs</code>.</a></li>
+<li class="chapter" data-level="18" data-path="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html"><i class="fa fa-check"></i><b>18</b> Example: maximum likelihood estimation using <code>optim</code> with gradients from <code>nimDerivs</code>.</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -495,117 +499,117 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs." class="section level1 hasAnchor" number="17">
-<h1><span class="header-section-number">Chapter 17</span> Example: maximum likelihood estimation using <code>optim</code> with gradients from <code>nimDerivs</code>.<a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs." class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs." class="section level1 hasAnchor" number="18">
+<h1><span class="header-section-number">Chapter 18</span> Example: maximum likelihood estimation using <code>optim</code> with gradients from <code>nimDerivs</code>.<a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs." class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this example, we will obtain maximum likelihood estimates of a Poisson GLM. It will be similar to the GLMM above, but without the random effects. Maximization of a likelihood function can be done with methods that don’t require gradients, but it is much faster to use methods that do use gradients.</p>
 <p>To illustrate the parameter transformation system, we will give <code>p</code> a uniform prior, constrained to values between 0 and 1. The maximum likelihood estimation below will not use the prior probability, but nevertheless the prior will be interpreted for its constraints on valid values in this case. This need for parameter transformation is somewhat artifical in the interest of simplicity.</p>
-<div class="sourceCode" id="cb628"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb628-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-1" tabindex="-1"></a>model_code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
-<span id="cb628-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-2" tabindex="-1"></a>  <span class="co"># priors (will be ignored for MLE)</span></span>
-<span id="cb628-3"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-3" tabindex="-1"></a>  p <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb628-4"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-4" tabindex="-1"></a>  log_p <span class="ot">&lt;-</span> <span class="fu">log</span>(p)</span>
-<span id="cb628-5"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-5" tabindex="-1"></a>  beta <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
-<span id="cb628-6"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-6" tabindex="-1"></a>  <span class="co"># random effects and data  </span></span>
-<span id="cb628-7"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-7" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>) {</span>
-<span id="cb628-8"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-8" tabindex="-1"></a>    <span class="co"># data</span></span>
-<span id="cb628-9"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-9" tabindex="-1"></a>    y[i] <span class="sc">~</span> <span class="fu">dpois</span>(<span class="fu">exp</span>(log_p <span class="sc">+</span> beta<span class="sc">*</span>X[i]))</span>
-<span id="cb628-10"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-10" tabindex="-1"></a>  }</span>
-<span id="cb628-11"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-11" tabindex="-1"></a>})</span>
-<span id="cb628-12"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-12" tabindex="-1"></a></span>
-<span id="cb628-13"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-13" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb628-14"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-14" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>) <span class="co"># Simulate values for X</span></span>
-<span id="cb628-15"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-15" tabindex="-1"></a></span>
-<span id="cb628-16"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-16" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(model_code, <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">X =</span> X), <span class="at">calculate =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb628-17"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb628-17" tabindex="-1"></a>                     <span class="at">buildDerivs =</span> <span class="cn">TRUE</span>) <span class="co"># Create nimble model object</span></span></code></pre></div>
+<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb669-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-1" tabindex="-1"></a>model_code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<span id="cb669-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-2" tabindex="-1"></a>  <span class="co"># priors (will be ignored for MLE)</span></span>
+<span id="cb669-3"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-3" tabindex="-1"></a>  p <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb669-4"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-4" tabindex="-1"></a>  log_p <span class="ot">&lt;-</span> <span class="fu">log</span>(p)</span>
+<span id="cb669-5"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-5" tabindex="-1"></a>  beta <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">100</span>)</span>
+<span id="cb669-6"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-6" tabindex="-1"></a>  <span class="co"># random effects and data  </span></span>
+<span id="cb669-7"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-7" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>) {</span>
+<span id="cb669-8"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-8" tabindex="-1"></a>    <span class="co"># data</span></span>
+<span id="cb669-9"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-9" tabindex="-1"></a>    y[i] <span class="sc">~</span> <span class="fu">dpois</span>(<span class="fu">exp</span>(log_p <span class="sc">+</span> beta<span class="sc">*</span>X[i]))</span>
+<span id="cb669-10"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-10" tabindex="-1"></a>  }</span>
+<span id="cb669-11"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-11" tabindex="-1"></a>})</span>
+<span id="cb669-12"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-12" tabindex="-1"></a></span>
+<span id="cb669-13"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-13" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb669-14"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-14" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>) <span class="co"># Simulate values for X</span></span>
+<span id="cb669-15"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-15" tabindex="-1"></a></span>
+<span id="cb669-16"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-16" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(model_code, <span class="at">constants =</span> <span class="fu">list</span>(<span class="at">X =</span> X), <span class="at">calculate =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb669-17"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb669-17" tabindex="-1"></a>                     <span class="at">buildDerivs =</span> <span class="cn">TRUE</span>) <span class="co"># Create nimble model object</span></span></code></pre></div>
 <p>As in the first example above, we will simulate data using the model itself. One can instead provide data as an argument to <code>nimbleModel</code>.</p>
-<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb629-1" tabindex="-1"></a>model<span class="sc">$</span>p <span class="ot">&lt;-</span> <span class="fl">0.5</span>     <span class="co"># Assign parameter values and simulate data (y).</span></span>
-<span id="cb629-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb629-2" tabindex="-1"></a>model<span class="sc">$</span>beta <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
-<span id="cb629-3"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb629-3" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">calculate</span>()  <span class="co"># We expect this to be NA because there are no y values yet.</span></span></code></pre></div>
+<div class="sourceCode" id="cb670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb670-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb670-1" tabindex="-1"></a>model<span class="sc">$</span>p <span class="ot">&lt;-</span> <span class="fl">0.5</span>     <span class="co"># Assign parameter values and simulate data (y).</span></span>
+<span id="cb670-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb670-2" tabindex="-1"></a>model<span class="sc">$</span>beta <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb670-3"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb670-3" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">calculate</span>()  <span class="co"># We expect this to be NA because there are no y values yet.</span></span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
-<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb631-1" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">simulate</span>(model<span class="sc">$</span><span class="fu">getDependencies</span>(<span class="fu">c</span>(<span class="st">&#39;beta&#39;</span>, <span class="st">&#39;p&#39;</span>), <span class="at">self =</span> <span class="cn">FALSE</span>)) <span class="co"># Simulate y values.</span></span>
-<span id="cb631-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb631-2" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">calculate</span>()  <span class="co"># Now we expect a valid result.</span></span></code></pre></div>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb672-1" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">simulate</span>(model<span class="sc">$</span><span class="fu">getDependencies</span>(<span class="fu">c</span>(<span class="st">&#39;beta&#39;</span>, <span class="st">&#39;p&#39;</span>), <span class="at">self =</span> <span class="cn">FALSE</span>)) <span class="co"># Simulate y values.</span></span>
+<span id="cb672-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb672-2" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">calculate</span>()  <span class="co"># Now we expect a valid result.</span></span></code></pre></div>
 <pre><code>## [1] -53.33015</code></pre>
-<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb633-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb633-1" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">setData</span>(<span class="st">&#39;y&#39;</span>) <span class="co"># Now the model has y marked as data, with values from simulation.</span></span>
-<span id="cb633-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb633-2" tabindex="-1"></a>Cmodel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(model) <span class="co"># Make compiled version.</span></span></code></pre></div>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb674-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb674-1" tabindex="-1"></a>model<span class="sc">$</span><span class="fu">setData</span>(<span class="st">&#39;y&#39;</span>) <span class="co"># Now the model has y marked as data, with values from simulation.</span></span>
+<span id="cb674-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb674-2" tabindex="-1"></a>Cmodel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(model) <span class="co"># Make compiled version.</span></span></code></pre></div>
 <p>Now that the example model is set up, we’ll write a nimbleFunction to provide the negative log likelihood and its gradient using an unconstrained parameter space. The default behavior of <code>optim</code> below is to do a minimization problem, so returning the negative log likelihood means that <code>optim</code> will find the maximum likelihood parameters.</p>
-<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-1" tabindex="-1"></a>logLikelihood_nf <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
-<span id="cb634-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-2" tabindex="-1"></a>  <span class="at">setup =</span> <span class="cf">function</span>(model, paramNodes) {</span>
-<span id="cb634-3"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-3" tabindex="-1"></a>    <span class="co"># Determine nodes for calculating the log likelihood for parameters given by</span></span>
-<span id="cb634-4"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-4" tabindex="-1"></a>    <span class="co"># paramNodes, ignoring any priors.</span></span>
-<span id="cb634-5"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-5" tabindex="-1"></a>    calcNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getDependencies</span>(paramNodes, <span class="at">self =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb634-6"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-6" tabindex="-1"></a>    <span class="co"># Set up the additional arguments for nimDerivs involving model$calculate</span></span>
-<span id="cb634-7"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-7" tabindex="-1"></a>    derivsInfo <span class="ot">&lt;-</span> <span class="fu">makeModelDerivsInfo</span>(model, paramNodes, calcNodes)</span>
-<span id="cb634-8"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-8" tabindex="-1"></a>    updateNodes <span class="ot">&lt;-</span> derivsInfo<span class="sc">$</span>updateNodes</span>
-<span id="cb634-9"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-9" tabindex="-1"></a>    constantNodes <span class="ot">&lt;-</span> derivsInfo<span class="sc">$</span>constantNodes</span>
-<span id="cb634-10"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-10" tabindex="-1"></a>    <span class="co"># Create a parameter transformation between original and unconstrained</span></span>
-<span id="cb634-11"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-11" tabindex="-1"></a>    <span class="co"># parameter spaces.</span></span>
-<span id="cb634-12"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-12" tabindex="-1"></a>    transformer <span class="ot">&lt;-</span> <span class="fu">parameterTransform</span>(model, paramNodes)</span>
-<span id="cb634-13"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-13" tabindex="-1"></a>  },</span>
-<span id="cb634-14"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-14" tabindex="-1"></a>  <span class="at">methods =</span> <span class="fu">list</span>(</span>
-<span id="cb634-15"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-15" tabindex="-1"></a>    <span class="at">neg_logLikelihood_p =</span> <span class="cf">function</span>(<span class="at">p =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
-<span id="cb634-16"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-16" tabindex="-1"></a>      <span class="co"># Put values in model and calculate negative log likelihood.</span></span>
-<span id="cb634-17"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-17" tabindex="-1"></a>      <span class="fu">values</span>(model, paramNodes) <span class="ot">&lt;&lt;-</span> p</span>
-<span id="cb634-18"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-18" tabindex="-1"></a>      <span class="fu">return</span>(<span class="sc">-</span>model<span class="sc">$</span><span class="fu">calculate</span>(calcNodes))</span>
-<span id="cb634-19"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-19" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>())</span>
-<span id="cb634-20"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-20" tabindex="-1"></a>    },</span>
-<span id="cb634-21"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-21" tabindex="-1"></a>    <span class="at">neg_logLikelihood =</span> <span class="cf">function</span>(<span class="at">ptrans =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
-<span id="cb634-22"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-22" tabindex="-1"></a>      <span class="co"># Objective function for optim,</span></span>
-<span id="cb634-23"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-23" tabindex="-1"></a>      <span class="co"># using transformed parameter space.</span></span>
-<span id="cb634-24"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-24" tabindex="-1"></a>      p <span class="ot">&lt;-</span> transformer<span class="sc">$</span><span class="fu">inverseTransform</span>(ptrans)</span>
-<span id="cb634-25"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-25" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">neg_logLikelihood_p</span>(p))</span>
-<span id="cb634-26"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-26" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>())</span>
-<span id="cb634-27"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-27" tabindex="-1"></a>    },</span>
-<span id="cb634-28"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-28" tabindex="-1"></a>    <span class="at">gr_neg_logLikelihood =</span> <span class="cf">function</span>(<span class="at">ptrans =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
-<span id="cb634-29"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-29" tabindex="-1"></a>      <span class="co"># Gradient of neg log likelihood</span></span>
-<span id="cb634-30"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-30" tabindex="-1"></a>      p <span class="ot">&lt;-</span> transformer<span class="sc">$</span><span class="fu">inverseTransform</span>(ptrans)</span>
-<span id="cb634-31"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-31" tabindex="-1"></a>      d <span class="ot">&lt;-</span> <span class="fu">derivs</span>(<span class="fu">neg_logLikelihood_p</span>(p), <span class="at">wrt =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(p), <span class="at">order =</span> <span class="dv">1</span>,</span>
-<span id="cb634-32"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-32" tabindex="-1"></a>                  <span class="at">model =</span> model, <span class="at">updateNodes =</span> updateNodes,</span>
-<span id="cb634-33"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-33" tabindex="-1"></a>                  <span class="at">constantNodes =</span> constantNodes)</span>
-<span id="cb634-34"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-34" tabindex="-1"></a>      <span class="fu">return</span>(d<span class="sc">$</span>jacobian[<span class="dv">1</span>,])</span>
-<span id="cb634-35"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-35" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>(<span class="dv">1</span>))</span>
-<span id="cb634-36"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-36" tabindex="-1"></a>    },</span>
-<span id="cb634-37"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-37" tabindex="-1"></a>    <span class="at">transform =</span> <span class="cf">function</span>(<span class="at">p =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
-<span id="cb634-38"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-38" tabindex="-1"></a>      <span class="co"># Give user access to the transformation ...</span></span>
-<span id="cb634-39"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-39" tabindex="-1"></a>      <span class="fu">return</span>(transformer<span class="sc">$</span><span class="fu">transform</span>(p))</span>
-<span id="cb634-40"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-40" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>(<span class="dv">1</span>))</span>
-<span id="cb634-41"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-41" tabindex="-1"></a>    },</span>
-<span id="cb634-42"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-42" tabindex="-1"></a>    <span class="at">inverseTransform =</span> <span class="cf">function</span>(<span class="at">ptrans =</span> <span class="fu">double</span>(<span class="dv">1</span>)) { <span class="co"># ... and its inverse.</span></span>
-<span id="cb634-43"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-43" tabindex="-1"></a>      <span class="fu">return</span>(transformer<span class="sc">$</span><span class="fu">inverseTransform</span>(ptrans))</span>
-<span id="cb634-44"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-44" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>(<span class="dv">1</span>))</span>
-<span id="cb634-45"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-45" tabindex="-1"></a>    }</span>
-<span id="cb634-46"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-46" tabindex="-1"></a>  ),</span>
-<span id="cb634-47"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-47" tabindex="-1"></a>  <span class="at">buildDerivs =</span> <span class="st">&#39;neg_logLikelihood_p&#39;</span></span>
-<span id="cb634-48"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb634-48" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb675-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-1" tabindex="-1"></a>logLikelihood_nf <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
+<span id="cb675-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-2" tabindex="-1"></a>  <span class="at">setup =</span> <span class="cf">function</span>(model, paramNodes) {</span>
+<span id="cb675-3"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-3" tabindex="-1"></a>    <span class="co"># Determine nodes for calculating the log likelihood for parameters given by</span></span>
+<span id="cb675-4"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-4" tabindex="-1"></a>    <span class="co"># paramNodes, ignoring any priors.</span></span>
+<span id="cb675-5"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-5" tabindex="-1"></a>    calcNodes <span class="ot">&lt;-</span> model<span class="sc">$</span><span class="fu">getDependencies</span>(paramNodes, <span class="at">self =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb675-6"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-6" tabindex="-1"></a>    <span class="co"># Set up the additional arguments for nimDerivs involving model$calculate</span></span>
+<span id="cb675-7"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-7" tabindex="-1"></a>    derivsInfo <span class="ot">&lt;-</span> <span class="fu">makeModelDerivsInfo</span>(model, paramNodes, calcNodes)</span>
+<span id="cb675-8"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-8" tabindex="-1"></a>    updateNodes <span class="ot">&lt;-</span> derivsInfo<span class="sc">$</span>updateNodes</span>
+<span id="cb675-9"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-9" tabindex="-1"></a>    constantNodes <span class="ot">&lt;-</span> derivsInfo<span class="sc">$</span>constantNodes</span>
+<span id="cb675-10"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-10" tabindex="-1"></a>    <span class="co"># Create a parameter transformation between original and unconstrained</span></span>
+<span id="cb675-11"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-11" tabindex="-1"></a>    <span class="co"># parameter spaces.</span></span>
+<span id="cb675-12"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-12" tabindex="-1"></a>    transformer <span class="ot">&lt;-</span> <span class="fu">parameterTransform</span>(model, paramNodes)</span>
+<span id="cb675-13"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-13" tabindex="-1"></a>  },</span>
+<span id="cb675-14"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-14" tabindex="-1"></a>  <span class="at">methods =</span> <span class="fu">list</span>(</span>
+<span id="cb675-15"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-15" tabindex="-1"></a>    <span class="at">neg_logLikelihood_p =</span> <span class="cf">function</span>(<span class="at">p =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
+<span id="cb675-16"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-16" tabindex="-1"></a>      <span class="co"># Put values in model and calculate negative log likelihood.</span></span>
+<span id="cb675-17"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-17" tabindex="-1"></a>      <span class="fu">values</span>(model, paramNodes) <span class="ot">&lt;&lt;-</span> p</span>
+<span id="cb675-18"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-18" tabindex="-1"></a>      <span class="fu">return</span>(<span class="sc">-</span>model<span class="sc">$</span><span class="fu">calculate</span>(calcNodes))</span>
+<span id="cb675-19"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-19" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>())</span>
+<span id="cb675-20"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-20" tabindex="-1"></a>    },</span>
+<span id="cb675-21"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-21" tabindex="-1"></a>    <span class="at">neg_logLikelihood =</span> <span class="cf">function</span>(<span class="at">ptrans =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
+<span id="cb675-22"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-22" tabindex="-1"></a>      <span class="co"># Objective function for optim,</span></span>
+<span id="cb675-23"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-23" tabindex="-1"></a>      <span class="co"># using transformed parameter space.</span></span>
+<span id="cb675-24"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-24" tabindex="-1"></a>      p <span class="ot">&lt;-</span> transformer<span class="sc">$</span><span class="fu">inverseTransform</span>(ptrans)</span>
+<span id="cb675-25"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-25" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">neg_logLikelihood_p</span>(p))</span>
+<span id="cb675-26"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-26" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>())</span>
+<span id="cb675-27"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-27" tabindex="-1"></a>    },</span>
+<span id="cb675-28"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-28" tabindex="-1"></a>    <span class="at">gr_neg_logLikelihood =</span> <span class="cf">function</span>(<span class="at">ptrans =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
+<span id="cb675-29"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-29" tabindex="-1"></a>      <span class="co"># Gradient of neg log likelihood</span></span>
+<span id="cb675-30"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-30" tabindex="-1"></a>      p <span class="ot">&lt;-</span> transformer<span class="sc">$</span><span class="fu">inverseTransform</span>(ptrans)</span>
+<span id="cb675-31"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-31" tabindex="-1"></a>      d <span class="ot">&lt;-</span> <span class="fu">derivs</span>(<span class="fu">neg_logLikelihood_p</span>(p), <span class="at">wrt =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(p), <span class="at">order =</span> <span class="dv">1</span>,</span>
+<span id="cb675-32"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-32" tabindex="-1"></a>                  <span class="at">model =</span> model, <span class="at">updateNodes =</span> updateNodes,</span>
+<span id="cb675-33"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-33" tabindex="-1"></a>                  <span class="at">constantNodes =</span> constantNodes)</span>
+<span id="cb675-34"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-34" tabindex="-1"></a>      <span class="fu">return</span>(d<span class="sc">$</span>jacobian[<span class="dv">1</span>,])</span>
+<span id="cb675-35"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-35" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>(<span class="dv">1</span>))</span>
+<span id="cb675-36"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-36" tabindex="-1"></a>    },</span>
+<span id="cb675-37"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-37" tabindex="-1"></a>    <span class="at">transform =</span> <span class="cf">function</span>(<span class="at">p =</span> <span class="fu">double</span>(<span class="dv">1</span>)) {</span>
+<span id="cb675-38"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-38" tabindex="-1"></a>      <span class="co"># Give user access to the transformation ...</span></span>
+<span id="cb675-39"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-39" tabindex="-1"></a>      <span class="fu">return</span>(transformer<span class="sc">$</span><span class="fu">transform</span>(p))</span>
+<span id="cb675-40"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-40" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>(<span class="dv">1</span>))</span>
+<span id="cb675-41"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-41" tabindex="-1"></a>    },</span>
+<span id="cb675-42"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-42" tabindex="-1"></a>    <span class="at">inverseTransform =</span> <span class="cf">function</span>(<span class="at">ptrans =</span> <span class="fu">double</span>(<span class="dv">1</span>)) { <span class="co"># ... and its inverse.</span></span>
+<span id="cb675-43"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-43" tabindex="-1"></a>      <span class="fu">return</span>(transformer<span class="sc">$</span><span class="fu">inverseTransform</span>(ptrans))</span>
+<span id="cb675-44"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-44" tabindex="-1"></a>      <span class="fu">returnType</span>(<span class="fu">double</span>(<span class="dv">1</span>))</span>
+<span id="cb675-45"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-45" tabindex="-1"></a>    }</span>
+<span id="cb675-46"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-46" tabindex="-1"></a>  ),</span>
+<span id="cb675-47"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-47" tabindex="-1"></a>  <span class="at">buildDerivs =</span> <span class="st">&#39;neg_logLikelihood_p&#39;</span></span>
+<span id="cb675-48"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb675-48" tabindex="-1"></a>)</span></code></pre></div>
 <p>Sometimes you might want a call to <code>transformer$transform</code> or <code>transformer$inverseTransform</code> to be included in a derivative calculation. In this case, we don’t.</p>
 <p>Next we build and compile an instance of <code>logLikelihood_nf</code> specialized (by the `setup`` function) to our model and its parameters.</p>
-<div class="sourceCode" id="cb635"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb635-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb635-1" tabindex="-1"></a>ll_glm <span class="ot">&lt;-</span> <span class="fu">logLikelihood_nf</span>(model, <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>, <span class="st">&quot;beta&quot;</span>))</span>
-<span id="cb635-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb635-2" tabindex="-1"></a>Cll_glm <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(ll_glm, <span class="at">project =</span> model)</span></code></pre></div>
+<div class="sourceCode" id="cb676"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb676-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb676-1" tabindex="-1"></a>ll_glm <span class="ot">&lt;-</span> <span class="fu">logLikelihood_nf</span>(model, <span class="fu">c</span>(<span class="st">&quot;p&quot;</span>, <span class="st">&quot;beta&quot;</span>))</span>
+<span id="cb676-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb676-2" tabindex="-1"></a>Cll_glm <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(ll_glm, <span class="at">project =</span> model)</span></code></pre></div>
 <p>Now let’s see how the parameter transformation works for this model. For <code>beta</code>, it already has an unconstrained range of valid values, so it has no transformation (i.e. it has an indentity transformation). For <code>p</code>, it is constrained beween 0 and 1, so it will be logit-transformed.</p>
-<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb636-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb636-1" tabindex="-1"></a>Cll_glm<span class="sc">$</span><span class="fu">transform</span>(<span class="fu">c</span>(<span class="fl">0.2</span>, <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb677-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb677-1" tabindex="-1"></a>Cll_glm<span class="sc">$</span><span class="fu">transform</span>(<span class="fu">c</span>(<span class="fl">0.2</span>, <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## [1] -1.386294  1.000000</code></pre>
-<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb638-1" tabindex="-1"></a><span class="co"># The inverse transformation goes back to the original parameters, within rounding:</span></span>
-<span id="cb638-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb638-2" tabindex="-1"></a>Cll_glm<span class="sc">$</span><span class="fu">inverseTransform</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.386294</span>, <span class="dv">1</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb679-1" tabindex="-1"></a><span class="co"># The inverse transformation goes back to the original parameters, within rounding:</span></span>
+<span id="cb679-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb679-2" tabindex="-1"></a>Cll_glm<span class="sc">$</span><span class="fu">inverseTransform</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.386294</span>, <span class="dv">1</span>)) </span></code></pre></div>
 <pre><code>## [1] 0.2000001 1.0000000</code></pre>
 <p>Now we are ready to use the methods provided in <code>Cll_glm</code> in a call to R’s <code>optim</code> to find the MLE.</p>
-<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb640-1" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="co"># initial values</span></span>
-<span id="cb640-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb640-2" tabindex="-1"></a>         <span class="at">fn =</span> Cll_glm<span class="sc">$</span>neg_logLikelihood, <span class="co"># function to be minimized</span></span>
-<span id="cb640-3"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb640-3" tabindex="-1"></a>         <span class="at">gr =</span> Cll_glm<span class="sc">$</span>gr_neg_logLikelihood, <span class="co"># gradient of function to be minimized</span></span>
-<span id="cb640-4"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb640-4" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">&quot;BFGS&quot;</span>) <span class="co"># optimization method to use</span></span>
-<span id="cb640-5"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb640-5" tabindex="-1"></a>MLE<span class="sc">$</span>par</span></code></pre></div>
+<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb681-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb681-1" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="co"># initial values</span></span>
+<span id="cb681-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb681-2" tabindex="-1"></a>         <span class="at">fn =</span> Cll_glm<span class="sc">$</span>neg_logLikelihood, <span class="co"># function to be minimized</span></span>
+<span id="cb681-3"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb681-3" tabindex="-1"></a>         <span class="at">gr =</span> Cll_glm<span class="sc">$</span>gr_neg_logLikelihood, <span class="co"># gradient of function to be minimized</span></span>
+<span id="cb681-4"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb681-4" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">&quot;BFGS&quot;</span>) <span class="co"># optimization method to use</span></span>
+<span id="cb681-5"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb681-5" tabindex="-1"></a>MLE<span class="sc">$</span>par</span></code></pre></div>
 <pre><code>## [1] 0.08257249 0.25577134</code></pre>
-<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb642-1" tabindex="-1"></a><span class="sc">-</span>MLE<span class="sc">$</span>value</span></code></pre></div>
+<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb683-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb683-1" tabindex="-1"></a><span class="sc">-</span>MLE<span class="sc">$</span>value</span></code></pre></div>
 <pre><code>## [1] -47.73243</code></pre>
 <p>Those outputs show the MLE in the parameters <code>logit(p)</code>, and <code>beta</code>, following by the maximum log likelihood value.</p>
 <p>Now let’s confirm that it’s working correctly by comparing to results from <code>glm</code>.</p>
-<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb644-1" tabindex="-1"></a>glm_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">I</span>(model<span class="sc">$</span>y) <span class="sc">~</span> X, <span class="at">family =</span> poisson)</span>
-<span id="cb644-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb644-2" tabindex="-1"></a><span class="fu">coef</span>(glm_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb685-1" tabindex="-1"></a>glm_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">I</span>(model<span class="sc">$</span>y) <span class="sc">~</span> X, <span class="at">family =</span> poisson)</span>
+<span id="cb685-2"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb685-2" tabindex="-1"></a><span class="fu">coef</span>(glm_fit)</span></code></pre></div>
 <pre><code>## (Intercept)           X 
 ##  -0.6527680   0.2557751</code></pre>
-<div class="sourceCode" id="cb646"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb646-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb646-1" tabindex="-1"></a><span class="fu">logLik</span>(glm_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb687-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb687-1" tabindex="-1"></a><span class="fu">logLik</span>(glm_fit)</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; -47.73243 (df=2)</code></pre>
 <p>We see that the coefficient for <code>X</code> matches <code>beta</code> (within numerical tolerance), and the maximum log likelihoods match. To understand the intercept, we need to be careful about the parameter transformation used in nimble. The inverse transformation will give <code>p</code>, and the log of that should match the intercept estimated by <code>glm.</code></p>
-<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb648-1" tabindex="-1"></a>Cll_glm<span class="sc">$</span><span class="fu">inverseTransform</span>(MLE<span class="sc">$</span>par)</span></code></pre></div>
+<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb689-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb689-1" tabindex="-1"></a>Cll_glm<span class="sc">$</span><span class="fu">inverseTransform</span>(MLE<span class="sc">$</span>par)</span></code></pre></div>
 <pre><code>## [1] 0.5206314 0.2557713</code></pre>
-<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb650-1" tabindex="-1"></a><span class="fu">log</span>(Cll_glm<span class="sc">$</span><span class="fu">inverseTransform</span>(MLE<span class="sc">$</span>par)[<span class="dv">1</span>]) <span class="co"># This should match glm&#39;s intercept</span></span></code></pre></div>
+<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb691-1"><a href="example-maximum-likelihood-estimation-using-optim-with-gradients-from-nimderivs..html#cb691-1" tabindex="-1"></a><span class="fu">log</span>(Cll_glm<span class="sc">$</span><span class="fu">inverseTransform</span>(MLE<span class="sc">$</span>par)[<span class="dv">1</span>]) <span class="co"># This should match glm&#39;s intercept</span></span></code></pre></div>
 <pre><code>## [1] -0.652713</code></pre>
 <p>It looks like it worked.</p>
 
