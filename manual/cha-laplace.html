@@ -30,7 +30,7 @@
   
 <link rel="prev" href="cha-algos-provided.html"/>
 <link rel="next" href="cha-spatial.html"/>
-<script src="libs/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -53,9 +53,8 @@
 
 
 <style type="text/css">
-html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -160,7 +159,7 @@ div.csl-indent {
 <ul class="summary">
 <img src="./nimble-icon.png"
      width=100>
-<li><a href="./cha-welcome-nimble.html">NIMBLE User Manual, Version 1.4.0</a></li>
+<li><a href="./cha-welcome-nimble.html">NIMBLE User Manual, Version 1.4.2</a></li>
 <li><a href="https://github.com/nimble-dev/nimble">NIMBLE Development Team</a></li>
 <li><a href="https://R-nimble.org">https://R-nimble.org</a></li>
 
@@ -503,7 +502,7 @@ div.csl-indent {
 <div id="cha-laplace" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">Chapter 9</span> Laplace, AGHQ, and nested approximations<a href="cha-laplace.html#cha-laplace" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The NIMBLE algorithm library includes a growing set of non-MCMC algorithms including likelihood-based algorithms.</p>
-<p>In this chapter we discuss Laplace approximation and the closely related adaptive Gauss-Hermite quadrature (AGHQ) approximation for maximum likelihood estimation, as well as INLA-like nested approximations that use Laplace/AGHQ methods for approximate marginalization for deterministic Bayesian estimation.</p>
+<p>In this chapter we discuss Laplace approximation and the closely related adaptive Gauss-Hermite quadrature (AGHQ) approximation for maximum likelihood estimation, as well as INLA-like nested approximations that use Laplace/AGHQ methods for approximate marginalization for deterministic Bayesian estimation. These methods are available in the <code>nimbleQuad</code> package. The <a href="https://r-nimble.org/vignettes/nimbleQuad.html">vignette for the nimbleQuad package</a> provides additional information.</p>
 <div id="sec:AD-laplace" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Laplace approximation and adaptive Gauss-Hermite quadrature (AGHQ)<a href="cha-laplace.html#sec:AD-laplace" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As of NIMBLE version 1.4.0, NIMBLE’s Laplace and AGHQ approximation live in the <code>nimbleQuad</code> package. Please load that package before trying to use these algorithms.</p>
@@ -707,19 +706,19 @@ Users can choose a different optimizer for both of the optimizations.</p>
 </div>
 <div id="sec:nested-approx" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Nested approximation (INLA-like) methods<a href="cha-laplace.html#sec:nested-approx" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>NIMBLE version 1.4.0 introduces a nested approximation method that provides approximate posterior inference using methodology similar to the well-known INLA approach <span class="citation">(<a href="references.html#ref-rue2009approximate">Rue et al. 2009</a>; <a href="references.html#ref-martins2013bayesian">Martins et al. 2013</a>)</span>, implemented in the R-INLA package and to the related methods for extended Gaussian latent models (EGLMs) of <span class="citation">Stringer et al. (<a href="references.html#ref-stringer2023fast">2023</a>)</span>, implemented in the <code>aghq</code> R package.</p>
+<p>NIMBLE version 1.4.0 introduces a nested approximation method that provides approximate posterior inference using methodology similar to the well-known INLA approach <span class="citation">(<a href="references.html#ref-rue2009approximate">Håvard Rue, Martino, and Chopin 2009</a>; <a href="references.html#ref-martins2013bayesian">Martins et al. 2013</a>)</span>, implemented in the R-INLA package and to the related methods for extended latent Gaussian models (ELGMs) of <span class="citation">Stringer, Brown, and Stafford (<a href="references.html#ref-stringer2023fast">2023</a>)</span>, implemented in the <code>aghq</code> R package.</p>
 <p>In general, such nested approximations build on Laplace approximation, which provides an approximate marginal posterior for model (hyper)parameters, integrating (marginalizing) over latent nodes. Then instead of maximizing the approximation, one approximates the marginal posterior of the (hyper)parameters on a carefully-chosen set of points. Inference for individual (hyper)parameters is done by numerical approximation, numerical integration, or sampling from an approximation to the marginal posterior. Inference for the latent nodes is done via numerical integration or via sampling from a mixture (over the hyperparameter points) of multivariate normal distributions.</p>
-<p>Our implementation in NIMBLE borrows heavily from the INLA and EGLM approaches.</p>
-<p>Here we list some of the similarities and differences from INLA and the EGLM approach (<code>aghq</code> package):</p>
+<p>Our implementation in NIMBLE borrows heavily from the INLA and ELGM approaches.</p>
+<p>Here we list some of the similarities and differences from INLA and the ELGM approach (<code>aghq</code> package):</p>
 <ul>
-<li>Like EGLM, we use automatic differentiation to calculate the Laplace-approximated marginal likelihood.</li>
-<li>Like EGLM, we take the latent nodes to be only the latent stochastic parameters in the model, without including the additive predictor values as done in INLA.</li>
-<li>For marginal inference on a chosen univariate (hyper)parameter we provide the univariate asymmetric Gaussian approximation used by INLA and also (for increased accuracy at additional computational expense) numerical integration via AGHQ as in EGLM.</li>
+<li>Like ELGM, we use automatic differentiation to calculate the Laplace-approximated marginal likelihood.</li>
+<li>Like ELGM, we take the latent nodes to be only the latent stochastic parameters in the model, without including the additive predictor values as done in INLA.</li>
+<li>For marginal inference on a chosen univariate (hyper)parameter we provide the univariate asymmetric Gaussian approximation used by INLA and also (for increased accuracy at additional computational expense) numerical integration via AGHQ as in ELGM.</li>
 <li>For joint inference on the (hyper)parameters we provide simulation from the joint asymmetric Gaussian approximation as done in INLA.</li>
-<li>For inference on the latent nodes, we provide joint simulation from a multivariate normal mixture over the (hyper)parameter grid points as done in EGLM and also available in INLA. Unlike in INLA, we do not provide univariate latent inference using deterministic nested Laplace approximation. The simulation-based approach may not be as accurate, but it allows for joint inference, including inference on quantities that depend on more than one latent node.</li>
-<li>Unlike either EGLM or INLA, latent nodes are not required to have a joint normal distribution, though accuracy may be less when the latent nodes have other distributions.</li>
+<li>For inference on the latent nodes, we provide joint simulation from a multivariate normal mixture over the (hyper)parameter grid points as done in ELGM and also available in INLA. Unlike in INLA, we do not provide univariate latent inference using deterministic nested Laplace approximation. The simulation-based approach may not be as accurate, but it allows for joint inference, including inference on quantities that depend on more than one latent node.</li>
+<li>Unlike either ELGM or INLA, latent nodes are not required to have a joint normal distribution, though accuracy may be less when the latent nodes have other distributions.</li>
 <li>For latent nodes whose conditional distributions factor into univariate conditionally independent sets, the Laplace approximation is a product of univariate approximations, and one can instead use NIMBLE’s AGHQ approximation for higher accuracy.</li>
-<li>We allow the user to choose the grid used for the (hyper)parameters. By default for <span class="math inline">\(d&gt;2\)</span> parameters, we use the CCD grid used by INLA, but one can choose to use the AGHQ grid as used in EGLM or provide one’s own grid.</li>
+<li>We allow the user to choose the grid used for the (hyper)parameters. By default for <span class="math inline">\(d&gt;2\)</span> parameters, we use the CCD grid used by INLA, but one can choose to use the AGHQ grid as used in ELGM or provide one’s own grid.</li>
 </ul>
 <div id="overview-of-the-methodology" class="section level3 hasAnchor" number="9.2.1">
 <h3><span class="header-section-number">9.2.1</span> Overview of the methodology<a href="cha-laplace.html#overview-of-the-methodology" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -732,7 +731,7 @@ Users can choose a different optimizer for both of the optimizations.</p>
 <div id="approximating-the-marginal-parameter-density-on-a-grid" class="section level4 hasAnchor" number="9.2.1.2">
 <h4><span class="header-section-number">9.2.1.2</span> Approximating the marginal parameter density on a grid<a href="cha-laplace.html#approximating-the-marginal-parameter-density-on-a-grid" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>In order to simulate from the posterior distribution for the latent nodes (or to estimate the marginal likelihood), one needs to evaluate the joint parameter posterior density on a grid of points.</p>
-<p>NIMBLE primarily offers the options of using a CCD grid (as used by INLA) or an AGHQ grid (as used in the EGLM approach). While the AGHQ grid is expected to be more accurate, the CCD grid uses fewer points and is therefore less computationally intensive.</p>
+<p>NIMBLE primarily offers the options of using a CCD grid (as used by INLA) or an AGHQ grid (as used in the ELGM approach). While the AGHQ grid is expected to be more accurate, the CCD grid uses fewer points and is therefore less computationally intensive.</p>
 <p>For <span class="math inline">\(d &lt;= 2\)</span> NIMBLE defaults to the AGHQ grid and otherwise uses the CCD grid.</p>
 <p>NIMBLE also allows users to provide their own grid.</p>
 </div>
@@ -849,8 +848,7 @@ b_i \sim \mathcal{N}(0, 1)
 <p>Note that given the vague priors for the parameters used here, the marginal likelihood is probably not useful.</p>
 <p>Now, let’s refine our estimation of the parameters by using AGHQ in place of the asymmetric Gaussian approximation. That does <span class="math inline">\(d-1\)</span> dimensional AGHQ (here simply 1-d AGHQ) for each parameter requested (by default all of the parameters).</p>
 <div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="cha-laplace.html#cb312-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">improveParamMarginals</span>(<span class="at">nodes =</span> <span class="st">&#39;tau&#39;</span>)</span></code></pre></div>
-<pre><code>## Approximating 1 individual parameter marginal density via AGHQ:
-##   - calculating inner AGHQ/Laplace approximation at (5) marginal points
+<pre><code>##   - calculating inner AGHQ/Laplace approximation at (5) marginal points
 ##     with 3 quadrature grid points (one dot per grid point): (1)...(2)...(3)...(4)...(5)...</code></pre>
 <pre><code>## Model (hyper)parameters: 
 ##           mean        sd     2.5%      25%      50%      75%     97.5%
@@ -864,8 +862,7 @@ b_i \sim \mathcal{N}(0, 1)
 <p>By default we use three quadrature points in each dimension and five evaluation points.</p>
 <p>If we increase the number of evaluation points, we see it has some effect on the inference.</p>
 <div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="cha-laplace.html#cb315-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">improveParamMarginals</span>(<span class="at">nodes =</span> <span class="st">&#39;tau&#39;</span>, <span class="at">nMarginalGrid =</span> <span class="dv">9</span>)</span></code></pre></div>
-<pre><code>## Approximating 1 individual parameter marginal density via AGHQ:
-##   - calculating inner AGHQ/Laplace approximation at (9) marginal points
+<pre><code>##   - calculating inner AGHQ/Laplace approximation at (9) marginal points
 ##     with 3 quadrature grid points (one dot per grid point): (1)...(2)...(3)...(4)...(5)...(6)...(7)...(8)...(9)...</code></pre>
 <pre><code>## Model (hyper)parameters: 
 ##           mean        sd      2.5%      25%      50%      75%     97.5%
@@ -876,8 +873,7 @@ b_i \sim \mathcal{N}(0, 1)
 ##   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
 <p>If we increase the accuracy of the AGHQ integration, there is little effect.</p>
 <div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="cha-laplace.html#cb318-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">improveParamMarginals</span>(<span class="at">nodes =</span> <span class="st">&#39;tau&#39;</span>, <span class="at">nMarginalGrid =</span> <span class="dv">9</span>, <span class="at">nQuad =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## Approximating 1 individual parameter marginal density via AGHQ:
-##   - calculating inner AGHQ/Laplace approximation at (9) marginal points
+<pre><code>##   - calculating inner AGHQ/Laplace approximation at (9) marginal points
 ##     with 5 quadrature grid points (one dot per grid point): (1).....(2).....(3).....(4).....(5).....(6).....(7).....(8).....(9).....</code></pre>
 <pre><code>## Model (hyper)parameters: 
 ##           mean        sd      2.5%      25%      50%      75%     97.5%
@@ -891,7 +887,7 @@ b_i \sim \mathcal{N}(0, 1)
 <pre><code>##       0.05       0.95 
 ##  0.9936585 12.5655362</code></pre>
 <div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="cha-laplace.html#cb323-1" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">plotMarginal</span>(<span class="st">&#39;tau&#39;</span>)</span></code></pre></div>
-<p><img src="NimbleUserManual_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+<p><img src="NimbleUserManual_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
 <div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="cha-laplace.html#cb324-1" tabindex="-1"></a><span class="do">## Compute the posterior mean of the random effects variance instead of standard deviation.</span></span>
 <span id="cb324-2"><a href="cha-laplace.html#cb324-2" tabindex="-1"></a>sd_to_var <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb324-3"><a href="cha-laplace.html#cb324-3" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">emarginal</span>(<span class="st">&#39;tau&#39;</span>, sd_to_var)</span></code></pre></div>
