@@ -9,7 +9,7 @@
 <link>https://r-nimble.org/blog/#category=R</link>
 <atom:link href="https://r-nimble.org/blog/index-r.xml" rel="self" type="application/rss+xml"/>
 <description>An R package for programming with BUGS models and compiling parts of R</description>
-<generator>quarto-1.7.31</generator>
+<generator>quarto-1.9.38</generator>
 <lastBuildDate>Wed, 18 Feb 2026 08:00:00 GMT</lastBuildDate>
 <item>
   <title>Version 1.4.1 of NIMBLE released</title>
@@ -51,7 +51,7 @@
 <p>The new <code>nimbleQuad</code> package provides quadrature-based inference methods that use Laplace and Adaptive Gauss-Hermite Quadrature (AGHQ) approximation. It has two main components:</p>
 <ol type="1">
 <li>Laplace and AGHQ approximations for marginalizing over latent nodes (e.g., random effects) to perform approximate maximum likelihood estimation.</li>
-<li>Deterministic nested quadrature methods for posterior approximation using Laplace approximation for the inner marginalization of the latent nodes and general quadrature methods for outer marginalization of the parameter nodes. These methods borrow ideas from the popular INLA approach <span class="citation" data-cites="rue2009approximate">(Rue, Martino, and Chopin 2009)</span> and from the extended Gaussian latent model approach provided in the R <code>aghq</code> package <span class="citation" data-cites="stringer2023fast">(Stringer, Brown, and Stafford 2023)</span>.</li>
+<li>Deterministic nested quadrature methods for posterior approximation using Laplace approximation for the inner marginalization of the latent nodes and general quadrature methods for outer marginalization of the parameter nodes. These methods borrow ideas from the popular INLA approach <span class="citation" data-cites="rue2009approximate">(Rue et al. 2009)</span> and from the extended Gaussian latent model approach provided in the R <code>aghq</code> package <span class="citation" data-cites="stringer2023fast">(Stringer et al. 2023)</span>.</li>
 </ol>
 <p>The first component was present in the core <code>nimble</code> package until version 1.4.0. The second component is a new feature.</p>
 <p>By providing these methods in the NIMBLE system, via <code>nimbleQuad</code>, users can use the methods on models constructed using the NIMBLE model language (which extends the BUGS model language) and can also customize and extend the algorithms.</p>
@@ -76,7 +76,7 @@
 <p><img src="https://latex.codecogs.com/png.latex?%0Au_%7Bj%7D%20%5Csim%20%5Ctext%7BNormal%7D(0,%20%5Csigma%5E2)%0A"></p>
 <p>The maximum likelihood estimator can be found with <code>glmmTMB</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(glmmTMB)</span>
 <span id="cb1-2"><span class="fu" style="color: #4758AB;
@@ -106,11 +106,11 @@ font-style: inherit;">1</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">family=</span>poisson, <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">data=</span>Salamanders)</span></code></pre></div>
+font-style: inherit;">data=</span>Salamanders)</span></code></pre></div></div>
 </div>
 <p>We can also fit this model in <code>INLA</code> to get the approximate posterior using the “zeroinflatedpoisson1” model family.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(INLA)</span>
 <span id="cb2-2">fit_inla <span class="ot" style="color: #003B4F;
@@ -159,7 +159,7 @@ font-style: inherit;">list</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">int.strategy =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"ccd"</span>))</span></code></pre></div>
+font-style: inherit;">"ccd"</span>))</span></code></pre></div></div>
 </div>
 </section>
 </section>
@@ -169,12 +169,12 @@ font-style: inherit;">"ccd"</span>))</span></code></pre></div>
 <p><code>nimbleQuad</code> relies on automatic differentiation (AD) to take derivatives. To include AD in a <code>nimbleFunction</code> we must set <code>buildDerivs = 'run'</code>.</p>
 <p>A nimbleFunction, <code>rZIP</code>, to simulate from the distribution is also provided for convenience, although this is not strictly needed for this model to fit.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(nimbleQuad)</span></code></pre></div>
+font-style: inherit;">library</span>(nimbleQuad)</span></code></pre></div></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">dZIP <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">dZIP <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -318,11 +318,11 @@ background-color: null;
 font-style: inherit;">rpois</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>, lambda))</span>
-<span id="cb4-19">})</span></code></pre></div>
+<span id="cb4-19">})</span></code></pre></div></div>
 </div>
 <p>We will use prior distributions to match the default priors in the <code>INLA</code> model that was fit above to allow direct comparison of results. See <code>inla.priors.used(fit_inla)</code> for a description of the default priors. INLA places a logit-normal prior on <img src="https://latex.codecogs.com/png.latex?p">. For convenience, we will write our own logit-normal prior. In this case, we explicitly register the distribution to tell NIMBLE the range of possible values, needed for use in NIMBLE’s parameter transformation system.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">dlogitnormal <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">dlogitnormal <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -432,7 +432,7 @@ background-color: null;
 font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>))</span>
-<span id="cb5-14">))</span></code></pre></div>
+<span id="cb5-14">))</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>  [Warning] Random generation function for dlogitnormal is not available. NIMBLE is generating a placeholder function, rlogitnormal, that will invoke an error if an algorithm needs to simulate from this distribution. Some algorithms (such as random-walk Metropolis MCMC sampling) will work without the ability to simulate from the distribution.  If simulation is needed, provide a nimbleFunction (with no setup code) to do it.</code></pre>
 </div>
@@ -440,7 +440,7 @@ font-style: inherit;">1</span>))</span>
 <p>If not trying to use the same model as INLA, one might choose different priors, and one would not necessarily need to define the logit-normal distribution.</p>
 <p>Following INLA, we use a completely flat prior on the intercept <code>dflat</code>, a gamma prior on precision <code>tau_re</code> and a logit-normal on <code>p</code>. We can now write the model code, and then provide constants and data to build the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">code <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">code <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -691,7 +691,7 @@ font-style: inherit;">inits =</span> inits, <span class="at" style="color: #6574
 background-color: null;
 font-style: inherit;">buildDerivs =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
-font-style: inherit;">TRUE</span>)</span></code></pre></div>
+font-style: inherit;">TRUE</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -711,11 +711,11 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Checking model sizes and dimensions</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">cm <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">cm <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">compileNimble</span>(m)</span></code></pre></div>
+font-style: inherit;">compileNimble</span>(m)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
@@ -728,36 +728,36 @@ font-style: inherit;">compileNimble</span>(m)</span></code></pre></div>
 <h2 class="anchored" data-anchor-id="using-the-laplace-approximation">Using the Laplace Approximation</h2>
 <p>We can find the maximum likelihood estimate by using <code>buildLaplace</code> (or <code>buildAGHQ</code> if we want more quadrature nodes for marginalizing over the random effects, as discussed below).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">laplace <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">laplace <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">buildLaplace</span>(<span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">model =</span> m)</span></code></pre></div>
+font-style: inherit;">model =</span> m)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building 23 individual Laplace approximations (one dot for each): .......................</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">claplace <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">claplace <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">compileNimble</span>(laplace)</span></code></pre></div>
+font-style: inherit;">compileNimble</span>(laplace)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">nimble_fit <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">nimble_fit <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">runLaplace</span>(claplace)</span></code></pre></div>
+font-style: inherit;">runLaplace</span>(claplace)</span></code></pre></div></div>
 </div>
 <p>NIMBLE reports that it is able to use 23 separate (one-dimensional) Laplace approximations (because the random effects, plus their data dependencies, are conditionally independent).</p>
 <p>Let’s compare the results with <code>glmmTMB</code>. The results are very similar.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">nimble_params <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">nimble_params <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> nimble_fit<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -806,7 +806,7 @@ font-style: inherit;">1</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">lty =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span>)</span></code></pre></div>
+font-style: inherit;">2</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -814,7 +814,7 @@ font-style: inherit;">2</span>)</span></code></pre></div>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># logit(p):</span></span>
 <span id="cb22-2">fit_tmb<span class="sc" style="color: #5E5E5E;
@@ -825,12 +825,12 @@ font-style: inherit;">$</span>par[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"betazi"</span>]     <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># TMB</span></span></code></pre></div>
+font-style: inherit;"># TMB</span></span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   betazi 
 -0.933805 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">logit</span>(nimble_params[<span class="st" style="color: #20794D;
 background-color: null;
@@ -838,11 +838,11 @@ font-style: inherit;">"p"</span>,<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>])   <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># NIMBLE</span></span></code></pre></div>
+font-style: inherit;"># NIMBLE</span></span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.9338518</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># tau_re</span></span>
 <span id="cb26-2"><span class="fu" style="color: #4758AB;
@@ -861,25 +861,25 @@ font-style: inherit;">$</span>par[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"theta"</span>])  <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># TMB</span></span></code></pre></div>
+font-style: inherit;"># TMB</span></span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   theta 
 3.646564 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">nimble_params[<span class="st" style="color: #20794D;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">nimble_params[<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"tau_re"</span>,<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>]         <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># NIMBLE</span></span></code></pre></div>
+font-style: inherit;"># NIMBLE</span></span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.646879</code></pre>
 </div>
 </div>
 <p>It can be helpful to check the Laplace approximation at the MLE by increasing the number of quadrature nodes using AGHQ. If the likelihood is very different when increasing the number of quadrature nodes, that indicates that Laplace was not a good approximation to the marginal likelihood. In this particular case, since we have have conditionally independent random effects (and therefore a set of 1-dimensional AGHQ approximations), increasing the number of quadrature nodes will be relatively quick, but in other cases it can be very slow.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">claplace<span class="sc" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">claplace<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -893,11 +893,11 @@ font-style: inherit;">'estimate'</span>], <span class="at" style="color: #657422
 background-color: null;
 font-style: inherit;">trans =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
-font-style: inherit;">FALSE</span>)</span></code></pre></div>
+font-style: inherit;">FALSE</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -881.9147</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1">claplace<span class="sc" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1">claplace<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -920,11 +920,11 @@ font-style: inherit;">'estimate'</span>], <span class="at" style="color: #657422
 background-color: null;
 font-style: inherit;">trans =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
-font-style: inherit;">FALSE</span>)</span></code></pre></div>
+font-style: inherit;">FALSE</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -881.8752</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1">claplace<span class="sc" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1">claplace<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -947,7 +947,7 @@ font-style: inherit;">'estimate'</span>], <span class="at" style="color: #657422
 background-color: null;
 font-style: inherit;">trans =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
-font-style: inherit;">FALSE</span>)</span></code></pre></div>
+font-style: inherit;">FALSE</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -881.8749</code></pre>
 </div>
@@ -957,7 +957,7 @@ font-style: inherit;">FALSE</span>)</span></code></pre></div>
 <h2 class="anchored" data-anchor-id="posterior-approximation">Posterior Approximation</h2>
 <p>Posterior approximation is done by <code>buildNestedApprox</code> (to build the approximation) and <code>runNestedApprox</code> (to calculate the approximation). Note that the setup for <code>buildNestedApprox</code>is similar to <code>buildLaplace</code> except that we refer to the combination of random effects and fixed effects as <code>latentNodes</code> and the hyperparameters as <code>paramNodes</code>, which we will refer to more generally as the “parameters”. Including fixed effects with the random effects reduces the dimension of the outer quadrature, which reduces computation time. However, in some cases one may want to include the fixed effects in the <code>paramNodes</code>, as the choice of where to include the fixed effects can affect statistical performance. If the user does not specify <code>latentNodes</code> and <code>paramNodes</code>, NIMBLE will automatically determine them based on the graphical structure of the model, and the user can check that a reasonable determination has been made.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1">approx <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1">approx <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -981,7 +981,7 @@ font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'beta'</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'re'</span>))</span></code></pre></div>
+font-style: inherit;">'re'</span>))</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building nested posterior approximation for the following node sets:
   - parameter nodes: p, tau_re
@@ -991,13 +991,13 @@ font-style: inherit;">'re'</span>))</span></code></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building Laplace approximation.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1">capprox <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1">capprox <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">compileNimble</span>(approx, <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">project =</span> m)</span></code></pre></div>
+font-style: inherit;">project =</span> m)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
@@ -1016,17 +1016,17 @@ font-style: inherit;">project =</span> m)</span></code></pre></div>
 <p>For inference on the latent nodes, at each point in the parameter grid, Laplace is used to marginalize the latent nodes to calculate the posterior density for the point, which requires an inner optimization. This can be computationally expensive (particularly with a large number of latent nodes), scaling with the number of grid points. CCD is the default (as is done in INLA) because it scales well to higher dimensions. Alternatively, an AGHQ grid can be used. This will be computationally more expensive because there are more grid points but potentially more accurate. The user can also provide their own grid. By default, we do not do compute the parameter grid when calling <code>runNestedApprox</code> unless requested, because the integration-free estimates do not require it. However, it is necessary for inference on the latent nodes and is done automatically when the latent nodes are sampled (via <code>sampleLatents</code>).</p>
 <p>Here is the initial (integration-free) inference for the parameters. We compare results to samples from a long HMC (MCMC) run.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1">result <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1">result <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">runNestedApprox</span>(<span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">approx =</span> capprox)</span></code></pre></div>
+font-style: inherit;">approx =</span> capprox)</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Finding posterior mode for parameter(s).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1">result</span></code></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1">result</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model (hyper)parameters: 
             mean         sd      2.5%       25%       50%      75%     97.5%
@@ -1036,7 +1036,7 @@ tau_re 4.2832265 2.21980867 1.4690074 2.7377845 3.7993353 5.280151 9.9046828
 Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">par</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1172,7 +1172,7 @@ font-style: inherit;">lines</span>(hmc_p, <span class="at" style="color: #657422
 background-color: null;
 font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'green'</span>)</span></code></pre></div>
+font-style: inherit;">'green'</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1184,7 +1184,7 @@ font-style: inherit;">'green'</span>)</span></code></pre></div>
 <p>The nested approximation and INLA results match MCMC well, though for some reason the densities plotted by INLA don’t quite integrate to one and therefore lies above the other two lines.</p>
 <p>Here is the sampling-based inference for the latent nodes. The density estimates match HMC reasonably well, but not quite as well as INLA for the fixed effects.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># remove these lines later</span></span>
 <span id="cb46-2"><span class="co" style="color: #5E5E5E;
@@ -1203,12 +1203,12 @@ font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">sampleLatents</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">10000</span>)</span></code></pre></div>
+font-style: inherit;">10000</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Calculating inner AGHQ/Laplace approximation at 9 parameter (outer)
   grid points (one dot per point): .........</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">par</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -1343,7 +1343,7 @@ font-style: inherit;">lines</span>(hmc_re1, <span class="at" style="color: #6574
 background-color: null;
 font-style: inherit;">col =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'green'</span>)</span></code></pre></div>
+font-style: inherit;">'green'</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1356,9 +1356,9 @@ font-style: inherit;">'green'</span>)</span></code></pre></div>
 <h3 class="anchored" data-anchor-id="improving-the-parameter-marginals">Improving the Parameter Marginals</h3>
 <p>Although the integration-free method is fast and performs reasonably well, it may be that the user wishes to get a more exact marginal. This is done individually for each parameter of interest, marginalizing over the remaining parameters using an outer quadrature rule (AGHQ, CCD, AGHQSPARSE, USER), with AGHQ as the default. We choose the number of quadrature points for marginalization (<code>nQuad</code>) as well as the number of points along a grid to evaluate the marginal (<code>nMarginalGrid</code>). Increasing either can improve performance but at the expense of additional computation and generally with diminishing improvement.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1">result  <span class="co" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1">result  <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># Original (integration-free) parameter estimates</span></span></code></pre></div>
+font-style: inherit;"># Original (integration-free) parameter estimates</span></span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model (hyper)parameters: 
             mean         sd      2.5%       25%       50%      75%     97.5%
@@ -1369,7 +1369,7 @@ Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
 Marginal log-likelihood (grid-based): -957.3845(*)
   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb51" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1">result<span class="sc" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1">result<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1394,7 +1394,7 @@ font-style: inherit;">3</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">quadRule =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"AGHQ"</span>)</span></code></pre></div>
+font-style: inherit;">"AGHQ"</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Approximating 2 individual parameter marginal densities via AGHQ:</code></pre>
 </div>
@@ -1427,7 +1427,7 @@ Marginal log-likelihood (grid-based): -957.3845(*)
 <h3 class="anchored" data-anchor-id="sampling-from-the-posterior-over-parameters">Sampling from the posterior over parameters</h3>
 <p>The user may also choose to sample from the asymmetric multivariate normal approximation to make inference about the parameters. This can be particularly useful when making inference on parameters with dimension changes (e.g., proportions with a Dirichlet prior or elements of a covariance matrix, such as one with a Wishart or LKJ prior) or generally making inference about functionals of multiple parameters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1">samples_params <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1">samples_params <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> result<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1516,7 +1516,7 @@ font-style: inherit;">1</span>), <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">bty =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'n'</span>)</span></code></pre></div>
+font-style: inherit;">'n'</span>)</span></code></pre></div></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1536,7 +1536,7 @@ font-style: inherit;">'n'</span>)</span></code></pre></div>
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-martins2013bayesian" class="csl-entry">
 Martins, Thiago G, Daniel Simpson, Finn Lindgren, and Håvard Rue. 2013. <span>“Bayesian Computing with INLA: New Features.”</span> <em>Computational Statistics &amp; Data Analysis</em> 67: 68–83.
 </div>
@@ -1573,12 +1573,12 @@ Stringer, Alex, Patrick Brown, and Jamie Stafford. 2023. <span>“Fast, Scalable
 <p>By using derived quantities, users can avoid adding additional nodes to the model itself and can potentially reduce how much is stored during an MCMC run and saved as output from the run, thereby reducing memory and disk use.</p>
 <p>We’ll give a brief example of saving log-probability (log-posterior-density) values summed over a set of nodes in a simple Poisson random effects model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(nimble)</span></code></pre></div>
+font-style: inherit;">library</span>(nimble)</span></code></pre></div></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">pumpCode <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">pumpCode <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1718,7 +1718,7 @@ font-style: inherit;">$</span>N))</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">nimbleModel</span>(pumpCode, pumpConsts, pumpData, pumpInits)</span></code></pre></div>
+font-style: inherit;">nimbleModel</span>(pumpCode, pumpConsts, pumpData, pumpInits)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -1738,7 +1738,7 @@ font-style: inherit;">nimbleModel</span>(pumpCode, pumpConsts, pumpData, pumpIni
 </div>
 <p>Now we add the <code>logProb</code> derived quantity, specified directly as an argument to <code>configureMCMC</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">conf <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">conf <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1750,7 +1750,7 @@ font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">'alpha'</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">'beta'</span>))</span></code></pre></div>
+font-style: inherit;">'beta'</span>))</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>===== Monitors =====
 thin = 1: alpha, beta
@@ -1763,18 +1763,18 @@ conjugate sampler (11)
 ===== DerivedQ =====
 - logProb (1)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">conf<span class="sc" style="color: #5E5E5E;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">conf<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">printDerivedQuantities</span>()</span></code></pre></div>
+font-style: inherit;">printDerivedQuantities</span>()</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] derived quantity: logProb,  execution interval: thin,  nodes: c(alpha, beta)</code></pre>
 </div>
 </div>
 <p>When we run the MCMC, we see the derived quantities are saved as an element of the output list, in addition to the usual posterior samples of the parameters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">mcmc <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">mcmc <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1784,23 +1784,23 @@ font-style: inherit;">buildMCMC</span>(conf)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">compileNimble</span>(pumpModel)</span></code></pre></div>
+font-style: inherit;">compileNimble</span>(pumpModel)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">cmcmc <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">cmcmc <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">compileNimble</span>(mcmc)</span></code></pre></div>
+font-style: inherit;">compileNimble</span>(mcmc)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">runMCMC</span>(cmcmc, <span class="at" style="color: #657422;
 background-color: null;
@@ -1810,7 +1810,7 @@ font-style: inherit;">100</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">thin =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">20</span>)</span></code></pre></div>
+font-style: inherit;">20</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>running chain 1...</code></pre>
 </div>
@@ -1839,7 +1839,7 @@ $derived$logProb
 </div>
 <p>We could also have added the <code>logProb</code> derived quantity to an existing MCMC configuration argument (and also illustrating that one can modify the interval at which recording is done):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">conf <span class="ot" style="color: #003B4F;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">conf <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1862,7 +1862,7 @@ font-style: inherit;">'beta'</span>), <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">interval =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">10</span>)</span></code></pre></div>
+font-style: inherit;">10</span>)</span></code></pre></div></div>
 </div>
 <p>The operation of every derived quantity function is governed by an <code>interval</code> parameter. Each derived quantity function is executed at the end of every <code>interval</code> MCMC iterations (and only for iterations after the burnin period). The default value for <code>interval</code> is given by the <code>thin</code> interval of the MCMC. For example, if <code>interval = 1</code> (regardless of the <code>thin</code> value), then that derived quantity function will execute at the end of every MCMC sampling iteration.</p>
 <p>Note that user-defined derived quantity nimbleFunctions provide a general way for a user to intervene at the end of an MCMC iteration and do something. This would often be recording a value (to be returned at the end of the MCMC) or updating some summary statistic, but the derived quantities system doesn’t require this, giving users flexibility.</p>
@@ -1929,7 +1929,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
 <p>A NIMBLE macro is a succinct syntax that expands to create the NIMBLE model code for part or all of a model.</p>
 <p>We recently released the first version of the <a href="https://cran.r-project.org/web/packages/nimbleMacros/index.html"><code>nimbleMacros</code> package on CRAN</a>, which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the <code>LM</code> (“linear model”) macro like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(nimbleMacros)</span>
 <span id="cb1-2">code <span class="ot" style="color: #003B4F;
@@ -1952,7 +1952,7 @@ background-color: null;
 font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|</span>Chick))</span>
-<span id="cb1-4">})</span></code></pre></div>
+<span id="cb1-4">})</span></code></pre></div></div>
 </div>
 <p>with the formula syntax mimicking that of the lme4 package. After building the model based on the <code>code</code> object, you can see the model code produced after the macro is expanded with <code>model$getCode()</code>. The nimbleMacros package also includes macros for creating linear predictors and for loops, and we plan to add additional macros in the future.</p>
 <p>Developers can use the tools in <code>nimble</code> itself to create their own macros. See <a href="https://r-nimble.org/html_manual/cha-user-defined.html#sec:user-macros">Section 12.4 of the NIMBLE user manual</a>, <a href="https://cran.r-project.org/web/packages/nimbleMacros/vignettes/nimbleMacros.html">the <code>nimbleMacros</code> vignette</a>, or <code>help(buildMacro)</code> for more information.</p>
@@ -2188,13 +2188,13 @@ better mixing when parameters are on different scales or the initialproposal sca
 <p>If you haven’t upgraded to version 0.13.0, simply wait to upgrade until we release a bug fix in 0.13.1 in the next couple weeks.</p>
 <p>If you have upgraded to version 0.13.0 and if you have run an MCMC on a model that both (1) has predictive nodes and (2) has multivariate nodes, then the bug might affect your results. Please set:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">nimbleOptions</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">MCMCusePredictiveDependenciesInCalculations =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
-font-style: inherit;">TRUE</span>)</span></code></pre></div>
+font-style: inherit;">TRUE</span>)</span></code></pre></div></div>
 </div>
 <p>and then reconfigure/rebuild and rerun your MCMC. The option above will ensure that the MCMC behaves as it would in previous versions of NIMBLE.</p>
 

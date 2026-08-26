@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Blog Posts – NIMBLE</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -38,10 +41,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3060d58e34635f6e88d955b3a11f1646.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,7 +113,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -123,7 +126,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -150,7 +153,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo light-content">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -398,7 +402,7 @@ NIMBLE Development Team
 <div class="quarto-post image-right" data-index="1" data-categories="UiUyQ3R1dG9yaWFs" data-listing-date-sort="1769673600000" data-listing-file-modified-sort="1769651113862" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2519">
 <div class="thumbnail"><a href="../blog/nimbleQuad.html" class="no-external">
 
-<p class="card-img-top"><img src="nimbleQuad_files/figure-html/unnamed-chunk-9-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' src="nimbleQuad_files/figure-html/unnamed-chunk-9-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -1168,7 +1172,7 @@ NIMBLE Development Team
 <div class="quarto-post image-right" data-index="24" data-categories="YW5ub3VuY2VtZW50JTJDUiUyQ3R1dG9yaWFs" data-listing-date-sort="1628578800000" data-listing-file-modified-sort="1769554304183" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1299">
 <div class="thumbnail"><a href="../blog/posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble.html" class="no-external">
 
-<p class="card-img-top"><img src="posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble_files/figure-html/unnamed-chunk-7-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' src="posterior-predictive-sampling-and-other-post-mcmc-use-of-samples-in-nimble_files/figure-html/unnamed-chunk-7-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -1270,7 +1274,7 @@ NIMBLE Development Team
 <div class="quarto-post image-right" data-index="27" data-categories="YW5ub3VuY2VtZW50JTJDdHV0b3JpYWwlMkNS" data-listing-date-sort="1616655600000" data-listing-file-modified-sort="1769554304181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1934">
 <div class="thumbnail"><a href="../blog/bayesian-nonparametric-models-in-nimble-general-multivariate-models.html" class="no-external">
 
-<p class="card-img-top"><img data-src="bayesian-nonparametric-models-in-nimble-general-multivariate-models_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="bayesian-nonparametric-models-in-nimble-general-multivariate-models_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -1672,7 +1676,7 @@ Chris Paciorek
 <div class="quarto-post image-right" data-index="39" data-categories="YW5ub3VuY2VtZW50" data-listing-date-sort="1577952000000" data-listing-file-modified-sort="1769554304183" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1655">
 <div class="thumbnail"><a href="../blog/variable-selection-in-nimble-using-reversible-jump-mcmc.html" class="no-external">
 
-<p class="card-img-top"><img data-src="variable-selection-in-nimble-using-reversible-jump-mcmc_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="variable-selection-in-nimble-using-reversible-jump-mcmc_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -1938,7 +1942,7 @@ NIMBLE Development Team
 <div class="quarto-post image-right" data-index="47" data-categories="dHV0b3JpYWwlMkNS" data-listing-date-sort="1544083200000" data-listing-file-modified-sort="1769554304181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1745">
 <div class="thumbnail"><a href="../blog/bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects.html" class="no-external">
 
-<p class="card-img-top"><img data-src="bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects_files/figure-html/unnamed-chunk-4-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="bayesian-nonparametric-models-in-nimble-part-2-nonparametric-random-effects_files/figure-html/unnamed-chunk-4-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -1967,7 +1971,7 @@ Dec 6, 2018
 <div class="quarto-post image-right" data-index="48" data-categories="YW5ub3VuY2VtZW50JTJDdHV0b3JpYWwlMkNS" data-listing-date-sort="1543910400000" data-listing-file-modified-sort="1769554304181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3772">
 <div class="thumbnail"><a href="../blog/bayesian-nonparametric-models-in-nimble-part-1-density-estimation.html" class="no-external">
 
-<p class="card-img-top"><img data-src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/plot1-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="bayesian-nonparametric-models-in-nimble-part-1-density-estimation_files/figure-html/plot1-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -2101,7 +2105,7 @@ NIMBLE Development Team
 <div class="quarto-post image-right" data-index="52" data-categories="dHV0b3JpYWwlMkNS" data-listing-date-sort="1527663600000" data-listing-file-modified-sort="1769554304183" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2710">
 <div class="thumbnail"><a href="../blog/quick-guide-for-converting-from-jags-or-bugs-to-nimble.html" class="no-external">
 
-<p class="card-img-top"><img data-src="quick-guide-for-converting-from-jags-or-bugs-to-nimble_files/figure-html/unnamed-chunk-8-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="quick-guide-for-converting-from-jags-or-bugs-to-nimble_files/figure-html/unnamed-chunk-8-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -2437,7 +2441,7 @@ NIMBLE Development Team
 <div class="quarto-post image-right" data-index="62" data-categories="YW5ub3VuY2VtZW50JTJDdHV0b3JpYWwlMkNS" data-listing-date-sort="1494313200000" data-listing-file-modified-sort="1769554304181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1011">
 <div class="thumbnail"><a href="../blog/better-block-sampling-in-mcmc-with-the-automated-factor-slice-sampler.html" class="no-external">
 
-<p class="card-img-top"><img data-src="better-block-sampling-in-mcmc-with-the-automated-factor-slice-sampler_files/figure-html/unnamed-chunk-5-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="better-block-sampling-in-mcmc-with-the-automated-factor-slice-sampler_files/figure-html/unnamed-chunk-5-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -2505,7 +2509,7 @@ NIMBLE Development Team
 <div class="quarto-post image-right" data-index="64" data-categories="dHV0b3JpYWwlMkNS" data-listing-date-sort="1487145600000" data-listing-file-modified-sort="1769554304183" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3718">
 <div class="thumbnail"><a href="../blog/writing-reversible-jump-mcmc-in-nimble.html" class="no-external">
 
-<p class="card-img-top"><img data-src="writing-reversible-jump-mcmc-in-nimble_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="writing-reversible-jump-mcmc-in-nimble_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -2569,7 +2573,7 @@ Chris Paciorek
 <div class="quarto-post image-right" data-index="66" data-categories="dHV0b3JpYWwlMkNS" data-listing-date-sort="1483948800000" data-listing-file-modified-sort="1769554304181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="941">
 <div class="thumbnail"><a href="../blog/building-particle-filters-and-particle-mcmc-in-nimble-2.html" class="no-external">
 
-<p class="card-img-top"><img data-src="building-particle-filters-and-particle-mcmc-in-nimble-2_files/figure-html/unnamed-chunk-4-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="building-particle-filters-and-particle-mcmc-in-nimble-2_files/figure-html/unnamed-chunk-4-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -2584,7 +2588,7 @@ Chris Paciorek
 
 </div>
 <div class="delink listing-description"><a href="../blog/building-particle-filters-and-particle-mcmc-in-nimble-2.html" class="no-external">
-An Example of Using <code>nimble</code>’s Particle Filtering Algorithms
+An Example of Using <code>nimble</code>‘s Particle Filtering Algorithms
 </a></div>
 </div>
 <div class="metadata">
@@ -2735,7 +2739,7 @@ NIMBLE Development Team
 <div class="quarto-post image-right" data-index="71" data-categories="YW5ub3VuY2VtZW50JTJDcmVsZWFzZSUyQ1I=" data-listing-date-sort="1460098800000" data-listing-file-modified-sort="1769554304182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="591">
 <div class="thumbnail"><a href="../blog/nimble-a-new-way-to-do-mcmc-and-more-from-bugs-code-in-r-3.html" class="no-external">
 
-<p class="card-img-top"><img data-src="nimble-a-new-way-to-do-mcmc-and-more-from-bugs-code-in-r-3_files/figure-html/unnamed-chunk-2-1.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="nimble-a-new-way-to-do-mcmc-and-more-from-bugs-code-in-r-3_files/figure-html/unnamed-chunk-2-1.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -2983,13 +2987,14 @@ NIMBLE Development Team
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

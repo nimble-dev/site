@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Bayesian Nonparametric Models in NIMBLE: General Multivariate Models – NIMBLE</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3060d58e34635f6e88d955b3a11f1646.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,7 +118,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -128,7 +131,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -155,7 +158,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo light-content">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -402,14 +406,14 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="bnp-analysis-of-epileptic-seizure-count-data">BNP analysis of epileptic seizure count data</h2>
 <p>We illustrate the use of nonparametric multivariate mixture models for modeling counts of epileptic seizures from a longitudinal study of the drug progabide as an adjuvant antiepileptic chemotherapy. The data, originally reported in Leppik et al.&nbsp;(1985), arise from a clinical trial of 59 people with epilepsy. At four clinic visits, subjects reported the number of seizures occurring over successive two-week periods. Additional data include the baseline seizure count and the age of the patient. Patients were randomized to receive either progabide or a placebo, in addition to standard chemotherapy.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../nimbleExamples/seizures.Rda"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(seizures)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../nimbleExamples/seizures.Rda"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(seizures)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "id"    "seize" "visit" "trt"   "age"  </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seizures)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(seizures)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   id seize visit trt age
 1 101    76     0   1  18
@@ -428,10 +432,10 @@ where <span class="math inline">\(\boldsymbol{\lambda}_{i}=(\lambda_{i,1}, \ldot
 <p>Our specification uses a product of Poisson distributions as the kernel in the DPM which, at first sight, would suggest independence of the repeated seizure count measurements. However, because we are mixing over the parameters, this specification in fact induces dependence within subjects, with the strength of the dependence being inferred from the data. In order to specify the model in NIMBLE, first we translate the information in <code>seize</code> into a matrix and then we write the NIMBLE code.</p>
 <p>We specify this model in NIMBLE with the following code in R. The vector <code>xi</code> contains the latent cluster IDs, one for each patient.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">59</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">59</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> <span class="fu">matrix</span>(seizures<span class="sc">$</span>seize, <span class="at">ncol =</span> J, <span class="at">nrow =</span> n, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>constants <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> n, <span class="at">J =</span> J)</span>
@@ -449,7 +453,7 @@ where <span class="math inline">\(\boldsymbol{\lambda}_{i}=(\lambda_{i,1}, \ldot
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  xi[<span class="dv">1</span><span class="sc">:</span>n] <span class="sc">~</span> <span class="fu">dCRP</span>(<span class="at">conc =</span> alpha, <span class="at">size =</span> n)</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  alpha <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">rate =</span> <span class="dv">1</span>)</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="running-the-mcmc" class="level3">
@@ -457,10 +461,10 @@ where <span class="math inline">\(\boldsymbol{\lambda}_{i}=(\lambda_{i,1}, \ldot
 <p>The following code sets up the data and constants, initializes the parameters, defines the model object, and builds and runs the MCMC algorithm. For speed, the MCMC runs using compiled C++ code, hence the calls to <code>compileNimble</code> to create compiled versions of the model and the MCMC algorithm.</p>
 <p>Because the specification is in terms of a Chinese restaurant process, the default sampler selected by NIMBLE is a collapsed Gibbs sampler. More specifically, because the baseline distribution <span class="math inline">\(H\)</span> is conjugate to the product of Poisson kernels, Algorithm 2 from Neal (2000) is used.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">xi =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">alpha =</span> <span class="dv">1</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">lambda =</span> <span class="fu">matrix</span>(<span class="fu">rgamma</span>(J<span class="sc">*</span>n, <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">rate =</span> <span class="fl">0.1</span>), <span class="at">ncol =</span> J, <span class="at">nrow =</span> n))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data=</span>data, <span class="at">inits =</span> inits, <span class="at">constants =</span> constants, <span class="at">dimensions =</span> <span class="fu">list</span>(<span class="at">lambda =</span> <span class="fu">c</span>(n, J)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data=</span>data, <span class="at">inits =</span> inits, <span class="at">constants =</span> constants, <span class="at">dimensions =</span> <span class="fu">list</span>(<span class="at">lambda =</span> <span class="fu">c</span>(n, J)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -477,13 +481,13 @@ where <span class="math inline">\(\boldsymbol{\lambda}_{i}=(\lambda_{i,1}, \ldot
 <div class="cell-output cell-output-stderr">
 <pre><code>Checking model sizes and dimensions</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cmodel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cmodel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(model, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">'xi'</span>,<span class="st">'lambda'</span>, <span class="st">'alpha'</span>), <span class="at">print =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(model, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">'xi'</span>,<span class="st">'lambda'</span>, <span class="st">'alpha'</span>), <span class="at">print =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>===== Monitors =====
 thin = 1: alpha, lambda, xi
@@ -495,14 +499,14 @@ CRP_cluster_wrapper sampler (295)
 CRP sampler (1)
   - xi[1:59] </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(conf)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>cmcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc, <span class="at">project =</span> model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(conf)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>cmcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmc, <span class="at">project =</span> model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(cmcmc,  <span class="at">niter=</span><span class="dv">55000</span>, <span class="at">nburnin =</span> <span class="dv">5000</span>, <span class="at">thin=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(cmcmc,  <span class="at">niter=</span><span class="dv">55000</span>, <span class="at">nburnin =</span> <span class="dv">5000</span>, <span class="at">thin=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>running chain 1...</code></pre>
 </div>
@@ -513,13 +517,13 @@ CRP sampler (1)
 </div>
 <p>We can extract posterior samples for some parameters of interest. The following are trace plots of the posterior samples for the concentration parameter, <span class="math inline">\(\alpha\)</span> and the number of clusters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>xiSamples <span class="ot">&lt;-</span> samples[, <span class="fu">grep</span>(<span class="st">'xi'</span>, <span class="fu">colnames</span>(samples))]    <span class="co"># samples of cluster IDs</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>xiSamples <span class="ot">&lt;-</span> samples[, <span class="fu">grep</span>(<span class="st">'xi'</span>, <span class="fu">colnames</span>(samples))]    <span class="co"># samples of cluster IDs</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>nGroups <span class="ot">&lt;-</span> <span class="fu">apply</span>(xiSamples, <span class="dv">1</span>, <span class="cf">function</span>(x)  <span class="fu">length</span>(<span class="fu">unique</span>(x)))</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>concSamples <span class="ot">&lt;-</span> samples[, <span class="fu">grep</span>(<span class="st">'alpha'</span>, <span class="fu">colnames</span>(samples))]</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(concSamples, <span class="at">xlab =</span> <span class="st">"Iteration"</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(alpha), <span class="at">main =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">'Traceplot for '</span>, alpha)))</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(nGroups,  <span class="at">xlab =</span> <span class="st">"Iteration"</span>, <span class="at">ylab =</span> <span class="st">"Number of components"</span>, <span class="at">main =</span> <span class="st">"Number of clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(nGroups,  <span class="at">xlab =</span> <span class="st">"Iteration"</span>, <span class="at">ylab =</span> <span class="st">"Number of components"</span>, <span class="at">main =</span> <span class="st">"Number of clusters"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -533,8 +537,8 @@ CRP sampler (1)
 <h3 class="anchored" data-anchor-id="assessing-the-posterior">Assessing the posterior</h3>
 <p>We can compute the posterior predictive distribution for a new observation <span class="math inline">\(\tilde{\boldsymbol{y}}\)</span>, <span class="math inline">\(p(\tilde{\boldsymbol{y}}\mid \boldsymbol{y}_1, \ldots, \boldsymbol{y}_n)\)</span>, which in turn allows us to obtain univariate or multivariate marginals or conditionals, or any other density estimate of interest. As an illustration, we compute the bivariate posterior predictive distribution for the number of seizures at baseline and at the 4th hospital visit. This is done in two steps. First, we compute posterior samples of the random measure <span class="math inline">\(G\)</span>, which can be done using the <code>getSamplesDPmeasure()</code> function. Based on the MCMC output, <code>getSamplesDPmeasure()</code> returns a list of matrices, each of them corresponding to a single posterior sample from <span class="math inline">\(G\)</span>, using its stick-breaking (SB) representation. The first column of each of these matrices contains the weights of the SB representation of <span class="math inline">\(G\)</span> while the rest of the columns contain the atoms of the SB representation of <span class="math inline">\(G\)</span>, here <span class="math inline">\((\lambda_1, \lambda_2, \ldots, \lambda_5)\)</span>. Second, we compute the bivariate posterior predictive distribution of the seizure counts at baseline and at the fourth visit, based on the posterior samples of <span class="math inline">\(G\)</span>. We use a compiled nimble function, called ‘bivariate’, to speed up the computations of the bivariate posterior predictive density.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># samples from the random measure</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>samplesG <span class="ot">&lt;-</span> <span class="fu">getSamplesDPmeasure</span>(cmcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># samples from the random measure</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>samplesG <span class="ot">&lt;-</span> <span class="fu">getSamplesDPmeasure</span>(cmcmc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
@@ -544,7 +548,7 @@ CRP sampler (1)
 <pre><code>|-------------|-------------|-------------|-------------|
 |-------------------------------------------------------|</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(samplesG)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">&lt;-</span> <span class="fu">length</span>(samplesG)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>weightsIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'weights'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>lambdaIndex <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'lambda'</span>, <span class="fu">colnames</span>(samplesG[[<span class="dv">1</span>]]))</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>ygrid <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">45</span></span>
@@ -569,13 +573,13 @@ CRP sampler (1)
 <span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(out)</span>
 <span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>cbivariateFun <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(bivariateFun)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>cbivariateFun <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(bivariateFun)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># computing bivariate posterior predictive of seizure counts are baseline and fourth visit</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># computing bivariate posterior predictive of seizure counts are baseline and fourth visit</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>bivariate <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol =</span> <span class="fu">length</span>(ygrid), <span class="at">nrow =</span> <span class="fu">length</span>(ygrid))</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(iter <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>niter) {</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  weights <span class="ot">&lt;-</span> samplesG[[iter]][, weightsIndex] <span class="co"># posterior weights</span></span>
@@ -583,13 +587,13 @@ CRP sampler (1)
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  lambdaVisit4 <span class="ot">&lt;-</span> samplesG[[iter]][, lambdaIndex[<span class="dv">5</span>]] <span class="co"># posterior rate at fourth visit</span></span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  bivariate <span class="ot">&lt;-</span> bivariate <span class="sc">+</span> <span class="fu">cbivariateFun</span>(weights, lambdaBaseline, lambdaVisit4, ygrid)</span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>bivariate <span class="ot">&lt;-</span> bivariate <span class="sc">/</span> niter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>bivariate <span class="ot">&lt;-</span> bivariate <span class="sc">/</span> niter</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The following code creates a heatmap of the posterior predictive bivariate distribution of the number of seizures at baseline and at the fourth hospital visit, showing that there is a positive correlation between these two measurements.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>collist <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">'white'</span>, <span class="st">'grey'</span>, <span class="st">'black'</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>collist <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">'white'</span>, <span class="st">'grey'</span>, <span class="st">'black'</span>))</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">image.plot</span>(ygrid, ygrid, bivariate, <span class="at">col =</span> <span class="fu">collist</span>(<span class="dv">6</span>),</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">xlab =</span> <span class="st">'Baseline'</span>, <span class="at">ylab =</span> <span class="st">'4th visit'</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">xlab =</span> <span class="st">'Baseline'</span>, <span class="at">ylab =</span> <span class="st">'4th visit'</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">15</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -600,7 +604,7 @@ CRP sampler (1)
 </div>
 <p>In order to describe the uncertainty in the posterior clustering structure of the individuals in the study, we present a heat map of the posterior probability of two subjects belonging to the same cluster. To do this, first we compute the posterior pairwise clustering matrix that describes the probability of two individuals belonging to the same cluster, then we reorder the observations and finally plot the associated heatmap.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pairMatrix <span class="ot">&lt;-</span> <span class="fu">apply</span>(xiSamples, <span class="dv">2</span>, <span class="cf">function</span>(focal) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pairMatrix <span class="ot">&lt;-</span> <span class="fu">apply</span>(xiSamples, <span class="dv">2</span>, <span class="cf">function</span>(focal) {</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">colSums</span>(focal <span class="sc">==</span> xiSamples)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                                  })</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>pairMatrix <span class="ot">&lt;-</span> pairMatrix <span class="sc">/</span> niter</span>
@@ -617,7 +621,7 @@ CRP sampler (1)
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">labels =</span> <span class="cn">FALSE</span>, <span class="at">tck =</span> <span class="sc">-</span>.<span class="dv">02</span>)</span>
 <span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">labels =</span> <span class="cn">FALSE</span>, <span class="at">tck =</span> <span class="sc">-</span>.<span class="dv">02</span>)</span>
 <span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">tck =</span> <span class="dv">0</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">4</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">tck =</span> <span class="dv">0</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">4</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">tck =</span> <span class="dv">0</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -689,13 +693,14 @@ CRP sampler (1)
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

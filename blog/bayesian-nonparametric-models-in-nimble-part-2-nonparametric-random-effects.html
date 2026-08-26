@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,6 +10,9 @@
 
 <title>Bayesian Nonparametric Models in NIMBLE, Part 2: Nonparametric Random Effects – NIMBLE</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -72,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3060d58e34635f6e88d955b3a11f1646.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -114,7 +117,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -127,7 +130,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -154,7 +157,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo light-content">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -393,8 +397,8 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="parametric-meta-analysis-of-avandia-myocardial-infarctions-mis">Parametric meta analysis of Avandia myocardial infarctions (MIs)</h2>
 <p>We will illustrate the use of nonparametric mixture models for modeling random effects distributions in the context of a meta-analysis of the side effects of a formerly very popular drug for diabetes called Avandia. The data we analyze played a role in raising serious questions about the safety of this drug. The question is whether Avandia use increases the risk of myocardial infarction (heart attack). There are 48 studies (the 49th study in the data file is different in some ways and excluded here), each with treatment and control arms.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../nimbleExamples/avandia.csv'</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'../nimbleExamples/avandia.csv'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  trial nAvandia avandiaMI nControl controlMI
 1     1      357         2      176         0
@@ -404,7 +408,7 @@ window.Quarto = {
 5     5      232         1      116         0
 6     6       43         0       47         1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat[<span class="sc">-</span><span class="dv">49</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat[<span class="sc">-</span><span class="dv">49</span>, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="model-formulation" class="level3">
 <h3 class="anchored" data-anchor-id="model-formulation">Model formulation</h3>
@@ -413,10 +417,10 @@ window.Quarto = {
 <p>where the random effects, <span class="math inline">\(\gamma_i\)</span>, follow a common normal distribution, <span class="math inline">\(\gamma_i \sim \text{N}(0, \tau^2)\)</span>, and the <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\tau^2\)</span> are given reasonably non-informative priors. The parameter <span class="math inline">\(\theta\)</span> quantifies the difference in risk between the control and treatment arms, while the <span class="math inline">\(\gamma_i\)</span> quantify study-specific variation.</p>
 <p>This model can be specified in NIMBLE using the following code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dat<span class="sc">$</span>controlMI</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dat<span class="sc">$</span>controlMI</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> dat<span class="sc">$</span>nControl</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> dat<span class="sc">$</span>avandiaMI</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> dat<span class="sc">$</span>nAvandia</span>
@@ -437,19 +441,19 @@ window.Quarto = {
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># random effects hyperparameters</span></span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    mu <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">10</span>)</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    tau2 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="running-the-mcmc" class="level3">
 <h3 class="anchored" data-anchor-id="running-the-mcmc">Running the MCMC</h3>
 <p>Let’s run a basic MCMC.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">=</span> <span class="fu">list</span>(<span class="at">theta =</span> <span class="dv">0</span>, <span class="at">mu =</span> <span class="dv">0</span>, <span class="at">tau2 =</span> <span class="dv">1</span>, <span class="at">gamma =</span> <span class="fu">rnorm</span>(nStudies))</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">nimbleMCMC</span>(<span class="at">code =</span> codeParam, <span class="at">data =</span> data, <span class="at">inits =</span> inits,</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">constants =</span> constants, <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"mu"</span>, <span class="st">"tau2"</span>, <span class="st">"theta"</span>, <span class="st">"gamma"</span>),</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">niter =</span> <span class="dv">22000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">nchains =</span> <span class="dv">1</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">niter =</span> <span class="dv">22000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">nchains =</span> <span class="dv">1</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -481,7 +485,7 @@ window.Quarto = {
 <pre><code>|-------------|-------------|-------------|-------------|
 |-------------------------------------------------------|</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.8</span>,.<span class="dv">7</span>,<span class="dv">0</span>), <span class="at">mai =</span> <span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">5</span>,.<span class="dv">4</span>,.<span class="dv">1</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.8</span>,.<span class="dv">7</span>,<span class="dv">0</span>), <span class="at">mai =</span> <span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">5</span>,.<span class="dv">4</span>,.<span class="dv">1</span>))</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(samples[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="st">'iteration'</span>, <span class="at">ylab =</span> <span class="fu">expression</span>(theta))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samples[ , <span class="st">'theta'</span>], <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">main =</span> <span class="st">'effect of Avandia'</span>)</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -489,7 +493,7 @@ window.Quarto = {
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>gammaMn <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(samples[ , gammaCols])</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(gammaMn, <span class="at">xlab =</span> <span class="st">'posterior means'</span>, <span class="at">main =</span> <span class="st">'random effects distribution'</span>)</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samples[<span class="dv">1000</span>, gammaCols], <span class="at">xlab =</span> <span class="st">'single draw'</span>,</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main =</span> <span class="st">'random effects distribution'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main =</span> <span class="st">'random effects distribution'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -510,7 +514,7 @@ window.Quarto = {
 <p>where <span class="math inline">\(H\)</span> is a normal-inverse-gamma distribution.</p>
 <p>This specification induces clustering among the random effects. As in the case of density estimation problems, the DP prior allows the data to determine the number of components, from as few as one component (i.e., simplifying to the parametric model), to as many as <span class="math inline">\(n\)</span> components, i.e., one component for each observation. This allows the distribution of the random effects to be multimodal if the data supports such behavior, greatly increasing its flexibility. This model can be specified in NIMBLE using the following code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>codeBNP <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>codeBNP <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nStudies) {</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        y[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> m[i], <span class="at">prob =</span> q[i])   <span class="co"># avandia MIs</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        x[i] <span class="sc">~</span> <span class="fu">dbin</span>(<span class="at">size =</span> n[i], <span class="at">prob =</span> p[i])   <span class="co"># control MIs</span></span>
@@ -534,21 +538,21 @@ window.Quarto = {
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    a0 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
 <span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    b0 <span class="sc">~</span> <span class="fu">dinvgamma</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
 <span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    theta <span class="sc">~</span> <span class="fu">dflat</span>()          <span class="co"># effect of Avandia</span></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="running-the-mcmc-1" class="level3">
 <h3 class="anchored" data-anchor-id="running-the-mcmc-1">Running the MCMC</h3>
 <p>The following code compiles the model and runs a collapsed Gibbs sampler for the model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gamma =</span> <span class="fu">rnorm</span>(nStudies), <span class="at">xi =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, nStudies, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>inits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gamma =</span> <span class="fu">rnorm</span>(nStudies), <span class="at">xi =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, nStudies, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">mu0 =</span> <span class="dv">0</span>, <span class="at">var0 =</span> <span class="dv">1</span>, <span class="at">a0 =</span> <span class="dv">1</span>, <span class="at">b0 =</span> <span class="dv">1</span>, <span class="at">theta =</span> <span class="dv">0</span>,</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">muTilde =</span> <span class="fu">rnorm</span>(nStudies), <span class="at">tau2Tilde =</span> <span class="fu">rep</span>(<span class="dv">1</span>, nStudies))</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>samplesBNP <span class="ot">&lt;-</span> <span class="fu">nimbleMCMC</span>(<span class="at">code =</span> codeBNP, <span class="at">data =</span> data, <span class="at">inits =</span> inits,</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">constants =</span> constants,</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">monitors =</span> <span class="fu">c</span>(<span class="st">"theta"</span>, <span class="st">"gamma"</span>, <span class="st">"alpha"</span>, <span class="st">"xi"</span>, <span class="st">"mu0"</span>, <span class="st">"var0"</span>, <span class="st">"a0"</span>, <span class="st">"b0"</span>),</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">niter =</span> <span class="dv">22000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">nchains =</span> <span class="dv">1</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">niter =</span> <span class="dv">22000</span>, <span class="at">nburnin =</span> <span class="dv">2000</span>, <span class="at">nchains =</span> <span class="dv">1</span>, <span class="at">setSeed =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -580,7 +584,7 @@ window.Quarto = {
 <pre><code>|-------------|-------------|-------------|-------------|
 |-------------------------------------------------------|</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gammaCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'gamma'</span>, <span class="fu">colnames</span>(samplesBNP))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gammaCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'gamma'</span>, <span class="fu">colnames</span>(samplesBNP))</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>gammaMn <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(samplesBNP[ , gammaCols])</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>xiCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">'xi'</span>, <span class="fu">colnames</span>(samplesBNP))</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -597,7 +601,7 @@ window.Quarto = {
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>xiRes <span class="ot">&lt;-</span> samplesBNP[ , xiCols]</span>
 <span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>nGrps <span class="ot">&lt;-</span> <span class="fu">apply</span>(xiRes, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unique</span>(x)))</span>
 <span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(nGrps, <span class="at">xlab =</span> <span class="st">'iteration'</span>, <span class="at">ylab =</span> <span class="st">'number of components'</span>,</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>   <span class="at">main =</span> <span class="st">'number of components'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>   <span class="at">main =</span> <span class="st">'number of components'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -670,13 +674,14 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

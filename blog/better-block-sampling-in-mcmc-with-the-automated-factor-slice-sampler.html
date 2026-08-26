@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Better block sampling in MCMC with the Automated Factor Slice Sampler – NIMBLE</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3060d58e34635f6e88d955b3a11f1646.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,7 +118,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -128,7 +131,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -155,7 +158,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo light-content">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -397,17 +401,17 @@ window.Quarto = {
 <p>where <span class="math inline">\(N(\mu, \sigma)\)</span> denotes a normal distribution with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>.</p>
 <p>A file named <code>model_SSMcorrelated.RData</code> with the BUGS model code, data, constants, and initial values for our model can be downloaded <a href="https://github.com/danielturek/automated-blocking-examples/blob/master/data/model_SSMcorrelated.RData">here</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'nimble'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'nimble'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'model_SSMcorrelated.RData'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## build and compile the model</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>stateSpaceModel <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(<span class="at">code =</span> code,</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data =</span> data,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">constants =</span> constants,</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">inits =</span> inits,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                              <span class="at">check =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                              <span class="at">check =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -429,7 +433,7 @@ window.Quarto = {
          To see which variables are not initialized, use model$initializeInfo().
          For more information on model initialization, see help(modelInitialization).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>C_stateSpaceModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(stateSpaceModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>C_stateSpaceModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(stateSpaceModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
@@ -442,7 +446,7 @@ window.Quarto = {
 <p>We next compare the performance of two MCMC samplers on the state space model described above. The first sampler we consider is NIMBLE’s <code>RW_block</code> sampler, a Metropolis-Hastings sampler with a multivariate normal proposal distribution. This sampler has an adaptive routine that modifies the proposal covariance to look like the empirical covariance of the posterior samples of the parameters. However, as we shall see below, this proposal covariance adaptation does not lead to efficient sampling for our state space model.</p>
 <p>We first build and compile the MCMC algorithm.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>RW_mcmcConfig <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(stateSpaceModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>RW_mcmcConfig <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(stateSpaceModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>===== Monitors =====
 thin = 1: a, b, sigOE, sigPN
@@ -455,13 +459,13 @@ conjugate sampler (101)
   - b
   - x[]  (100 elements)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>RW_mcmcConfig<span class="sc">$</span><span class="fu">removeSamplers</span>(<span class="fu">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'sigOE'</span>, <span class="st">'sigPN'</span>))</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>RW_mcmcConfig<span class="sc">$</span><span class="fu">addSampler</span>(<span class="at">target =</span> <span class="fu">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'sigOE'</span>, <span class="st">'sigPN'</span>), <span class="at">type =</span> <span class="st">'RW_block'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>RW_mcmcConfig<span class="sc">$</span><span class="fu">removeSamplers</span>(<span class="fu">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'sigOE'</span>, <span class="st">'sigPN'</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>RW_mcmcConfig<span class="sc">$</span><span class="fu">addSampler</span>(<span class="at">target =</span> <span class="fu">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'sigOE'</span>, <span class="st">'sigPN'</span>), <span class="at">type =</span> <span class="st">'RW_block'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>  [Note] Assigning an RW_block sampler to nodes with very different scales can result in low MCMC efficiency.  If all nodes assigned to RW_block are not on a similar scale, we recommend providing an informed value for the "propCov" control list argument, or using the "barker" sampler instead.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>RW_mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(RW_mcmcConfig)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>C_RW_mcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(RW_mcmc, <span class="at">project =</span> stateSpaceModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>RW_mcmc <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(RW_mcmcConfig)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>C_RW_mcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(RW_mcmc, <span class="at">project =</span> stateSpaceModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
@@ -470,7 +474,7 @@ conjugate sampler (101)
 </div>
 <p>We next run the compiled MCMC algorithm for 10,000 iterations, recording the overall MCMC efficiency from the posterior output. The overall efficiency here is defined as <span class="math inline">\(\min(\frac{ESS}{T})\)</span>, where ESS denotes the effective sample size, and <span class="math inline">\(T\)</span> the total run-time of the sampling algorithm. The minimum is taken over all parameters that were sampled. We repeat this process 5 times to get a very rough idea of the average minimum efficiency for this combination of model and sampler.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coda)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'coda'</code></pre>
@@ -480,13 +484,13 @@ Attaching package: 'coda'</code></pre>
 
     densplot</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>RW_minEfficiency <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">5</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>RW_minEfficiency <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">5</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>){</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  runTime <span class="ot">&lt;-</span> <span class="fu">system.time</span>(C_RW_mcmc<span class="sc">$</span><span class="fu">run</span>(<span class="dv">50000</span>, <span class="at">progressBar =</span> <span class="cn">FALSE</span>))[<span class="st">'elapsed'</span>]</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  RW_mcmcOutput <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(<span class="fu">as.matrix</span>(C_RW_mcmc<span class="sc">$</span>mvSamples))</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  RW_minEfficiency[i] <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">effectiveSize</span>(RW_mcmcOutput)<span class="sc">/</span>runTime)</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RW_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RW_minEfficiency)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  0.2679  0.3482  0.4693  0.5713  0.5903  1.1809 </code></pre>
@@ -494,7 +498,7 @@ Attaching package: 'coda'</code></pre>
 </div>
 <p>Examining a trace plot of the output below, we see that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing especially poorly.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RW_mcmcOutput, <span class="at">density =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RW_mcmcOutput, <span class="at">density =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -505,7 +509,7 @@ Attaching package: 'coda'</code></pre>
 </div>
 <p>Plotting the posterior samples of <span class="math inline">\(a\)</span> against those of <span class="math inline">\(b\)</span> reveals a strong negative correlation. This presents a problem for the Metropolis-Hastings sampler — we have found that adaptive algorithms used to tune the proposal covariance are often slow to reach a covariance that performs well for blocks of strongly correlated parameters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.default</span>(RW_mcmcOutput[,<span class="st">'a'</span>], RW_mcmcOutput[,<span class="st">'b'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.default</span>(RW_mcmcOutput[,<span class="st">'a'</span>], RW_mcmcOutput[,<span class="st">'b'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -515,14 +519,14 @@ Attaching package: 'coda'</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(RW_mcmcOutput[,<span class="st">'a'</span>], RW_mcmcOutput[,<span class="st">'b'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(RW_mcmcOutput[,<span class="st">'a'</span>], RW_mcmcOutput[,<span class="st">'b'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.9964729</code></pre>
 </div>
 </div>
 <p>In such situations with strong posterior correlation, we’ve found the AFSS to often run much more efficiently, so we next build and compile an MCMC algorithm using the AFSS sampler. Our hope is that the AFSS sampler will be better able to to produce efficient samples in the face of high posterior correlation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>AFSS_mcmcConfig <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(stateSpaceModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>AFSS_mcmcConfig <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(stateSpaceModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>===== Monitors =====
 thin = 1: a, b, sigOE, sigPN
@@ -535,10 +539,10 @@ conjugate sampler (101)
   - b
   - x[]  (100 elements)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>AFSS_mcmcConfig<span class="sc">$</span><span class="fu">removeSamplers</span>(<span class="fu">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'sigOE'</span>, <span class="st">'sigPN'</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>AFSS_mcmcConfig<span class="sc">$</span><span class="fu">removeSamplers</span>(<span class="fu">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'sigOE'</span>, <span class="st">'sigPN'</span>))</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>AFSS_mcmcConfig<span class="sc">$</span><span class="fu">addSampler</span>(<span class="at">target =</span> <span class="fu">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'sigOE'</span>, <span class="st">'sigPN'</span>), <span class="at">type =</span> <span class="st">'AF_slice'</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>AFSS_mcmc<span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(AFSS_mcmcConfig)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>C_AFSS_mcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(AFSS_mcmc, <span class="at">project =</span> stateSpaceModel, <span class="at">resetFunctions =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>C_AFSS_mcmc <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(AFSS_mcmc, <span class="at">project =</span> stateSpaceModel, <span class="at">resetFunctions =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
@@ -547,13 +551,13 @@ conjugate sampler (101)
 </div>
 <p>We again run the AFSS MCMC algorithm 5 times, each with 10,000 MCMC iterations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>AFSS_minEfficiency <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">5</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>AFSS_minEfficiency <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">5</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>){</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  runTime <span class="ot">&lt;-</span> <span class="fu">system.time</span>(C_AFSS_mcmc<span class="sc">$</span><span class="fu">run</span>(<span class="dv">50000</span>, <span class="at">progressBar =</span> <span class="cn">FALSE</span>))[<span class="st">'elapsed'</span>]</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  AFSS_mcmcOutput <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(<span class="fu">as.matrix</span>(C_AFSS_mcmc<span class="sc">$</span>mvSamples))</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  AFSS_minEfficiency[i] <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">effectiveSize</span>(AFSS_mcmcOutput)<span class="sc">/</span>runTime)</span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AFSS_minEfficiency)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AFSS_minEfficiency)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   23.94   25.77   30.75   29.95   31.56   37.71 </code></pre>
@@ -561,7 +565,7 @@ conjugate sampler (101)
 </div>
 <p>Note that the minimum overall efficiency of the AFSS sampler is approximately <code>28</code> times that of the <code>RW_block</code> sampler. Additionally, trace plots from the output of the AFSS sampler show that the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> parameters are mixing much more effectively than they were under the <code>RW_block</code> sampler.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(AFSS_mcmcOutput, <span class="at">density =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(AFSS_mcmcOutput, <span class="at">density =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -631,13 +635,14 @@ In: <em>Bayesian Analysis</em> 12.2, pp.&nbsp;465–490.</p>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

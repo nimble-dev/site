@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Using nimbleQuad for maximum likelihood estimation and deterministic posterior approximation – NIMBLE</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -61,7 +64,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -93,10 +95,10 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3060d58e34635f6e88d955b3a11f1646.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -135,7 +137,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -148,7 +150,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -175,7 +177,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo light-content">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -419,7 +422,7 @@ window.Quarto = {
 <p>The new <code>nimbleQuad</code> package provides quadrature-based inference methods that use Laplace and Adaptive Gauss-Hermite Quadrature (AGHQ) approximation. It has two main components:</p>
 <ol type="1">
 <li>Laplace and AGHQ approximations for marginalizing over latent nodes (e.g., random effects) to perform approximate maximum likelihood estimation.</li>
-<li>Deterministic nested quadrature methods for posterior approximation using Laplace approximation for the inner marginalization of the latent nodes and general quadrature methods for outer marginalization of the parameter nodes. These methods borrow ideas from the popular INLA approach <span class="citation" data-cites="rue2009approximate">(<a href="#ref-rue2009approximate" role="doc-biblioref">Rue, Martino, and Chopin 2009</a>)</span> and from the extended Gaussian latent model approach provided in the R <code>aghq</code> package <span class="citation" data-cites="stringer2023fast">(<a href="#ref-stringer2023fast" role="doc-biblioref">Stringer, Brown, and Stafford 2023</a>)</span>.</li>
+<li>Deterministic nested quadrature methods for posterior approximation using Laplace approximation for the inner marginalization of the latent nodes and general quadrature methods for outer marginalization of the parameter nodes. These methods borrow ideas from the popular INLA approach <span class="citation" data-cites="rue2009approximate">(<a href="#ref-rue2009approximate" role="doc-biblioref">Rue et al. 2009</a>)</span> and from the extended Gaussian latent model approach provided in the R <code>aghq</code> package <span class="citation" data-cites="stringer2023fast">(<a href="#ref-stringer2023fast" role="doc-biblioref">Stringer et al. 2023</a>)</span>.</li>
 </ol>
 <p>The first component was present in the core <code>nimble</code> package until version 1.4.0. The second component is a new feature.</p>
 <p>By providing these methods in the NIMBLE system, via <code>nimbleQuad</code>, users can use the methods on models constructed using the NIMBLE model language (which extends the BUGS model language) and can also customize and extend the algorithms.</p>
@@ -454,16 +457,16 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 \]</span></p>
 <p>The maximum likelihood estimator can be found with <code>glmmTMB</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Salamanders)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fit_tmb <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(count <span class="sc">~</span> spp <span class="sc">*</span> mined <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>site), <span class="at">zi=</span><span class="sc">~</span><span class="dv">1</span>, <span class="at">family=</span>poisson, <span class="at">data=</span>Salamanders)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fit_tmb <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(count <span class="sc">~</span> spp <span class="sc">*</span> mined <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>site), <span class="at">zi=</span><span class="sc">~</span><span class="dv">1</span>, <span class="at">family=</span>poisson, <span class="at">data=</span>Salamanders)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can also fit this model in <code>INLA</code> to get the approximate posterior using the “zeroinflatedpoisson1” model family.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fit_inla <span class="ot">&lt;-</span> <span class="fu">inla</span>( count <span class="sc">~</span> spp <span class="sc">*</span> mined <span class="sc">+</span> <span class="fu">f</span>(site, <span class="at">model=</span><span class="st">"iid"</span>), </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantiles =</span> <span class="fu">c</span>(.<span class="dv">025</span>,.<span class="dv">25</span>,.<span class="dv">5</span>,.<span class="dv">75</span>,.<span class="dv">975</span>), <span class="at">family=</span> <span class="st">"zeroinflatedpoisson1"</span>, <span class="at">data=</span>Salamanders,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">control.inla =</span> <span class="fu">list</span>(<span class="at">int.strategy =</span> <span class="st">"ccd"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">control.inla =</span> <span class="fu">list</span>(<span class="at">int.strategy =</span> <span class="st">"ccd"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -473,10 +476,10 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <p><code>nimbleQuad</code> relies on automatic differentiation (AD) to take derivatives. To include AD in a <code>nimbleFunction</code> we must set <code>buildDerivs = 'run'</code>.</p>
 <p>A nimbleFunction, <code>rZIP</code>, to simulate from the distribution is also provided for convenience, although this is not strictly needed for this model to fit.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimbleQuad)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimbleQuad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dZIP <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dZIP <span class="ot">&lt;-</span> <span class="fu">nimbleFunction</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> <span class="at">run =</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>(), <span class="at">lambda =</span> <span class="fu">double</span>(),</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">zeroProb =</span> <span class="fu">double</span>(), <span class="at">log =</span> <span class="fu">logical</span>(<span class="dv">0</span>, <span class="at">default =</span> <span class="dv">0</span>)) {</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">returnType</span>(<span class="fu">double</span>())</span>
@@ -494,11 +497,11 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>   isStructuralZero <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1</span>, <span class="at">prob =</span> zeroProb, <span class="at">size =</span> <span class="dv">1</span>)</span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span> (isStructuralZero) <span class="fu">return</span>(<span class="dv">0</span>)</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="fu">rpois</span>(<span class="dv">1</span>, lambda))</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We will use prior distributions to match the default priors in the <code>INLA</code> model that was fit above to allow direct comparison of results. See <code>inla.priors.used(fit_inla)</code> for a description of the default priors. INLA places a logit-normal prior on <span class="math inline">\(p\)</span>. For convenience, we will write our own logit-normal prior. In this case, we explicitly register the distribution to tell NIMBLE the range of possible values, needed for use in NIMBLE’s parameter transformation system.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dlogitnormal <span class="ot">=</span> <span class="fu">nimbleFunction</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dlogitnormal <span class="ot">=</span> <span class="fu">nimbleFunction</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">run =</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="fu">double</span>(), <span class="at">mean =</span> <span class="fu">double</span>(), <span class="at">sd =</span> <span class="fu">double</span>(), </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">log =</span> <span class="fu">logical</span>(<span class="dv">0</span>, <span class="at">default =</span> <span class="dv">0</span>)){</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    ans <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(<span class="fu">logit</span>(x), <span class="at">mean =</span> mean, <span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fu">log</span>(x) <span class="sc">-</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span>x)</span>
@@ -511,7 +514,7 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDistributions</span>(<span class="fu">list</span>(</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">dlogitnormal =</span> <span class="fu">list</span>(<span class="at">BUGSdist =</span> <span class="st">"dlogitnormal(mean, sd)"</span>, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>  [Warning] Random generation function for dlogitnormal is not available. NIMBLE is generating a placeholder function, rlogitnormal, that will invoke an error if an algorithm needs to simulate from this distribution. Some algorithms (such as random-walk Metropolis MCMC sampling) will work without the ability to simulate from the distribution.  If simulation is needed, provide a nimbleFunction (with no setup code) to do it.</code></pre>
 </div>
@@ -519,7 +522,7 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <p>If not trying to use the same model as INLA, one might choose different priors, and one would not necessarily need to define the logit-normal distribution.</p>
 <p>Following INLA, we use a completely flat prior on the intercept <code>dflat</code>, a gamma prior on precision <code>tau_re</code> and a logit-normal on <code>p</code>. We can now write the model code, and then provide constants and data to build the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  beta[<span class="dv">1</span>] <span class="sc">~</span> <span class="fu">dflat</span>()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>np ) </span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    beta[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="at">tau =</span> <span class="fl">0.001</span>) </span>
@@ -550,7 +553,7 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">re =</span> <span class="fu">rnorm</span>(nimconst<span class="sc">$</span>nsites,<span class="dv">0</span>,<span class="fl">0.1</span>),</span>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">beta =</span> <span class="fu">rnorm</span>(nimconst<span class="sc">$</span>np))</span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data =</span> nimdata, <span class="at">constants =</span> nimconst, <span class="at">inits =</span> inits, <span class="at">buildDerivs =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(code, <span class="at">data =</span> nimdata, <span class="at">constants =</span> nimconst, <span class="at">inits =</span> inits, <span class="at">buildDerivs =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -570,7 +573,7 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <div class="cell-output cell-output-stderr">
 <pre><code>Checking model sizes and dimensions</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
@@ -583,27 +586,27 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <h2 class="anchored" data-anchor-id="using-the-laplace-approximation">Using the Laplace Approximation</h2>
 <p>We can find the maximum likelihood estimate by using <code>buildLaplace</code> (or <code>buildAGHQ</code> if we want more quadrature nodes for marginalizing over the random effects, as discussed below).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>laplace <span class="ot">&lt;-</span> <span class="fu">buildLaplace</span>(<span class="at">model =</span> m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>laplace <span class="ot">&lt;-</span> <span class="fu">buildLaplace</span>(<span class="at">model =</span> m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building 23 individual Laplace approximations (one dot for each): .......................</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>claplace <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(laplace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>claplace <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(laplace)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nimble_fit <span class="ot">&lt;-</span> <span class="fu">runLaplace</span>(claplace)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nimble_fit <span class="ot">&lt;-</span> <span class="fu">runLaplace</span>(claplace)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>NIMBLE reports that it is able to use 23 separate (one-dimensional) Laplace approximations (because the random effects, plus their data dependencies, are conditionally independent).</p>
 <p>Let’s compare the results with <code>glmmTMB</code>. The results are very similar.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nimble_params <span class="ot">&lt;-</span> nimble_fit<span class="sc">$</span>summary<span class="sc">$</span>params</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nimble_params <span class="ot">&lt;-</span> nimble_fit<span class="sc">$</span>summary<span class="sc">$</span>params</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>nimble_fixef <span class="ot">&lt;-</span> nimble_params[<span class="fu">grep</span>(<span class="st">"beta"</span>, <span class="fu">rownames</span>(nimble_params)),]</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nimble_fixef[, <span class="st">"estimate"</span>], <span class="fu">fixef</span>(fit_tmb)<span class="sc">$</span>cond, </span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"NIMBLE Estimate"</span>, <span class="at">ylab =</span> <span class="st">"glmmTMB Estimate"</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -611,40 +614,40 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># logit(p):</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fit_tmb<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="st">"betazi"</span>]     <span class="co"># TMB</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># logit(p):</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fit_tmb<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="st">"betazi"</span>]     <span class="co"># TMB</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   betazi 
 -0.933805 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logit</span>(nimble_params[<span class="st">"p"</span>,<span class="dv">1</span>])   <span class="co"># NIMBLE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logit</span>(nimble_params[<span class="st">"p"</span>,<span class="dv">1</span>])   <span class="co"># NIMBLE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.9338518</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tau_re</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>fit_tmb<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="st">"theta"</span>])  <span class="co"># TMB</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tau_re</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>fit_tmb<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="st">"theta"</span>])  <span class="co"># TMB</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   theta 
 3.646564 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>nimble_params[<span class="st">"tau_re"</span>,<span class="dv">1</span>]         <span class="co"># NIMBLE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>nimble_params[<span class="st">"tau_re"</span>,<span class="dv">1</span>]         <span class="co"># NIMBLE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.646879</code></pre>
 </div>
 </div>
 <p>It can be helpful to check the Laplace approximation at the MLE by increasing the number of quadrature nodes using AGHQ. If the likelihood is very different when increasing the number of quadrature nodes, that indicates that Laplace was not a good approximation to the marginal likelihood. In this particular case, since we have have conditionally independent random effects (and therefore a set of 1-dimensional AGHQ approximations), increasing the number of quadrature nodes will be relatively quick, but in other cases it can be very slow.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">calcLogLik</span>(nimble_fit<span class="sc">$</span>summary<span class="sc">$</span>params[, <span class="st">'estimate'</span>], <span class="at">trans =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">calcLogLik</span>(nimble_fit<span class="sc">$</span>summary<span class="sc">$</span>params[, <span class="st">'estimate'</span>], <span class="at">trans =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -881.9147</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">updateSettings</span>(<span class="at">nQuad =</span> <span class="dv">5</span>)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">calcLogLik</span>(nimble_fit<span class="sc">$</span>summary<span class="sc">$</span>params[, <span class="st">'estimate'</span>], <span class="at">trans =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">updateSettings</span>(<span class="at">nQuad =</span> <span class="dv">5</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">calcLogLik</span>(nimble_fit<span class="sc">$</span>summary<span class="sc">$</span>params[, <span class="st">'estimate'</span>], <span class="at">trans =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -881.8752</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">updateSettings</span>(<span class="at">nQuad =</span> <span class="dv">11</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">calcLogLik</span>(nimble_fit<span class="sc">$</span>summary<span class="sc">$</span>params[, <span class="st">'estimate'</span>], <span class="at">trans =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">updateSettings</span>(<span class="at">nQuad =</span> <span class="dv">11</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>claplace<span class="sc">$</span><span class="fu">calcLogLik</span>(nimble_fit<span class="sc">$</span>summary<span class="sc">$</span>params[, <span class="st">'estimate'</span>], <span class="at">trans =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -881.8749</code></pre>
 </div>
@@ -654,9 +657,9 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <h2 class="anchored" data-anchor-id="posterior-approximation">Posterior Approximation</h2>
 <p>Posterior approximation is done by <code>buildNestedApprox</code> (to build the approximation) and <code>runNestedApprox</code> (to calculate the approximation). Note that the setup for <code>buildNestedApprox</code>is similar to <code>buildLaplace</code> except that we refer to the combination of random effects and fixed effects as <code>latentNodes</code> and the hyperparameters as <code>paramNodes</code>, which we will refer to more generally as the “parameters”. Including fixed effects with the random effects reduces the dimension of the outer quadrature, which reduces computation time. However, in some cases one may want to include the fixed effects in the <code>paramNodes</code>, as the choice of where to include the fixed effects can affect statistical performance. If the user does not specify <code>latentNodes</code> and <code>paramNodes</code>, NIMBLE will automatically determine them based on the graphical structure of the model, and the user can check that a reasonable determination has been made.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">buildNestedApprox</span>(<span class="at">model =</span> m, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>approx <span class="ot">&lt;-</span> <span class="fu">buildNestedApprox</span>(<span class="at">model =</span> m, </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">paramNodes =</span> <span class="fu">c</span>(<span class="st">'p'</span>, <span class="st">'tau_re'</span>), </span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">latentNodes =</span> <span class="fu">c</span>(<span class="st">'beta'</span>, <span class="st">'re'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">latentNodes =</span> <span class="fu">c</span>(<span class="st">'beta'</span>, <span class="st">'re'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Building nested posterior approximation for the following node sets:
   - parameter nodes: p, tau_re
@@ -666,7 +669,7 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <div class="cell-output cell-output-stderr">
 <pre><code>Building Laplace approximation.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>capprox <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(approx, <span class="at">project =</span> m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>capprox <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(approx, <span class="at">project =</span> m)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
@@ -685,11 +688,11 @@ u_{j} \sim \text{Normal}(0, \sigma^2)
 <p>For inference on the latent nodes, at each point in the parameter grid, Laplace is used to marginalize the latent nodes to calculate the posterior density for the point, which requires an inner optimization. This can be computationally expensive (particularly with a large number of latent nodes), scaling with the number of grid points. CCD is the default (as is done in INLA) because it scales well to higher dimensions. Alternatively, an AGHQ grid can be used. This will be computationally more expensive because there are more grid points but potentially more accurate. The user can also provide their own grid. By default, we do not do compute the parameter grid when calling <code>runNestedApprox</code> unless requested, because the integration-free estimates do not require it. However, it is necessary for inference on the latent nodes and is done automatically when the latent nodes are sampled (via <code>sampleLatents</code>).</p>
 <p>Here is the initial (integration-free) inference for the parameters. We compare results to samples from a long HMC (MCMC) run.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">runNestedApprox</span>(<span class="at">approx =</span> capprox)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">runNestedApprox</span>(<span class="at">approx =</span> capprox)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Finding posterior mode for parameter(s).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model (hyper)parameters: 
             mean         sd      2.5%       25%       50%      75%     97.5%
@@ -699,7 +702,7 @@ tau_re 4.2832265 2.21980867 1.4690074 2.7377845 3.7993353 5.280151 9.9046828
 Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">plotMarginal</span>(<span class="st">"tau_re"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">17</span>), <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_tau_re<span class="sc">$</span>x, <span class="fu">inla.dmarginal</span>(hmc_tau_re<span class="sc">$</span>x, fit_inla<span class="sc">$</span>marginals.hyperpar[[<span class="dv">2</span>]]), <span class="at">col =</span> <span class="st">'red'</span>)</span>
@@ -709,7 +712,7 @@ Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
 <span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">plotMarginal</span>(<span class="st">"p"</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_p<span class="sc">$</span>x, <span class="fu">inla.dmarginal</span>(hmc_p<span class="sc">$</span>x, fit_inla<span class="sc">$</span>marginals.hyperpar[[<span class="dv">1</span>]]), <span class="at">col =</span> <span class="st">'red'</span>)</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_p, <span class="at">col =</span> <span class="st">'green'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_p, <span class="at">col =</span> <span class="st">'green'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -721,17 +724,17 @@ Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
 <p>The nested approximation and INLA results match MCMC well, though for some reason the densities plotted by INLA don’t quite integrate to one and therefore lies above the other two lines.</p>
 <p>Here is the sampling-based inference for the latent nodes. The density estimates match HMC reasonably well, but not quite as well as INLA for the fixed effects.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove these lines later</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove these lines later</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># hmc_beta1 &lt;- density(samples_hmc[ , 'beta[1]'])</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># hmc_beta2 &lt;- density(samples_hmc[ , 'beta[2]'])</span></span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co"># hmc_re1 &lt;- density(samples_hmc[ , 're[1]'])</span></span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">sampleLatents</span>(<span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">sampleLatents</span>(<span class="dv">10000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Calculating inner AGHQ/Laplace approximation at 9 parameter (outer)
   grid points (one dot per point): .........</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(result<span class="sc">$</span>samples[, <span class="st">"beta[1]"</span>]), <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"beta[1]"</span>)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_beta1<span class="sc">$</span>x, <span class="fu">inla.dmarginal</span>(hmc_beta1<span class="sc">$</span>x, fit_inla<span class="sc">$</span>marginals.fixed[[<span class="dv">1</span>]]), <span class="at">col =</span> <span class="st">'red'</span>)</span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_beta1, <span class="at">col =</span> <span class="st">'green'</span>)</span>
@@ -740,7 +743,7 @@ Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
 <span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_beta2, <span class="at">col =</span> <span class="st">'green'</span>)</span>
 <span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(result<span class="sc">$</span>samples[, <span class="st">"re[1]"</span>]), <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"re[1]"</span>)</span>
 <span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_re1<span class="sc">$</span>x, <span class="fu">inla.dmarginal</span>(hmc_re1<span class="sc">$</span>x, fit_inla<span class="sc">$</span>marginals.random[[<span class="dv">1</span>]][[<span class="dv">1</span>]]), <span class="at">col =</span> <span class="st">'red'</span>)</span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_re1, <span class="at">col =</span> <span class="st">'green'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_re1, <span class="at">col =</span> <span class="st">'green'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -753,7 +756,7 @@ Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
 <h3 class="anchored" data-anchor-id="improving-the-parameter-marginals">Improving the Parameter Marginals</h3>
 <p>Although the integration-free method is fast and performs reasonably well, it may be that the user wishes to get a more exact marginal. This is done individually for each parameter of interest, marginalizing over the remaining parameters using an outer quadrature rule (AGHQ, CCD, AGHQSPARSE, USER), with AGHQ as the default. We choose the number of quadrature points for marginalization (<code>nQuad</code>) as well as the number of points along a grid to evaluate the marginal (<code>nMarginalGrid</code>). Increasing either can improve performance but at the expense of additional computation and generally with diminishing improvement.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>result  <span class="co"># Original (integration-free) parameter estimates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>result  <span class="co"># Original (integration-free) parameter estimates</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model (hyper)parameters: 
             mean         sd      2.5%       25%       50%      75%     97.5%
@@ -764,8 +767,8 @@ Marginal log-likelihood (asymmetric Gaussian approximation): -957.392(*)
 Marginal log-likelihood (grid-based): -957.3845(*)
   (*) Invalid for improper priors and may not be useful for non-informative priors.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">improveParamMarginals</span>(<span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">'tau_re'</span>, <span class="st">'p'</span>),</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">nMarginalGrid =</span> <span class="dv">9</span>, <span class="at">nQuad =</span> <span class="dv">3</span>, <span class="at">quadRule =</span> <span class="st">"AGHQ"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">improveParamMarginals</span>(<span class="at">nodes =</span> <span class="fu">c</span>(<span class="st">'tau_re'</span>, <span class="st">'p'</span>),</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">nMarginalGrid =</span> <span class="dv">9</span>, <span class="at">nQuad =</span> <span class="dv">3</span>, <span class="at">quadRule =</span> <span class="st">"AGHQ"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Approximating 2 individual parameter marginal densities via AGHQ:</code></pre>
 </div>
@@ -798,12 +801,12 @@ Marginal log-likelihood (grid-based): -957.3845(*)
 <h3 class="anchored" data-anchor-id="sampling-from-the-posterior-over-parameters">Sampling from the posterior over parameters</h3>
 <p>The user may also choose to sample from the asymmetric multivariate normal approximation to make inference about the parameters. This can be particularly useful when making inference on parameters with dimension changes (e.g., proportions with a Dirichlet prior or elements of a covariance matrix, such as one with a Wishart or LKJ prior) or generally making inference about functionals of multiple parameters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>samples_params <span class="ot">&lt;-</span> result<span class="sc">$</span><span class="fu">sampleParams</span>(<span class="dv">10000</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>samples_params <span class="ot">&lt;-</span> result<span class="sc">$</span><span class="fu">sampleParams</span>(<span class="dv">10000</span>)</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span><span class="fu">plotMarginal</span>(<span class="st">"tau_re"</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">17</span>), <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(samples_params[,<span class="dv">2</span>]), <span class="at">col =</span> <span class="st">'black'</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(hmc_tau_re, <span class="at">col =</span> <span class="st">'green'</span>)</span>
 <span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"nested approx"</span>, <span class="st">"nested approx, samples"</span>, <span class="st">"HMC"</span>),</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">'black'</span>,<span class="st">'black'</span>,<span class="st">'green'</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">bty =</span> <span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">'black'</span>,<span class="st">'black'</span>,<span class="st">'green'</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">bty =</span> <span class="st">'n'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -823,7 +826,7 @@ Marginal log-likelihood (grid-based): -957.3845(*)
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-martins2013bayesian" class="csl-entry" role="listitem">
 Martins, Thiago G, Daniel Simpson, Finn Lindgren, and Håvard Rue. 2013. <span>“Bayesian Computing with INLA: New Features.”</span> <em>Computational Statistics &amp; Data Analysis</em> 67: 68–83.
 </div>
@@ -885,13 +888,14 @@ Stringer, Alex, Patrick Brown, and Jamie Stafford. 2023. <span>“Fast, Scalable
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

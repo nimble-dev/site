@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Variable selection in NIMBLE using reversible jump MCMC – NIMBLE</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-cf518878a5773d5a4aca37031544c633.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3060d58e34635f6e88d955b3a11f1646.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -126,7 +129,8 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../blog/index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo light-content">
+    <img src="../images/nimble-logo-oval-small-clean.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -364,7 +368,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="linear-regression-example">Linear regression example</h2>
 <p>In the following we consider a linear regression example in which we have 15 explanatory variables, and five of those are real effects while the others have no effect. First we simulate some data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">15</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(N<span class="sc">*</span>p), <span class="at">nrow =</span> N, <span class="at">ncol =</span> p)</span>
@@ -373,7 +377,7 @@ gtag('config', 'G-J6VLDBN5DK', { 'anonymize_ip': true});
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, X<span class="sc">%*%</span>true_betas, <span class="at">sd =</span> <span class="dv">1</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -414,10 +418,10 @@ F-statistic:  6.41 on 15 and 84 DF,  p-value: 7.726e-09</code></pre>
 <h2 class="anchored" data-anchor-id="reversible-jump-with-indicator-variables">Reversible jump with indicator variables</h2>
 <p>Next we set up the model. In this case we explicitly include indicator variables that include or exclude the corresponding predictor variable. For this example we assume the indicator variables are exchangeable and we include the inclusion probability in the inference.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nimble)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lmIndicatorCode <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lmIndicatorCode <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">20</span>)  <span class="do">## uniform prior per Gelman (2006)</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  psi <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>,<span class="dv">1</span>)    <span class="do">## prior on inclusion probability</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -440,7 +444,7 @@ F-statistic:  6.41 on 15 and 84 DF,  p-value: 7.726e-09</code></pre>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>lmIndicatorData  <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> y, <span class="at">X =</span> X)</span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>lmIndicatorModel <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(<span class="at">code =</span> lmIndicatorCode, <span class="at">constants =</span> lmIndicatorConstants,</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">inits =</span> lmIndicatorInits, <span class="at">data =</span> lmIndicatorData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">inits =</span> lmIndicatorInits, <span class="at">data =</span> lmIndicatorData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -463,7 +467,7 @@ F-statistic:  6.41 on 15 and 84 DF,  p-value: 7.726e-09</code></pre>
 <h3 class="anchored" data-anchor-id="configuring-rjmcmc">Configuring RJMCMC</h3>
 <p>The RJMCMC sampler can be added to the MCMC configuration by calling the function <code>configureRJ()</code>. In the example considered we introduced <code>z</code> as indicator variables associated with the regression coefficients <code>beta</code>. We can pass these, respectively, to <code>configureRJ</code> using the arguments <code>indicatorNodes</code> and <code>targetNodes</code>. The <code>control</code> arguments allow one to specify the mean and the scale of the normal proposal distribution used when proposing to put a coefficient back into the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lmIndicatorConf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(lmIndicatorModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lmIndicatorConf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(lmIndicatorModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>===== Monitors =====
 thin = 1: beta, psi, sigma
@@ -476,39 +480,39 @@ conjugate sampler (15)
 binary sampler (15)
   - z[]  (15 elements)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lmIndicatorConf<span class="sc">$</span><span class="fu">addMonitors</span>(<span class="st">'z'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lmIndicatorConf<span class="sc">$</span><span class="fu">addMonitors</span>(<span class="st">'z'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>thin = 1: beta, psi, sigma, z</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">configureRJ</span>(lmIndicatorConf,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">configureRJ</span>(lmIndicatorConf,</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">targetNodes =</span> <span class="st">'beta'</span>,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">indicatorNodes =</span> <span class="st">'z'</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">scale =</span> .<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">scale =</span> .<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Checking the assigned samplers we see that the indicator variables are each assigned an <code>RJ_indicator</code> sampler whose <code>targetNode</code> is the corresponding coefficient, while the <code>beta</code> parameters have a <code>RJ_toggled</code> sampler. The latter sampler is a modified version of the original sampler to the <code>targetNode</code> that is invoked only when the variable is currently in the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Check the assigned samplers</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lmIndicatorConf<span class="sc">$</span><span class="fu">printSamplers</span>(<span class="fu">c</span>(<span class="st">"z[1]"</span>, <span class="st">"beta[1]"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Check the assigned samplers</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lmIndicatorConf<span class="sc">$</span><span class="fu">printSamplers</span>(<span class="fu">c</span>(<span class="st">"z[1]"</span>, <span class="st">"beta[1]"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[4] RJ_toggled sampler: beta[1],  samplerType: conjugate_dnorm_dnorm_linear
 [3] RJ_indicator sampler: z[1],  mean: 0,  scale: 0.20000000000000001,  targetNode: beta[1]</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Build and run the RJMCMC</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Build and run the RJMCMC</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>mcmcIndicatorRJ <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(lmIndicatorConf)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>cIndicatorModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(lmIndicatorModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>cIndicatorModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(lmIndicatorModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>CMCMCIndicatorRJ <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmcIndicatorRJ, <span class="at">project =</span> lmIndicatorModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>CMCMCIndicatorRJ <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmcIndicatorRJ, <span class="at">project =</span> lmIndicatorModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(samplesIndicator <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(CMCMCIndicatorRJ, <span class="at">niter =</span> <span class="dv">10000</span>, <span class="at">nburnin =</span> <span class="dv">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(samplesIndicator <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(CMCMCIndicatorRJ, <span class="at">niter =</span> <span class="dv">10000</span>, <span class="at">nburnin =</span> <span class="dv">1000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>running chain 1...</code></pre>
 </div>
@@ -526,11 +530,11 @@ binary sampler (15)
 <h3 class="anchored" data-anchor-id="looking-at-the-results">Looking at the results</h3>
 <p>We can look at the sampled values of the indicator and corresponding coefficient for some of the variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samplesIndicator[,<span class="st">'beta[3]'</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.4</span>, <span class="at">main =</span> <span class="st">"beta[3] traceplot"</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samplesIndicator[,<span class="st">'z[3]'</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.4</span>, <span class="at">main =</span> <span class="st">"z[3] traceplot"</span>)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samplesIndicator[,<span class="st">'beta[5]'</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.4</span>, <span class="at">main =</span> <span class="st">"beta[5] traceplot"</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samplesIndicator[,<span class="st">'z[5]'</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.4</span>, <span class="at">main =</span> <span class="st">"z[5] traceplot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samplesIndicator[,<span class="st">'z[5]'</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.4</span>, <span class="at">main =</span> <span class="st">"z[5] traceplot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -544,12 +548,12 @@ binary sampler (15)
 <h3 class="anchored" data-anchor-id="individual-inclusion-probabilities">Individual inclusion probabilities</h3>
 <p>Now let’s look at the inference on the variable selection problem. We see that the fourth and fifth predictors are almost always included (these are the ones with the largest true coefficient values), while the others, including some variables that are truly associated with the outcome but have smaller true coefficient values, are almost never included.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>zCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"z</span><span class="sc">\\</span><span class="st">["</span>, <span class="fu">colnames</span>(samplesIndicator))</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>posterior_inclusion_prob <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(samplesIndicator[, zCols])</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(true_betas), posterior_inclusion_prob,</span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"beta"</span>, <span class="at">ylab =</span> <span class="st">"inclusion probability"</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Inclusion probabilities for each beta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Inclusion probabilities for each beta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -564,7 +568,7 @@ binary sampler (15)
 <h2 class="anchored" data-anchor-id="reversible-jump-without-indicator-variables">Reversible jump without indicator variables</h2>
 <p>If we assume that the inclusion probabilities for the coefficients are known, we can use the RJMCMC with model code written without indicator variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>lmNoIndicatorCode <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>lmNoIndicatorCode <span class="ot">&lt;-</span> <span class="fu">nimbleCode</span>({</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dunif</span>(<span class="dv">0</span>, <span class="dv">20</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>numVars) {</span>
@@ -585,7 +589,7 @@ binary sampler (15)
 <span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>lmNoIndicatorModel <span class="ot">&lt;-</span> <span class="fu">nimbleModel</span>(<span class="at">code =</span> lmNoIndicatorCode,</span>
 <span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">constants =</span> lmNoIndicatorConstants,</span>
 <span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">inits =</span> lmNoIndicatorInits,</span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">data =</span> lmNoIndicatorData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">data =</span> lmNoIndicatorData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Defining model</code></pre>
 </div>
@@ -607,7 +611,7 @@ binary sampler (15)
 <h3 class="anchored" data-anchor-id="configuring-rjmcmc-with-no-indicator-variables">Configuring RJMCMC with no indicator variables</h3>
 <p>Again, the RJMCMC sampler can be added to the MCMC configuration by calling the function <code>configureRJ()</code> for nodes specified in <code>targetNodes</code>, but since there are no indicator variables we need to provide the prior inclusion probabilities. We use the <code>priorProb</code> argument, and we can provide either a vector of values or a common value.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lmNoIndicatorConf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(lmNoIndicatorModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lmNoIndicatorConf <span class="ot">&lt;-</span> <span class="fu">configureMCMC</span>(lmNoIndicatorModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>===== Monitors =====
 thin = 1: beta, sigma
@@ -617,34 +621,34 @@ RW sampler (1)
 conjugate sampler (15)
   - beta[]  (15 elements)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">configureRJ</span>(lmNoIndicatorConf,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">configureRJ</span>(lmNoIndicatorConf,</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">targetNodes =</span> <span class="st">'beta'</span>,</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">priorProb =</span> <span class="fl">0.5</span>,</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">scale =</span> .<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>, <span class="at">scale =</span> .<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Since there are no indicator variables in this case, a <code>RJ_fixed_prior</code> sampler is assigned directly to each of coefficents along with the <code>RJ_toggled</code> sampler, which still uses the default sampler for the node, but only if the corresponding variable is in the model at a given iteration. In addition in this case one can set the coefficient to a value different from zero via the <code>fixedValue</code> argument in the <code>control</code> list.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Check the assigned samplers</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>lmNoIndicatorConf<span class="sc">$</span><span class="fu">printSamplers</span>(<span class="fu">c</span>(<span class="st">"beta[1]"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Check the assigned samplers</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>lmNoIndicatorConf<span class="sc">$</span><span class="fu">printSamplers</span>(<span class="fu">c</span>(<span class="st">"beta[1]"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[2] RJ_fixed_prior sampler: beta[1],  priorProb: 0.5,  mean: 0,  scale: 0.20000000000000001,  fixedValue: 0
 [3] RJ_toggled sampler: beta[1],  samplerType: conjugate_dnorm_dnorm_linear,  fixedValue: 0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mcmcNoIndicatorRJ <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(lmNoIndicatorConf)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>cNoIndicatorModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(lmNoIndicatorModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mcmcNoIndicatorRJ <span class="ot">&lt;-</span> <span class="fu">buildMCMC</span>(lmNoIndicatorConf)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>cNoIndicatorModel <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(lmNoIndicatorModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>CMCMCNoIndicatorRJ <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmcNoIndicatorRJ, <span class="at">project =</span> lmNoIndicatorModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>CMCMCNoIndicatorRJ <span class="ot">&lt;-</span> <span class="fu">compileNimble</span>(mcmcNoIndicatorRJ, <span class="at">project =</span> lmNoIndicatorModel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Compiling
   [Note] This may take a minute.
   [Note] Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(samplesNoIndicator <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(CMCMCNoIndicatorRJ, <span class="at">niter =</span> <span class="dv">10000</span>, <span class="at">nburnin =</span> <span class="dv">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(samplesNoIndicator <span class="ot">&lt;-</span> <span class="fu">runMCMC</span>(CMCMCNoIndicatorRJ, <span class="at">niter =</span> <span class="dv">10000</span>, <span class="at">nburnin =</span> <span class="dv">1000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>running chain 1...</code></pre>
 </div>
@@ -662,7 +666,7 @@ conjugate sampler (15)
 <h3 class="anchored" data-anchor-id="looking-at-the-results-1">Looking at the results</h3>
 <p>In this case we just look at one of the model coefficients.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samplesNoIndicator[,<span class="st">'beta[1]'</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.4</span>, <span class="at">main =</span> <span class="st">"beta[1] traceplot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samplesNoIndicator[,<span class="st">'beta[1]'</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.4</span>, <span class="at">main =</span> <span class="st">"beta[1] traceplot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -676,10 +680,10 @@ conjugate sampler (15)
 <h3 class="anchored" data-anchor-id="individual-inclusion-proportion">Individual inclusion proportion</h3>
 <p>We can calculate the proportion of times each coefficient is included in the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>betaCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"beta</span><span class="sc">\\</span><span class="st">["</span>, <span class="fu">colnames</span>(samplesNoIndicator))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>betaCols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"beta</span><span class="sc">\\</span><span class="st">["</span>, <span class="fu">colnames</span>(samplesNoIndicator))</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>posterior_inclusion_proportions <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(<span class="fu">apply</span>(samplesNoIndicator[, betaCols],</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>                                                      <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="sc">!=</span> <span class="dv">0</span>))</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>posterior_inclusion_proportions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>posterior_inclusion_proportions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     beta[1]      beta[2]      beta[3]      beta[4]      beta[5]      beta[6] 
 0.0017777778 0.0097777778 0.0017777778 1.0000000000 0.9996666667 0.0015555556 
@@ -746,13 +750,14 @@ conjugate sampler (15)
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
