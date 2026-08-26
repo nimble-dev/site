@@ -2,6 +2,16 @@
 title: "Release notes"
 ---
 
+### August 25, 2026: We've released Version 1.4.3
+
+We've released the newest version of NIMBLE on CRAN and on our website.
+
+This is a micro release that includes:
+
+ - fixing a bug causing incorrect results when using the prior_samples MCMC sampler,
+ - making some packaging changes requested by CRAN, and
+ - fixing various corner cases.
+
 ### April 1, 2026: We've released Version 1.4.2
 
 We've released the newest version of NIMBLE on CRAN and on our website.
