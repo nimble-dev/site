@@ -79,11 +79,11 @@ website:
             href: blog/index.qmd
           - text: "---"
           - text: "Recent Posts"
+          - blog/version-1-4-3-of-nimble-released.qmd 
           - blog/version-1-4-1-of-nimble-released.qmd 
           - blog/nimbleQuad.qmd
           - blog/derived-quantities.qmd
           - blog/version-1-4-0-of-nimble-released.qmd 
-          - blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.qmd
 
 format:
   html:
