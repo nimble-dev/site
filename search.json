@@ -648,7 +648,12 @@
     "href": "blog/version-1-4-3-of-nimble-released.html",
     "title": "Version 1.4.3 of NIMBLE released",
     "section": "",
-    "text": "We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).\nVersion 1.4.3 is a micro release that:\n\nfixes a bug causing incorrect results when using the prior_samples MCMC sampler,\nmakes some internal changes requested by CRAN, and\nfixes various corner cases.\n\nPlease see the release notes on our website for more details."
+    "text": "We’ve released the newest version of NIMBLE on CRAN and on our website. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).\nVersion 1.4.3 is a micro release that:\n\nfixes a bug causing incorrect results when using the prior_samples MCMC sampler,\nmakes some internal changes requested by CRAN, and\nfixes various corner cases.\n\nPlease see the release notes on our website for more details.",
+    "crumbs": [
+      "Home",
+      "Blog Posts",
+      "Version 1.4.3 of NIMBLE released"
+    ]
   },
   {
     "objectID": "blog/nimble-workshop-in-switzerland-23-25-april.html",
@@ -1120,12 +1125,7 @@
     "href": "blog/announcing-the-nimblemacros-package-and-the-use-of-macros-in-nimble-models.html",
     "title": "announcing the nimbleMacros package and the use of macros in NIMBLE models",
     "section": "",
-    "text": "Recent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).\nA NIMBLE macro is a succinct syntax that expands to create the NIMBLE model code for part or all of a model.\nWe recently released the first version of the nimbleMacros package on CRAN, which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the LM (“linear model”) macro like this:\n\nlibrary(nimbleMacros)\ncode &lt;- nimbleCode({\n  LM(weight[1:N] ~ Time + (1|Chick))\n})\n\nwith the formula syntax mimicking that of the lme4 package. After building the model based on the code object, you can see the model code produced after the macro is expanded with model$getCode(). The nimbleMacros package also includes macros for creating linear predictors and for loops, and we plan to add additional macros in the future.\nDevelopers can use the tools in nimble itself to create their own macros. See Section 12.4 of the NIMBLE user manual, the nimbleMacros vignette, or help(buildMacro) for more information.",
-    "crumbs": [
-      "Home",
-      "Blog Posts",
-      "announcing the nimbleMacros package and the use of macros in NIMBLE models"
-    ]
+    "text": "Recent versions of NIMBLE now include the ability to use macros in models. NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).\nA NIMBLE macro is a succinct syntax that expands to create the NIMBLE model code for part or all of a model.\nWe recently released the first version of the nimbleMacros package on CRAN, which provides an initial set of macros available to users and developers. As an example, one could set up the code for a linear mixed effects model by using the LM (“linear model”) macro like this:\n\nlibrary(nimbleMacros)\ncode &lt;- nimbleCode({\n  LM(weight[1:N] ~ Time + (1|Chick))\n})\n\nwith the formula syntax mimicking that of the lme4 package. After building the model based on the code object, you can see the model code produced after the macro is expanded with model$getCode(). The nimbleMacros package also includes macros for creating linear predictors and for loops, and we plan to add additional macros in the future.\nDevelopers can use the tools in nimble itself to create their own macros. See Section 12.4 of the NIMBLE user manual, the nimbleMacros vignette, or help(buildMacro) for more information."
   },
   {
     "objectID": "recent-posts.html",
