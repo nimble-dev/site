@@ -1,0 +1,17 @@
+---
+title: "Version 1.4.3 of NIMBLE released"
+description: ""
+author: "NIMBLE Development Team"
+date: "2026-08-26"
+categories: ['release', 'announcement','R']
+---
+
+We’ve released the newest version of NIMBLE on CRAN and on our [website](https://r-nimble.org/). NIMBLE is a system for building and sharing analysis methods for statistical models, especially for hierarchical models and computationally-intensive methods (such as MCMC, Laplace approximation, and SMC).
+
+Version 1.4.3 is a micro release that:
+
+- fixes a bug causing incorrect results when using the prior_samples MCMC sampler,
+- makes some internal changes requested by CRAN, and
+- fixes various corner cases.
+
+Please see the [release notes](https://r-nimble.org/release-notes.html) on our website for more details.
